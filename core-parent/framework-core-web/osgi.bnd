@@ -1,0 +1,4 @@
+Bundle-Activator=${bundle.namespace}.internal.InitActivator
+#Include-Resource: src/main/resources
+Bundle-Category: Kalix Framework Core Web
+#Require-Capability:org.ops4j.pax.cdi.extension,osgi.extender; filter:="(osgi.extender=pax.cdi)"

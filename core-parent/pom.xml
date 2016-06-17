@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>framework-parent</artifactId>
+        <groupId>com.kalix.framework</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.kalix.framework.core</groupId>
+    <artifactId>core-parent</artifactId>
+    <name>Kalix Framework Core Parent</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>framework-core-util</module>
+        <module>framework-core-api</module>
+        <module>framework-core-cache</module>
+        <module>framework-core-delegate</module>
+        <module>framework-core-impl</module>
+        <module>framework-core-mq</module>
+        <module>framework-core-rest</module>
+        <module>framework-core-restfultest</module>
+        <module>framework-core-security</module>
+        <module>framework-core-security-authc</module>
+        <module>framework-core-swagger</module>
+        <module>framework-core-web</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.kalix.framework.poms</groupId>
+                <artifactId>framework-poms-dm</artifactId>
+                <version>${globle.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>com.kalix.framework.poms</groupId>
+            <artifactId>framework-poms-dm</artifactId>
+            <type>pom</type>
+            <version>${globle.version}</version>
+        </dependency>
+    </dependencies>
+</project>

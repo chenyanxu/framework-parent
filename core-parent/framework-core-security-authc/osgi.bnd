@@ -1,0 +1,4 @@
+#-----------------------------------------------------------------
+# Use this file to add customized Bnd instructions for the bundle
+#-----------------------------------------------------------------
+Kalix-Plugin:shiro-form

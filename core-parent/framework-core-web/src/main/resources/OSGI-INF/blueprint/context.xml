@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xsi:schemaLocation="
+	 	http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+	 	http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.org/repos/asf/aries/trunk/blueprint/blueprint-cm/src/main/resources/org/apache/aries/blueprint/compendium/cm/blueprint-cm-1.1.0.xsd
+	 ">
+    <!--监听IApplication项模块的加载和卸载-->
+    <reference-list interface="com.kalix.framework.core.api.web.IApplication" member-type="service-reference"
+                    availability="optional">
+        <reference-listener bind-method="register" unbind-method="unregister">
+            <bean class="com.kalix.framework.core.web.listener.ApplicationListener"/>
+        </reference-listener>
+    </reference-list>
+
+    <!--监听IModule项模块的加载和卸载-->
+    <reference-list interface="com.kalix.framework.core.api.web.IModule" member-type="service-reference"
+                    availability="optional">
+        <reference-listener bind-method="register" unbind-method="unregister">
+            <bean class="com.kalix.framework.core.web.listener.ModuleListener"/>
+        </reference-listener>
+    </reference-list>
+
+    <!--监听IMenu项模块的加载和卸载-->
+    <reference-list interface="com.kalix.framework.core.api.web.IMenu" member-type="service-reference"
+                    availability="optional">
+        <reference-listener bind-method="register" unbind-method="unregister">
+            <bean class="com.kalix.framework.core.web.listener.MenuListener"/>
+        </reference-listener>
+    </reference-list>
+    <!--&lt;!&ndash;body osgi service&ndash;&gt;-->
+    <!--<bean id="bodyImpl" class="com.kalix.framework.core.web.impl.BodyImpl"/>-->
+    <!--<service interface="com.kalix.framework.core.api.web.IBody" ref="bodyImpl"/>-->
+
+    <!--&lt;!&ndash;footer osgi service&ndash;&gt;-->
+    <!--<bean id="footerImpl" class="com.kalix.framework.core.web.impl.FooterImpl"/>-->
+    <!--<service interface="com.kalix.framework.core.api.web.IFooter" ref="footerImpl"/>-->
+
+    <!--&lt;!&ndash;header osgi service&ndash;&gt;-->
+    <!--<bean id="headerImpl" class="com.kalix.framework.core.web.impl.HeaderImpl"/>-->
+    <!--<service interface="com.kalix.framework.core.api.web.IHeader" ref="headerImpl"/>-->
+
+    <!--&lt;!&ndash;system osgi service&ndash;&gt;-->
+    <!--<bean id="systemImpl" class="com.kalix.framework.core.web.impl.SystemImpl">-->
+        <!--<property name="body" ref="bodyImpl"/>-->
+        <!--<property name="footer" ref="footerImpl"/>-->
+        <!--<property name="header" ref="headerImpl"/>-->
+    <!--</bean>-->
+    <!--<service interface="com.kalix.framework.core.api.web.ISystem" ref="systemImpl"/>-->
+
+    <reference interface="com.kalix.framework.core.api.security.IShiroService" id="shiroService"></reference>
+
+    <reference interface="org.osgi.service.prefs.PreferencesService" id="preferencesService"/>
+    <bean class="com.kalix.framework.core.web.impl.SystemServiceImpl" id="systemServiceImpl">
+        <!--<property name="systemService" ref="systemImpl"/>-->
+        <property name="shiroService" ref="shiroService" />
+        <property name="preferencesService" ref="preferencesService"/>
+    </bean>
+    <service interface="com.kalix.framework.core.api.web.ISystemService" ref="systemServiceImpl"/>
+</blueprint>

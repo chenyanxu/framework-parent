@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xsi:schemaLocation="
+	 	http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+	 	http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.org/repos/asf/aries/trunk/blueprint/blueprint-cm/src/main/resources/org/apache/aries/blueprint/compendium/cm/blueprint-cm-1.1.0.xsd
+	 ">
+    <!--<cm:property-placeholder persistent-id="ConfigUpload" update-strategy="reload">-->
+        <!--<cm:default-properties>-->
+            <!--<cm:property name="TOMCAT_PATH" value="D:\\java-develop\\apache-tomcat-7.0.53"/>-->
+            <!--<cm:property name="TOMCAT_URL" value="http://202.111.175.224:8080"/>-->
+        <!--</cm:default-properties>-->
+    <!--</cm:property-placeholder>-->
+</blueprint>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0"
+           xsi:schemaLocation="
+       http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+    <cm:property-placeholder persistent-id="ConfigRedis">
+        <cm:default-properties>
+            <cm:property name="hostName" value="localhost"/>
+            <cm:property name="port" value="6379"/>
+            <!--<cm:property name="jndiName" value="leaderboard"/>-->
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!--<property name="maxActive" value="1024" />
+        <property name="maxIdle" value="200" />
+        <property name="maxWait" value="1000" />
+        <property name="testOnBorrow" value="true" />-->
+    </bean>
+
+    <bean id="shardedJedisPool" class="redis.clients.jedis.JedisPool">
+        <argument index="0" ref="jedisPoolConfig"/>
+        <argument index="1" value="${hostName}" type="java.lang.String"/>
+        <argument index="2" value="${port}" type="int"/>
+    </bean>
+
+    <!--<bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">
+        <argument index="0" ref="jedisPoolConfig"/>
+        <argument index="1">
+            <list>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <argument index="0" value="${hostName}"/>
+                    &lt;!&ndash;//127.0.0.1&ndash;&gt;
+                    <argument index="1" value="${port}" type="int"/>
+                </bean>
+            </list>
+        </argument>
+    </bean>-->
+
+    <service interface="com.kalix.framework.core.api.system.IStackService" ref="redisStackServiceImpl"/>
+
+    <bean id="redisStackServiceImpl" class="com.kalix.framework.core.mq.redis.RedisStackServiceImpl">
+        <property name="jedisPool" ref="shardedJedisPool"/>
+    </bean>
+
+
+</blueprint>

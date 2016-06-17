@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           default-activation="eager"
+           xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xsi:schemaLocation="
+http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.org/repos/asf/aries/trunk/blueprint/blueprint-cm/src/main/resources/org/apache/aries/blueprint/compendium/cm/blueprint-cm-1.1.0.xsd">
+
+    <cm:property-placeholder persistent-id="ConfigRedis">
+        <cm:default-properties>
+            <cm:property name="hostName" value="localhost"/>
+            <cm:property name="port" value="6379"/>
+            <!--<cm:property name="jndiName" value="leaderboard"/>-->
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+
+    <service id="rememberMeManager" interface="org.apache.shiro.mgt.RememberMeManager">
+        <!-- rememberMe管理器 -->
+        <bean class="com.kalix.framework.core.security.ShiroRememberMeManager">
+            <!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位）-->
+            <property name="cookie" ref="rememberMeCookie"/>
+        </bean>
+    </service>
+
+    <!-- 发布cookie 服务 -->
+    <service id="sessionIdCookie" interface="org.apache.shiro.web.servlet.Cookie">
+        <!-- 会话Cookie模板 -->
+        <bean class="com.kalix.framework.core.security.ShiroCookie">
+            <argument value="sid"/>
+            <property name="httpOnly" value="true"/>
+            <property name="maxAge" value="-1"/>
+        </bean>
+    </service>
+
+    <!-- 发布记住cookie manager -->
+
+    <bean id="rememberMeCookie" class="com.kalix.framework.core.security.ShiroCookie">
+        <argument value="remember"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="2592000"/>
+        <!-- 30天 -->
+    </bean>
+
+    <reference id="eventAdmin" interface="org.osgi.service.event.EventAdmin"/>
+
+    <reference id="shiroRealm" interface="com.kalix.framework.core.api.security.IAuthorizingRealm"/>
+    <!--<reference id="shiroRealm" interface="com.kalix.framework.core.web.api.security.IAuthorizingRealm" filter="(key=urgent)" />-->
+    <service interface="org.apache.shiro.web.mgt.WebSecurityManager" ref="webSecurityManager"/>
+    <bean id="webSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"
+          destroy-method="destroy">
+        <property name="realm" ref="shiroRealm"/>
+        <property name="cacheManager" ref="shiroCacheManager"/>
+        <!--<property name="sessionMode" value="native"/>-->
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+
+
+    <!--<bean id="filter" class="com.kalix.framework.core.security.filter.KalixAuthenticationFilter"/>-->
+    <!--<bean id="filter" class="org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter"/>
+    <service interface="javax.servlet.Filter" ref="filter">
+        <service-properties>
+            <entry key="osgi.jndi.service.name" value="shiroFilter"/>
+        </service-properties>
+    </service>-->
+
+    <!--<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
+        <property name="interval" value="1800000"/>
+    </bean>-->
+
+    <!-- 发布session工厂 -->
+
+    <bean id="SessionFactory" class="com.kalix.framework.core.security.ShiroSessionFactory">
+
+    </bean>
+
+
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="1200000"/>
+        <property name="sessionDAO" ref="customShiroSessionDAO"/>
+        <property name="sessionFactory" ref="SessionFactory"/>
+        <!--<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>-->
+    </bean>
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!-- <property name="maxActive" value="1024" />
+         <property name="maxIdle" value="200" />
+         <property name="maxWait" value="1000" />
+         <property name="testOnBorrow" value="true" />-->
+    </bean>
+
+    <bean id="shardedJedisPool" class="redis.clients.jedis.JedisPool">
+        <argument index="0" ref="jedisPoolConfig"/>
+        <argument index="1" value="${hostName}" type="java.lang.String"/>
+        <argument index="2" value="${port}" type="int"/>
+    </bean>
+
+    <bean id="jedisShiroSessionRepository" class="com.kalix.framework.core.security.JedisShiroSessionRepository">
+        <property name="jedisPool" ref="shardedJedisPool"/>
+    </bean>
+
+    <service ref="jedisShiroSessionRepository"
+             interface="com.kalix.framework.core.security.ShiroSessionRepository">
+    </service>
+
+    <bean id="customShiroSessionDAO" class="com.kalix.framework.core.security.CustomShiroSessionDAO">
+        <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
+    </bean>
+
+    <!-- 用户授权信息Cache, 采用EhCache -->
+    <bean id="shiroCacheManager" class="com.kalix.framework.core.security.ShiroCacheManager">
+        <property name="cacheManager" ref="cacheManager"/>
+        <!--<property name="cacheManagerConfigFile" value="$[karaf.base]/etc/ehcache.xml"/>-->
+    </bean>
+
+    <reference id="cacheManager" interface="com.kalix.framework.core.api.cache.ICacheManager"/>
+
+    <service id="shiroService" interface="com.kalix.framework.core.api.security.IShiroService" ref="shiroServiceImpl">
+
+    </service>
+    <bean id="shiroServiceImpl" class="com.kalix.framework.core.security.impl.ShiroServiceImpl" init-method="init">
+        <property name="securityManager" ref="webSecurityManager"/>
+    </bean>
+</blueprint>
