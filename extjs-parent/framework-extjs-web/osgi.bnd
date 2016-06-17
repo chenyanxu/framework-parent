@@ -1,0 +1,19 @@
+#-----------------------------------------------------------------
+# Use this file to add customized Bnd instructions for the bundle
+#-----------------------------------------------------------------
+
+Bundle-Activator: ${bundle.namespace}.internal.InitActivator
+Import-Package: com.kalix.framework.core.security.authc.filter,\
+                com.kalix.framework.core.impl.web,\
+                com.kalix.framework.core.security.web.evn,\
+                com.kalix.framework.core.security.filter,\
+                org.apache.camel.component.servlet, \
+                org.apache.shiro,org.apache.shiro.web.env, \
+                org.apache.shiro.web.servlet, \
+                org.apache.shiro.subject, \
+                org.apache.shiro.web.tags, \
+                javax.servlet.jsp,\
+                org.apache.shiro.session,*
+Include-Resource: src/main/webapp,src/main/resources
+Web-ContextPath:/kalix
+Bundle-Category: Kalix Framework ExtJS

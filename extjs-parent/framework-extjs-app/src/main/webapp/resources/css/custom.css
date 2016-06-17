@@ -1,0 +1,91 @@
+.x-action-col-icon{
+    width:16px;
+    height:16px;
+    cursor: pointer;
+}
+.kalix_start {
+    background-image: url(../../admin/resources/images/control_play_blue.png) !important;
+}
+
+.kalix_stop {
+    background-image: url(../../admin/resources/images/control_pause_blue.png) !important;
+}
+
+.kalix_workflow_readmore{
+    background-image: url(../../resources/images/magnifier.png) !important;
+}
+
+.kalix_hidden {
+    width: 0px !important;
+}
+
+img.x-action-col-icon.x-action-col-0.x-hide-grid-column {
+    visibility: hidden;
+}
+
+img.x-action-col-icon.x-action-col-1.x-hide-grid-column {
+    visibility: hidden;
+}
+
+img.x-action-col-icon.x-action-col-2.x-hide-grid-column {
+    visibility: hidden;
+}
+
+.field-required {
+    color: red;
+    font-weight: bold;
+}
+
+
+
+/*WorkFlowCategroy CSS*/
+/* http://localhost:1841/sass/src/Application.scss:1 */
+.thumb-wrap {
+    padding: 10px;
+    margin-bottom: 10px;
+    /*display:table;*/
+    border: 1px solid #e6e9ee;
+    height: 100px;
+}
+/* http://localhost:1841/sass/src/Application.scss:9 */
+.thumb-wrap img {
+    /*   margin: 10px;*/
+    /*vertical-align:top;*/
+    float: left !important;
+    border-radius: 5px;
+}
+/* http://localhost:1841/sass/src/Application.scss:16 */
+.detail {
+    margin-left: 70px;
+}
+/* http://localhost:1841/sass/src/Application.scss:20 */
+.title {
+    font-weight: bold;
+    font-size: 14px;
+}
+/* http://localhost:1841/sass/src/Application.scss:25 */
+.desc {
+    font-size: 12px;
+}
+
+.readmore {
+    float: right;
+    width:16px;
+    height:16px;
+    cursor: pointer;
+    margin-left: 3px;
+}
+
+/* http://localhost:1841/ext/classic/theme-neutral/sass/src/slider/Multi.scss:2 */
+.x-slider:before {
+    background-color: #7fb5e4;
+}
+
+
+/* http://localhost:1841/ext/packages/core/sass/src/list/TreeItem.scss:170 */
+.x-treelist-navigation .x-treelist-item-icon,
+.x-treelist-navigation .x-treelist-item-tool {
+    color: #adb3b8;
+    font-size: 22px;
+    width: 44px;
+}

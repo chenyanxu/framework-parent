@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <display-name>My Camel Rest Application</display-name>
+    <!--org.apache.camel.component.servlet.CamelHttpTransportServlet-->
+    <servlet>
+        <servlet-name>CamelServlet</servlet-name>
+        <servlet-class>com.kalix.framework.core.impl.web.KalixCamelHttpTransportServlet</servlet-class>
+        <init-param>
+            <param-name>matchOnUriPrefix</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ignoreDuplicateServletName</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CamelServlet</servlet-name>
+        <url-pattern>/camel/rest/*</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>com.kalix.framework.core.security.web.evn.KalixEnvironmentLoaderListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>ShiroFilter</filter-name>
+        <filter-class>com.kalix.framework.core.security.filter.KalixSecurityFilter</filter-class>
+        <init-param>
+            <param-name>staticSecurityManagerEnabled</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>ShiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+</web-app>

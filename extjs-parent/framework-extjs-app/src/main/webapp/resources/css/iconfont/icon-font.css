@@ -1,0 +1,126 @@
+
+/*@font-face {font-family: "iconfont";*/
+/*src: url('iconfont.eot?t=1464680894'); !* IE9*!*/
+/*src: url('iconfont.eot?t=1464680894#iefix') format('embedded-opentype'), !* IE6-IE8 *!*/
+/*url('iconfont.woff?t=1464680894') format('woff'), !* chrome, firefox *!*/
+/*url('iconfont.ttf?t=1464680894') format('truetype'), !* chrome, firefox, opera, Safari, Android, iOS 4.2+*!*/
+/*url('iconfont.svg?t=1464680894#iconfont') format('svg'); !* iOS 4.1- *!*/
+/*}*/
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('//at.alicdn.com/t/font_1465695715_2588303.eot'); /* IE9*/
+  src: url('//at.alicdn.com/t/font_1465695715_2588303.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/font_1465695715_2588303.woff') format('woff'), /* chrome、firefox */
+  url('//at.alicdn.com/t/font_1465695715_2588303.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/font_1465695715_2588303.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:18px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 0.8;
+  margin:0 5px 0 0;
+  font-weight:normal;
+}
+
+
+.iconfont-btn-small{
+  font-size:16px;
+}
+
+/*admin-application*/
+.icon-admin:before { content: "\e604"; }
+/*admin-module*/
+.icon-permission:before { content: "\e627"; }
+.icon-organization:before { content: "\e609"; }
+.icon-system:before { content: "\e603"; }
+.icon-module:before { content: "\e612"; }
+/*admin-menu*/
+.icon-user-management:before { content: "\e62e"; }
+.icon-role-management:before { content: "\e61f"; }
+.icon-workgroup-management:before { content: "\e621"; }
+
+.icon-organization-chart:before { content: "\e62d"; }
+.icon-duty-management:before { content: "\e613"; }
+.icon-area-management:before { content: "\e61d"; }
+.icon-organization-management:before { content: "\e61a"; }
+.icon-department-management:before { content: "\e625"; }
+
+.icon-dict-management:before { content: "\e61b"; }
+.icon-operation-management:before { content: "\e610"; }
+
+.icon-application-management:before { content: "\e61c"; }
+.icon-function-management:before { content: "\e606"; }
+
+/*oa-application*/
+.icon-oa:before { content: "\e611"; }
+/*oa-module*/
+.icon-process-definition:before { content: "\e61e"; }
+.icon-message:before { content: "\e605"; }
+.icon-work:before { content: "\e60d"; }
+.icon-process:before { content: "\e62c"; }
+/*oa-menu*/
+.icon-seal:before { content: "\e619"; }
+.icon-public-car:before { content: "\e614"; }
+.icon-meeting-room:before { content: "\e628"; }
+
+.icon-inbox:before { content: "\e60e"; }
+.icon-outbox:before { content: "\e60f"; }
+
+.icon-task:before { content: "\e617"; }
+.icon-history:before { content: "\e60a"; }
+.icon-process-apply:before { content: "\e616"; }
+
+.icon-process-definition-management:before { content: "\e608"; }
+.icon-category:before { content: "\e615"; }
+
+/*public*/
+.icon-user:before { content: "\e600"; }
+.icon-exit:before { content: "\e602"; }
+
+.icon-add:before { content: "\e622"; }
+.icon-edit:before { content: "\e60c"; }
+.icon-delete:before { content: "\e607"; }
+.icon-view:before { content: "\e62f"; }
+
+.icon-save:before { content: "\e60b"; }
+.icon-reset:before { content: "\e623"; }
+
+.icon-query:before { content: "\e62a"; }
+.icon-password-reset:before { content: "\e618"; }
+.icon-view-column:before { content: "\e630"; }
+.icon-add-user-column:before { content: "\e624"; }
+.icon-permission-column:before { content: "\e626"; }
+.icon-edit-column:before { content: "\e601"; }
+.icon-role-management-column:before { content: "\e629"; }
+.icon-refresh:before{ content: "\e633"; }
+.icon-tree-expand:before{content: "\e634";}
+.icon-tree-expand:before{content: "\e634";}
+.icon-start:before{content: "\e636";}
+.icon-stop:before{content: "\e637";}
+.icon-workflow-view-column:before{content: "\e638";}
+.icon-attachment-column:before{content: "\e639";}
+.icon-attachment-upload:before{content: "\e63a";}
+.icon-current-process:before{content: "\e63b";}
+.icon-meeting-room-reservation:before{content: "\e63c";}
+.icon-workflow-delegate:before{content: "\e63d";}
+.icon-workflow-approval:before{content: "\e63e";}
+
+.icon-workflow-stock:before{content: "\e63f";}
+.icon-workflow-fee:before{content: "\e640";}
+.icon-workflow-doc:before{content: "\e641";}
+.icon-workflow-project:before{content: "\e642";}
+.icon-workflow-contract:before{content: "\e643";}
+.icon-workflow-admin:before{content: "\e644";}
+.icon-workflow-performance:before{content: "\e645";}
+.icon-workflow-rear:before{content: "\e646";}
+.icon-workflow-person:before{content: "\e647";}
+.icon-workflow-purchase:before{content: "\e648";}
+.icon-workflow-apply:before{content: "\e649";}
+.icon-workflow-view:before{content: "\e64a";}
