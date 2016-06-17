@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>framework-parent</artifactId>
+        <groupId>com.kalix.framework</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.kalix.framework.osgi</groupId>
+    <artifactId>osgi-parent</artifactId>
+    <name>Kalix Framework OSGI Parent</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>framework-osgi-api</module>
+        <module>framework-osgi-core</module>
+        <module>framework-osgi-rest</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.kalix.framework.poms</groupId>
+                <artifactId>framework-poms-dm</artifactId>
+                <version>${globle.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kalix.framework.osgi</groupId>
+                <artifactId>framework-osgi-api</artifactId>
+                <version>${globle.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>com.kalix.framework.poms</groupId>
+            <artifactId>framework-poms-dm</artifactId>
+            <type>pom</type>
+            <version>${globle.version}</version>
+        </dependency>
+    </dependencies>
+</project>
