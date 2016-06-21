@@ -1,4 +1,4 @@
-package com.kalix.framework.core.web.util;
+package com.kalix.framework.core.util;
 
 import org.dozer.Mapper;
 
