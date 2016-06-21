@@ -10,7 +10,6 @@ import com.kalix.framework.core.web.Const;
 import com.kalix.framework.core.web.manager.ApplicationManager;
 import com.kalix.framework.core.web.manager.MenuManager;
 import com.kalix.framework.core.web.manager.ModuleManager;
-import com.kalix.framework.core.web.util.DozerHelper;
 import org.apache.shiro.subject.Subject;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;

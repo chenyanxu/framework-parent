@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class JsonData {
     private Long totalCount;
-    private List<PersistentEntity> data=new ArrayList<>();
+    private List data=new ArrayList<>();
 
     public Long getTotalCount() {
         return totalCount;
@@ -18,11 +18,11 @@ public class JsonData {
         this.totalCount = totalCount;
     }
 
-    public List<PersistentEntity> getData() {
+    public List getData() {
         return data;
     }
 
-    public void setData(List<PersistentEntity> data) {
+    public void setData(List data) {
         this.data = data;
     }
 }
