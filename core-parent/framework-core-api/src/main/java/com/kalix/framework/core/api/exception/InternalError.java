@@ -18,20 +18,34 @@
  *     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kalix.framework.core.api.persistence;
+package com.kalix.framework.core.api.exception;
 
-
-import com.kalix.framework.core.api.Translations;
+import java.io.Serializable;
 
 /**
- * Stale entity exception occurs when entity database version is not consistent with entity version in memory
+ * Exception error description, contains information about translation message key and its parameters.
  *
  * @author Denis Skarbichev
  */
-public class StaleEntityException extends InternalRuntimeException {
-    public StaleEntityException(PersistentEntity entity) {
-        super(new InternalError(Translations.STALE_OBJECT_STATE_EXCEPTION,
-                entity.getClass(),
-                entity.getVersion()));
+public class InternalError implements Serializable {
+    private String code;
+    private Object[] params;
+
+    public InternalError(String code) {
+        this.code = code;
+    }
+
+    public InternalError(String code, Object... params) {
+        this(code);
+        this.params = params;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+
+    public Object[] getParams() {
+        return params;
     }
 }

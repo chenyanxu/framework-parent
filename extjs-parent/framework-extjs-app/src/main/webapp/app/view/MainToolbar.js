@@ -29,8 +29,8 @@ Ext.define('kalix.view.MainToolbar', {
             toolbar.add(Ext.create('Ext.button.Button', {
                 id: item.id,
                 href: '#' + item.id,
-                text: item.title,
-                iconCls: item.icon,
+                text: item.text,
+                iconCls: item.iconCls,
                 hrefTarget: '_self',
                 border: 1,
                 margin: '0 5 0 10',

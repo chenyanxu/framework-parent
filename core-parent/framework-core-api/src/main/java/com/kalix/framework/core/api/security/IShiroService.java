@@ -1,6 +1,6 @@
 package com.kalix.framework.core.api.security;
 
-import com.kalix.framework.core.api.biz.JsonStatus;
+import com.kalix.framework.core.api.persistence.JsonStatus;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 

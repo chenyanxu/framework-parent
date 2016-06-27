@@ -18,34 +18,27 @@
  *     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kalix.framework.core.impl.persistence;
+package com.kalix.framework.core.api.exception;
 
-import com.kalix.framework.core.api.persistence.PersistentEntity;
-
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import java.io.Serializable;
 
 /**
- * Base entity for domain entities that can be identified by key.
+ * Application runtime exception occurs when system is not supposed to catch the exception.
  *
- * @author Aliaksei Papou
+ * @author Denis Skarbichev
  */
-@MappedSuperclass
+public class InternalRuntimeException extends RuntimeException implements ExceptionAware {
+    private InternalError error;
 
-public abstract class BizEntity extends PersistentEntity {
-    @Column(name = "key_", unique = true)
-    private String key;
-
-    public String getBizKey() {
-        return key;
+    public InternalRuntimeException(String errorCode, Object... params) {
+        error = new InternalError(errorCode, params);
     }
 
-    public void setBizKey(String key) {
-        this.key = key;
+    public InternalRuntimeException(InternalError error) {
+        this.error = error;
     }
 
-    private Serializable getIdentifier() {
-        return key;
+    public InternalError getError() {
+        return error;
     }
+
 }

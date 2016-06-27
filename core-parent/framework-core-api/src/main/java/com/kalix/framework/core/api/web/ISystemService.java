@@ -1,6 +1,6 @@
 package com.kalix.framework.core.api.web;
 
-import com.kalix.framework.core.api.biz.JsonStatus;
+import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.web.model.*;
 
 import java.util.List;
@@ -11,8 +11,6 @@ import java.util.Map;
  * osgi rest service
  */
 public interface ISystemService {
-    SystemBean getSystem();
-
     /**
      * 返回所有应用
      * @return

@@ -8,8 +8,7 @@ Ext.define('kalix.Application', {
     extend: 'Ext.app.Application',
     stores: [
         'kalix.store.NavigationTreeStore',
-        'kalix.store.MainToolbarStore',
-        //'kalix.store.DictNoPageStore'
+        'kalix.store.MainToolbarStore'
     ],
     models: [],
     defaultToken: ''

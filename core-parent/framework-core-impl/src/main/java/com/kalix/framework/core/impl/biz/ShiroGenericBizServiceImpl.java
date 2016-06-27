@@ -1,7 +1,7 @@
 package com.kalix.framework.core.impl.biz;
 
-import com.kalix.framework.core.api.biz.JsonStatus;
-import com.kalix.framework.core.api.persistence.IGenericDao;
+import com.kalix.framework.core.api.persistence.JsonStatus;
+import com.kalix.framework.core.api.dao.IGenericDao;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.security.IShiroService;
 import com.kalix.framework.core.util.Assert;

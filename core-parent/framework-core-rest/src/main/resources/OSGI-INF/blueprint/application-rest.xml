@@ -50,11 +50,6 @@
                 <to uri="bean:systemService?method=getModuleByApplication(${header.id})"/>
             </get>
 
-            <!-- this is a rest GET to view an user by the given id -->
-            <get id="route-getSystem" outType="com.kalix.framework.core.api.web.model.SystemBean">
-                <description>Get System Info</description>
-                <to uri="bean:systemService?method=getSystem"/>
-            </get>
 
             <get id="route-getMenuByModule" uri="/applications/modules/{id}"
                  outType="com.kalix.framework.core.api.web.model.MenuBean[]">
@@ -77,7 +72,7 @@
                 <description></description>
                 <to uri="bean:systemService?method=getUserPreferences()"/>
             </get>
-            <put id="route-setUserPreferences" uri="/preferences" outType="com.kalix.framework.core.api.biz.JsonStatus">
+            <put id="route-setUserPreferences" uri="/preferences" outType="com.kalix.framework.core.api.persistence.JsonStatus">
                 <description></description>
                 <to uri="bean:systemService?method=setUserPreferences(${header.key},${header.value})"/>
             </put>

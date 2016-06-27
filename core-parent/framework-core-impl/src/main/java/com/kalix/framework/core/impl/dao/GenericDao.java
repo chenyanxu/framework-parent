@@ -1,10 +1,10 @@
-package com.kalix.framework.core.impl.persistence;
+package com.kalix.framework.core.impl.dao;
 
 
-import com.kalix.framework.core.api.persistence.IGenericDao;
+import com.kalix.framework.core.api.dao.IGenericDao;
+import com.kalix.framework.core.api.exception.SearchException;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
-import com.kalix.framework.core.api.persistence.SearchException;
 import com.kalix.framework.core.api.web.model.QueryDTO;
 
 import javax.persistence.EntityManager;

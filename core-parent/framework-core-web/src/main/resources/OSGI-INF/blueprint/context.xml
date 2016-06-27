@@ -29,31 +29,12 @@
             <bean class="com.kalix.framework.core.web.listener.MenuListener"/>
         </reference-listener>
     </reference-list>
-    <!--&lt;!&ndash;body osgi service&ndash;&gt;-->
-    <!--<bean id="bodyImpl" class="com.kalix.framework.core.web.impl.BodyImpl"/>-->
-    <!--<service interface="com.kalix.framework.core.api.web.IBody" ref="bodyImpl"/>-->
 
-    <!--&lt;!&ndash;footer osgi service&ndash;&gt;-->
-    <!--<bean id="footerImpl" class="com.kalix.framework.core.web.impl.FooterImpl"/>-->
-    <!--<service interface="com.kalix.framework.core.api.web.IFooter" ref="footerImpl"/>-->
-
-    <!--&lt;!&ndash;header osgi service&ndash;&gt;-->
-    <!--<bean id="headerImpl" class="com.kalix.framework.core.web.impl.HeaderImpl"/>-->
-    <!--<service interface="com.kalix.framework.core.api.web.IHeader" ref="headerImpl"/>-->
-
-    <!--&lt;!&ndash;system osgi service&ndash;&gt;-->
-    <!--<bean id="systemImpl" class="com.kalix.framework.core.web.impl.SystemImpl">-->
-        <!--<property name="body" ref="bodyImpl"/>-->
-        <!--<property name="footer" ref="footerImpl"/>-->
-        <!--<property name="header" ref="headerImpl"/>-->
-    <!--</bean>-->
-    <!--<service interface="com.kalix.framework.core.api.web.ISystem" ref="systemImpl"/>-->
 
     <reference interface="com.kalix.framework.core.api.security.IShiroService" id="shiroService"></reference>
 
     <reference interface="org.osgi.service.prefs.PreferencesService" id="preferencesService"/>
     <bean class="com.kalix.framework.core.web.impl.SystemServiceImpl" id="systemServiceImpl">
-        <!--<property name="systemService" ref="systemImpl"/>-->
         <property name="shiroService" ref="shiroService" />
         <property name="preferencesService" ref="preferencesService"/>
     </bean>

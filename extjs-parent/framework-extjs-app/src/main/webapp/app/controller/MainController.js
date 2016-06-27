@@ -134,7 +134,7 @@ Ext.define('kalix.controller.MainController', {
         }
     },
     onNavigationTreeSelectionChange: function (tree, node) {
-        if (node && node.get('view')) {
+        if (node) {
             var applicationId = node.parentNode.get('applicationId');
             var routeId = node.get("routeId");
 

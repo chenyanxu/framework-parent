@@ -11,6 +11,4 @@ public interface IApplication extends IBaseWebPage {
      * @return
      */
     List<IModule> getModules();
-
-    String getTitle();
 }

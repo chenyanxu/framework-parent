@@ -1,13 +1,5 @@
-package com.kalix.framework.core.api.biz;
+package com.kalix.framework.core.api.persistence;
 
-
-//import io.swagger.annotations.ApiModel;
-//import io.swagger.annotations.ApiModelProperty;
-
-/**
- * Created by sunlf on 2015/7/3.
- */
-//@ApiModel(description = "A dummy bean ...")
 public class JsonStatus {
     private static JsonStatus jsonStatus = new JsonStatus();
     Boolean success = false;

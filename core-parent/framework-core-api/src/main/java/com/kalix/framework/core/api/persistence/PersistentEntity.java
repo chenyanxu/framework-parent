@@ -2,6 +2,7 @@ package com.kalix.framework.core.api.persistence;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.kalix.framework.core.api.exception.StaleEntityException;
 
 import javax.persistence.*;
 import java.io.Serializable;

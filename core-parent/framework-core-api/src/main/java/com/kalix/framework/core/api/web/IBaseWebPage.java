@@ -6,23 +6,10 @@ package com.kalix.framework.core.api.web;
  */
 public interface IBaseWebPage {
     String getId();
-
-    //    标题
     String getText();
-
-    //    描述
     String getDescription();
-
-    //    图标
-    String getIcon();
-
-    //    Extjs组件类名称
     String getRouteId();
-
-    //    显示的顺序
     int getIndex();
-
-    //返回权限
     String getPermission();
-
+    String getIconCls();
 }

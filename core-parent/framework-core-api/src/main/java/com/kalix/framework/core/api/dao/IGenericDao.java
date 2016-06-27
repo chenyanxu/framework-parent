@@ -1,6 +1,8 @@
-package com.kalix.framework.core.api.persistence;
+package com.kalix.framework.core.api.dao;
 
-import com.kalix.framework.core.api.dao.IDaoService;
+import com.kalix.framework.core.api.IService;
+import com.kalix.framework.core.api.exception.SearchException;
+import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.web.model.QueryDTO;
 
 import javax.persistence.EntityManager;
@@ -17,7 +19,7 @@ import java.util.Map;
  * @修改时间：
  * @修改备注：
  */
-public interface IGenericDao<T, PK extends Serializable> extends IDaoService {
+public interface IGenericDao<T, PK extends Serializable> extends IService {
 
 
     /**

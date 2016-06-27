@@ -14,7 +14,8 @@ Ext.define('kalix.view.Main', {
     'kalix.view.Profilebar',
     'kalix.view.MainContainerWrap',
     'kalix.view.MainTreelist',
-    'kalix.plugin.ToolTipPlugin'
+    'kalix.plugin.ToolTipPlugin',
+    'kalix.store.DictNoPageStore'
   ],
 
   controller: 'mainController',

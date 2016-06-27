@@ -1,7 +1,7 @@
 package com.kalix.framework.core.security.impl;
 
 import com.kalix.framework.core.api.PermissionConstant;
-import com.kalix.framework.core.api.biz.JsonStatus;
+import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.security.IShiroService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;

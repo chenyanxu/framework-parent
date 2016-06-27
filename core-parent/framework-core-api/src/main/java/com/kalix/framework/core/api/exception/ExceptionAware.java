@@ -18,34 +18,14 @@
  *     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kalix.framework.core.api.persistence;
+package com.kalix.framework.core.api.exception;
 
-import java.io.Serializable;
 
 /**
- * Exception error description, contains information about translation message key and its parameters.
+ * Aware interface for exceptions to be able to get its internal error information.
  *
  * @author Denis Skarbichev
  */
-public class InternalError implements Serializable {
-    private String code;
-    private Object[] params;
-
-    public InternalError(String code) {
-        this.code = code;
-    }
-
-    public InternalError(String code, Object... params) {
-        this(code);
-        this.params = params;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-
-    public Object[] getParams() {
-        return params;
-    }
+public interface ExceptionAware {
+    InternalError getError();
 }

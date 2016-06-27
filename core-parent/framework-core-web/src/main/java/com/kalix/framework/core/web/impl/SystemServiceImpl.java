@@ -1,6 +1,6 @@
 package com.kalix.framework.core.web.impl;
 
-import com.kalix.framework.core.api.biz.JsonStatus;
+import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.security.IShiroService;
 import com.kalix.framework.core.api.web.*;
 import com.kalix.framework.core.api.web.model.*;
@@ -27,35 +27,12 @@ import java.util.Map;
  * 系统菜单服务实现类
  */
 public class SystemServiceImpl implements ISystemService {
-    //private ISystem systemService;
     private IShiroService shiroService;
     private PreferencesService preferencesService;
 
     public void setShiroService(IShiroService shiroService) {
         this.shiroService = shiroService;
     }
-
-    @Override
-    public SystemBean getSystem() {
-//        Subject subject = shiroService.getSubject();
-//        SystemBean systemBean = new SystemBean();
-//        if (subject == null)
-//            return systemBean;
-//        Mapper mapper = new DozerBeanMapper();
-//        HeaderBean headerBean = mapper.map(systemService.getHeader(), HeaderBean.class);
-//        systemBean.setHeaderBean(headerBean);
-//
-//        FooterBean footerBean = mapper.map(systemService.getFooter(), FooterBean.class);
-//        systemBean.setFooterBean(footerBean);
-//
-//        BodyBean bodyBean = new BodyBean();
-//        bodyBean.setApplicationBeanList(DozerHelper.map(mapper, systemService.getBody().getApplications(), WebApplicationBean.class));
-//        systemBean.setBodyBean(bodyBean);
-//        return systemBean;
-
-        return null;
-    }
-
     /**
      * 返回实现IApplication接口的列表
      *
@@ -317,10 +294,6 @@ public class SystemServiceImpl implements ISystemService {
         }
         return rootMenus;
     }
-
-//    public void setSystemService(ISystem systemService) {
-//        this.systemService = systemService;
-//    }
 
     public PreferencesService getPreferencesService() {
         return preferencesService;

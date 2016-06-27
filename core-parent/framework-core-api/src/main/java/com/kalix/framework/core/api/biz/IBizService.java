@@ -2,6 +2,7 @@ package com.kalix.framework.core.api.biz;
 
 import com.kalix.framework.core.api.IService;
 import com.kalix.framework.core.api.persistence.JsonData;
+import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.web.model.QueryDTO;
 

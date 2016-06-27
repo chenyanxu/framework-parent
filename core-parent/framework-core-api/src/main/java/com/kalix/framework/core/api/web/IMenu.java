@@ -22,6 +22,4 @@ public interface IMenu extends IBaseWebPage {
      * @return
      */
     String getParentMenuId();
-
-    String getIconCls();
 }

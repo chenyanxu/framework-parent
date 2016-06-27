@@ -9,7 +9,6 @@ package com.kalix.framework.core.api;
  * @修改备注：
  */
 public class ErrorCodeValue {
-
     public final static int COMMON_ERROR = 0;   //正常
     public final static int PARAM_ERROR = 1;    //参数错误
     public final static int INNER_ERROR = 2;    //程序异常

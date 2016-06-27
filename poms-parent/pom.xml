@@ -20,7 +20,7 @@
         <org.osgi.enterprise.version>5.0.0</org.osgi.enterprise.version>
         <derby.version>10.8.2.2</derby.version>
         <jpa.version>2.2.0</jpa.version>
-        <openjpa.version>2.4.0.Release</openjpa.version>
+        <!--<openjpa.version>2.4.0.Release</openjpa.version>-->
         <geronimoJpaSpec.version>1.1</geronimoJpaSpec.version>
         <geronimoJtaSpec.version>1.1.1</geronimoJtaSpec.version>
         <commonsCollections.version>3.2.1</commonsCollections.version>

@@ -1,4 +1,4 @@
-package com.kalix.framework.core.api.persistence;
+package com.kalix.framework.core.api.exception;
 
 /**
  * @author jgarcia
