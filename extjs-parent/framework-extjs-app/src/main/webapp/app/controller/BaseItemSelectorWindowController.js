@@ -41,8 +41,8 @@ Ext.define('kalix.controller.BaseItemSelectorWindowController', {
           url: saveUrl,
           paramsAsJson: true,
           params: {
-            'roleId': recordId,
-            'userIds': selectIds.join(',')
+            'id': recordId,
+            'ids': selectIds.join(',')
           },
           method: 'GET',
           callback: function (options, success, response) {
