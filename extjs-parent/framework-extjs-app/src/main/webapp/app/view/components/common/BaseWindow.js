@@ -10,11 +10,13 @@ Ext.define('kalix.view.components.common.BaseWindow', {
         'kalix.validator.Presence',
         'kalix.validator.Length',
         'kalix.validator.Email',
-        'kalix.validator.Mobile'
+        'kalix.validator.Mobile',
+        'kalix.viewmodel.BaseViewModel'
     ],
     alias: 'widget.baseWindow',
-    xtype: "baseWindow",
+    xtype: 'baseWindow',
     controller: 'baseWindowController',
+    viewModel:'baseViewModel',
     width: 800,
     border: false,
     modal: true,
