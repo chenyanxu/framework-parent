@@ -23,10 +23,10 @@ import java.util.Date;
 public abstract class PersistentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @Version
     @Column(name = "version_")
-    private long version;
+    private Long version;
     //@JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date creationDate = new Date();// 创建日期
     private String createBy;    // 创建者
@@ -35,19 +35,20 @@ public abstract class PersistentEntity implements Serializable {
     private Date updateDate = new Date();
     // 更新日期
 
-    public long getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(long vers) {
+    public void setVersion(Long vers) {
         if (vers < version) {
             throw new StaleEntityException(this);
         }
