@@ -11,13 +11,13 @@ import java.util.Date;
  * @version 1.0.0
  */
 public abstract class BaseDTO implements Serializable {
-    protected long id = -1;
+    protected Long id = -1L;
 
     protected Date creationDate;// 创建日期
     protected String createBy;    // 创建者
     protected String updateBy;    // 更新者
     protected Date updateDate; //更新日期
-    protected long version;
+    protected Long version;
 
     public BaseDTO() {
     }
@@ -54,19 +54,19 @@ public abstract class BaseDTO implements Serializable {
         this.updateDate = updateDate;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(long version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 }
