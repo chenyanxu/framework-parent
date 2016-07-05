@@ -26,7 +26,7 @@ public abstract class PersistentEntity implements Serializable {
     private Long id;
     @Version
     @Column(name = "version_")
-    private Long version;
+    private long version;
     //@JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date creationDate = new Date();// 创建日期
     private String createBy;    // 创建者
@@ -44,11 +44,11 @@ public abstract class PersistentEntity implements Serializable {
         this.id = id;
     }
 
-    public Long getVersion() {
+    public long getVersion() {
         return version;
     }
 
-    public void setVersion(Long vers) {
+    public void setVersion(long vers) {
         if (vers < version) {
             throw new StaleEntityException(this);
         }
