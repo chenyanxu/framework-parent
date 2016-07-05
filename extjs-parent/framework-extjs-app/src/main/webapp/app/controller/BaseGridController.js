@@ -15,8 +15,8 @@ Ext.define('kalix.controller.BaseGridController', {
         var vm = view.lookupViewModel();
 
         vm.set('rec', selModel);
-        vm.set('iconCls', 'iconfont icon-view');
-        vm.set('title', viewModel.get('view_title'));
+        vm.set('iconCls', vm.get('viewIconCls'));
+        vm.set('title', vm.get('viewTitle'));
         vm.set('view_operation', true);
         view.show();
         grid.setSelection(selModel);
@@ -55,8 +55,8 @@ Ext.define('kalix.controller.BaseGridController', {
         var vm = view.lookupViewModel();
 
         vm.set('rec', Ext.create(this.cfgModel));
-        vm.set('iconCls', 'iconfont icon-add');
-        vm.set('title', viewModel.get('add_title'));
+        vm.set('iconCls', vm.get('addIconCls'));
+        vm.set('title', vm.get('addTitle'));
         view.show();
     },
     /**
@@ -72,9 +72,8 @@ Ext.define('kalix.controller.BaseGridController', {
         var vm = view.lookupViewModel();
 
         vm.set('rec', selModel);
-        vm.set('iconCls', 'iconfont icon-edit');
-        vm.set('title', viewModel.get('edit_title'));
-
+        vm.set('iconCls', vm.get('editIconCls'));
+        vm.set('title',vm.get('editTitle'));
         view.show();
         grid.setSelection(selModel);
     },
@@ -155,8 +154,6 @@ Ext.define('kalix.controller.BaseGridController', {
     onChange: function (target, event, domValue) {
         var form = target.findParentByType('form');
         var store = this.getView().getStore();
-        //var store = target.findParentByType('window').items.getAt(0).store;
-        //var mainId = target.findParentByType('window').viewModel.get('rec').id
 
         scope = {store: store};
 
