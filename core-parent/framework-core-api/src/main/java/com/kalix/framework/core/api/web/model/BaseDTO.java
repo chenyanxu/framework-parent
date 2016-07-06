@@ -11,7 +11,7 @@ import java.util.Date;
  * @version 1.0.0
  */
 public abstract class BaseDTO implements Serializable {
-    protected long id = -1;
+    protected long id = -1L;
 
     protected Date creationDate;// 创建日期
     protected String createBy;    // 创建者

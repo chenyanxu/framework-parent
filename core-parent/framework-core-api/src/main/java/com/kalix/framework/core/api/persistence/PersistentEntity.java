@@ -35,6 +35,7 @@ public abstract class PersistentEntity implements Serializable {
     private Date updateDate = new Date();
     // 更新日期
 
+
     public long getId() {
         return id;
     }
