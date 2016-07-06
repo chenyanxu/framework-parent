@@ -27,6 +27,7 @@
         <module>framework-core-security-authc</module>
         <module>framework-core-swagger</module>
         <module>framework-core-web</module>
+        <module>framework-core-etc</module>
     </modules>
 
     <dependencyManagement>
