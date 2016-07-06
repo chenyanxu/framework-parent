@@ -49,31 +49,35 @@ Ext.define('kalix.view.components.common.BaseComboBox', {
                 return;
             }
 
-            var rec = this.target.findParentByType('window').getViewModel().data.rec;//get the model which bind to the parent form window.
-            var obj = null;
-            var notFind = true;
-            if (rec.id != 0) {//we do nothing when in the add operation.
-                Ext.Array.forEach(records, function (item) {//check existence of target model in the store data.
-                    if (item.id == rec.get(this.target.modelField)) {
-                        notFind = false;
-                    }
-                }, {'rec': rec, 'obj': obj, 'target': this.target});
+            var parentWindow=this.target.findParentByType('window');
 
-                if (notFind && rec.get(this.target.modelField)) {//when the target not found and the target model field value not null.
-                    Ext.Ajax.request({//the method must sync
-                        async: false,
-                        url: store.proxy.url + '/' + rec.get(this.target.modelField),
-                        success: function (response, opts) {
-                            obj = Ext.decode(response.responseText);
+            if(parentWindow){
+                var rec = parentWindow.getViewModel().data.rec;//get the model which bind to the parent form window.
+                var obj = null;
+                var notFind = true;
+                if (rec.id != 0) {//we do nothing when in the add operation.
+                    Ext.Array.forEach(records, function (item) {//check existence of target model in the store data.
+                        if (item.id == rec.get(this.target.modelField)) {
+                            notFind = false;
                         }
-                    });
+                    }, {'rec': rec, 'obj': obj, 'target': this.target});
 
-                    if (obj) {
-                        var mobj = Ext.create('Ext.data.Model', obj);//we create a new model when we find the target in remote server.
+                    if (notFind && rec.get(this.target.modelField)) {//when the target not found and the target model field value not null.
+                        Ext.Ajax.request({//the method must sync
+                            async: false,
+                            url: store.proxy.url + '/' + rec.get(this.target.modelField),
+                            success: function (response, opts) {
+                                obj = Ext.decode(response.responseText);
+                            }
+                        });
 
-                        store.removeAll();//clear the auto load records,we don't need them for combobox selection.
-                        store.add(Ext.create('Ext.data.Model', obj));
-                        this.target.setSelection(mobj)
+                        if (obj) {
+                            var mobj = Ext.create('Ext.data.Model', obj);//we create a new model when we find the target in remote server.
+
+                            store.removeAll();//clear the auto load records,we don't need them for combobox selection.
+                            store.add(Ext.create('Ext.data.Model', obj));
+                            this.target.setSelection(mobj)
+                        }
                     }
                 }
             }
