@@ -4,7 +4,6 @@
 Ext.define('kalix.controller.BaseGridController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.baseGridController',
-    storeId: '',
     cfgForm: '',
     cfgViewForm: '',
     cfgModel: '',
@@ -79,7 +78,7 @@ Ext.define('kalix.controller.BaseGridController', {
     },
     onDelete: function (grid, rowIndex, colIndex) {
         var model = grid.getStore().getData().items[rowIndex];
-        var store = Ext.app.Application.instance.getApplication().getStore(this.storeId);
+        var store = grid.getStore();
 
         Ext.Msg.confirm("警告", "确定要删除吗？", function (button) {
             if (button == "yes") {
@@ -150,53 +149,45 @@ Ext.define('kalix.controller.BaseGridController', {
             });
         }
     },
-    //excel upload
-    onChange: function (target, event, domValue) {
-        var form = target.findParentByType('form');
-        var store = this.getView().getStore();
-
-        scope = {store: store};
-
-        form.submit({
-            url: CONFIG.restRoot + '/camel/rest/excel/upload?' +
-            'ConfigId=' + form.ConfigId +
-            '&EntityName=' + form.EntityName +
-            '&ServiceInterface=' + form.ServiceInterface,
-            waitMsg: '正在上传...',
-            scope: scope,
-            success: function (fp, o) {
-                store.currentPage = 1;
-                store.load();
-                kalix.Notify.success(o.result.msg, CONFIG.ALTER_TITLE_SUCCESS);
-            },
-            failure: function (fp, o) {
-                Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, o.result.msg);
-            }
-        });
-    },
     addTooltip: function (value, metadata, record, rowIndex, colIndex, store) {
         metadata.tdAttr = 'data-qtip="' + value + '"';
         return value;
-    },
-    //金额格式化
-    renderMoney: function (val, metadata, record, rowIndex, colIndex, store) {
-        var out = Ext.util.Format.currency(val);
-        out = out + '元';
-        metadata.tdAttr = 'data-qtip="' + out + '"';
-        return out;
-    },
-    //百分比格式化
-    renderPercent: function (val, metadata, record, rowIndex, colIndex, store) {
-        var percentage = (val * 100).toFixed(2)+'%';
-        return percentage;
-    },
-    onAttachmentManage: function (grid, rowIndex, colIndex) {
-        var view = Ext.create('kalix.attachment.view.AttachmentWindow');
-        var selModel = grid.getStore().getData().items[rowIndex];
-        var vm = view.lookupViewModel();
-
-        vm.set('rec', selModel);
-        view.show();
-        grid.setSelection(selModel);
     }
+    //,
+    //  //excel upload
+    //  onChange: function (target, event, domValue) {
+    //    var form = target.findParentByType('form');
+    //    var store = this.getView().getStore();
+    //
+    //    scope = {store: store};
+    //
+    //    form.submit({
+    //        url: CONFIG.restRoot + '/camel/rest/excel/upload?' +
+    //        'ConfigId=' + form.ConfigId +
+    //        '&EntityName=' + form.EntityName +
+    //        '&ServiceInterface=' + form.ServiceInterface,
+    //        waitMsg: '正在上传...',
+    //        scope: scope,
+    //        success: function (fp, o) {
+    //            store.currentPage = 1;
+    //            store.load();
+    //            kalix.Notify.success(o.result.msg, CONFIG.ALTER_TITLE_SUCCESS);
+    //        },
+    //        failure: function (fp, o) {
+    //            Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, o.result.msg);
+    //        }
+    //    });
+    //},
+    ////金额格式化
+    //renderMoney: function (val, metadata, record, rowIndex, colIndex, store) {
+    //    var out = Ext.util.Format.currency(val);
+    //    out = out + '元';
+    //    metadata.tdAttr = 'data-qtip="' + out + '"';
+    //    return out;
+    //},
+    ////百分比格式化
+    //renderPercent: function (val, metadata, record, rowIndex, colIndex, store) {
+    //    var percentage = (val * 100).toFixed(2)+'%';
+    //    return percentage;
+    //}
 });

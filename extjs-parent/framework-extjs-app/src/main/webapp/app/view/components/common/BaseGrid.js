@@ -25,8 +25,7 @@ Ext.define('kalix.view.components.common.BaseGrid', {
         padding: 0,
         listeners: {
             afterrender: function (c, obj) {
-                var store = Ext.app.Application.instance.getApplication().getStore(this.lookupController().storeId);
-
+                var store=c.findParentByType('grid').store;
                 this.setConfig('store',store);
                 this.items.getAt(0).setValue(store.pageSize);
             }
