@@ -3,7 +3,6 @@
  */
 Ext.define('kalix.container.BaseContainer', {
   extend: 'Ext.container.Container',
-  storeId: '',
   constructor:function(){
     this.callParent(arguments);
     var navTree = kalix.getApplication()._mainView.controller.getReferences().navigationTreeList;
@@ -14,6 +13,10 @@ Ext.define('kalix.container.BaseContainer', {
   },
   listeners: {
     render: function (target, eOpts) {
+      if(!this.storeId){
+        this.storeId=this.$className.split('.').reverse()[1]+'Store';
+      }
+
       var store = Ext.app.Application.instance.getApplication().getStore(this.storeId);
 
       store.on('beforeload', function (store, opts, target) {

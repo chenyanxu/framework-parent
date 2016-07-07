@@ -68,5 +68,15 @@ Ext.define('kalix.view.components.common.BaseWindow', {
     listeners: {
         close: 'onClose',
         beforerender: 'onBeforerender'
+    },
+    constructor: function () {
+        this.callParent(arguments);
+        //if the child window's controller not config the storeId property,
+        //we auto generate the storeId ,
+        //to ensure the storeId is right,you must name the child window
+        //as: [bean name]Window,the first char of the bean name must lowercase.
+        if(!this.controller.storeId){
+            this.controller.storeId=this.xtype.split('Window')[0]+'Store';
+        }
     }
 });
