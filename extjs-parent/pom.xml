@@ -21,6 +21,7 @@
         <module>framework-extjs-packages</module>
         <module>framework-extjs-orgchart</module>
         <module>framework-extjs-bpmn</module>
+        <module>framework-extjs-dict</module>
     </modules>
 
     <dependencyManagement>
