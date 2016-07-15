@@ -266,11 +266,24 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
 
     @Override
-    public JsonData getAllEntityByQuery(int page, int limit, String jsonStr) {
+    public JsonData getAllEntityByQuery(Integer page, Integer limit, String jsonStr) {
         QueryDTO queryDto = new QueryDTO();
 
-        queryDto.setPage(page);
-        queryDto.setLimit(limit);
+        if(page==null){
+            queryDto.setPage(0);
+        }
+        else
+        {
+            queryDto.setPage(page);
+        }
+
+        if(limit==null) {
+            queryDto.setLimit(0);
+        }
+        else{
+            queryDto.setLimit(limit);
+        }
+
         queryDto.setJsonMap(SerializeUtil.json2Map(jsonStr));
 
         return getAllEntityByQuery(queryDto);

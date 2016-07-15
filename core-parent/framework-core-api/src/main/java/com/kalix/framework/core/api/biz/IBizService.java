@@ -165,7 +165,7 @@ public interface IBizService<T extends PersistentEntity> extends IService {
      * @param jsonStr
      * @return
      */
-    JsonData getAllEntityByQuery(int page, int limit, String jsonStr);
+    JsonData getAllEntityByQuery(Integer page, Integer limit, String jsonStr);
 
     /**
      * @param page
