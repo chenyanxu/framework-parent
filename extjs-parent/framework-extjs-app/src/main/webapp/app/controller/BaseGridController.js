@@ -47,15 +47,19 @@ Ext.define('kalix.controller.BaseGridController', {
     /**
      * 打开添加操作.
      */
-    onAdd: function () {
-        var grid = this.getView();
-        var viewModel = this.getViewModel();
+    onAdd: function (target) {
         var view = Ext.create(this.cfgForm);
+
+        view.controller.storeId=target.findParentByType('grid').getStore().type;
+
         var vm = view.lookupViewModel();
 
         vm.set('rec', Ext.create(this.cfgModel));
         vm.set('iconCls', vm.get('addIconCls'));
         vm.set('title', vm.get('addTitle'));
+
+        this.viewModelExtraInit(vm);
+
         view.show();
     },
     /**
@@ -65,14 +69,19 @@ Ext.define('kalix.controller.BaseGridController', {
      * @param colIndex
      */
     onEdit: function (grid, rowIndex, colIndex) {
-        var viewModel = this.getViewModel();
         var selModel = grid.getStore().getData().items[rowIndex];
         var view = Ext.create(this.cfgForm);
+
+        view.controller.storeId=grid.getStore().type;
+
         var vm = view.lookupViewModel();
 
         vm.set('rec', selModel);
         vm.set('iconCls', vm.get('editIconCls'));
         vm.set('title',vm.get('editTitle'));
+
+        this.viewModelExtraInit(vm);
+
         view.show();
         grid.setSelection(selModel);
     },
@@ -152,6 +161,9 @@ Ext.define('kalix.controller.BaseGridController', {
     addTooltip: function (value, metadata, record, rowIndex, colIndex, store) {
         metadata.tdAttr = 'data-qtip="' + value + '"';
         return value;
+    },
+    viewModelExtraInit:function(vm){
+        //If have extra init,overwrite this method
     }
     //,
     //  //excel upload
