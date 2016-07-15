@@ -12,11 +12,10 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
     fieldLabel:'',
     fromTitle: '',
     toTitle: '',
-    selectItemsUrl:'',
-    saveItemsUrl:'',
-    recoredId:-1,
-    store:null,
-    selectItems:[]
+    baseUrl:'',   //the base url for the relation operation
+    recoredId:-1, //the parent id of the relation table
+    store:null,   //the child store
+    selectItems:[]//the child ids that has selected into relation table
   },
   width:600,
   border: false,
@@ -63,10 +62,10 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
     if(me.Config.store){
       me.Config.selectItems=[];
 
-      if(me.Config.selectItemsUrl && me.Config.selectItemsUrl!='' &&
+      if(me.Config.baseUrl && me.Config.baseUrl!='' &&
          me.Config.recoredId){
         Ext.Ajax.request({
-          url: me.Config.selectItemsUrl+'/'+me.Config.recoredId,
+          url:me.Config.baseUrl+'/'+me.Config.recoredId+'/users/ids',
           async:false,
           method: 'GET',
           callback: function (options, success, response) {

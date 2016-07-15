@@ -31,7 +31,7 @@ Ext.define('kalix.controller.BaseItemSelectorWindowController', {
       var itemSelector = win.items.getAt(1);
       var selectIds = itemSelector.getValue();
       var recordId = win.Config.recoredId;
-      var saveUrl = win.Config.saveItemsUrl;
+      var saveUrl = win.Config.baseUrl+'/'+recordId+'/users';
 
       if(selectIds.toString()==win.Config.selectItems.toString()){
         Ext.Msg.alert(CONFIG.ALTER_TITLE_INFO, "未修改");
@@ -39,12 +39,9 @@ Ext.define('kalix.controller.BaseItemSelectorWindowController', {
       else{
         Ext.Ajax.request({
           url: saveUrl,
-          paramsAsJson: true,
-          params: {
-            'id': recordId,
-            'ids': selectIds.join(',')
-          },
-          method: 'GET',
+          defaultPostHeader : 'application/json;charset=utf-8',
+          params:Ext.encode([recordId.toString(),selectIds.join(',')]),
+          method: 'POST',
           callback: function (options, success, response) {
             var resp = Ext.JSON.decode(response.responseText);
             if (resp != null && resp.success) {
@@ -59,8 +56,6 @@ Ext.define('kalix.controller.BaseItemSelectorWindowController', {
       }
 
     },
-    onResetItemSelector: function () {
-
-    }
+    onResetItemSelector: function () {}
   }
 );
