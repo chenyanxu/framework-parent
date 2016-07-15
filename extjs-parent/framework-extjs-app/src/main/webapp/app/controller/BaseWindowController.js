@@ -42,7 +42,6 @@ Ext.define('kalix.controller.BaseWindowController', {
         store.proxy.extraParams = {};
 
         if (model.isValid()) {
-
             if (!model.dirty) {
                 Ext.Msg.alert(CONFIG.ALTER_TITLE_INFO, '未修改数据');
                 return;
@@ -162,10 +161,14 @@ Ext.define('kalix.controller.BaseWindowController', {
                 var fieldItem = fieldItems.getAt(fieldIndex);
 
                 if (fieldItem.config.bind != null && fieldItem.config.bind.value) {
-                        var instanceValidators = model.getField(fieldItem.config.bind.value.replace('}', '').split('.')[1]).instanceValidators;
+                        var bindValueSplit=fieldItem.config.bind.value.replace('}', '').split('.');
 
-                        if (instanceValidators != undefined && instanceValidators[0].type == 'presence') {
-                            fieldItems.getAt(fieldIndex).beforeLabelTextTpl = '<span class="field-required" data-qtip="必填选项">*</span>'
+                        if(bindValueSplit.length==2){
+                            var instanceValidators = model.getField(bindValueSplit[1]).instanceValidators;
+
+                            if (instanceValidators != undefined && instanceValidators[0].type == 'presence') {
+                                fieldItems.getAt(fieldIndex).beforeLabelTextTpl = '<span class="field-required" data-qtip="必填选项">*</span>'
+                            }
                         }
                 }
             }
