@@ -41,9 +41,9 @@ public class KalixMojo extends AbstractBaseKalixMojo {
         //create dao code generate
         IGenerate daoGenerate = new DaoGenerateImpl(attributes, inputDir, outputDir);
         daoGenerate.genJavaSource();
-        //create core code generate
-        IGenerate coreGenerate = new BizGenerateImpl(attributes, inputDir, outputDir);
-        coreGenerate.genJavaSource();
+        //create biz code generate
+        IGenerate bizGenerate = new BizGenerateImpl(attributes, inputDir, outputDir);
+        bizGenerate.genJavaSource();
         //create rest code generate
         IGenerate restGenerate = new RestGenerateImpl(attributes, inputDir, outputDir);
         restGenerate.genJavaSource();

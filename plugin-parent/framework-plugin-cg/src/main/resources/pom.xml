@@ -1,0 +1,83 @@
+<build>
+    <plugins>
+        <plugin>
+            <groupId>com.kalix.framework.plugin</groupId>
+            <artifactId>framework-plugin-cg</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <configuration>
+                <!-- .st模板文件所在的目录位置,不用修改 -->
+                <inputDir>src/main/resources/templates</inputDir>
+                <!-- 生成的代码存放的目录位置,不用修改 -->
+                <outputDir>${project.build.directory}/generate</outputDir>
+                <attributes>
+                    <!-- 新建工程的中文描述信息-->
+                    <moduleDescription>学生管理</moduleDescription>
+
+                    <!-- 新建工程的父工程的artifactId -->
+                    <parentArtifactId>system-parent</parentArtifactId>
+                    <!-- 新建工程的父工程的groupId -->
+                    <parentGroupId>com.kalix.oa.system</parentGroupId>
+                    <!-- 新建工程的父工程的版本 -->
+                    <parentVersion>1.0.0-SNAPSHOT</parentVersion>
+
+                    <!-- 新建工程的artifactId前缀-->
+                    <artifactIdPrefix>oa-system-student</artifactIdPrefix>
+                    <!-- 新建工程的artifactId前缀-->
+                    <namePrefix>Kalix OA System Student</namePrefix>
+
+                    <!-- 新建工程的项目名称-->
+                    <projectName>Student</projectName>
+                    <!-- 新建工程的包结构-->
+                    <packageName>com.kalix.oa.system.student</packageName>
+                    <!-- 新建工程的pom名称-->
+                    <pomName>student</pomName>
+
+                    <!-- 新建工程的实体Bean名称-->
+                    <beanName>Student</beanName>
+                    <!-- 新建工程的实体Bean对应的后台表名称-->
+                    <tableName>sys_student</tableName>
+                    <!-- 新建工程的实体Bean的java类所在的位置-->
+                    <beanDir>src/main/java</beanDir>
+                    <!-- 新建工程的extjs前缀-->
+                    <extjsPrefix>kalix.system.student</extjsPrefix>
+                    <!-- 新建工程的contextPath-->
+                    <contextPath>system/student</contextPath>
+                </attributes>
+                <sources>
+                    <source>${basedir}/src/main/java</source>
+                </sources>
+            </configuration>
+        </plugin>
+        <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>2.3.2</version>
+            <configuration>
+                <source>1.7</source>
+                <target>1.7</target>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <version>2.0</version>
+            <configuration>
+                <mavenExecutorId>forked-path</mavenExecutorId>
+            </configuration>
+        </plugin>
+        <plugin><!-- plug-in to attach source bundle in repo -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <version>2.1.2</version>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>attach-sources</id>
+                    <goals>
+                        <goal>jar</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+        <!--  Do we need javadocs? Probably not... -->
+
+    </plugins>
+</build>

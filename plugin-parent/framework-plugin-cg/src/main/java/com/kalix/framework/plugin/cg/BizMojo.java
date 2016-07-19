@@ -11,7 +11,7 @@ import java.io.File;
 /**
  * Created by sunlf on 2015/9/18.
  *
- * @goal core
+ * @goal biz
  * @phase compile
  * @threadSafe
  */
@@ -28,9 +28,9 @@ public class BizMojo extends AbstractBaseKalixMojo {
             throw new MojoExecutionException("Input directory '" + inputDir.getAbsolutePath() + "' does not exist");
         }
 
-        //create core code generate
-        IGenerate coreGenerate = new BizGenerateImpl(attributes, inputDir, outputDir);
-        coreGenerate.genJavaSource();
+        //create biz code generate
+        IGenerate bizGenerate = new BizGenerateImpl(attributes, inputDir, outputDir);
+        bizGenerate.genJavaSource();
 
     }
 }
