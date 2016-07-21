@@ -34,7 +34,7 @@ public class ZipUtil {
         ZipUtil zipUtil = new ZipUtil();
         try {
             //zipUtil.zip("C:\\Users\\Administrator_\\Desktop\\1.zip",
-            //new File("C:\\Users\\Administrator_\\Desktop\\1.txt"));
+            //new File("C:\\Users\\Administrator_\\Desktop"));
             zipUtil.unzip("C:\\Users\\Administrator_\\.m2\\repository\\com\\kalix\\framework\\plugin\\framework-plugin-cg\\1.0.0-SNAPSHOT\\framework-plugin-cg-1.0.0-SNAPSHOT.jar", "c:\\test123");
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -89,19 +89,32 @@ public class ZipUtil {
 
             while (ze != null) {
                 String name = ze.getName();
-                File child = new File(parent, name);
-                FileOutputStream output = new FileOutputStream(child);
-                byte[] buffer = new byte[10240];
-                int bytesRead = 0;
-                while ((bytesRead = zis.read(buffer)) > 0) {
-                    output.write(buffer, 0, bytesRead);
+                if (!ze.isDirectory()) {
+                    //parent = new File(child.getParent());
+                    File child = new File(parent, name);
+                    File tmpPath = new File(child.getParent());
+                    //if(child.getParent().contains("templates")) {//只解压templates目录
+                    tmpPath.mkdirs();
+                    child.createNewFile();
+                    FileOutputStream output = new FileOutputStream(child);
+                    byte[] buffer = new byte[1024];
+                    int bytesRead = 0;
+                    while ((bytesRead = zis.read(buffer)) > 0) {
+                        output.write(buffer, 0, bytesRead);
+                    }
+                    output.flush();
+                    output.close();
                 }
-                output.flush();
-                output.close();
+                //}
                 ze = zis.getNextEntry();
             }
             zis.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e
+                )
+
+        {
+            e.printStackTrace();
         }
     }
 }
