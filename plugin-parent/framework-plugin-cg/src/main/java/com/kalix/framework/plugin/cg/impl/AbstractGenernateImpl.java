@@ -2,6 +2,7 @@ package com.kalix.framework.plugin.cg.impl;
 
 
 import com.kalix.framework.core.util.Assert;
+import com.kalix.framework.core.util.ZipUtil;
 import com.kalix.framework.plugin.cg.Util;
 import com.kalix.framework.plugin.cg.api.IGenerate;
 import com.thoughtworks.qdox.JavaProjectBuilder;
@@ -35,6 +36,7 @@ public abstract class AbstractGenernateImpl implements IGenerate {
     protected String moduleName;
 
     // arttributes
+    protected String karafPath;
     protected String moduleDescription;
     protected String parentArtifactId;
     protected String parentGroupId;
@@ -52,10 +54,23 @@ public abstract class AbstractGenernateImpl implements IGenerate {
     public AbstractGenernateImpl(Map<String, String> attributes, File inputDir, File outputDir, String moduleName) {
         this.attributes = attributes;
         this.inputDir = inputDir;
-//        File testInputDir = new File(this.getClass().getResource("").getPath().split("!")[0] + "!/templates");
-//        if(testInputDir.exists()){
-//            System.out.println("ok");
-//        }
+        karafPath = attributes.get("karafPath");
+        Assert.notNull(karafPath);
+
+        String tmpPath = karafPath + "/data/tmp/cgt";
+        File tmpFile = new File(tmpPath);
+        String zipFile = this.getClass().getResource("").getPath().split("!")[0];
+        zipFile = zipFile.substring(zipFile.indexOf("/") + 1, zipFile.length());
+        if(!tmpFile.exists()){
+            try {
+                tmpFile.mkdirs();
+                ZipUtil zipUtil = new ZipUtil();
+                zipUtil.unzip(zipFile,tmpPath);
+            }catch (Exception e){
+            }
+        }
+
+        this.inputDir = new File(tmpPath + "/templates");
 
         moduleDescription = attributes.get("moduleDescription");
         Assert.notNull(moduleDescription);

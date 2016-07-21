@@ -1,11 +1,13 @@
-package com.kalix.framework.webapp.cg;
+package com.kalix.framework.core.util;
 
 /**
  * Created by Administrator on 2016/7/21.
  */
 
 import java.io.*;
-import java.util.zip.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 /**
  * 程序实现了ZIP压缩。共分为2部分 ： 压缩（compression）与解压（decompression）
@@ -17,10 +19,10 @@ import java.util.zip.*;
  * @author HAN
  */
 
-public class ZipTool {
-    private int k = 1; // 定义递归次数变量
+public class ZipUtil {
+    private static int k = 1; // 定义递归次数变量
 
-    public ZipTool() {
+    public ZipUtil() {
         // TODO Auto-generated constructor stub
     }
 
@@ -29,19 +31,18 @@ public class ZipTool {
      */
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        ZipTool book = new ZipTool();
+        ZipUtil zipUtil = new ZipUtil();
         try {
-            book.zip("C:\\Users\\Administrator_\\Desktop\\1.zip",
-                    new File("C:\\Users\\Administrator_\\Desktop\\1.txt"));
+            //zipUtil.zip("C:\\Users\\Administrator_\\Desktop\\1.zip",
+            //new File("C:\\Users\\Administrator_\\Desktop\\1.txt"));
+            zipUtil.unzip("C:\\Users\\Administrator_\\.m2\\repository\\com\\kalix\\framework\\plugin\\framework-plugin-cg\\1.0.0-SNAPSHOT\\framework-plugin-cg-1.0.0-SNAPSHOT.jar", "c:\\test123");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-
     }
 
-    public void zip(String zipFileName, File inputFile) throws Exception {
+    public static void zip(String zipFileName, File inputFile) throws Exception {
         System.out.println("压缩中...");
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));
         BufferedOutputStream bo = new BufferedOutputStream(out);
@@ -51,7 +52,7 @@ public class ZipTool {
         System.out.println("压缩完成");
     }
 
-    public void zip(ZipOutputStream out, File f, String base, BufferedOutputStream bo) throws Exception { // 方法重载
+    public static void zip(ZipOutputStream out, File f, String base, BufferedOutputStream bo) throws Exception { // 方法重载
         if (f.isDirectory()) {
             File[] fl = f.listFiles();
             if (fl.length == 0) {
@@ -77,41 +78,30 @@ public class ZipTool {
         }
     }
 
-    public void unzip(String zipFileName, String outputFile) throws Exception {
-        long startTime = System.currentTimeMillis();
+    public static void unzip(String zipFileName, String outputPath) throws Exception {
         try {
-            ZipInputStream zin = new ZipInputStream(new FileInputStream(zipFileName));//输入源zip路径
-            BufferedInputStream bin = new BufferedInputStream(zin);
-            String Parent = outputFile; //输出路径（文件夹目录）
-            File fout = null;
-            ZipEntry entry;
-            try {
-                while ((entry = zin.getNextEntry()) != null && !entry.isDirectory()) {
-                    fout = new File(Parent, entry.getName());
-                    if (!fout.exists()) {
-                        (new File(fout.getParent())).mkdirs();
-                    }
-                    FileOutputStream out = new FileOutputStream(fout);
-                    BufferedOutputStream bout = new BufferedOutputStream(out);
-                    int b;
-                    while ((b = bin.read()) != -1) {
-                        bout.write(b);
-                    }
-                    bout.close();
-                    out.close();
-                    System.out.println(fout + "解压成功");
-                }
-                bin.close();
-                zin.close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            File parent = new File(outputPath);
+            if (!parent.exists() && !parent.mkdirs()) {
+                throw new Exception("创建解压目录 \"" + parent.getAbsolutePath() + "\" 失败");
             }
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFileName));
+            ZipEntry ze = zis.getNextEntry();
+
+            while (ze != null) {
+                String name = ze.getName();
+                File child = new File(parent, name);
+                FileOutputStream output = new FileOutputStream(child);
+                byte[] buffer = new byte[10240];
+                int bytesRead = 0;
+                while ((bytesRead = zis.read(buffer)) > 0) {
+                    output.write(buffer, 0, bytesRead);
+                }
+                output.flush();
+                output.close();
+                ze = zis.getNextEntry();
+            }
+            zis.close();
+        } catch (IOException e) {
         }
-        long endTime = System.currentTimeMillis();
-        System.out.println("耗费时间： " + (endTime - startTime) + " ms");
     }
 }
