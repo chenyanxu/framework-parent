@@ -21,5 +21,6 @@
         <module>osgi-parent</module>
         <module>extjs-parent</module>
         <module>plugin-parent</module>
+        <module>webapp-parent</module>
     </modules>
 </project>
