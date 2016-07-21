@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>framework-webapp-main</module>
         <module>framework-webapp-cg</module>
     </modules>
 

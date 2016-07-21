@@ -1,4 +1,4 @@
-package com.kalix.framework.extjs.web.internal;
+package com.kalix.framework.webapp.main.internal;
 
 import com.kalix.framework.core.util.SystemUtil;
 import org.osgi.framework.BundleActivator;

@@ -15,7 +15,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>framework-extjs-web</module>
         <module>framework-extjs-classic</module>
         <module>framework-extjs-app</module>
         <module>framework-extjs-packages</module>

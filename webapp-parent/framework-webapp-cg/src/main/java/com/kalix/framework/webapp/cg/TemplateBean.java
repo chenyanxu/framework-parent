@@ -1,9 +1,11 @@
 package com.kalix.framework.webapp.cg;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/7/20.
  */
-public class TemplateBean {
+public class TemplateBean implements Serializable {
     private String inputDir;
     private String outputDir;
     private String moduleDescription;

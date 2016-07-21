@@ -77,7 +77,7 @@
     </init-param>
     <init-param>
       <param-name>api.contact.name</param-name>
-      <param-value>The Rexen Kalix team</param-value>
+      <param-value>The Kalix team</param-value>
     </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
