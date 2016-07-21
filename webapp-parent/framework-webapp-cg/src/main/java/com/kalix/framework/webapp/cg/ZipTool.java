@@ -32,11 +32,13 @@ public class ZipTool {
         ZipTool book = new ZipTool();
         try {
             book.zip("C:\\Users\\Administrator_\\Desktop\\1.zip",
-                    new File("C:\\Users\\Administrator_\\Desktop"));
+                    new File("C:\\Users\\Administrator_\\Desktop\\1.txt"));
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+
     }
 
     public void zip(String zipFileName, File inputFile) throws Exception {
