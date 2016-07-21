@@ -10,10 +10,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>framework-webapp-cg</artifactId>
-    <name>Kalix Framework Webapp CG</name>
+    <name>Kalix Framework Web Application CG</name>
     <packaging>bundle</packaging>
 
     <properties>
         <bundle.symbolicName>com.kalix.framework.webapp.cg</bundle.symbolicName>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.kalix.admin.core</groupId>
+            <artifactId>admin-core-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -16,4 +16,4 @@ Import-Package: com.kalix.framework.core.security.authc.filter,\
                 org.apache.shiro.session,*
 Include-Resource: src/main/webapp,src/main/resources
 Web-ContextPath:/kalix
-Bundle-Category: Kalix Framework ExtJS
+Bundle-Category: Kalix Framework WebApp

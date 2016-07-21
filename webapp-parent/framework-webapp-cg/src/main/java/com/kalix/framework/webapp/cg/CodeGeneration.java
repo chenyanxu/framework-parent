@@ -8,12 +8,10 @@ import com.kalix.framework.core.api.persistence.JsonStatus;
 public class CodeGeneration {
 
     public JsonStatus addTemplate(TemplateBean bean){
-
-        return null;
+        return JsonStatus.successResult("test for cg");
     }
 
     public TemplateBean getTemplate(){
-
-        return null;
+        return new TemplateBean();
     }
 }

@@ -6,6 +6,6 @@ Bundle-Activator: ${bundle.namespace}.internal.InitActivator
 Import-Package: com.kalix.framework.core.impl.web,\
                 org.apache.camel.component.servlet, \
                 javax.servlet.jsp,*
-Include-Resource: src/main/webapp
+#Include-Resource: src/main/webapp
 Web-ContextPath:/cg
-Bundle-Category: Kalix Framework Webapp
+Bundle-Category: Kalix Framework WebApp
