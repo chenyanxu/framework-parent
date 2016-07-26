@@ -25,7 +25,7 @@ def canaryVersion = "${versionPrefix}.${env.BUILD_NUMBER}"
 def utils = new io.fabric8.Utils()
 
 node {
-  git 'https://github.com/minikiller/kalix-parent.git'
+  git 'https://github.com/chenyanxu/framework-parent.git'
 
   echo 'NOTE: running pipelines for the first time will take longer as build and base docker images are pulled onto the node'
   kubernetes.pod('buildpod').withImage('fabric8/maven-builder')
