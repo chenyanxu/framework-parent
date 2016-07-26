@@ -19,32 +19,28 @@ Ext.define('kalix.dict.view.DictWindow', {
         xtype: 'baseForm',
         items: [
             {
-                fieldLabel: '标签名',
-                allowBlank: false,
-                bind: {
-                    value: '{rec.label}'
-                }
-            },
-            {
-                fieldLabel: '数据值',
-                xtype : 'numberfield',
-                allowBlank: false,
-                bind: {
-                    value: '{rec.value}'
-                }
-            }, {
                 fieldLabel: '类型',
+                xtype:'combo',
+                store: Ext.create('Ext.data.Store',{proxy: {
+                    type: 'rest',
+                    autoLoad:true,
+                    pageSize:0,
+                    url: CONFIG.restRoot + '/camel/rest/dicts/types/list'
+                }}),
+                displayField: 'name',
+                valueField: 'name',
+                minChars: 2,
+                typeAhead:true,
                 allowBlank: false,
                 bind: {
                     value: '{rec.type}'
                 }
             },
             {
-                xtype : 'numberfield',
-                fieldLabel: '排序',
+                fieldLabel: '标签名',
                 allowBlank: false,
                 bind: {
-                    value: '{rec.sort}'
+                    value: '{rec.label}'
                 }
             },
             {
@@ -54,6 +50,7 @@ Ext.define('kalix.dict.view.DictWindow', {
                     activeError: '{validation.content}',
                     value: '{rec.description}'
                 }
-            }]
+            }
+        ]
     }]
 });
