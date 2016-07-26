@@ -564,6 +564,11 @@
                 <artifactId>framework-core-security</artifactId>
                 <version>${globle.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>${ant.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -580,14 +585,5 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>com.kalix.framework.core</groupId>-->
-            <!--<artifactId>framework-core-util</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.kalix.framework.core</groupId>-->
-            <!--<artifactId>framework-core-api</artifactId>-->
-        <!--</dependency>-->
     </dependencies>
 </project>
