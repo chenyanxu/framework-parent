@@ -6,12 +6,9 @@ import java.io.Serializable;
  * Created by Administrator on 2016/7/20.
  */
 public class TemplateBean implements Serializable {
-    private String inputDir;
-    private String outputDir;
     private String moduleDescription;
     private String parentArtifactId;
     private String parentGroupId;
-    private String parentVersion;
     private String artifactIdPrefix;
     private String namePrefix;
     private String projectName;
@@ -19,25 +16,8 @@ public class TemplateBean implements Serializable {
     private String pomName;
     private String beanName;
     private String tableName;
-    private String beanDir;
     private String extjsPrefix;
     private String contextPath;
-
-    public String getInputDir() {
-        return inputDir;
-    }
-
-    public void setInputDir(String inputDir) {
-        this.inputDir = inputDir;
-    }
-
-    public String getOutputDir() {
-        return outputDir;
-    }
-
-    public void setOutputDir(String outputDir) {
-        this.outputDir = outputDir;
-    }
 
     public String getModuleDescription() {
         return moduleDescription;
@@ -61,14 +41,6 @@ public class TemplateBean implements Serializable {
 
     public void setParentGroupId(String parentGroupId) {
         this.parentGroupId = parentGroupId;
-    }
-
-    public String getParentVersion() {
-        return parentVersion;
-    }
-
-    public void setParentVersion(String parentVersion) {
-        this.parentVersion = parentVersion;
     }
 
     public String getArtifactIdPrefix() {
@@ -125,14 +97,6 @@ public class TemplateBean implements Serializable {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
-    }
-
-    public String getBeanDir() {
-        return beanDir;
-    }
-
-    public void setBeanDir(String beanDir) {
-        this.beanDir = beanDir;
     }
 
     public String getExtjsPrefix() {
