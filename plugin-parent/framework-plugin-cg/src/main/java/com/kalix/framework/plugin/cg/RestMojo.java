@@ -24,9 +24,9 @@ public class RestMojo extends AbstractBaseKalixMojo {
             docBuilder.addSourceTree(new File(r));
         }
         // first, find input directory and files it contains
-        if (!inputDir.exists()) {
-            throw new MojoExecutionException("Input directory '" + inputDir.getAbsolutePath() + "' does not exist");
-        }
+        //if (!inputDir.exists()) {
+            //throw new MojoExecutionException("Input directory '" + inputDir.getAbsolutePath() + "' does not exist");
+        //}
 
         //create rest code generate
         IGenerate restGenerate = new RestGenerateImpl(attributes, inputDir, outputDir);

@@ -86,7 +86,6 @@ public class ExtjsGenerateImpl extends AbstractGenernateImpl {
         for (JavaField field : fields) {
             fieldName = field.getName();
             fieldType = field.getType().getValue();
-
             resultBuffer.append("\t{\r\n");
             resultBuffer.append("\tname: '" + fieldName + "',\r\n");
             if (fieldType.equals("String")) {
@@ -216,7 +215,6 @@ public class ExtjsGenerateImpl extends AbstractGenernateImpl {
                 resultBuffer.append("\t\tname: '" + fieldName + "'\r\n");
                 resultBuffer.append("\t},\r\n");
             }
-
         }
 
         resultBuffer.delete(resultBuffer.length() - 3, resultBuffer.length());

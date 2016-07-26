@@ -27,9 +27,9 @@ public class KalixMojo extends AbstractBaseKalixMojo {
             docBuilder.addSourceTree(new File(r));
         }
         // first, find input directory and files it contains
-        if (!inputDir.exists()) {
-            throw new MojoExecutionException("Input directory '" + inputDir.getAbsolutePath() + "' does not exist");
-        }
+        //if (!inputDir.exists()) {
+            //throw new MojoExecutionException("Input directory '" + inputDir.getAbsolutePath() + "' does not exist");
+        //}
         //创建parent pom file
         createParentPom(attributes, inputDir, outputDir);
         //create api code generate

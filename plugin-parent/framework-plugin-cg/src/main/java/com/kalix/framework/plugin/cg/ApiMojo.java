@@ -24,9 +24,9 @@ public class ApiMojo extends AbstractBaseKalixMojo {
             docBuilder.addSourceTree(new File(r));
         }
         // first, find input directory and files it contains
-        if (!inputDir.exists()) {
-            throw new MojoExecutionException("Input directory '" + inputDir.getAbsolutePath() + "' does not exist");
-        }
+        //if (!inputDir.exists()) {
+            //throw new MojoExecutionException("Input directory '" + inputDir.getAbsolutePath() + "' does not exist");
+        //}
         //create api code generate
         IGenerate apiGenerate = new ApiGenerateImpl(attributes, inputDir, outputDir);
         apiGenerate.genJavaSource();

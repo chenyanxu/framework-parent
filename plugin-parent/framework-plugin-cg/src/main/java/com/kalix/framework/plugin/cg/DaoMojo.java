@@ -24,9 +24,9 @@ public class DaoMojo extends AbstractBaseKalixMojo {
             docBuilder.addSourceTree(new File(r));
         }
         // first, find input directory and files it contains
-        if (!inputDir.exists()) {
-            throw new MojoExecutionException("Input directory '" + inputDir.getAbsolutePath() + "' does not exist");
-        }
+        //if (!inputDir.exists()) {
+            //throw new MojoExecutionException("Input directory '" + inputDir.getAbsolutePath() + "' does not exist");
+        //}
 
         //create dao code generate
         IGenerate daoGenerate = new DaoGenerateImpl(attributes, inputDir, outputDir);

@@ -52,25 +52,24 @@ public abstract class AbstractGenernateImpl implements IGenerate {
     protected String extjsPrefix;
 
     public AbstractGenernateImpl(Map<String, String> attributes, File inputDir, File outputDir, String moduleName) {
+        System.out.println("111111111100000000000000000000000000000000000");
         this.attributes = attributes;
         this.inputDir = inputDir;
         karafPath = attributes.get("karafPath");
         Assert.notNull(karafPath);
 
-        String tmpPath = karafPath + "/data/tmp/cgt";
-        File tmpFile = new File(tmpPath);
-        String zipFile = this.getClass().getResource("").getPath().split("!")[0];
-        zipFile = zipFile.substring(zipFile.indexOf("/") + 1, zipFile.length());
-        if(!tmpFile.exists()){
-            try {
-                tmpFile.mkdirs();
-                ZipUtil zipUtil = new ZipUtil();
-                zipUtil.unzip(zipFile,tmpPath);
-            }catch (Exception e){
-            }
-        }
-
-        this.inputDir = new File(tmpPath + "/templates");
+//        String tmpPath = karafPath + "/data/tmp/cgt";
+//        File tmpFile = new File(tmpPath);
+//        String zipFile = this.getClass().getResource("").getPath().split("!")[0];
+//        zipFile = zipFile.substring(zipFile.indexOf("/") + 1, zipFile.length());
+//        if(!tmpFile.exists()){
+//            try {
+//                tmpFile.mkdirs();
+//                ZipUtil zipUtil = new ZipUtil();
+//                zipUtil.unzip(zipFile,tmpPath);
+//            }catch (Exception e){
+//            }
+//        }
 
         moduleDescription = attributes.get("moduleDescription");
         Assert.notNull(moduleDescription);
@@ -94,12 +93,19 @@ public abstract class AbstractGenernateImpl implements IGenerate {
         Assert.notNull(beanName);
         tableName = attributes.get("tableName");
         Assert.notNull(tableName);
+        //特殊化：
         beanDir = attributes.get("beanDir");
+        this.beanDir = "src/main/java";
         Assert.notNull(beanDir);
+
         extjsPrefix = attributes.get("extjsPrefix");
         Assert.notNull(extjsPrefix);
 
+        System.out.println("00000000000000000000000000000000000");
+        this.inputDir = new File(karafPath + "/data/tmp/cgt/templates");
+        this.outputDir = new File(karafPath + "/data/tmp/cgt/"+beanName+"/generate");
 
+        System.out.println(outputDir.getAbsolutePath() + "\\" + artifactIdPrefix + "-" + moduleName);
         File target = new File(outputDir.getAbsolutePath() + "\\" + artifactIdPrefix + "-" + moduleName);
         if (!target.exists())
             target.mkdirs();
@@ -115,12 +121,13 @@ public abstract class AbstractGenernateImpl implements IGenerate {
         // looks like maven may change empty String to null?
         Assert.notNull(moduleName);
         findFiles(apiFiles, new File(inputDir.getAbsolutePath() + "//" + moduleName), outputDir);
+
         for (Map.Entry<File, File> fileEntry : apiFiles.entrySet()) {
             File inputFile = fileEntry.getKey();
             File outputFile = fileEntry.getValue();
             String input = Util.readFile(inputFile, encoding);
             ST stringTemplate;
-            if(outputFile.getName().contains("ViewModel.js")){
+            if (outputFile.getName().contains("ViewModel.js")) {
                 //重新修改框架后，不需要生成ViewModel了
                 continue;
             }
@@ -140,11 +147,9 @@ public abstract class AbstractGenernateImpl implements IGenerate {
         }
     }
 
-
-
     //递归确定模板文件以及对应的目标目录文件
     private void findFiles(Map<File, File> result, File inputDir,
-                             File outputDir) {
+                           File outputDir) {
         CharSequence javaChar = "java";
         CharSequence resourceChar = "xml";
         CharSequence jsChar = "js";
@@ -183,7 +188,6 @@ public abstract class AbstractGenernateImpl implements IGenerate {
                     }
                     result.put(f, new File(outputDir, name));
                 }
-
             }
         }
     }
@@ -201,12 +205,15 @@ public abstract class AbstractGenernateImpl implements IGenerate {
         List<com.thoughtworks.qdox.model.JavaField> fields = null;
         JavaProjectBuilder builder = new JavaProjectBuilder();
         try {
-            builder.addSource(new FileReader(beanDir + "\\"+ packageName.replaceAll("\\.", "/") + "/" + beanName + "Bean.java"));
-            JavaClass cls = builder.getClassByName(packageName + "." + beanName + "Bean");
+            System.out.println(packageName);
+            //+ beanDir + "\\"+ packageName.replaceAll("\\.", "/") + "/"
+            builder.addSource(new FileReader(karafPath + "\\data\\tmp\\cgt\\" + beanName + "Bean\\" + beanName + "Bean.java"));
+            JavaClass cls = builder.getClassByName(packageName + ".entities." + beanName + "Bean");
+
             fields = cls.getFields();//获取所有字段
+            System.out.println("##############################====="+fields.size());
         } catch (FileNotFoundException e) {
-            throw new MojoExecutionException("Problem when trying to process beanName'"
-                    + "': " + e.getMessage(), e);
+            throw new MojoExecutionException("Problem when trying to process beanName'" + "': " + e.getMessage(), e);
         }
         return fields;
     }
