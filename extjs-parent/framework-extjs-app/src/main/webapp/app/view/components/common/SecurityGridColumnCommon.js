@@ -36,16 +36,21 @@ Ext.define('kalix.view.components.common.SecurityGridColumnCommon', {
             var respButtons = resp.buttons;
 
             _.forEach(scope.items, function (item) {
-              var findObj = _.find(respButtons, function (button) {
-                return button.permission == item.permission;
-              });
 
-              if (findObj.status) {
-                item.hasPermission = true;
+              if (item.permission == '') {
               }
               else {
-                item.getClass = scope.hideColumnFun;
-                item.hasPermission = false;
+                var findObj = _.find(respButtons, function (button) {
+                  return button.permission == item.permission;
+                });
+
+                if (findObj.status) {
+                  item.hasPermission = true;
+                }
+                else {
+                  item.getClass = scope.hideColumnFun;
+                  item.hasPermission = false;
+                }
               }
             });
           },
