@@ -19,8 +19,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.kalix.admin.core</groupId>
-            <artifactId>admin-core-api</artifactId>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kalix.middleware.couchdb</groupId>
+            <artifactId>middleware-couchdb-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
