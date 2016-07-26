@@ -159,10 +159,11 @@ public interface IGenericDao<T, PK extends Serializable> extends IService {
      */
     JsonData getAll(int page, int limit, CriteriaQuery criteriaQuery);
 
-    public JsonData getAll(CriteriaQuery criteriaQuery);
+    JsonData getAll(CriteriaQuery criteriaQuery);
 
     CriteriaQuery buildCriteriaQuery(QueryDTO queryDTO);
 
+    Integer getFieldMaxValue(String fieldName,String where);
     /**
      * 返回JPA 实体管理器
      * @return

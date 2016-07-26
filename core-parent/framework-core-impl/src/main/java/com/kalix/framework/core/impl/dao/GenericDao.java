@@ -488,7 +488,6 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
      */
 //    @Transactional(Transactional.TxType.SUPPORTS)
     protected Query createQuery(String queryString, Object... parameter) {
-
         Query queryObject = entityManager.createQuery(queryString);
         if (parameter != null) {
             for (int i = 0; i < parameter.length; i++) {
@@ -523,4 +522,24 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         return entityManager.createNativeQuery(sql).executeUpdate();
     }
 
+    @Override
+    public Integer getFieldMaxValue(String fieldName,String where){
+        Query query=null;
+
+        if(where==null || where.equals("")){
+            query= createQuery("SELECT MAX(t."+fieldName+") from DictBean t");
+        }
+        else{
+            query= createQuery("SELECT MAX(t."+fieldName+") from DictBean t WHERE t."+where);
+        }
+
+        Object result  = query.getResultList().get(0);
+
+        if(result==null){
+            return 0;
+        }
+        else{
+            return Integer.valueOf(result.toString());
+        }
+    }
 }

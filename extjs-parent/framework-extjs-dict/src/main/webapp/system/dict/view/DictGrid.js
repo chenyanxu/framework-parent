@@ -29,10 +29,10 @@ Ext.define('kalix.dict.view.DictGrid', {
                 renderer: this.update
             },
             {text: '编号', dataIndex: 'id', hidden: true},
-            {text: '标签名', dataIndex: 'label'},
-            {text: '数据值', dataIndex: 'value'},
             {text: '类型', dataIndex: 'type'},
-            {text: '排序', dataIndex: 'sort'},
+            {text: '标签名', dataIndex: 'label'},
+            //{text: '数据值', dataIndex: 'value'},
+            //{text: '排序', dataIndex: 'sort'},
             {text: '创建人', dataIndex: 'createBy', flex: 1},
             {
                 text: '创建日期', dataIndex: 'creationDate', flex: 1
