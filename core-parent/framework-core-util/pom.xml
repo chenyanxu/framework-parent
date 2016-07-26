@@ -40,6 +40,10 @@
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer-osgi</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
