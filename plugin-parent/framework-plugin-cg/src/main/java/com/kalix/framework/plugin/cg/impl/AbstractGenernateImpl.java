@@ -101,7 +101,6 @@ public abstract class AbstractGenernateImpl implements IGenerate {
         extjsPrefix = attributes.get("extjsPrefix");
         Assert.notNull(extjsPrefix);
 
-        System.out.println("00000000000000000000000000000000000");
         this.inputDir = new File(karafPath + "/data/tmp/cgt/templates");
         this.outputDir = new File(karafPath + "/data/tmp/cgt/"+beanName+"/generate");
 
@@ -206,12 +205,10 @@ public abstract class AbstractGenernateImpl implements IGenerate {
         JavaProjectBuilder builder = new JavaProjectBuilder();
         try {
             System.out.println(packageName);
-            //+ beanDir + "\\"+ packageName.replaceAll("\\.", "/") + "/"
             builder.addSource(new FileReader(karafPath + "\\data\\tmp\\cgt\\" + beanName + "Bean\\" + beanName + "Bean.java"));
             JavaClass cls = builder.getClassByName(packageName + ".entities." + beanName + "Bean");
 
             fields = cls.getFields();//获取所有字段
-            System.out.println("##############################====="+fields.size());
         } catch (FileNotFoundException e) {
             throw new MojoExecutionException("Problem when trying to process beanName'" + "': " + e.getMessage(), e);
         }

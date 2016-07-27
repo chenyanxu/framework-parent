@@ -16,6 +16,7 @@
                 layout: 'border',
                 items: [
                     {
+                        style:{'align':'center','vertical-align':'middle'},
                         region: 'center',
                         xtype: 'form',
                         title: '代码生成',
@@ -29,14 +30,14 @@
                                 fieldLabel: 'java实体Bean文件目录',
                                 xtype: 'filefield',
                                 name: 'beanName',
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 msgTarget: 'side',
                                 allowBlank: false,
-                                anchor: '21%',
+                                anchor: '30%',
                                 buttonText: '浏览...'
                             },
                             {
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 fieldLabel: '新建工程的中文描述信息',
                                 name: 'moduleDescription',
                                 allowBlank: false,
@@ -44,7 +45,7 @@
                                 value: '学生管理'
                             },
                             {
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 fieldLabel: '新建工程的父工程的artifactId',
                                 name: 'parentArtifactId',
                                 allowBlank: false,
@@ -52,7 +53,7 @@
                                 value: 'system-parent'
                             },
                             {
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 fieldLabel: '新建工程的父工程的groupId',
                                 name: 'parentGroupId',
                                 allowBlank: false,
@@ -60,7 +61,7 @@
                                 value: 'com.kalix.oa.system'
                             },
                             {
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 fieldLabel: '新建工程的artifactId前缀',
                                 name: 'artifactIdPrefix',
                                 allowBlank: false,
@@ -68,7 +69,7 @@
                                 value: 'oa-system-student'
                             },
                             {
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 fieldLabel: '新建工程的名称前缀',
                                 name: 'namePrefix',
                                 allowBlank: false,
@@ -76,7 +77,7 @@
                                 value: 'Kalix OA System Student'
                             },
                             {
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 fieldLabel: '新建工程的项目名称',
                                 name: 'projectName',
                                 allowBlank: false,
@@ -84,7 +85,7 @@
                                 value: 'Student'
                             },
                             {
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 fieldLabel: '新建工程的包结构',
                                 name: 'packageName',
                                 allowBlank: false,
@@ -92,7 +93,7 @@
                                 value: 'com.kalix.oa.system.student'
                             },
                             {
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 fieldLabel: '新建工程的pom名称',
                                 name: 'pomName',
                                 allowBlank: false,
@@ -100,7 +101,7 @@
                                 value: 'student'
                             },
                             {
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 fieldLabel: '新建工程的实体Bean对应的后台表名称',
                                 name: 'tableName',
                                 allowBlank: false,
@@ -108,7 +109,7 @@
                                 value: 'sys_student'
                             },
                             {
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 fieldLabel: '新建工程的extjs前缀',
                                 name: 'extjsPrefix',
                                 allowBlank: false,
@@ -116,7 +117,7 @@
                                 value: 'kalix.system.student'
                             },
                             {
-                                labelWidth: 200,
+                                labelWidth: 300,
                                 fieldLabel: '新建工程的contextPath',
                                 name: 'contextPath',
                                 allowBlank: false,
@@ -128,20 +129,28 @@
                             {
                                 text: "代码生成",
                                 handler: function () {
+                                    var scope=this.findParentByType('form');
+
                                     this.findParentByType('form').submit({
                                         url: '/cg/camel/rest/upload',
                                         waitMsg: '正在生成代码...',
+                                        scope:scope,
                                         success: function (fp, o) {
                                             if (o.result.success) {
-                                                Ext.Msg.alert("1", o.result.sourcePath);
+                                                this.dockedItems.getAt(1).items.getAt(1).enable();
+                                                this.dockedItems.getAt(1).items.getAt(1).ariaEl.dom.href=o.result.sourcePath;
                                             }
                                         },
                                         failure: function(fp, o) {
-                                            Ext.Msg.alert('2', o.result.msg);
-                                            Ext.Msg.alert('2', o.result.sourcePath);
+                                            Ext.Msg.alert('错误', o.result.msg);
                                         }
                                     });
                                 }
+                            },
+                            {
+                                text: "代码下载",
+                                disabled : true,
+                                href: 'http://www.baidu.com'
                             }
                         ]
                     }

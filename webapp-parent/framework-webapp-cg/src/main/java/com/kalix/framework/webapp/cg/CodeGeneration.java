@@ -118,7 +118,7 @@ public class CodeGeneration implements Processor {
             w.write(pomXml);
             w.close();
 
-            //执行插件
+            //执行插件,生成代码
             Runtime runtime = Runtime.getRuntime();
             String strCmd = "cmd.exe /c " + mavenPath + "/bin/mvn -f "+ beanPath + beanName + " frameworkcg:create-all";
             Process p = runtime.exec(strCmd);
@@ -127,29 +127,25 @@ public class CodeGeneration implements Processor {
                 p.destroy();
                 p = null;
             }
-            //执行压缩
-            //ZipUtil.zip(beanPath + beanName + "/target/generate/" + beanName + ".zip",new File(beanPath + beanName + "/target/generate"));
-            //Thread.sleep(5000);
 
-            ZipCompressorByAnt zipCompressorByAnt = new ZipCompressorByAnt(beanPath + beanName + "/target/generate/" + beanName + ".zip");
+            //执行压缩
+            ZipCompressorByAnt zipCompressorByAnt = new ZipCompressorByAnt(beanPath + beanName + "/target/" + beanName + ".zip");
             zipCompressorByAnt.compressExe(beanPath + beanName + "/target/generate/");
 
             //把zip放到Couchdb中
-//            File zipFile = new File(beanPath + beanName + "/target/generate/" + beanName + ".zip");
-//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//            OutputStream out = new Base64OutputStream(stream);
-//            IOUtils.copy( new FileInputStream(zipFile), out);
-//            String base64Str = stream.toString();
-//            fileItem.getInputStream().close();
-//            out.close();
-//
-//            Response response = couchdbService.addAttachment(base64Str, beanName+".zip", "application/octet-stream");
-//            String sourcePath = couchdbService.getDBUrl() + response.getId() + "/" + beanName+".zip";
-//
-//            System.out.println(sourcePath);
+            File zipFile = new File(beanPath + beanName + "/target/" + beanName + ".zip");
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            OutputStream out = new Base64OutputStream(stream);
+            IOUtils.copy( new FileInputStream(zipFile), out);
+            String base64Str = stream.toString();
+            fileItem.getInputStream().close();
+            out.close();
+
+            Response response = couchdbService.addAttachment(base64Str, beanName+".zip", "application/octet-stream");
+            String sourcePath = couchdbService.getDBUrl() + response.getId() + "/" + beanName+".zip";
 
             this.rtnMap.put("success", true);
-            this.rtnMap.put("sourcePath", "3333");
+            this.rtnMap.put("sourcePath", sourcePath);
             this.rtnMap.put("msg", "代码生成成功！");
         } catch (Exception e) {
             e.printStackTrace();
