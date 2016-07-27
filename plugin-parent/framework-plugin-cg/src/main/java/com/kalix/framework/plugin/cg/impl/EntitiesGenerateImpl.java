@@ -52,7 +52,6 @@ public class EntitiesGenerateImpl extends AbstractGenernateImpl {
             fieldType = field.getType();
             fieldTag = field.getTagByName("describe"); // @describe
 
-
             if(fieldTag != null) {
                 resultBuffer.append("\t/**\r\n\t*@describe " + fieldTag.getValue() + "\r\n\t*/\r\n");
             }
