@@ -25,7 +25,7 @@ Ext.define('kalix.dict.view.DictWindow', {
                     type: 'rest',
                     autoLoad:true,
                     pageSize:0,
-                    url: CONFIG.restRoot + '/camel/rest/dicts/types/list'
+                    url: CONFIG.restRoot + '/camel/rest/admin/dicts/types/list'
                 }}),
                 displayField: 'name',
                 valueField: 'name',
@@ -33,7 +33,8 @@ Ext.define('kalix.dict.view.DictWindow', {
                 typeAhead:true,
                 allowBlank: false,
                 bind: {
-                    value: '{rec.type}'
+                    value: '{rec.type}',
+                    readOnly:'{!add_operation}'
                 }
             },
             {

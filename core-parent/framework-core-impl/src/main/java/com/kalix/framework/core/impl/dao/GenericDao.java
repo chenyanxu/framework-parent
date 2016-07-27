@@ -536,7 +536,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         Object result  = query.getResultList().get(0);
 
         if(result==null){
-            return 0;
+            return -1;
         }
         else{
             return Integer.valueOf(result.toString());

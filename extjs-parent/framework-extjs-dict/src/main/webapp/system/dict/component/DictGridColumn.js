@@ -7,42 +7,51 @@ Ext.define('kalix.dict.component.DictGridColumn', {
     alias: 'widget.dictGridColumn',
     xtype: 'dictGridColumn',
     colorConfig: null,
+    storeClass:'',
     listeners: {
         beforerender: function () {
-            var store = Ext.app.Application.instance.getApplication().getStore('dictNoPageStore');
+            Ext.require(this.storeClass ,function(){
+                var storeName=this.storeClass.split('.').reverse()[0];
+                var storeId=storeName.substr(0,1).toLowerCase()+storeName.substr(1,storeName.length-1);
+                var store=Ext.app.Application.instance.getApplication().getStore(storeId);
 
-            store.filter('type', this.dictType);
+                store.on('load',function(){
+                    var store=arguments[0];
 
-            var data = store.getData().clone().items;
+                    store.filter('type', this.dictType);
 
-            if (data.length > 0) {
-                var tplStr = '';
+                    var data = store.getData().clone().items;
 
-                for (var idx = 0; idx < data.length; ++idx) {
-                    var tempValue = data[idx].data.value;
-                    var tempLabel = data[idx].data.label;
+                    if (data.length > 0) {
+                        var tplStr = '';
 
-                    if (this.colorConfig) {
-                        if (this.colorConfig[tempLabel]) {
-                            tplStr += '<tpl if="' + this.dataIndex + '==' + tempValue + '"><span style="color:' + this.colorConfig[tempLabel] + '">' + tempLabel + '</span></tpl>';
+                        for (var idx = 0; idx < data.length; ++idx) {
+                            var tempValue = data[idx].data.value;
+                            var tempLabel = data[idx].data.label;
+
+                            if (this.colorConfig) {
+                                if (this.colorConfig[tempLabel]) {
+                                    tplStr += '<tpl if="' + this.dataIndex + '==' + tempValue + '"><span style="color:' + this.colorConfig[tempLabel] + '">' + tempLabel + '</span></tpl>';
+                                }
+                                else {
+                                    tplStr += '<tpl if="' + this.dataIndex + '==' + tempValue + '"><span style="color:' + this.colorConfig['default'] + '">' + tempLabel + '</span></tpl>';
+                                }
+                            }
+                            else {
+                                tplStr += '<tpl if="' + this.dataIndex + '==' + tempValue + '">' + tempLabel + '</tpl>';
+                            }
                         }
-                        else {
-                            tplStr += '<tpl if="' + this.dataIndex + '==' + tempValue + '"><span style="color:' + this.colorConfig['default'] + '">' + tempLabel + '</span></tpl>';
-                        }
+
+                        var tpl = new Ext.XTemplate(tplStr);
+                        this.tpl = tpl;
                     }
                     else {
-                        tplStr += '<tpl if="' + this.dataIndex + '==' + tempValue + '">' + tempLabel + '</tpl>';
+                        this.tpl = "<tpl>{" + this.dataIndex + "}</tpl>"
                     }
-                }
 
-                var tpl = new Ext.XTemplate(tplStr);
-                this.tpl = tpl;
-            }
-            else {
-                this.tpl = "<tpl>{" + this.dataIndex + "}</tpl>"
-            }
-
-            return true;
+                    this.findParentByType('grid').getStore().load();
+                },this);
+            },this);
         }
     }
 });

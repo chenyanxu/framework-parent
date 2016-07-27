@@ -15,27 +15,15 @@ Ext.define('kalix.dict.view.DictViewWindow', {
         xtype: 'baseForm',
         items: [
             {
-                fieldLabel: '标签名',
-                bind: {
-                    value: '{rec.label}'
-                }
-            },
-            {
-                fieldLabel: '数据值',
-                bind: {
-                    value: '{rec.value}'
-                }
-            }, {
                 fieldLabel: '类型',
                 bind: {
                     value: '{rec.type}'
                 }
             },
             {
-                xtype : 'numberfield',
-                fieldLabel: '排序',
+                fieldLabel: '标签名',
                 bind: {
-                    value: '{rec.sort}'
+                    value: '{rec.label}'
                 }
             },
             {
