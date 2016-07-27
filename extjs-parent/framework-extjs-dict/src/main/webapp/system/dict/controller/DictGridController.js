@@ -7,5 +7,13 @@
  */
 Ext.define('kalix.dict.controller.DictGridController', {
     extend: 'kalix.controller.BaseGridController',
-    alias: 'controller.dictGridController'
+    alias: 'controller.dictGridController',
+    viewModelExtraInit:function(vm){
+       if(0==vm.get('rec').id){
+           vm.set('add_operation',true);
+       }
+       else {
+           vm.set('add_operation',false);
+       }
+    }
 });
