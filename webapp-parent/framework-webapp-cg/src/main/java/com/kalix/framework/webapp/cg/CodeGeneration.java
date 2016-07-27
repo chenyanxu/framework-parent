@@ -134,12 +134,20 @@ public class CodeGeneration implements Processor {
 
             //把zip放到Couchdb中
             File zipFile = new File(beanPath + beanName + "/target/" + beanName + ".zip");
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            OutputStream out = new Base64OutputStream(stream);
-            IOUtils.copy( new FileInputStream(zipFile), out);
-            String base64Str = stream.toString();
-            fileItem.getInputStream().close();
-            out.close();
+            InputStream fis = new FileInputStream(zipFile);
+            int zipLen = fis.available();
+            byte[] buffer = new byte[zipLen];
+            int actlen = fis.read(buffer);
+            fis.close();
+
+            String base64Str = new String(Base64.encode(buffer));
+
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            OutputStream out = new Base64OutputStream(stream);
+//            IOUtils.copy( new FileInputStream(zipFile), out);
+//            String base64Str = stream.toString();
+//            fileItem.getInputStream().close();
+//            out.close();
 
             Response response = couchdbService.addAttachment(base64Str, beanName+".zip", "application/octet-stream");
             String sourcePath = couchdbService.getDBUrl() + response.getId() + "/" + beanName+".zip";
