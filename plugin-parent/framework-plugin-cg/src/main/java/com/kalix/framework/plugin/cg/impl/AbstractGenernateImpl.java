@@ -52,24 +52,10 @@ public abstract class AbstractGenernateImpl implements IGenerate {
     protected String extjsPrefix;
 
     public AbstractGenernateImpl(Map<String, String> attributes, File inputDir, File outputDir, String moduleName) {
-        System.out.println("111111111100000000000000000000000000000000000");
         this.attributes = attributes;
         this.inputDir = inputDir;
         karafPath = attributes.get("karafPath");
         Assert.notNull(karafPath);
-
-//        String tmpPath = karafPath + "/data/tmp/cgt";
-//        File tmpFile = new File(tmpPath);
-//        String zipFile = this.getClass().getResource("").getPath().split("!")[0];
-//        zipFile = zipFile.substring(zipFile.indexOf("/") + 1, zipFile.length());
-//        if(!tmpFile.exists()){
-//            try {
-//                tmpFile.mkdirs();
-//                ZipUtil zipUtil = new ZipUtil();
-//                zipUtil.unzip(zipFile,tmpPath);
-//            }catch (Exception e){
-//            }
-//        }
 
         moduleDescription = attributes.get("moduleDescription");
         Assert.notNull(moduleDescription);
@@ -102,9 +88,7 @@ public abstract class AbstractGenernateImpl implements IGenerate {
         Assert.notNull(extjsPrefix);
 
         this.inputDir = new File(karafPath + "/data/tmp/cgt/templates");
-        this.outputDir = new File(karafPath + "/data/tmp/cgt/"+beanName+"/generate");
-
-        System.out.println(outputDir.getAbsolutePath() + "\\" + artifactIdPrefix + "-" + moduleName);
+        this.outputDir = new File(karafPath + "/data/tmp/cgt/"+beanName+"Bean/generate");
         File target = new File(outputDir.getAbsolutePath() + "\\" + artifactIdPrefix + "-" + moduleName);
         if (!target.exists())
             target.mkdirs();
@@ -180,7 +164,6 @@ public abstract class AbstractGenernateImpl implements IGenerate {
                         File jsFile = new File(pd, fileName);
                         result.put(f, jsFile);
                     }
-
                 } else {
                     if (!outputDir.exists()) {
                         outputDir.mkdirs();
@@ -204,10 +187,9 @@ public abstract class AbstractGenernateImpl implements IGenerate {
         List<com.thoughtworks.qdox.model.JavaField> fields = null;
         JavaProjectBuilder builder = new JavaProjectBuilder();
         try {
-            System.out.println(packageName);
             builder.addSource(new FileReader(karafPath + "\\data\\tmp\\cgt\\" + beanName + "Bean\\" + beanName + "Bean.java"));
+            builder = builder.setEncoding("utf-8");
             JavaClass cls = builder.getClassByName(packageName + ".entities." + beanName + "Bean");
-
             fields = cls.getFields();//获取所有字段
         } catch (FileNotFoundException e) {
             throw new MojoExecutionException("Problem when trying to process beanName'" + "': " + e.getMessage(), e);

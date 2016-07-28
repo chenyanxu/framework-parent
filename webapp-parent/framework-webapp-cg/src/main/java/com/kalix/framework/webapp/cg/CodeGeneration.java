@@ -1,8 +1,6 @@
 package com.kalix.framework.webapp.cg;
 
-import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.util.ZipCompressorByAnt;
-import com.kalix.framework.core.util.ZipUtil;
 import com.kalix.middleware.couchdb.api.biz.ICouchdbService;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -14,6 +12,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.io.output.ThresholdingOutputStream;
 import org.apache.shiro.codec.Base64;
 import org.lightcouch.Response;
 
@@ -24,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2016/7/20.
+ * Created by zangyanming on 2016/7/20.
  */
 public class CodeGeneration implements Processor {
     private String karafPath;
@@ -61,7 +60,7 @@ public class CodeGeneration implements Processor {
 
             FileItem fileItem = null;
 
-            String beanPath= karafPath + "/data/tmp/cgt/";
+            String beanPath = karafPath + "/data/tmp/cgt/";
             String beanName = "";
             exchange.getIn().setHeader("Content-Type", "text/html;charset=utf-8");
             for (int i = 0; i < items.size(); i++) {
@@ -75,9 +74,9 @@ public class CodeGeneration implements Processor {
                     } else {
                         String fileName = fileItem.getName();
                         String fileFieldName = fileItem.getFieldName();
-                        if(fileItem.isFormField()) {
+                        if (fileItem.isFormField()) {
                             pomXml = pomXml.replaceAll(fileFieldName + "_ST", fileItem.getString("utf-8"));
-                        }else {
+                        } else {
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
                             OutputStream out = new Base64OutputStream(stream);
                             IOUtils.copy(fileItem.getInputStream(), out);
@@ -86,7 +85,7 @@ public class CodeGeneration implements Processor {
                             out.close();
                             if (fileName != null) {//处理java Bean
                                 beanName = fileName.substring(0, fileName.indexOf("."));
-                                File tmpFile = new File(beanPath + beanName + "/" +beanName + ".java");
+                                File tmpFile = new File(beanPath + beanName + "/" + beanName + ".java");
                                 File parent = tmpFile.getParentFile();
                                 if (parent != null && !parent.exists()) {
                                     parent.mkdirs();
@@ -105,7 +104,7 @@ public class CodeGeneration implements Processor {
                     }
                 }
             }
-            pomXml = pomXml.replaceAll("beanName_ST", beanName.substring(0,beanName.indexOf("Bean")));
+            pomXml = pomXml.replaceAll("beanName_ST", beanName.substring(0, beanName.indexOf("Bean")));
 
             //保存pom文件
             File tmpFile = new File(beanPath + beanName + "/pom.xml");
@@ -118,12 +117,38 @@ public class CodeGeneration implements Processor {
             w.write(pomXml);
             w.close();
 
+            //生成.mvn目录，创建jvm.config文件
+            Runtime runTime = Runtime.getRuntime();
+
+            String strMvn = beanPath + beanName + "/.mvn";
+            strMvn = "cmd.exe /c md " + strMvn.replaceAll("/", "\\\\");
+
+            System.out.println("strMvn=" + strMvn);
+            runTime.exec(strMvn);
+            Thread.sleep(1000);
+
+            String strConfig = (beanPath + beanName + "/.mvn/jvm.config").replaceAll("/", "\\\\");
+            System.out.println("strConfig="+strConfig);
+            File jvmFile = new File(strConfig);
+            System.out.println("aaaaa");
+            if (jvmFile.exists()) {
+                jvmFile.delete();
+            }
+            jvmFile.createNewFile();
+            System.out.println("bbbbb");
+            OutputStreamWriter jvm = new OutputStreamWriter(new FileOutputStream(jvmFile), "utf-8");
+            jvm.write(jvm_config);
+            jvm.close();
+
+            Thread.sleep(1000);
+
             //执行插件,生成代码
             Runtime runtime = Runtime.getRuntime();
-            String strCmd = "cmd.exe /c " + mavenPath + "/bin/mvn -f "+ beanPath + beanName + " frameworkcg:create-all";
-            Process p = runtime.exec(strCmd);
-            Thread.sleep(5000);
-            if(p!= null){
+            String strCmd = "cmd.exe /c " + mavenPath + "/bin/mvn -f " + beanPath + beanName + " frameworkcg:create-all";
+            System.out.println("strCmd="+strCmd);
+            Process p = runtime.exec(strCmd,null,new File(beanPath + beanName));
+            Thread.sleep(4000);
+            if (p != null) {
                 p.destroy();
                 p = null;
             }
@@ -141,16 +166,8 @@ public class CodeGeneration implements Processor {
             fis.close();
 
             String base64Str = new String(Base64.encode(buffer));
-
-//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//            OutputStream out = new Base64OutputStream(stream);
-//            IOUtils.copy( new FileInputStream(zipFile), out);
-//            String base64Str = stream.toString();
-//            fileItem.getInputStream().close();
-//            out.close();
-
-            Response response = couchdbService.addAttachment(base64Str, beanName+".zip", "application/octet-stream");
-            String sourcePath = couchdbService.getDBUrl() + response.getId() + "/" + beanName+".zip";
+            Response response = couchdbService.addAttachment(base64Str, beanName + ".zip", "application/octet-stream");
+            String sourcePath = couchdbService.getDBUrl() + response.getId() + "/" + beanName + ".zip";
 
             this.rtnMap.put("success", true);
             this.rtnMap.put("sourcePath", sourcePath);
@@ -164,56 +181,7 @@ public class CodeGeneration implements Processor {
         exchange.getIn().setBody(rtnMap);
     }
 
-    public JsonStatus addTemplate(TemplateBean bean) {
-        pomXml = pomXml.replaceAll("moduleDescription_ST", bean.getModuleDescription());
-        pomXml = pomXml.replaceAll("parentArtifactId_ST", bean.getParentArtifactId());
-        pomXml = pomXml.replaceAll("parentGroupId_ST", bean.getParentGroupId());
-        pomXml = pomXml.replaceAll("artifactIdPrefix_ST", bean.getArtifactIdPrefix());
-        pomXml = pomXml.replaceAll("namePrefix_ST", bean.getNamePrefix());
-        pomXml = pomXml.replaceAll("projectName_ST", bean.getProjectName());
-        pomXml = pomXml.replaceAll("packageName_ST", bean.getPackageName());
-        pomXml = pomXml.replaceAll("pomName_ST", bean.getPomName());
-        pomXml = pomXml.replaceAll("beanName_ST", bean.getBeanName());
-        pomXml = pomXml.replaceAll("tableName_ST", bean.getTableName());
-        pomXml = pomXml.replaceAll("extjsPrefix_ST", bean.getExtjsPrefix());
-        pomXml = pomXml.replaceAll("contextPath_ST", bean.getContextPath());
-
-        File tmpFile = new File(karafPath + "/data/tmp/cgt/" + bean.getBeanName() + "/pom.xml");
-        File parent = tmpFile.getParentFile();
-        if (parent != null && !parent.exists()) {
-            parent.mkdirs();
-        }
-
-        try {
-            if (tmpFile.exists()) {
-                tmpFile.delete();
-            }
-            tmpFile.createNewFile();
-            //保存pom.xml文件
-            OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(tmpFile), "utf-8");
-            w.write(pomXml);
-            w.close();
-
-            //保存Bean文件
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            runtime.exec(mavenPath + "\\bin\\mvn -f " + " frameworkcg:create-all");
-        } catch (Exception e) {
-            System.out.println("Error!");
-        }
-
-        return JsonStatus.successResult("test for cg");
-    }
-
-    public TemplateBean getTemplate() {
-        return new TemplateBean();
-    }
-
-
+    private String jvm_config = "-Dfile.encoding=UTF-8";
     private String pomXml =
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                     "<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n" +
@@ -254,7 +222,7 @@ public class CodeGeneration implements Processor {
                     "            <groupId>com.kalix.framework.core</groupId>\n" +
                     "            <artifactId>framework-core-api</artifactId>\n" +
                     "        </dependency>\n" +
-                    "    </dependencies>"+
+                    "    </dependencies>" +
                     "\n" +
                     "    <build>\n" +
                     "        <plugins>\n" +

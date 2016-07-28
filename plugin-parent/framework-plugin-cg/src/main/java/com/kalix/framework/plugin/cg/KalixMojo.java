@@ -30,8 +30,7 @@ public class KalixMojo extends AbstractBaseKalixMojo {
         //if (!inputDir.exists()) {
             //throw new MojoExecutionException("Input directory '" + inputDir.getAbsolutePath() + "' does not exist");
         //}
-        //创建parent pom file
-        createParentPom(attributes, inputDir, outputDir);
+
         //create api code generate
         IGenerate apiGenerate = new ApiGenerateImpl(attributes, inputDir, outputDir);
         apiGenerate.genJavaSource();
@@ -53,6 +52,17 @@ public class KalixMojo extends AbstractBaseKalixMojo {
         //create extjs code generate
         IGenerate extjsGenerate = new ExtjsGenerateImpl(attributes, inputDir, outputDir);
         extjsGenerate.genJavaSource();
+        //创建parent pom file
+        String karafPath = attributes.get("karafPath");
+        String beanName = attributes.get("beanName");
+        String artifactIdPrefix = attributes.get("artifactIdPrefix");
+        this.inputDir = new File(karafPath + "/data/tmp/cgt/templates");
+        this.outputDir = new File(karafPath + "/data/tmp/cgt/"+beanName+"Bean/target/generate");
+        File target = new File(outputDir.getAbsolutePath());
+        if (!target.exists())
+            target.mkdirs();
+        this.outputDir = target;
+        createParentPom(attributes, inputDir, outputDir);
     }
 
     private void createParentPom(Map<String, String> attributes, File inputDir, File outputDir) {

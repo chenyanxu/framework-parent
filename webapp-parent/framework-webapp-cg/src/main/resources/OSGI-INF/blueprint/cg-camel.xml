@@ -17,7 +17,7 @@
             <componentProperty key="servletName" value="CamelServletCG"/>
             <dataFormatProperty key="prettyPrint" value="true"/>
         </restConfiguration>
-        <!-- 提供附件上传服务-->
+        <!-- 提供生成代码、zip包上传到couchdb的服务-->
         <route id="upload-bean-route" streamCache="true">
             <from uri="servlet:///upload?httpMethodRestrict=POST"/>
             <process ref="cgService"/>
@@ -25,23 +25,5 @@
                 <json library="Jackson"/>
             </marshal>
         </route>
-
-        <!-- defines the rest services using the context-path /cg -->
-        <!--<rest path="/" consumes="application/json;charset=utf-8" produces="application/json;charset=utf-8">-->
-            <!--&lt;!&ndash;<description>code generation rest service</description>&ndash;&gt;-->
-            <!--&lt;!&ndash; this is a rest POST to create a cg &ndash;&gt;-->
-            <!--<post id="route-addCG" type="com.kalix.framework.webapp.cg.TemplateBean"-->
-                  <!--outType="com.kalix.framework.core.api.persistence.JsonStatus">-->
-                <!--<description>Create a CG</description>-->
-                <!--<to uri="bean:cgService?method=addTemplate"/>-->
-            <!--</post>-->
-        <!--</rest>-->
-        <!--<rest path="/test/{id}" consumes="application/json;charset=utf-8" produces="application/json;charset=utf-8">-->
-            <!--&lt;!&ndash; this is a rest GET to view a cg by the given id &ndash;&gt;-->
-            <!--<get id="route-getCG" outType="com.kalix.framework.webapp.cg.TemplateBean">-->
-                <!--<description>Find CG by id</description>-->
-                <!--<to uri="bean:cgService?method=getTemplate()"/>-->
-            <!--</get>-->
-        <!--</rest>-->
     </camelContext>
 </blueprint>
