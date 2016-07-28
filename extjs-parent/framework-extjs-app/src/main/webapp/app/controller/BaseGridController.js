@@ -57,6 +57,7 @@ Ext.define('kalix.controller.BaseGridController', {
         vm.set('rec', Ext.create(this.cfgModel));
         vm.set('iconCls', vm.get('addIconCls'));
         vm.set('title', vm.get('addTitle'));
+        vm.set('storeId', view.controller.storeId);
 
         this.viewModelExtraInit(vm);
 
