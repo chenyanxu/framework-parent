@@ -40,8 +40,11 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
 
     this.add(
       {
-        xtype: 'baseSearchForm',
+        xtype: 'form',
         margin: '5 5 0 5',
+        bodyPadding: 10,
+        layout: 'column',
+        defaults: {border: 0},
         iconCls:'',
         controller:'baseItemSelectorWindowController',
         items: [
@@ -53,7 +56,10 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
             labelAlign: 'left',
             labelWidth: 30,
             width: 200,
-            name: 'name'
+            name: 'name',
+            listeners:{
+              change:'onSearch'
+            }
           }
         ]
       }
