@@ -145,7 +145,8 @@ public class CodeGeneration implements Processor {
             //执行插件,生成代码
             Runtime runtime = Runtime.getRuntime();
             String strCmd = "cmd.exe /c " + mavenPath + "/bin/mvn -f " + beanPath + beanName + " frameworkcg:create-all";
-            Process p = runtime.exec(strCmd);
+            System.out.println("strCmd="+strCmd);
+            Process p = runtime.exec(strCmd,null,new File(beanPath + beanName));
             Thread.sleep(4000);
             if (p != null) {
                 p.destroy();
