@@ -527,10 +527,10 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         Query query=null;
 
         if(where==null || where.equals("")){
-            query= createQuery("SELECT MAX(t."+fieldName+") from DictBean t");
+            query= createQuery("SELECT MAX(t."+fieldName+") from "+this.persistentClass.getSimpleName()+ " t");
         }
         else{
-            query= createQuery("SELECT MAX(t."+fieldName+") from DictBean t WHERE t."+where);
+            query= createQuery("SELECT MAX(t."+fieldName+") from "+this.persistentClass.getSimpleName()+" t WHERE t."+where);
         }
 
         Object result  = query.getResultList().get(0);
