@@ -11,7 +11,9 @@ Ext.define('kalix.dict.component.DictCombobox', {
     displayField: 'label',
     listeners:{
         beforerender:function(){
-            var store = Ext.app.Application.instance.getApplication().getStore('dictNoPageStore');
+            var storeName=this.storeClass.split('.').reverse()[0];
+            var storeId=storeName.substr(0,1).toLowerCase()+storeName.substr(1,storeName.length-1);
+            var store = Ext.app.Application.instance.getApplication().getStore(storeId);
             var tempStore = Ext.create('Ext.data.Store');
 
             store.filter('type',this.dictType);

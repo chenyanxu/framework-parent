@@ -15,9 +15,10 @@ Ext.define('kalix.dict.component.DictGridColumn', {
                 var storeId=storeName.substr(0,1).toLowerCase()+storeName.substr(1,storeName.length-1);
                 var store=Ext.app.Application.instance.getApplication().getStore(storeId);
 
-                store.on('load',function(){
+                this.customeFn=function(){
                     var store=arguments[0];
 
+                    store.clearFilter();
                     store.filter('type', this.dictType);
 
                     var data = store.getData().clone().items;
@@ -50,7 +51,13 @@ Ext.define('kalix.dict.component.DictGridColumn', {
                     }
 
                     this.findParentByType('grid').getStore().load();
-                },this);
+                };
+
+                store.on('load',this.customeFn,this);
+
+                if(store.totalCount>0){
+                    this.customeFn(store);
+                }
             },this);
         }
     }

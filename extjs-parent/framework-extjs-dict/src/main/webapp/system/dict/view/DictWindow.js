@@ -25,8 +25,21 @@ Ext.define('kalix.dict.view.DictWindow', {
                     type: 'rest',
                     autoLoad:true,
                     pageSize:0,
-                    url: CONFIG.restRoot + '/camel/rest/admin/dicts/types/list'
+                    url: CONFIG.restRoot + '/camel/rest/admin/dicts/types/list',
+                    listeners:{
+                        load:function(){
+                            alert(1);
+                        }
+                    }
                 }}),
+                listeners:{
+                    beforerender:function(){
+                        var appName=this.lookupViewModel().get('storeId').split('DictStore')[0].toLowerCase();
+
+                        this.store.proxy.url=CONFIG.restRoot + '/camel/rest/'+appName+'/dicts/types/list';
+                    }
+                }
+                ,
                 displayField: 'name',
                 valueField: 'name',
                 minChars: 2,

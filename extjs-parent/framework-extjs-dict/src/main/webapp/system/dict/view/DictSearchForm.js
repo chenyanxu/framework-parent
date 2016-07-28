@@ -10,14 +10,6 @@ Ext.define('kalix.dict.view.DictSearchForm', {
     items: [
         {
             xtype: 'textfield',
-            fieldLabel: '字典名称',
-            labelAlign: 'right',
-            labelWidth: 60,
-            width: 200,
-            name: 'dictName'
-        },
-        {
-            xtype: 'textfield',
             fieldLabel: '类型',
             labelAlign: 'right',
             labelWidth: 60,
