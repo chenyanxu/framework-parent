@@ -66,8 +66,6 @@ public class KalixMojo extends AbstractBaseKalixMojo {
     }
 
     private void createParentPom(Map<String, String> attributes, File inputDir, File outputDir) {
-        System.out.println("inputDir=" + inputDir);
-        System.out.println("outputDir=" + outputDir);
         File pomFile=null;
         File targetFile=null;
         try {

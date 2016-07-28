@@ -57,19 +57,6 @@ public abstract class AbstractGenernateImpl implements IGenerate {
         karafPath = attributes.get("karafPath");
         Assert.notNull(karafPath);
 
-//        String tmpPath = karafPath + "/data/tmp/cgt";
-//        File tmpFile = new File(tmpPath);
-//        String zipFile = this.getClass().getResource("").getPath().split("!")[0];
-//        zipFile = zipFile.substring(zipFile.indexOf("/") + 1, zipFile.length());
-//        if(!tmpFile.exists()){
-//            try {
-//                tmpFile.mkdirs();
-//                ZipUtil zipUtil = new ZipUtil();
-//                zipUtil.unzip(zipFile,tmpPath);
-//            }catch (Exception e){
-//            }
-//        }
-
         moduleDescription = attributes.get("moduleDescription");
         Assert.notNull(moduleDescription);
         parentArtifactId = attributes.get("parentArtifactId");
@@ -102,7 +89,6 @@ public abstract class AbstractGenernateImpl implements IGenerate {
 
         this.inputDir = new File(karafPath + "/data/tmp/cgt/templates");
         this.outputDir = new File(karafPath + "/data/tmp/cgt/"+beanName+"Bean/generate");
-System.out.println("beanName=" + beanName);
         File target = new File(outputDir.getAbsolutePath() + "\\" + artifactIdPrefix + "-" + moduleName);
         if (!target.exists())
             target.mkdirs();
@@ -178,7 +164,6 @@ System.out.println("beanName=" + beanName);
                         File jsFile = new File(pd, fileName);
                         result.put(f, jsFile);
                     }
-
                 } else {
                     if (!outputDir.exists()) {
                         outputDir.mkdirs();
