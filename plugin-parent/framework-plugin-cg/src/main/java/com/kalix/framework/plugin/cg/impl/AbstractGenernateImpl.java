@@ -191,6 +191,8 @@ public abstract class AbstractGenernateImpl implements IGenerate {
             builder = builder.setEncoding("utf-8");
             JavaClass cls = builder.getClassByName(packageName + ".entities." + beanName + "Bean");
             fields = cls.getFields();//获取所有字段
+            System.out.println("bean=" + packageName + ".entities." + beanName + "Bean");
+            System.out.println("fields=" + fields.size());
         } catch (FileNotFoundException e) {
             throw new MojoExecutionException("Problem when trying to process beanName'" + "': " + e.getMessage(), e);
         }
