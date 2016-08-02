@@ -561,6 +561,11 @@
             </dependency>
             <dependency>
                 <groupId>com.kalix.framework.core</groupId>
+                <artifactId>framework-core-web</artifactId>
+                <version>${globle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kalix.framework.core</groupId>
                 <artifactId>framework-core-security</artifactId>
                 <version>${globle.version}</version>
             </dependency>
