@@ -71,6 +71,7 @@ public abstract class PersistentEntity implements Serializable {
         this.updateBy = updateBy;
     }
 
+    @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getUpdateDate() {
         return updateDate;
     }
