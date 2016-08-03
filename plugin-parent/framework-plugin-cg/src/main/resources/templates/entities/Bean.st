@@ -1,5 +1,6 @@
 package <packageName>.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 
 import javax.persistence.Entity;
