@@ -103,9 +103,10 @@ public class ShiroRealm extends AuthorizingRealm implements IAuthorizingRealm {
             session = SecurityUtils.getSubject().getSession();
             Map result = (Map) map.get("response");
 
-            session.setAttribute(PermissionConstant.SYS_CURRENT_USERNAME, result.get("name"));
-            session.setAttribute(PermissionConstant.SYS_CURRENT_USER, result);
-//            doGetAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
+            session.setAttribute(PermissionConstant.SYS_CURRENT_USER_REAL_NAME, result.get("name"));
+            session.setAttribute(PermissionConstant.SYS_CURRENT_USER_LOGIN_NAME, result.get("user_name"));
+            session.setAttribute(PermissionConstant.SYS_CURRENT_USER_ID,result.get("user_id"));
+
             userLoginService.updateUserLoginInfo((Long) result.get("user_id"), session.getHost());
 //            发送用户登录的事件
             Audit audit = new Audit();
@@ -130,13 +131,15 @@ public class ShiroRealm extends AuthorizingRealm implements IAuthorizingRealm {
     @Override
     public void onLogout(PrincipalCollection principals) {
         Session session = SecurityUtils.getSubject().getSession();
+
         Audit audit = new Audit();
         audit.setAppName("系统应用");
         audit.setFunName("系统日志");
         audit.setAction("系统登出");
-        audit.setActor(String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USERNAME)));
+        audit.setActor(String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_REAL_NAME)));
         audit.setContent("登出地址：" + session.getHost());
         postLogoutEvent(audit);
+
         super.onLogout(principals);
     }
 

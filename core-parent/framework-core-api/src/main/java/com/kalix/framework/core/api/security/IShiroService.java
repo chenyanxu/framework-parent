@@ -10,11 +10,25 @@ import org.apache.shiro.subject.Subject;
  */
 public interface IShiroService {
     /**
-     * 获得当前登录的用户名称
+     * 获得当前登录用户 登录名
      *
-     * @return 用户名称
+     * @return 登录名
      */
-    String getCurrentUserName();
+    String getCurrentUserLoginName();
+
+    /**
+     * 获得当前登录用户 真实姓名
+     *
+     * @return 真实姓名
+     */
+    String getCurrentUserRealName();
+
+    /**
+     * 获得当前登录用户 用户ID
+     *
+     * @return 用户ID
+     */
+    Long getCurrentUserId();
 
     /**
      * 返回当前登录用户

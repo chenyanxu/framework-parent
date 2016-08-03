@@ -63,6 +63,7 @@ public class KalixMojo extends AbstractBaseKalixMojo {
             target.mkdirs();
         this.outputDir = target;
         createParentPom(attributes, inputDir, outputDir);
+        createReadme(attributes, inputDir, outputDir);
     }
 
     private void createParentPom(Map<String, String> attributes, File inputDir, File outputDir) {
@@ -71,6 +72,29 @@ public class KalixMojo extends AbstractBaseKalixMojo {
         try {
             pomFile=new File(inputDir,"pom.xml.st");
             targetFile=new File(outputDir,"pom.xml");
+            String input = Util.readFile(pomFile, AbstractGenernateImpl.encoding);
+            ST stringTemplate;
+            stringTemplate = new ST(input);
+            if (attributes != null) {
+                for (Map.Entry<String, String> attrEntry : attributes.entrySet()) {
+                    stringTemplate.add(attrEntry.getKey(), attrEntry.getValue());
+                }
+            }
+            String output = stringTemplate.render();
+            Util.writeFile(targetFile, AbstractGenernateImpl.encoding, output);
+        } catch (STException e) {
+            e.printStackTrace();
+        } catch (MojoExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createReadme(Map<String, String> attributes, File inputDir, File outputDir) {
+        File pomFile=null;
+        File targetFile=null;
+        try {
+            pomFile=new File(inputDir,"README.md.st");
+            targetFile=new File(outputDir,"README.md");
             String input = Util.readFile(pomFile, AbstractGenernateImpl.encoding);
             ST stringTemplate;
             stringTemplate = new ST(input);

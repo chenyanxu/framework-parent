@@ -5,7 +5,10 @@ import com.kalix.framework.core.api.dao.IGenericDao;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.security.IShiroService;
 import com.kalix.framework.core.util.Assert;
+import com.kalix.framework.core.util.JNDIHelper;
 import org.apache.commons.lang.StringUtils;
+
+import java.io.IOException;
 
 /**
  * @author chenyanxu
@@ -13,9 +16,17 @@ import org.apache.commons.lang.StringUtils;
 public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP extends PersistentEntity> extends GenericBizServiceImpl<T, TP> {
     private IShiroService shiroService;
 
+    public ShiroGenericBizServiceImpl(){
+        try {
+            this.shiroService= JNDIHelper.getJNDIServiceForName(IShiroService.class.getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void beforeSaveEntity(TP entity, JsonStatus status) {
-        String userName = shiroService.getCurrentUserName();
+        String userName = shiroService.getCurrentUserRealName();
         Assert.notNull(userName, "用户名不能为空.");
         if (StringUtils.isNotEmpty(userName)) {
             entity.setCreateBy(userName);
@@ -27,7 +38,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
 
     @Override
     public void beforeUpdateEntity(TP entity, JsonStatus status) {
-        String userName = shiroService.getCurrentUserName();
+        String userName = shiroService.getCurrentUserRealName();
         Assert.notNull(userName, "用户名不能为空.");
         if (StringUtils.isNotEmpty(userName)) {
             entity.setUpdateBy(userName);
@@ -40,7 +51,5 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
         return this.shiroService;
     }
 
-    public void setShiroService(IShiroService shiroService) {
-        this.shiroService = shiroService;
-    }
+    public void setShiroService(IShiroService shiroService) {}
 }

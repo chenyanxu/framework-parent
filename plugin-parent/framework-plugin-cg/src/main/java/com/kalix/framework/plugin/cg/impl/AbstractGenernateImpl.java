@@ -193,6 +193,7 @@ public abstract class AbstractGenernateImpl implements IGenerate {
             fields = cls.getFields();//获取所有字段
             System.out.println("bean=" + packageName + ".entities." + beanName + "Bean");
             System.out.println("fields=" + fields.size());
+
         } catch (FileNotFoundException e) {
             throw new MojoExecutionException("Problem when trying to process beanName'" + "': " + e.getMessage(), e);
         }
