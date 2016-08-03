@@ -15,7 +15,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
 
     @Override
     public void beforeSaveEntity(TP entity, JsonStatus status) {
-        String userName = shiroService.getCurrentUserName();
+        String userName = shiroService.getCurrentUserRealName();
         Assert.notNull(userName, "用户名不能为空.");
         if (StringUtils.isNotEmpty(userName)) {
             entity.setCreateBy(userName);
@@ -27,7 +27,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
 
     @Override
     public void beforeUpdateEntity(TP entity, JsonStatus status) {
-        String userName = shiroService.getCurrentUserName();
+        String userName = shiroService.getCurrentUserRealName();
         Assert.notNull(userName, "用户名不能为空.");
         if (StringUtils.isNotEmpty(userName)) {
             entity.setUpdateBy(userName);

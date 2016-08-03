@@ -11,8 +11,9 @@ package com.kalix.framework.core.api;
 
 public class PermissionConstant {
     //系统当前登录User
-    public final static String SYS_CURRENT_USER = "currentUser";
-    public final static String SYS_CURRENT_USERNAME = "currentUsername";
+    public final static String SYS_CURRENT_USER_ID = "currentUserId";
+    public final static String SYS_CURRENT_USER_REAL_NAME = "currentUserRealName";
+    public final static String SYS_CURRENT_USER_LOGIN_NAME = "currentUserLoginName";
     //验证码
     public static final String VALIDATE_CODE = "validateCode";
 }

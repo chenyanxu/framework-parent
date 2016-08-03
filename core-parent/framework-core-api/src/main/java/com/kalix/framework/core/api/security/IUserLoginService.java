@@ -60,7 +60,7 @@ public interface IUserLoginService {
      */
     List<String> getUserPermission(String username);
 
-    String getLoginName();
+    //String getLoginName();
 
     /**
      * 手机端登录

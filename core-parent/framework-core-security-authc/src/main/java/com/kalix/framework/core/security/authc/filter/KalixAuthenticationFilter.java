@@ -43,7 +43,7 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
         } else */
         {
             Session session = SecurityUtils.getSubject().getSession();
-            String name = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USERNAME));
+            String name = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_REAL_NAME));
             httpServletResponse.setContentType("application/json");
             httpServletResponse.setCharacterEncoding("UTF-8");
 
