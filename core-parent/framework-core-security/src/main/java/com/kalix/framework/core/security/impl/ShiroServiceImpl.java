@@ -23,12 +23,30 @@ public class ShiroServiceImpl implements IShiroService {
     }
 
     @Override
-    public String getCurrentUserName() {
+    public String getCurrentUserRealName() {
         Session session = getSession();
-        String userName = (String) session.getAttribute(PermissionConstant.SYS_CURRENT_USERNAME);
-        return userName;
+        String rtn = (String) session.getAttribute(PermissionConstant.SYS_CURRENT_USER_REAL_NAME);
+
+        return rtn;
     }
 
+    @Override
+    public Long getCurrentUserId() {
+        Session session = getSession();
+        Long rtn = Long.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ID).toString());
+
+        return rtn;
+    }
+
+    @Override
+    public String getCurrentUserLoginName() {
+        Session session = getSession();
+        String rtn = (String) session.getAttribute(PermissionConstant.SYS_CURRENT_USER_LOGIN_NAME);
+
+        return rtn;
+    }
+
+    @Override
     public Subject getSubject() {
         try {
             return SecurityUtils.getSubject();
