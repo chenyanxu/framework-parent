@@ -10,6 +10,7 @@ import java.util.List;
  * Created by chenyanxu on 2016/6/24.
  */
 public abstract class BaseMenuImpl implements IMenu {
+    private static final String CONST_BUTTONS = "新增,add;刪除,delete;修改,edit;查看,view";
     private String id;
     private String text;
     private String iconCls;
@@ -18,23 +19,30 @@ public abstract class BaseMenuImpl implements IMenu {
     private String applicationId;
     private String routeId;
     private String moduleId;
+    private String buttons;
 
-    public BaseMenuImpl(){
+    public BaseMenuImpl() {
         String[] splits = this.getClass().getSimpleName().split("Menu");
 
-        if(splits.length>0){
-            String idUpper=splits[0].toUpperCase();
+        if (splits.length > 0) {
+            String idUpper = splits[0].toUpperCase();
 
-            id= ConfigUtil.getConfigProp(idUpper+"_ID","ConfigMenu").toString();
-            applicationId= ConfigUtil.getConfigProp(idUpper+"_APPLICATION_ID","ConfigMenu").toString();
-            moduleId=ConfigUtil.getConfigProp(idUpper+"_MODULE_ID","ConfigMenu").toString();
-            text=ConfigUtil.getConfigProp(idUpper+"_TEXT","ConfigMenu").toString();
-            routeId=ConfigUtil.getConfigProp(idUpper+"_ROUTE_ID","ConfigMenu").toString();
-            iconCls=ConfigUtil.getConfigProp(idUpper+"_ICONCLS","ConfigMenu").toString();
-            index = Integer.parseInt(ConfigUtil.getConfigProp(idUpper+"_INDEX","ConfigMenu").toString());
-            permission=Integer.parseInt(ConfigUtil.getConfigProp(idUpper+"_PERMISSION","ConfigMenu").toString());
-        }
+            id = ConfigUtil.getConfigProp(idUpper + "_ID", "ConfigMenu").toString();
+            applicationId = ConfigUtil.getConfigProp(idUpper + "_APPLICATION_ID", "ConfigMenu").toString();
+            moduleId = ConfigUtil.getConfigProp(idUpper + "_MODULE_ID", "ConfigMenu").toString();
+            text = ConfigUtil.getConfigProp(idUpper + "_TEXT", "ConfigMenu").toString();
+            routeId = ConfigUtil.getConfigProp(idUpper + "_ROUTE_ID", "ConfigMenu").toString();
+            iconCls = ConfigUtil.getConfigProp(idUpper + "_ICONCLS", "ConfigMenu").toString();
+            index = Integer.parseInt(ConfigUtil.getConfigProp(idUpper + "_INDEX", "ConfigMenu").toString());
+            permission = Integer.parseInt(ConfigUtil.getConfigProp(idUpper + "_PERMISSION", "ConfigMenu").toString());
+            if (ConfigUtil.getConfigProp(idUpper + "_BUTTONS", "ConfigMenu") == null) {
+                buttons = CONST_BUTTONS;
+            } else
+                buttons = ConfigUtil.getConfigProp(idUpper + "_BUTTONS", "ConfigMenu").toString();
+
     }
+
+}
 
     @Override
     public String getId() {
@@ -83,6 +91,16 @@ public abstract class BaseMenuImpl implements IMenu {
     @Override
     public String getParentMenuId() {
         return null;
+    }
+
+    /**
+     * 获得菜单下按钮的定义，以,分隔，例如：add,delete,edit,view
+     *
+     * @return
+     */
+    @Override
+    public String getButtons() {
+        return buttons;
     }
 
     @Override
