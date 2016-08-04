@@ -1,6 +1,8 @@
 package com.kalix.framework.core.api.web;
 
+import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 应用级别接口
@@ -11,4 +13,9 @@ public interface IApplication extends IBaseWebPage {
      * @return
      */
     List<IModule> getModules();
+
+    /**
+     * 配置文件修改后，用于更新配置
+     */
+    void updateConfig();
 }

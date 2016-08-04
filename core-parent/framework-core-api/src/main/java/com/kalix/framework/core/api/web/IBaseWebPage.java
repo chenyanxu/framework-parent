@@ -12,4 +12,5 @@ public interface IBaseWebPage {
     int getIndex();
     String getPermission();
     String getIconCls();
+
 }
