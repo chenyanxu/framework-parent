@@ -1,5 +1,6 @@
 package com.kalix.framework.core.util;
 
+import org.apache.log4j.lf5.viewer.configure.ConfigurationManager;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 
@@ -28,6 +29,9 @@ public class ConfigUtil {
             ConfigurationAdmin configurationAdmin = JNDIHelper.getJNDIServiceForName(ConfigurationAdmin.class.getName());
             Configuration config = configurationAdmin.getConfiguration(configId);
             Dictionary<String, Object> dictionary = config.getProperties();
+
+            config.setBundleLocation(null);
+
             return dictionary.get(key);
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,6 +44,9 @@ public class ConfigUtil {
             ConfigurationAdmin configurationAdmin = JNDIHelper.getJNDIServiceForName(ConfigurationAdmin.class.getName());
             Configuration config = configurationAdmin.getConfiguration(configId);
             Dictionary<String, Object> dictionary = config.getProperties();
+
+            config.setBundleLocation(null);
+
             return dictionary;
         } catch (IOException e) {
             e.printStackTrace();
