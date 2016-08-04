@@ -3,22 +3,9 @@
            xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0
            http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
-    <reference id="eventAdmin" interface="org.osgi.service.event.EventAdmin"/>
-    <bean id="jndiService" class="com.kalix.framework.core.impl.system.JndiService"/>
-    <service id="sys_jndiService" interface="com.kalix.framework.core.api.system.IJndiService" ref="jndiService"/>
-
     <bean id="pollingService" class="com.kalix.framework.core.impl.system.PollingManagerServiceImpl"/>
     <service id="sys_pollingService" interface="com.kalix.framework.core.api.system.IPollingManagerService"
              ref="pollingService"/>
-
-    <bean id="applicationconfig" class="com.kalix.framework.core.impl.web.Applicationconfig">
-        <property name="bundleContext" ref="blueprintBundleContext"/>
-    </bean>
-    <service id="managedService" interface="org.osgi.service.cm.ManagedService" ref="applicationconfig">
-        <service-properties>
-            <entry key="service.pid" value="ConfigApplication" />
-        </service-properties>
-    </service>
 
     <!--监听IPolling项模块的加载和卸载-->
     <reference-list interface="com.kalix.framework.core.api.system.IPollingService" member-type="service-reference"

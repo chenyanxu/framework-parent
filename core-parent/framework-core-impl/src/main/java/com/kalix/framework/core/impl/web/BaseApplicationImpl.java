@@ -3,13 +3,15 @@ package com.kalix.framework.core.impl.web;
 import com.kalix.framework.core.api.web.IApplication;
 import com.kalix.framework.core.api.web.IModule;
 import com.kalix.framework.core.util.ConfigUtil;
+import org.osgi.framework.BundleContext;
 
+import java.util.Dictionary;
 import java.util.List;
 
 /**
  * Created by chenyanxu on 2016/6/24.
  */
-public abstract class BaseApplicationImpl implements IApplication {
+public class BaseApplicationImpl implements IApplication {
     private String id;
     private String text;
     private String iconCls;
@@ -18,6 +20,10 @@ public abstract class BaseApplicationImpl implements IApplication {
 
     public BaseApplicationImpl(){
         updateConfig();
+    }
+
+    public BaseApplicationImpl(BundleContext bundleContext, Dictionary<String,?> dictionary){
+
     }
 
     @Override
