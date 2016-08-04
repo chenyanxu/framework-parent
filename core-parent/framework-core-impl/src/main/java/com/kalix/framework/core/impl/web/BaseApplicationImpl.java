@@ -17,6 +17,11 @@ public abstract class BaseApplicationImpl implements IApplication {
     private int permission;
 
     public BaseApplicationImpl(){
+        updateConfig();
+    }
+
+    @Override
+    public void updateConfig(){
         String[] splits = this.getClass().getSimpleName().split("Application");
 
         if(splits.length>0){
