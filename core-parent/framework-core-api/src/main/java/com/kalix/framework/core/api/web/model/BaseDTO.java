@@ -17,6 +17,7 @@ public abstract class BaseDTO implements Serializable {
     @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     protected Date creationDate;// 创建日期
     protected String createBy;    // 创建者
+    @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     protected String updateBy;    // 更新者
     protected Date updateDate; //更新日期
     protected long version;

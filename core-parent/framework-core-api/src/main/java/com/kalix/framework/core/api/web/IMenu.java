@@ -22,4 +22,10 @@ public interface IMenu extends IBaseWebPage {
      * @return
      */
     String getParentMenuId();
+
+    /**
+     * 获得菜单下按钮的定义，以,分隔，例如：add,delete,edit,view
+     * @return
+     */
+    String getButtons();
 }
