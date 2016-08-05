@@ -325,8 +325,10 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         List queryIds=new ArrayList<Long>();
 
         for(int index=0;index<ids.length;++index){
-            if(!queryIds.contains(ids[index])){
-                queryIds.add(ids[index]);
+            if(ids[index] != null && !ids[index].equals("")) {
+                if (!queryIds.contains(ids[index])) {
+                    queryIds.add(ids[index]);
+                }
             }
         }
 
