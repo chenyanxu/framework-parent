@@ -25,12 +25,6 @@ Ext.define('kalix.dict.view.DictWindow', {
                     type: 'rest',
                     autoLoad:true,
                     pageSize:0,
-                    url: CONFIG.restRoot + '/camel/rest/admin/dicts/types/list',
-                    listeners:{
-                        load:function(){
-                            alert(1);
-                        }
-                    }
                 }}),
                 listeners:{
                     beforerender:function(){

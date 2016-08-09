@@ -80,6 +80,7 @@ Ext.define('kalix.controller.BaseGridController', {
         vm.set('rec', selModel);
         vm.set('iconCls', vm.get('editIconCls'));
         vm.set('title',vm.get('editTitle'));
+        vm.set('storeId', view.controller.storeId);
 
         this.viewModelExtraInit(vm);
 
