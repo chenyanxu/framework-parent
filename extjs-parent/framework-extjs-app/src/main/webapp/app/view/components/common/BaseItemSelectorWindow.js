@@ -71,7 +71,7 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
       if(me.Config.baseUrl && me.Config.baseUrl!='' &&
          me.Config.recoredId){
         Ext.Ajax.request({
-          url:me.Config.baseUrl+'/'+me.Config.recoredId+'/users/ids',
+          url:me.Config.baseUrl+'/'+me.Config.recoredId+'/'+me.Config.store.xtype.split('Store')[0]+'s/ids',
           async:false,
           method: 'GET',
           callback: function (options, success, response) {
