@@ -43,11 +43,13 @@ Ext.define('kalix.dict.component.DictGridColumn', {
                             }
                         }
 
+                        tplStr += '<tpl if="' + this.dataIndex + '==' + -1 + '">无字典</tpl>';
+
                         var tpl = new Ext.XTemplate(tplStr);
                         this.tpl = tpl;
                     }
                     else {
-                        this.tpl = "<tpl>{" + this.dataIndex + "}</tpl>"
+                        this.tpl = "<tpl>{" + 无字典 + "}</tpl>"
                     }
 
                     this.findParentByType('grid').getStore().load();
