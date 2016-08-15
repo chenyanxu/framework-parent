@@ -81,6 +81,7 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
 //        }
         try {
             response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json;charset=UTF-8");
             PrintWriter out = response.getWriter();
             String message = e.getClass().getSimpleName();
             if ("IncorrectCredentialsException".equals(message)) {
