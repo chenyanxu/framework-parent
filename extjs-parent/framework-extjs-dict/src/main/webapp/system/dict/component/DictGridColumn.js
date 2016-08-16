@@ -8,6 +8,7 @@ Ext.define('kalix.dict.component.DictGridColumn', {
     xtype: 'dictGridColumn',
     colorConfig: null,
     storeClass:'',
+    lastDictColumnInGrid:false,
     listeners: {
         beforerender: function () {
             Ext.require(this.storeClass ,function(){
@@ -52,7 +53,9 @@ Ext.define('kalix.dict.component.DictGridColumn', {
                         this.tpl = "<tpl>{" + 无字典 + "}</tpl>"
                     }
 
-                    this.findParentByType('grid').getStore().load();
+                    if(this.lastDictColumnInGrid){
+                        this.findParentByType('grid').getStore().load();
+                    }
                 };
 
                 store.on('load',this.customeFn,this);
