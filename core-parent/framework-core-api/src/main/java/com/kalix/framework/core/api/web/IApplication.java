@@ -14,8 +14,7 @@ public interface IApplication extends IBaseWebPage {
      */
     List<IModule> getModules();
 
-    /**
-     * 配置文件修改后，用于更新配置
-     */
     void updateConfig();
+
+    void updateConfig(Dictionary<String,String> dictionary);
 }

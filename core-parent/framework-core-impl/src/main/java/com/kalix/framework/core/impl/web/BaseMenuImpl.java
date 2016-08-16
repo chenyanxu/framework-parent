@@ -4,13 +4,13 @@ import com.kalix.framework.core.api.web.IMenu;
 import com.kalix.framework.core.api.web.IModule;
 import com.kalix.framework.core.util.ConfigUtil;
 
+import java.util.Dictionary;
 import java.util.List;
 
 /**
  * Created by chenyanxu on 2016/6/24.
  */
-public abstract class BaseMenuImpl implements IMenu {
-    private static final String CONST_BUTTONS = "新增,add;刪除,delete;修改,edit;查看,view";
+public class BaseMenuImpl implements IMenu {
     private String id;
     private String text;
     private String iconCls;
@@ -19,7 +19,7 @@ public abstract class BaseMenuImpl implements IMenu {
     private String applicationId;
     private String routeId;
     private String moduleId;
-    private String buttons;
+    private String buttons="新增,add;刪除,delete;修改,edit;查看,view";
 
     public BaseMenuImpl() {
         String[] splits = this.getClass().getSimpleName().split("Menu");
@@ -27,22 +27,22 @@ public abstract class BaseMenuImpl implements IMenu {
         if (splits.length > 0) {
             String idUpper = splits[0].toUpperCase();
 
-            id = ConfigUtil.getConfigProp(idUpper + "_ID", "ConfigMenu").toString();
-            applicationId = ConfigUtil.getConfigProp(idUpper + "_APPLICATION_ID", "ConfigMenu").toString();
-            moduleId = ConfigUtil.getConfigProp(idUpper + "_MODULE_ID", "ConfigMenu").toString();
-            text = ConfigUtil.getConfigProp(idUpper + "_TEXT", "ConfigMenu").toString();
-            routeId = ConfigUtil.getConfigProp(idUpper + "_ROUTE_ID", "ConfigMenu").toString();
-            iconCls = ConfigUtil.getConfigProp(idUpper + "_ICONCLS", "ConfigMenu").toString();
-            index = Integer.parseInt(ConfigUtil.getConfigProp(idUpper + "_INDEX", "ConfigMenu").toString());
-            permission = Integer.parseInt(ConfigUtil.getConfigProp(idUpper + "_PERMISSION", "ConfigMenu").toString());
-            if (ConfigUtil.getConfigProp(idUpper + "_BUTTONS", "ConfigMenu") == null) {
-                buttons = CONST_BUTTONS;
-            } else
-                buttons = ConfigUtil.getConfigProp(idUpper + "_BUTTONS", "ConfigMenu").toString();
+            if(!idUpper.equals("BASE")) {
+                id = ConfigUtil.getConfigProp(idUpper + "_ID", "ConfigMenu").toString();
+                applicationId = ConfigUtil.getConfigProp(idUpper + "_APPLICATION_ID", "ConfigMenu").toString();
+                moduleId = ConfigUtil.getConfigProp(idUpper + "_MODULE_ID", "ConfigMenu").toString();
+                text = ConfigUtil.getConfigProp(idUpper + "_TEXT", "ConfigMenu").toString();
+                routeId = ConfigUtil.getConfigProp(idUpper + "_ROUTE_ID", "ConfigMenu").toString();
+                iconCls = ConfigUtil.getConfigProp(idUpper + "_ICONCLS", "ConfigMenu").toString();
+                index = Integer.parseInt(ConfigUtil.getConfigProp(idUpper + "_INDEX", "ConfigMenu").toString());
+                permission = Integer.parseInt(ConfigUtil.getConfigProp(idUpper + "_PERMISSION", "ConfigMenu").toString());
+                if (ConfigUtil.getConfigProp(idUpper + "_BUTTONS", "ConfigMenu") != null) {
+                    buttons = ConfigUtil.getConfigProp(idUpper + "_BUTTONS", "ConfigMenu").toString();
+                }
+            }
+        }
 
     }
-
-}
 
     @Override
     public String getId() {
@@ -106,5 +106,41 @@ public abstract class BaseMenuImpl implements IMenu {
     @Override
     public String getModuleId() {
         return moduleId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setIconCls(String iconCls) {
+        this.iconCls = iconCls;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public void setPermission(int permission) {
+        this.permission = permission;
+    }
+
+    public void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
+    }
+
+    public void setRouteId(String routeId) {
+        this.routeId = routeId;
+    }
+
+    public void setModuleId(String moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    public void setButtons(String buttons) {
+        this.buttons = buttons;
     }
 }
