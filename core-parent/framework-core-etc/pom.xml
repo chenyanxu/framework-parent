@@ -11,5 +11,6 @@
 
     <groupId>com.kalix.framework.core</groupId>
     <artifactId>framework-core-etc</artifactId>
+    <description>ETC</description>
     <packaging>pom</packaging>
 </project>
