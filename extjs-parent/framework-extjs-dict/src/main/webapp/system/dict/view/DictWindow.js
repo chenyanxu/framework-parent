@@ -28,7 +28,7 @@ Ext.define('kalix.dict.view.DictWindow', {
                 }}),
                 listeners:{
                     beforerender:function(){
-                        var appName=this.lookupViewModel().get('storeId').split('DictStore')[0].toLowerCase();
+                        var appName =this.lookupViewModel().get('store').xtype.split('DictStore')[0].toLowerCase();
 
                         this.store.proxy.url=CONFIG.restRoot + '/camel/rest/'+appName+'/dicts/types/list';
                     }

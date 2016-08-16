@@ -50,7 +50,7 @@ Ext.define('kalix.dict.component.DictGridColumn', {
                         this.tpl = tpl;
                     }
                     else {
-                        this.tpl = "<tpl>{" + 无字典 + "}</tpl>"
+                        this.tpl = new Ext.XTemplate("<tpl>无字典</tpl>");
                     }
 
                     if(this.lastDictColumnInGrid){

@@ -31,19 +31,13 @@ Ext.define('kalix.dict.view.DictGrid', {
             {text: '编号', dataIndex: 'id', hidden: true},
             {text: '类型', dataIndex: 'type'},
             {text: '标签名', dataIndex: 'label'},
-            //{text: '数据值', dataIndex: 'value'},
-            //{text: '排序', dataIndex: 'sort'},
             {text: '创建人', dataIndex: 'createBy', flex: 1},
             {
                 text: '创建日期', dataIndex: 'creationDate', flex: 1
             },
             {
                 xtype: 'securityGridColumnRUD',
-                permissions: [
-                    'admin:sysModule:dictMenu:view',
-                    'admin:sysModule:dictMenu:edit',
-                    'admin:sysModule:dictMenu:delete'
-                ]
+                permissions: ['view', 'edit', 'delete']
             }]
     },
     tbar: {
@@ -53,7 +47,7 @@ Ext.define('kalix.dict.view.DictGrid', {
                 text: '添加',
                 tooltip: '添加字典',
                 xtype: 'button',
-                permission: 'admin:sysModule:dictMenu:add',
+                permission: 'add',
                 iconCls:'iconfont icon-add',
                 handler: 'onAdd'
             }
