@@ -67,7 +67,9 @@ Ext.define('kalix.view.components.common.BaseComboBox', {
                             async: false,
                             url: store.proxy.url + '/' + rec.get(this.target.modelField),
                             success: function (response, opts) {
-                                obj = Ext.decode(response.responseText);
+                                if (response.responseText != null && response.responseText != "") {
+                                    obj = Ext.decode(response.responseText);
+                                }
                             }
                         });
 
