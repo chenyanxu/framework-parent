@@ -37,7 +37,7 @@ Ext.define('kalix.controller.BaseWindowController', {
         var viewModel = this.getViewModel();
         var model = viewModel.get('rec');
         var view = this.getView();
-        var store = Ext.app.Application.instance.getApplication().getStore(this.storeId);
+        var store = viewModel.get('store');
 
         store.proxy.extraParams = {};
 
@@ -108,7 +108,7 @@ Ext.define('kalix.controller.BaseWindowController', {
         }
 
         if (model.dirty) {
-            var store = Ext.app.Application.instance.getApplication().getStore(this.storeId);
+            var store = viewModel.get('store');
 
             Ext.Msg.confirm("警告", "要保存修改吗？", function (button) {
                 if (button == "yes") {

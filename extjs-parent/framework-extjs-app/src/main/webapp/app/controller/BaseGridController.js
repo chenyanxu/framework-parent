@@ -49,15 +49,12 @@ Ext.define('kalix.controller.BaseGridController', {
      */
     onAdd: function (target) {
         var view = Ext.create(this.cfgForm);
-
-        view.controller.storeId=target.findParentByType('grid').getStore().type;
-
         var vm = view.lookupViewModel();
 
         vm.set('rec', Ext.create(this.cfgModel));
         vm.set('iconCls', vm.get('addIconCls'));
         vm.set('title', vm.get('addTitle'));
-        vm.set('storeId', view.controller.storeId);
+        vm.set('store',this.getView().store);
 
         this.viewModelExtraInit(vm);
 
@@ -72,15 +69,12 @@ Ext.define('kalix.controller.BaseGridController', {
     onEdit: function (grid, rowIndex, colIndex) {
         var selModel = grid.getStore().getData().items[rowIndex];
         var view = Ext.create(this.cfgForm);
-
-        view.controller.storeId=grid.getStore().type;
-
         var vm = view.lookupViewModel();
 
         vm.set('rec', selModel);
         vm.set('iconCls', vm.get('editIconCls'));
         vm.set('title',vm.get('editTitle'));
-        vm.set('storeId', view.controller.storeId);
+        vm.set('store',this.getView().store);
 
         this.viewModelExtraInit(vm);
 

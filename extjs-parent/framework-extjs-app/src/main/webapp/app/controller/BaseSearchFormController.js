@@ -7,14 +7,10 @@ Ext.define('kalix.controller.BaseSearchFormController', {
     onSearch: function (target, event) {
         var view=this.getView();
 
-        if(!view.storeId){
-            view.storeId=this.getView().xtype.split('Search')[0]+'Store';
+        if(view.gridStore){
+            view.gridStore.currentPage = 1;
+            view.gridStore.load();
         }
-
-        var store = Ext.app.Application.instance.getApplication().getStore(this.getView().storeId);
-
-        store.currentPage = 1;
-        store.load();
     },
     onReset: function () {
         this.getView().getForm().reset();
