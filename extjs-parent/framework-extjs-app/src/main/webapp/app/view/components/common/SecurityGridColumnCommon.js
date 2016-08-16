@@ -6,24 +6,21 @@ Ext.define('kalix.view.components.common.SecurityGridColumnCommon', {
   alias: 'widget.securityGridColumnCommon',
   xtype: 'securityGridColumnCommon',
   header: '操作',
+  verifyItems:[],
   hideColumnFun: function (value, meta, record) {
     return 'x-hide-grid-column';
   },
   listeners: {
-    beforerender: function () {
+    afterrender: function () {
       var scope = this;
       var params = '';
+      var tempPermissions=[];
 
-      scope.items.forEach(function (item) {
-        if (item.permission != '') {
-          if (params == '') {
-            params = item.permission;
-          }
-          else {
-            params = params + '_' + item.permission;
-          }
-        }
-      });
+      for (var index = 0; index < scope.verifyItems.length; ++index) {
+        tempPermissions[index] = CONFIG.routePath.join(':') + ':' + scope.verifyItems[index].permission;
+      }
+
+      params=tempPermissions.join('_');
 
       if (params != '') {
         //查询授权
@@ -35,21 +32,17 @@ Ext.define('kalix.view.components.common.SecurityGridColumnCommon', {
             var resp = Ext.JSON.decode(response.responseText);
             var respButtons = resp.buttons;
 
-            _.forEach(scope.items, function (item) {
+            _.forEach(scope.verifyItems, function (item) {
 
               if (item.permission == '') {
               }
               else {
                 var findObj = _.find(respButtons, function (button) {
-                  return button.permission == item.permission;
+                  return button.permission.split(':').reverse()[0] == item.permission;
                 });
 
                 if (findObj.status) {
-                  item.hasPermission = true;
-                }
-                else {
-                  item.getClass = scope.hideColumnFun;
-                  item.hasPermission = false;
+                  scope.items.push(item);
                 }
               }
             });

@@ -34,7 +34,6 @@ Ext.define('kalix.view.Main', {
     xtype: 'toolbar',
     cls: 'sencha-dash-dash-headerbar toolbar-btn-shadow',
     height: 64,
-    itemId: 'headerBar',
     items: [
       {
         xtype: 'component',
@@ -46,7 +45,6 @@ Ext.define('kalix.view.Main', {
       {
         margin: '0 0 0 8',
         xtype: 'button',
-        //cls: 'delete-focus-bg',
         iconCls: 'x-fa fa-navicon',
         id: 'main-navigation-btn',
         handler: 'onToggleNavigationSize'

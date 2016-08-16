@@ -16,6 +16,21 @@ Ext.define('kalix.controller.MainController', {
         }
     },
     setCurrentView: function (hashTag) {
+        var appName;
+
+        if(hashTag.path.length>0){
+            appName=hashTag.path[0];
+            if(appName=='workflow'){
+                appName='oa';
+            }
+        }
+
+        var navTreeSelection=this.getReferences().navigationTreeList.getSelection();
+
+        if(navTreeSelection){
+            CONFIG.routePath=[appName,navTreeSelection.parentNode.id,navTreeSelection.id];
+        }
+
         hashTag = hashTag || '';
 
         for (var idx = 0; idx < hashTag.path.length; ++idx) {

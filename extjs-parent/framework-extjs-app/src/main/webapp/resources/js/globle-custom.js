@@ -9,6 +9,7 @@ var CONFIG = {
   ALTER_TITLE_ERROR: "错误信息",
   ALTER_TITLE_INFO: "提示信息",
   restRoot: '',
-  theme: 'theme-triton'
+  theme: 'theme-triton',
+  routePath:[] //record the temp route path
 };
 

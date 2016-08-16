@@ -28,10 +28,10 @@ Ext.define('kalix.view.components.common.SecurityToolbar', {
         verifyItems.forEach(function(item){
             if(item.permission!=''){
                 if(params==''){
-                    params=item.permission;
+                    params=CONFIG.routePath.join(':')+':'+item.permission;
                 }
                 else{
-                    params=params+'_'+item.permission;
+                    params=params+'_'+CONFIG.routePath.join(':')+':'+item.permission;
                 }
             }
         });
@@ -49,7 +49,7 @@ Ext.define('kalix.view.components.common.SecurityToolbar', {
                     respButtons.forEach(function (btn) {
                         if (btn.status) {
                             verifyItems.forEach(function (item) {
-                                if (btn.permission == item.permission) {
+                                if (btn.permission.split(':').reverse()[0] == item.permission) {
                                     securityToolbar.add(item);
                                 }
                             });
