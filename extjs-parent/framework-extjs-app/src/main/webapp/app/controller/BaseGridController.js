@@ -138,7 +138,7 @@ Ext.define('kalix.controller.BaseGridController', {
                                 store.reload();
                             }
                             else{
-                                kalix.Notify.alert(CONFIG.ALTER_TITLE_FAILURE, resp.msg);
+                                Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, resp.msg);
                             }
                         }
                     });
