@@ -5,6 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -56,6 +57,27 @@ public class SerializeUtil {
 
         try {
             return (T) mapper.fromJson(json, cls);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            throw new RuntimeException("JSON Unserialize Error");
+        }
+    }
+
+    /**
+     * example:
+     * Type type = new TypeToken<ArrayList<String>>() {}.getType();
+     * orgList = new Gson().fromJson(rtnOrgStr, type);
+     * @param json
+     * @param type
+     * @param <T>
+     * @return
+     */
+    public static <T> T unserializeJson(String json, Type type) {
+
+        Gson mapper = new Gson();
+
+        try {
+            return (T) mapper.fromJson(json, type);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
             throw new RuntimeException("JSON Unserialize Error");
