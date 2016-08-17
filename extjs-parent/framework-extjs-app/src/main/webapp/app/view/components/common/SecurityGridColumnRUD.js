@@ -29,6 +29,8 @@ Ext.define('kalix.view.components.common.SecurityGridColumnRUD', {
     afterrender: function () {
       var scope = this;
 
+      scope.items=[];
+
       if (this.permissions.length > 0) {
         var params;
         var tempPermissions=[];
