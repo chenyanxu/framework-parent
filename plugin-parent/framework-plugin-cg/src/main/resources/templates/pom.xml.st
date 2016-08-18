@@ -22,7 +22,6 @@
         \<module><artifactIdPrefix>-entities\</module>
         \<module><artifactIdPrefix>-extjs\</module>
         \<module><artifactIdPrefix>-rest\</module>
-        \<module><artifactIdPrefix>-web\</module>
     \</modules>
 
     \<dependencyManagement>
