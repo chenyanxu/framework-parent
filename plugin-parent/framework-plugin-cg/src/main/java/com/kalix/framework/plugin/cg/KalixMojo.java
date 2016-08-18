@@ -47,8 +47,11 @@ public class KalixMojo extends AbstractBaseKalixMojo {
         IGenerate restGenerate = new RestGenerateImpl(attributes, inputDir, outputDir);
         restGenerate.genJavaSource();
         //create web code generate
-        IGenerate webGenerate = new WebGenerateImpl(attributes, inputDir, outputDir);
-        webGenerate.genJavaSource();
+        /**
+         * 框架修改后不用生成web了
+         */
+        //IGenerate webGenerate = new WebGenerateImpl(attributes, inputDir, outputDir);
+        //webGenerate.genJavaSource();
         //create extjs code generate
         IGenerate extjsGenerate = new ExtjsGenerateImpl(attributes, inputDir, outputDir);
         extjsGenerate.genJavaSource();
