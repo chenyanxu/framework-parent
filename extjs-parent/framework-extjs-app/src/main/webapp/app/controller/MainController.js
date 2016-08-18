@@ -23,6 +23,9 @@ Ext.define('kalix.controller.MainController', {
             if(appName=='workflow'){
                 appName='oa';
             }
+            else if(appName=='sys'){
+                appName='admin';
+            }
         }
 
         var navTreeSelection=this.getReferences().navigationTreeList.getSelection();

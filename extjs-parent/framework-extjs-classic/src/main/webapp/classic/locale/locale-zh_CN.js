@@ -26,7 +26,7 @@ Ext.define("Ext.locale.zh_CN.view.View", {override: "Ext.view.View", emptyText: 
 Ext.define("Ext.locale.zh_CN.grid.plugin.DragDrop", {override: "Ext.grid.plugin.DragDrop", dragText: "选择了 {0} 行"});
 Ext.define("Ext.locale.zh_CN.tab.Tab", {override: "Ext.tab.Tab", closeText: "关闭此标签"});
 Ext.define("Ext.locale.zh_CN.form.field.Base", {override: "Ext.form.field.Base", invalidText: "输入值非法"});
-Ext.define("Ext.locale.zh_CN.view.AbstractView", {override: "Ext.view.AbstractView", loadingText: "讀取中..."});
+Ext.define("Ext.locale.zh_CN.view.AbstractView", {override: "Ext.view.AbstractView", loadingText: "读取中..."});
 Ext.define("Ext.locale.zh_CN.picker.Date", {
     override: "Ext.picker.Date",
     todayText: "今天",
