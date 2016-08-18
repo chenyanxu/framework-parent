@@ -17,6 +17,7 @@ Ext.define('kalix.controller.BaseGridController', {
         vm.set('iconCls', vm.get('viewIconCls'));
         vm.set('title', vm.get('viewTitle'));
         vm.set('view_operation', true);
+        this.viewModelExtraInit(vm);
         view.show();
         grid.setSelection(selModel);
     },
