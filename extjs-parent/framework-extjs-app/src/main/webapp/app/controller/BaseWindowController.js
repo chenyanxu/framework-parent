@@ -75,9 +75,6 @@ Ext.define('kalix.controller.BaseWindowController', {
                 }
             );
         } else {
-            //viewModel.set('validation', _.pick(model.getValidation().data, function (value, key, object) {
-            //    return value !== true;
-            //}));
             var validation = _.pick(model.getValidation().data, function (value, key, object) {
                 return value !== true;
             });
@@ -137,9 +134,6 @@ Ext.define('kalix.controller.BaseWindowController', {
                             }
                         );
                     } else {
-                        //viewModel.set('validation', _.pick(model.getValidation().data, function (value, key, object) {
-                        //    return value !== true;
-                        //}));
                         Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, "表单验证失败！");
                         model.set(model.modified);
                     }

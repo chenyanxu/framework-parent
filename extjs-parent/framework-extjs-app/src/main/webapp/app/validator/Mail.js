@@ -1,11 +1,11 @@
 /**
  * Validates that the value is a valid email.
  */
-Ext.define('kalix.validator.Email', {
+Ext.define('kalix.validator.Mail', {
     extend: 'Ext.data.validator.Format',
-    alias: 'data.validator.email',
+    alias: 'data.validator.mail',
 
-    type: 'email',
+    type: 'mail',
 
     config: {
         /**
