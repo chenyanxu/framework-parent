@@ -9,7 +9,7 @@ Ext.define('kalix.view.components.common.BaseWindow', {
         'kalix.controller.BaseWindowController',
         'kalix.validator.Presence',
         'kalix.validator.Length',
-        'kalix.validator.Email',
+        'kalix.validator.Mail',
         'kalix.validator.Mobile',
         'kalix.viewmodel.BaseViewModel'
     ],
