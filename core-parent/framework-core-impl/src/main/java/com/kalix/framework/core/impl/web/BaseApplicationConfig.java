@@ -27,7 +27,7 @@ public class BaseApplicationConfig implements ManagedService{
             if(application==null){
                 Dictionary<String,String> propertys=new Hashtable<>();
 
-                propertys.put("APP_ID",tempDict.get("APPLICATION_APP_ID"));
+                propertys.put("APPLICATION_ID",tempDict.get("APPLICATION_APP_ID"));
 
                 application=new BaseApplicationImpl(bundleContext);
                 bundleContext.registerService(IApplication.class.getName(),application,propertys);
