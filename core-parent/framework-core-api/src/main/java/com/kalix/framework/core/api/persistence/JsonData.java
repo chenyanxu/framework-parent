@@ -7,9 +7,16 @@ import java.util.List;
  * Created by sunlf on 2015/7/3.
  */
 public class JsonData {
+    public static JsonData jsonData = new JsonData();
     private Long totalCount;
-    private List data=new ArrayList<>();
+    private List data = new ArrayList<>();
 
+    public static JsonData jsonData (List newData) {
+        jsonData.setData(newData);
+        jsonData.setTotalCount((long) newData.size());
+
+        return jsonData;
+    }
     public Long getTotalCount() {
         return totalCount;
     }
