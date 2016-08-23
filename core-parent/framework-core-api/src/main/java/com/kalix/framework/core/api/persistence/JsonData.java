@@ -11,7 +11,7 @@ public class JsonData {
     private Long totalCount;
     private List data = new ArrayList<>();
 
-    public static JsonData jsonData (List newData) {
+    public static JsonData toJson (List newData) {
         jsonData.setData(newData);
         jsonData.setTotalCount((long) newData.size());
 
