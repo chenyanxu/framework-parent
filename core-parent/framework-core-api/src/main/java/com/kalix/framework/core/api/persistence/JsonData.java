@@ -8,13 +8,14 @@ import java.util.List;
  */
 public class JsonData {
     public static JsonData jsonData = new JsonData();
-    private Long totalCount;
+    private Long totalCount = 0L;
     private List data = new ArrayList<>();
 
-    public static JsonData toJson (List newData) {
-        jsonData.setData(newData);
-        jsonData.setTotalCount((long) newData.size());
-
+    public static JsonData toJsonData (List newData) {
+        if (newData != null) {
+            jsonData.setData(newData);
+            jsonData.setTotalCount((long) newData.size());
+        }
         return jsonData;
     }
     public Long getTotalCount() {
