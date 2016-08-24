@@ -53,16 +53,8 @@ public class JNDIHelper {
             properties = properties + "(" + key + "=" + map.get(key) + ")";
         }
         properties = "(&" + properties + ")";
-        try {
-            InitialContext ic = new InitialContext();
 
-            return (T) ic.lookup("osgi:service/" + serviceName + "/" + properties);
-        } catch (NamingException e) {
-            e.printStackTrace();
-            IOException ioe = new IOException("service resolution failed");
-            ioe.initCause(e);
-            throw ioe;
-        }
+        return getJNDIServiceForName(serviceName,properties);
     }
 
     /**
@@ -88,17 +80,4 @@ public class JNDIHelper {
         }
     }
 
-    /*public static final <T> T getJNDIService(String serviceName) throws IOException {
-        try {
-            InitialContext ic = new InitialContext();
-
-            return (T) ic.lookup(serviceName);
-        } catch (NamingException e) {
-            e.printStackTrace();
-            IOException ioe = new IOException(
-                    "service resolution failed");
-            ioe.initCause(e);
-            throw ioe;
-        }
-    }*/
 }
