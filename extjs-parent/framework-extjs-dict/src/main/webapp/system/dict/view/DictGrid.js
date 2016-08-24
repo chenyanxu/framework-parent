@@ -17,29 +17,21 @@ Ext.define('kalix.dict.view.DictGrid', {
         cfgViewForm: 'kalix.dict.view.DictViewWindow',
         cfgModel: 'kalix.dict.model.DictModel'
     },
-    columns: {
-        defaults: {flex: 1, renderer: 'addTooltip'},
-        items: [
-            {
-                xtype: 'rownumberer',
-                text: "行号",
-                width: 50,
-                flex: 0,
-                align: 'center',
-                renderer: this.update
-            },
-            {text: '编号', dataIndex: 'id', hidden: true},
-            {text: '类型', dataIndex: 'type'},
-            {text: '标签名', dataIndex: 'label'},
-            {text: '创建人', dataIndex: 'createBy', flex: 1},
-            {
-                text: '创建日期', dataIndex: 'creationDate', flex: 1
-            },
-            {
-                xtype: 'securityGridColumnRUD',
-                permissions: ['view', 'edit', 'delete']
-            }]
+    columns: [
+    {
+        xtype: 'rownumberer',
     },
+    {text: '编号', dataIndex: 'id', hidden: true},
+    {text: '类型', dataIndex: 'type'},
+    {text: '标签名', dataIndex: 'label'},
+    {text: '创建人', dataIndex: 'createBy'},
+    {
+        text: '创建日期', dataIndex: 'creationDate'
+    },
+    {
+        xtype: 'securityGridColumnRUD',
+        permissions: ['view', 'edit', 'delete']
+    }],
     tbar: {
         xtype: 'securityToolbar',
         verifyItems: [

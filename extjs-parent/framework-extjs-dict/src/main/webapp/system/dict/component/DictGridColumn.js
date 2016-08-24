@@ -44,13 +44,13 @@ Ext.define('kalix.dict.component.DictGridColumn', {
                             }
                         }
 
-                        tplStr += '<tpl if="' + this.dataIndex + '==' + -1 + '">无字典</tpl>';
+                        tplStr += '<tpl if="' + this.dataIndex + '== null"><span style="color:blue">未填写</span></tpl>';
 
                         var tpl = new Ext.XTemplate(tplStr);
                         this.tpl = tpl;
                     }
                     else {
-                        this.tpl = new Ext.XTemplate("<tpl>无字典</tpl>");
+                        this.tpl = new Ext.XTemplate('<tpl><span style="color: red">无字典</span></tpl>');
                     }
 
                     if(this.lastDictColumnInGrid){
