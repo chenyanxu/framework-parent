@@ -18,20 +18,21 @@ Ext.define('kalix.dict.view.DictGrid', {
         cfgModel: 'kalix.dict.model.DictModel'
     },
     columns: [
-    {
-        xtype: 'rownumberer',
-    },
-    {text: '编号', dataIndex: 'id', hidden: true},
-    {text: '类型', dataIndex: 'type'},
-    {text: '标签名', dataIndex: 'label'},
-    {text: '创建人', dataIndex: 'createBy'},
-    {
-        text: '创建日期', dataIndex: 'creationDate'
-    },
-    {
-        xtype: 'securityGridColumnRUD',
-        permissions: ['view', 'edit', 'delete']
-    }],
+        {
+            xtype: 'rownumberer',
+        },
+        {text: '编号', dataIndex: 'id', hidden: true},
+        {text: '类型', dataIndex: 'type'},
+        {text: '标签名', dataIndex: 'label'},
+        {text: '数值', dataIndex: 'value'},
+        {text: '创建人', dataIndex: 'createBy'},
+        {
+            text: '创建日期', dataIndex: 'creationDate'
+        },
+        {
+            xtype: 'securityGridColumnRUD',
+            permissions: ['view', 'edit', 'delete']
+        }],
     tbar: {
         xtype: 'securityToolbar',
         verifyItems: [
@@ -40,7 +41,7 @@ Ext.define('kalix.dict.view.DictGrid', {
                 tooltip: '添加字典',
                 xtype: 'button',
                 permission: 'add',
-                iconCls:'iconfont icon-add',
+                iconCls: 'iconfont icon-add',
                 handler: 'onAdd'
             }
         ]

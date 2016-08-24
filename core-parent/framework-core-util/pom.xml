@@ -52,7 +52,7 @@
 
     <build>
         <plugins>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>dbunit-maven-plugin</artifactId>
                 <version>1.0-beta-3</version>
@@ -65,7 +65,7 @@
                     <src>src/test/resources/sample-data.xml</src>
                     <type>${dbunit.operation.type}</type>
                     <escapePattern>"?"</escapePattern>
-                    <!--<schema>${dbunit.schema}</schema>-->
+                    &lt;!&ndash;<schema>${dbunit.schema}</schema>&ndash;&gt;
                     <tables>
                         <table>
                             <name>sys_about</name>
@@ -152,7 +152,7 @@
                         </goals>
                     </execution>
                     <execution>
-                        <!-- Runs before integration tests and jetty:run-war -->
+                        &lt;!&ndash; Runs before integration tests and jetty:run-war &ndash;&gt;
                         <id>test</id>
                         <phase>test</phase>
                         <goals>
@@ -167,7 +167,7 @@
                         <version>${jdbc.version}</version>
                     </dependency>
                 </dependencies>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
