@@ -52,11 +52,6 @@
                                     <classifier>ConfigLogin</classifier>
                                 </artifact>
                                 <artifact>
-                                    <file>target/classes/ConfigMessagePool.cfg</file>
-                                    <type>cfg</type>
-                                    <classifier>ConfigMessagePool</classifier>
-                                </artifact>
-                                <artifact>
                                     <file>target/classes/ConfigRedis.cfg</file>
                                     <type>cfg</type>
                                     <classifier>ConfigRedis</classifier>
