@@ -12,7 +12,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.commons.io.output.ThresholdingOutputStream;
 import org.apache.shiro.codec.Base64;
 import org.lightcouch.Response;
 
