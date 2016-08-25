@@ -17,23 +17,24 @@ public class BaseApplicationConfig implements ManagedService{
     @Override
     public void updated(Dictionary<String, ?> dictionary) throws ConfigurationException {
         Dictionary<String,String> tempDict=(Dictionary<String, String>) dictionary;
+        if (tempDict!=null){
+            if( tempDict.get("APPLICATION_APP_ID")!=null &&
+                    tempDict.get("APPLICATION_APP_TEXT")!=null &&
+                    tempDict.get("APPLICATION_APP_ICONCLS")!=null &&
+                    tempDict.get("APPLICATION_APP_INDEX")!=null &&
+                    tempDict.get("APPLICATION_APP_PERMISSION")!=null){
 
-        if( tempDict.get("APPLICATION_APP_ID")!=null &&
-            tempDict.get("APPLICATION_APP_TEXT")!=null &&
-            tempDict.get("APPLICATION_APP_ICONCLS")!=null &&
-            tempDict.get("APPLICATION_APP_INDEX")!=null &&
-            tempDict.get("APPLICATION_APP_PERMISSION")!=null){
+                if(application==null){
+                    Dictionary<String,String> propertys=new Hashtable<>();
 
-            if(application==null){
-                Dictionary<String,String> propertys=new Hashtable<>();
+                    propertys.put("APPLICATION_ID",tempDict.get("APPLICATION_APP_ID"));
 
-                propertys.put("APPLICATION_ID",tempDict.get("APPLICATION_APP_ID"));
+                    application=new BaseApplicationImpl(bundleContext);
+                    bundleContext.registerService(IApplication.class.getName(),application,propertys);
+                }
 
-                application=new BaseApplicationImpl(bundleContext);
-                bundleContext.registerService(IApplication.class.getName(),application,propertys);
+                application.updateConfig(tempDict);
             }
-
-            application.updateConfig(tempDict);
         }
     }
 
