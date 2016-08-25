@@ -1,4 +1,4 @@
-package com.kalix.framework.core.swagger.internal;
+package com.kalix.framework.webapp.swagger.internal;
 
 import com.kalix.framework.core.util.SystemUtil;
 import org.osgi.framework.BundleActivator;
