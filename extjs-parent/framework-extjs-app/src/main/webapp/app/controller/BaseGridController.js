@@ -26,6 +26,7 @@ Ext.define('kalix.controller.BaseGridController', {
         var grid = this.getView();
         var columns = grid.columns;
         var lastColumn = columns[columns.length - 1];
+        var findViewItem=false;
 
         if (lastColumn.text == '操作') {
             var items = lastColumn.items;
@@ -34,16 +35,16 @@ Ext.define('kalix.controller.BaseGridController', {
                 var item = items[idx];
 
                 if (item.handler == 'onView') {
-                    if (item.hasPermission || item.permission == '') {
-                        this.onView(grid, index, 0);
-                    }
-                    else {
-                        Ext.Msg.alert(CONFIG.ALTER_TITLE_INFO, '无查看权限');
-                    }
+                    this.onView(grid, index, 0);
+                    findViewItem=true;
 
                     break;
                 }
             }
+        }
+
+        if(!findViewItem) {
+            Ext.Msg.alert(CONFIG.ALTER_TITLE_INFO, '无查看权限');
         }
     },
     /**
