@@ -65,5 +65,12 @@ Ext.define('kalix.view.components.common.BaseGrid', {
         }
 
         this.callParent(arguments);
+    },
+    listeners:{
+        //Fix navigation bar covered by the dynamic generate component bug.
+        afterrender:function(){
+            this.ariaEl.dom.style.zIndex=0;
+        }
     }
-});
+  }
+);

@@ -34,6 +34,10 @@ Ext.define('kalix.view.components.common.BaseSearchForm', {
                     handler: 'onReset',
                     iconCls:'iconfont icon-reset iconfont-btn-small'
                 });
+        },
+        //Fix navigation bar covered by the dynamic generate component bug.
+        afterrender:function(){
+            this.ariaEl.dom.style.zIndex=0;
         }
     }
 });

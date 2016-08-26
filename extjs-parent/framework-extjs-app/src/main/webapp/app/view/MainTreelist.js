@@ -5,7 +5,6 @@ Ext.define('kalix.view.MainTreelist', {
     constructor: function () {
         this.callParent(arguments);
 
-
         var navigationTreeStore = this.getStore();
         var self = this;
         var last = [];
@@ -59,7 +58,6 @@ Ext.define('kalix.view.MainTreelist', {
             });
 
         }, this);
-
     },
     //The routeId:
     //module/menu
@@ -100,9 +98,5 @@ Ext.define('kalix.view.MainTreelist', {
                 }
             }
         }
-
-
-
-
     }
 });

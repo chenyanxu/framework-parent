@@ -11,6 +11,12 @@ Ext.JSON.toArray = function (obj) {
 Ext.JSON.encodeDate = function (d) {
     return Ext.Date.format(d, '"Y-m-d H:i:s"');
 };
+//override the render function: edit the zIndex of the class extend from panel.
+//Fix navigation bar covered by the dynamic generate component bug.
+Ext.override(Ext.panel.Panel,{render:function(){
+    this.callParent(arguments);
+    this.ariaEl.dom.style.zIndex=0;
+}});
 
 Ext.onReady(function () {
     Ext.Ajax.request({
