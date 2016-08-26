@@ -542,4 +542,6 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
             return Integer.valueOf(result.toString());
         }
     }
+
+
 }

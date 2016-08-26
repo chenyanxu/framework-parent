@@ -31,6 +31,7 @@ import java.util.*;
 public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends PersistentEntity> implements IBizService<TP> {
     protected T dao;
     protected String entityClassName;
+    protected Class<T> persistentClass;
     private EventAdmin eventAdmin;
 
     public GenericBizServiceImpl() {
@@ -38,10 +39,12 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         ParameterizedType genericSuperclass = (ParameterizedType) this.getClass().getGenericSuperclass();
         java.lang.reflect.Type type = genericSuperclass.getActualTypeArguments()[1];
         if (type instanceof Class) {
-            this.entityClassName = ((Class<T>) type).getName();
+            this.persistentClass = (Class<T>) type;
         } else if (type instanceof ParameterizedType) {
-            this.entityClassName = ((Class<T>) ((ParameterizedType) type).getRawType()).getName();
+            this.persistentClass = (Class<T>) ((ParameterizedType) type).getRawType();
         }
+
+        this.entityClassName=this.persistentClass.getName();
     }
 
     public void setDao(T dao) {

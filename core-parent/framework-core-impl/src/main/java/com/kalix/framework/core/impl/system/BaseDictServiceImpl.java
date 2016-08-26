@@ -8,6 +8,7 @@ import com.kalix.framework.core.api.system.IDictBeanService;
 import com.kalix.framework.core.impl.biz.ShiroGenericBizServiceImpl;
 import com.kalix.framework.core.util.SerializeUtil;
 
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -87,5 +88,24 @@ public abstract class BaseDictServiceImpl<T extends IGenericDao, TP extends Pers
         }
 
         return dictTypes;
+    }
+
+    @Override
+    public TP getByTypeAndValue(String type, Integer value) {
+        //find the bean class annotation:
+        //if it contain the @Table,we can get the name from it
+        Table tb=persistentClass.getAnnotation(Table.class);
+        String sql="select * from %s where type='%s' and value=%d";
+        if(tb!=null){
+            sql=String.format(sql,tb.name(),type,value);
+
+            List list= dao.findByNativeSql(sql,persistentClass);
+
+            if(list.size()==1){
+                return (TP) list.get(0);
+            }
+        }
+
+        return null;
     }
 }
