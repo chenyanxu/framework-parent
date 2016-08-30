@@ -161,7 +161,10 @@ Ext.define('kalix.controller.BaseWindowController', {
                             var instanceValidators = model.getField(bindValueSplit[1]).instanceValidators;
 
                             if (instanceValidators != undefined && instanceValidators[0].type == 'presence') {
-                                fieldItems.getAt(fieldIndex).beforeLabelTextTpl = '<span class="field-required" data-qtip="必填选项">*</span>'
+                                fieldItem.beforeLabelTextTpl = '<span class="field-required" data-qtip="必填选项">*</span>'
+                            }
+                            else if(!fieldItem.allowBlank){
+                                fieldItem.beforeLabelTextTpl = '<span class="field-required" data-qtip="必填选项">*</span>'
                             }
                         }
                 }

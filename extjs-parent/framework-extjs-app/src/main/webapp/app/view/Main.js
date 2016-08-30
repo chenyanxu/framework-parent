@@ -50,7 +50,8 @@ Ext.define('kalix.view.Main', {
         handler: 'onToggleNavigationSize'
       },
       {
-        xtype: 'maintoolbar'
+        xtype: 'maintoolbar',
+        reference: 'maintoolbar'
       },
       {
         xtype: 'tbspacer',

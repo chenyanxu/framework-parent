@@ -209,7 +209,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
 
         criteriaQuery.where(predicatesList.toArray(new Predicate[predicatesList.size()]));
         CriteriaQuery select = criteriaQuery.select(root);
-        select.orderBy(criteriaBuilder.desc(root.get("creationDate")));
+        //按照数据修改时间进行排序
+        select.orderBy(criteriaBuilder.desc(root.get("updateDate")));
         return select;
     }
 
