@@ -354,11 +354,19 @@ Ext.define('kalix.controller.MainController', {
     //this method called when Navigation Tree Select from a button
     //in different module
     onNavigationSpecial: function (target) {
-        if(target&&target.routeId){
-            this.getReferences().navigationTreeList.selectTreeItem(target.routeId);
-        }
-        else{
-            this.getReferences().navigationTreeList.selectTreeItem(target);
+        if(target&&target.routeId) {
+            var appName=target.routeId.split('/')[0];
+            //change the background color of the app in maintoolbar
+            this.getReferences().maintoolbar.items.items.forEach(function (child, index) {
+                if(appName==child.id){
+                    child.ariaEl.dom.style.background = '#e1e1e1';
+                }
+                else{
+                    child.ariaEl.dom.style.background = '';
+                }
+            });
+
+            this.redirectTo(target.routeId);
         }
     }
 });
