@@ -136,7 +136,7 @@ Ext.define('kalix.Notify', {
             hideEasing: 'ease',
             onHidden: undefined,
 
-            extendedTimeOut: 1000,
+            extendedTimeOut: 0,
             iconClasses: {
                 error: 'notify-error',
                 info: 'notify-info',
@@ -145,7 +145,7 @@ Ext.define('kalix.Notify', {
             },
             iconClass: 'notify-info',
             positionClass: 'notify-top-center',//notify-bottom-right
-            timeOut: 1000, // Set timeOut and extendedTimeOut to 0 to make it sticky
+            timeOut: 2000, // Set timeOut and extendedTimeOut to 0 to make it sticky
             titleClass: 'notify-title',
             messageClass: 'notify-message',
             target: Ext.getBody(),
