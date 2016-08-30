@@ -92,7 +92,15 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
           fromTitle: me.Config.fromTitle,
           toTitle:me.Config.toTitle,
           store:me.Config.store,
-          value:me.Config.selectItems
+          value:me.Config.selectItems,
+          buttonsText: {
+            top: "置顶",
+            up: "上移",
+            add: "添加",
+            remove: "删除",
+            down: "下移",
+            bottom: "置底"
+        }
         }
       );
     }
