@@ -36,7 +36,7 @@ Ext.define('kalix.dict.view.DictWindow', {
                 ,
                 displayField: 'name',
                 valueField: 'name',
-                minChars: 2,
+                minChars: 1,
                 typeAhead:true,
                 allowBlank: false,
                 bind: {
