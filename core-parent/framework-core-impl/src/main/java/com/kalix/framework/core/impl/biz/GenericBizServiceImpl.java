@@ -1,17 +1,18 @@
 package com.kalix.framework.core.impl.biz;
 
+import com.google.gson.Gson;
 import com.kalix.framework.core.api.biz.IBizService;
-import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.dao.IGenericDao;
 import com.kalix.framework.core.api.persistence.JsonData;
+import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.web.model.BaseDTO;
 import com.kalix.framework.core.api.web.model.QueryDTO;
 import com.kalix.framework.core.util.Assert;
 import com.kalix.framework.core.util.BeanUtil;
 import com.kalix.framework.core.util.SerializeUtil;
-import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
@@ -32,6 +33,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     protected T dao;
     protected String entityClassName;
     protected Class<T> persistentClass;
+    protected final Logger logger = Logger.getLogger(this.getClass());
     private EventAdmin eventAdmin;
 
     public GenericBizServiceImpl() {

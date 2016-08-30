@@ -6,6 +6,7 @@ import com.kalix.framework.core.api.exception.SearchException;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.web.model.QueryDTO;
+import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -39,6 +40,7 @@ import java.util.Map;
 //@Transactional
 public abstract class GenericDao<T extends PersistentEntity, PK extends Serializable> implements IGenericDao<T, PK> {
     protected EntityManager entityManager;
+    protected final Logger logger = Logger.getLogger(this.getClass());
     private Class<T> persistentClass;//直接获取T Class，函数不需要className
     private String className;
 
