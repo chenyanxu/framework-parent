@@ -58,7 +58,7 @@ Ext.define('kalix.view.components.common.BaseGrid', {
                     this.columns[cIndex].renderer = 'addTooltip';
                 }
 
-                if(!this.columns[cIndex].flex && this.columns[cIndex].xtype != 'rownumberer'){
+                if(!this.columns[cIndex].flex && this.columns[cIndex].flex!=0  && this.columns[cIndex].xtype != 'rownumberer'){
                     this.columns[cIndex].flex=1;
                 }
             }
