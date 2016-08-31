@@ -28,7 +28,8 @@ Ext.define('kalix.view.Main', {
     align: 'stretch'
   },
   listeners: {
-    afterrender: 'afterrender'
+    afterrender: 'afterrender',
+    navTreeLoad:'navTreeLoad'
   },
   items: [{
     xtype: 'toolbar',

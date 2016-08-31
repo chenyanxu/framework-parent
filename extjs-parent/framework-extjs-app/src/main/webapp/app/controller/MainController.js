@@ -7,7 +7,9 @@
 Ext.define('kalix.controller.MainController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.mainController',
-
+    //==custom perperty
+    lastClickShotcut:null,//the last top bar button we click
+    //custom perperty==
     listen: {
         controller: {
             '#': {
@@ -354,19 +356,39 @@ Ext.define('kalix.controller.MainController', {
     //this method called when Navigation Tree Select from a button
     //in different module
     onNavigationSpecial: function (target) {
+        var navTree = this.getReferences().navigationTreeList;
+        var mainToolbar=this.getReferences().maintoolbar;
+        var scope=this;
+
         if(target&&target.routeId) {
-            var appName=target.routeId.split('/')[0];
+            var appName=target.appName;
             //change the background color of the app in maintoolbar
-            this.getReferences().maintoolbar.items.items.forEach(function (child, index) {
+            mainToolbar.items.items.forEach(function (child, index) {
                 if(appName==child.id){
-                    child.ariaEl.dom.style.background = '#e1e1e1';
+                    if(child.ariaEl.dom.style.background!=''){
+                        navTree.selectTreeItem(target.routeId);
+                    }
+                    else{
+                        child.ariaEl.dom.style.background = '#e1e1e1';
+                        //if we navigate the menu with the top bar,we need record the shortcut button we click.
+                        //then we can auto select the navigation tree item after the tree store load
+                        scope.lastClickShotcut=target;
+                        child.ariaEl.dom.click();
+                    }
                 }
                 else{
                     child.ariaEl.dom.style.background = '';
                 }
             });
+        }
+    },
+    navTreeLoad:function(){
+        var navTree = this.getReferences().navigationTreeList;
 
-            this.redirectTo(target.routeId);
+        if(this.lastClickShotcut){
+            //auto select the tree item
+            navTree.selectTreeItem(this.lastClickShotcut.routeId);
+            this.lastClickShotcut=null;
         }
     }
 });

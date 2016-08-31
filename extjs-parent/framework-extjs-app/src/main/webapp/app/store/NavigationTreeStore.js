@@ -46,5 +46,11 @@ Ext.define('kalix.store.NavigationTreeStore', {
   fields : [{
       name : 'text'
     }
-  ]
+  ],
+  listeners:{
+    load:function( target, records, successful, operation, node, eOpts ){
+      //fire the event when the navigation tree store load
+      Ext.app.Application.instance.getApplication()._mainView.fireEvent('navTreeLoad',this);
+    }
+  }
 });
