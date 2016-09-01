@@ -1,9 +1,9 @@
 /**
  * @author 基础树表格控制器
  */
-Ext.define('kalix.controller.BaseTreeGridController', {
+Ext.define('kalix.controller.BaseTreeController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.baseTreeGridController',
+    alias: 'controller.baseTreeController',
     /**
      * 刷新.
      * @returns {Ext.panel.Panel}

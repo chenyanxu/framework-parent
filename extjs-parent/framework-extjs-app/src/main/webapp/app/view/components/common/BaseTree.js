@@ -3,10 +3,10 @@
  */
 Ext.define('kalix.view.components.common.BaseTree', {
     extend: 'Ext.tree.Panel',
-    requires:['kalix.controller.BaseTreeGridController'],
+    requires:['kalix.controller.BaseTreeController'],
     alias: 'widget.baseTree',
     xtype: 'baseTree',
-    controller:'baseTreeGridController',
+    controller:'baseTreeController',
     autoLoad:false,
     singleExpand: true,
     rootVisible : false,
@@ -15,14 +15,24 @@ Ext.define('kalix.view.components.common.BaseTree', {
     },
     listeners:{
         load: function(root) {
-            var nodeExpand = root.getNodeById(this.config.expandId);
+            if(this.config.expandId!=-1){
+                var nodeExpand = root.getNodeById(this.config.expandId);
 
-            if (nodeExpand) {
-                if(nodeExpand.data.leaf){
-                    nodeExpand.parentNode.expand();
+                if (nodeExpand) {
+                    if(nodeExpand.data.leaf){
+                        nodeExpand.parentNode.expand();
+                    }
+                    else{
+                        nodeExpand.expand();
+                    }
                 }
-                else{
-                    nodeExpand.expand();
+            }
+            else{
+                //auto expand the first child of the root when expandId not assigned
+                var childNodes=this.getRootNode().childNodes;
+
+                if(childNodes.length==1){
+                    childNodes[0].expand();
                 }
             }
         },
