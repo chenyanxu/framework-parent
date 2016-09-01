@@ -9,7 +9,6 @@ Ext.define('kalix.view.components.common.BaseSearchForm', {
     ],
     alias: 'widget.baseSearchForm',
     xtype: 'baseSearchForm',
-    storeId: '',
     controller: {
         type: 'baseSearchFormController'
     },

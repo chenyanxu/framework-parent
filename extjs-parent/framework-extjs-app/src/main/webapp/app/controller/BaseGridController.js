@@ -4,9 +4,11 @@
 Ext.define('kalix.controller.BaseGridController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.baseGridController',
-    cfgForm: '',
-    cfgViewForm: '',
-    cfgModel: '',
+    //==custom property
+    cfgForm: '',         //the add and edit window full name
+    cfgViewForm: '',    //the view windows full name
+    cfgModel: '',       //the model bind to the view
+    //custom property==
     onView: function (grid, rowIndex, colIndex) {
         var viewModel = this.getViewModel();
         var selModel = grid.getStore().getData().items[rowIndex];

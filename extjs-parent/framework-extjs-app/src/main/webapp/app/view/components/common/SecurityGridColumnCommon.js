@@ -6,10 +6,9 @@ Ext.define('kalix.view.components.common.SecurityGridColumnCommon', {
   alias: 'widget.securityGridColumnCommon',
   xtype: 'securityGridColumnCommon',
   header: '操作',
-  verifyItems:[],
-  hideColumnFun: function (value, meta, record) {
-    return 'x-hide-grid-column';
-  },
+  //==custom property
+  verifyItems:[],//config the property to control the items in security
+  //custom property
   listeners: {
     afterrender: function () {
       var scope = this;

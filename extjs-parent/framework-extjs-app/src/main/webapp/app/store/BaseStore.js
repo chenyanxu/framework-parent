@@ -8,7 +8,9 @@ Ext.define('kalix.store.BaseStore', {
   requires: ['kalix.Notify'],
   autoLoad: false,
   pageSize: 10,
-  proxyUrl:'',
+  //==custom property
+  proxyUrl:'', //the proxy url to init in the BaseStore's constructor
+  //custom property==
   constructor: function () {
     this.callParent(arguments);
     if(this.proxyUrl!='')

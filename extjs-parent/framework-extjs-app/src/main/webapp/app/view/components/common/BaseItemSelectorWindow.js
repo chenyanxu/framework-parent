@@ -8,6 +8,7 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
   alias: 'widget.baseItemSelectorWindow',
   xtype: 'baseItemSelectorWindow',
   controller:'baseItemSelectorWindowController',
+  //==custom property
   Config:{
     fieldLabel:'',
     fromTitle: '',
@@ -17,6 +18,7 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
     store:null,   //the child store
     selectItems:[]//the child ids that has selected into relation table
   },
+  //custom property==
   width:600,
   border: false,
   modal: true,

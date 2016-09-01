@@ -5,9 +5,10 @@ Ext.define('kalix.view.components.common.SecurityGridColumnRUD', {
   extend: 'Ext.grid.column.Action',
   alias: 'widget.securityGridColumnRUD',
   xtype: 'securityGridColumnRUD',
+  //==custom property
   permissions: [],
+  //custom property==
   header: '操作',
-  iconPath: '',
   verifyItems:[
     {
       iconCls: 'iconfont icon-view-column',

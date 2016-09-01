@@ -8,13 +8,12 @@
 
 Ext.define('kalix.store.NavigationTreeStore', {
   extend : 'kalix.store.BaseTreeStore',
-
   storeId : 'navigationTreeStore',
-
+  //==custom property
   state : {
-    hashToken : null
+    hashToken : null //the token for request app menu
   },
-
+  //custom property==
   baseUrl: CONFIG.restRoot + '/camel/rest/system/applications/',
   treeSelInfo:{
     tree:null,

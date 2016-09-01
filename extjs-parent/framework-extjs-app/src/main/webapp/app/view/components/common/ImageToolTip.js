@@ -8,7 +8,9 @@ Ext.define('kalix.view.components.common.ImageToolTip', {
     src:'resources/images/help.png',
     alt:'help',
     style:'cursor:help',
+    //==custom property
     tooltip:'',
+    //custom property==
     listeners:{
         render:function(target){
             Ext.create('Ext.tip.ToolTip', {

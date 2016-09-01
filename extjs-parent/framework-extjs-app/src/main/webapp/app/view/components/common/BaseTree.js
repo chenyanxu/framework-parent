@@ -10,9 +10,11 @@ Ext.define('kalix.view.components.common.BaseTree', {
     autoLoad:false,
     singleExpand: true,
     rootVisible : false,
+    //==custom property
     config:{
-        expandId: -1
+        expandId: -1 //config the id in child class to expand a tree node
     },
+    //custom property
     listeners:{
         load: function(root) {
             if(this.config.expandId!=-1){

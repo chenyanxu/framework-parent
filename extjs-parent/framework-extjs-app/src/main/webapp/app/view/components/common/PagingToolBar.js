@@ -20,7 +20,9 @@ Ext.define('kalix.view.components.common.PagingToolBar', {
     lastText: "最后页",
     refreshText: "刷新",
     displayInfo: true,
-    pageSizeList:[10,20,30,40,50],
+    //==custom property
+    pageSizeList:[10,20,30,40,50], //config the page size selector bombox
+    //custom property==
     pageSize:10,
     getPagingItems: function () {
         var parentItems = this.callParent(arguments);

@@ -5,7 +5,6 @@ Ext.define('kalix.controller.BaseWindowController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.baseWindowController',
     requires: ['kalix.Notify'],
-    storeId: '',
     /**
      * 重置操作.
      *

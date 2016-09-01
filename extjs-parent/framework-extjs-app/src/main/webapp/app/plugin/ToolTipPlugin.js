@@ -7,8 +7,10 @@ Ext.define('kalix.plugin.ToolTipPlugin', {
     'kalix.view.components.common.ImageToolTip'
   ],
   alias: 'plugin.tooltipplugin',
-  tooltip:'CONFIG_THE_TOOLTIP_IN_PLUGIN',
-  serviceUrl:'',
+  //==custom property
+  tooltip:'CONFIG_THE_TOOLTIP_IN_PLUGIN', //the tooltip for the component
+  serviceUrl:'',  //the url to get the tooltip
+  //custom property==
   init: function (container) {
     this.callParent(arguments);
     this.cmp.on({

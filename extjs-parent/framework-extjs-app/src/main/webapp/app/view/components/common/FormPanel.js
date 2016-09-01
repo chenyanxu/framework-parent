@@ -10,15 +10,5 @@ Ext.define('kalix.view.components.common.FormPanel', {
     layout: 'form',
     defaultType: 'textfield',
     bodyPadding: 10,
-    buttonAlign: "center",
-
-    ////给必录项前面添加红星
-    //initComponent: function () {
-    //    this.on('beforeadd', function (me, field) {
-    //        if (!field.allowBlank)
-    //            field.beforeLabelTextTpl = '<span class="field-required" data-qtip="必填选项">*</span>';
-    //            field.allowBlank=true;
-    //    });
-    //    this.callParent(arguments);
-    //}
+    buttonAlign: 'center'
 });

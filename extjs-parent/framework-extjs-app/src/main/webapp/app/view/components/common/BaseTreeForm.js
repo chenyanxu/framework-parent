@@ -19,7 +19,6 @@ Ext.define('kalix.view.components.common.BaseTreeForm', {
     bodyStyle: 'padding:15px',
     buttonAlign: 'center',
     defaultType: 'textfield',
-    //viewModel:Ext.create('Ext.data.Model'),
     buttons: [
         {
             text: '保存',
