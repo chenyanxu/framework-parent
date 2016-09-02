@@ -87,6 +87,8 @@ public abstract class BaseDictServiceImpl<T extends IGenericDao, TP extends Pers
             return rtn;
         }
 
+        getByTypeAndValue("岗位名称",0);
+
         return dictTypes;
     }
 
@@ -94,10 +96,12 @@ public abstract class BaseDictServiceImpl<T extends IGenericDao, TP extends Pers
     public TP getByTypeAndValue(String type, Integer value) {
         //find the bean class annotation:
         //if it contain the @Table,we can get the name from it
-        Table tb=persistentClass.getAnnotation(Table.class);
+        //Table tb=persistentClass.getAnnotation(Table.class);
+        String tbName=dao.getTableName();
         String sql="select * from %s where type='%s' and value=%d";
-        if(tb!=null){
-            sql=String.format(sql,tb.name(),type,value);
+
+        if(tbName!=null){
+            sql=String.format(sql,tbName,type,value);
 
             List list= dao.findByNativeSql(sql,persistentClass);
 

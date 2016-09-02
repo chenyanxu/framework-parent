@@ -169,4 +169,7 @@ public interface IGenericDao<T, PK extends Serializable> extends IService {
      * @return
      */
     EntityManager getEntityManager();
+
+    //Get the entity bean table name of the dao
+    String getTableName();
 }

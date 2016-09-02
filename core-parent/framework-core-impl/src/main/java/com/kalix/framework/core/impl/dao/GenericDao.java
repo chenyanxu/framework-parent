@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.Table;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -546,5 +547,14 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         }
     }
 
+    @Override
+    public String getTableName(){
+        Table tb=persistentClass.getAnnotation(Table.class);
 
+        if(tb!=null){
+            return tb.name();
+        }
+
+        return null;
+    }
 }
