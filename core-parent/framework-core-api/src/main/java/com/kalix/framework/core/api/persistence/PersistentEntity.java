@@ -31,6 +31,8 @@ public abstract class PersistentEntity implements Serializable {
     private Date creationDate = new Date();// 创建日期
     private String createBy;    // 创建者
     private String updateBy;    // 更新者
+    private Long createById; //创建者Id
+    private Long updateById; //更新者Id
     // @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateDate = new Date();
     // 更新日期
@@ -86,6 +88,22 @@ public abstract class PersistentEntity implements Serializable {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Long getCreateById() {
+        return createById;
+    }
+
+    public void setCreateById(Long createById) {
+        this.createById = createById;
+    }
+
+    public Long getUpdateById() {
+        return updateById;
+    }
+
+    public void setUpdateById(Long updateById) {
+        this.updateById = updateById;
     }
 
     public boolean equals(Object other) {
