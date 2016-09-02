@@ -7,6 +7,12 @@ Ext.define('kalix.model.WorkflowBaseModel', {
     extend: 'kalix.model.BaseModel',
     fields: [
         {
+            name: 'orgId' //组织机构Id
+        },
+        {
+            name: 'orgName' //组织机构名称
+        },
+        {
             name: 'status' //工作流状态
         },
         {
