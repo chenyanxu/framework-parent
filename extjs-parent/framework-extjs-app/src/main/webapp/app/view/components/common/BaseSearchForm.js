@@ -5,16 +5,18 @@
 Ext.define('kalix.view.components.common.BaseSearchForm', {
     extend: 'Ext.form.Panel',
     requires: [
-        'kalix.controller.BaseSearchFormController'
+        'kalix.controller.BaseSearchFormController',
+        'kalix.plugin.ZOrderPlugin'
     ],
     alias: 'widget.baseSearchForm',
     xtype: 'baseSearchForm',
+    plugins:['zorderPlugin'],
     controller: {
         type: 'baseSearchFormController'
     },
     bodyPadding: 10,
     layout: 'column',
-    margin: 10,
+    margin: 5,
     defaults: {border: 0},
     iconCls: 'iconfont icon-query',
     listeners: {
@@ -33,10 +35,6 @@ Ext.define('kalix.view.components.common.BaseSearchForm', {
                     handler: 'onReset',
                     iconCls:'iconfont icon-reset iconfont-btn-small'
                 });
-        },
-        //Fix navigation bar covered by the dynamic generate component bug.
-        afterrender:function(){
-            this.ariaEl.dom.style.zIndex=0;
         }
     }
 });
