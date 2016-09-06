@@ -7,7 +7,8 @@ Ext.define('kalix.model.WorkflowBaseModel', {
     extend: 'kalix.model.BaseModel',
     fields: [
         {
-            name: 'orgId' //组织机构Id
+            name: 'orgId', //组织机构Id
+            validators: [{type: 'presence'}]
         },
         {
             name: 'orgName' //组织机构名称
