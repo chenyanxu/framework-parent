@@ -19,7 +19,6 @@ Ext.define('kalix.dict.Main', {
       {
         xtype: 'dictGridPanel',
         title: '字典列表',
-        margin: 10,
         store: {type: storeId}
       }
     ];

@@ -19,7 +19,7 @@ Ext.define('kalix.plugin.AutoHeightPlugin', {
               this.setHeight(clientHeight - 115);
             }
             else if(baseContainer.items.length == 1){
-              this.setHeight(clientHeight - 30);
+              this.setHeight(clientHeight - 14);
             }
           }
           else if (baseContainer.layout.type=='hbox') {
