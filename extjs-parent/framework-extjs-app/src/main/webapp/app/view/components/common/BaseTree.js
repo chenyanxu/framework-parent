@@ -4,6 +4,9 @@
 Ext.define('kalix.view.components.common.BaseTree', {
   extend: 'Ext.tree.Panel',
   requires: [
+    'kalix.view.components.common.SecurityToolbar',
+    'kalix.view.components.common.SecurityGridColumnCommon',
+    'kalix.view.components.common.SecurityGridColumnRUD',
     'kalix.controller.BaseTreeController',
     'kalix.plugin.AutoHeightPlugin',
     'kalix.plugin.ZOrderPlugin'
