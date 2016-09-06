@@ -39,6 +39,10 @@ Ext.define('kalix.view.login.LoginOA', {
             listeners: {
                 afterrender: function () {
                     this.focus();
+                },
+                keyup: {
+                    element: 'el',
+                    fn: 'onKeyup'
                 }
             }
         },
