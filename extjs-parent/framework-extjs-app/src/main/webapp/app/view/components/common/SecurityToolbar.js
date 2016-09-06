@@ -26,7 +26,7 @@ Ext.define('kalix.view.components.common.SecurityToolbar', {
         var securityToolbar = this;
 
         verifyItems.forEach(function(item){
-            if(item.permission!=''){
+            if(item.permission&&item.permission!=''){
                 if(params==''){
                     params=CONFIG.routePath.join(':')+':'+item.permission;
                 }
@@ -62,7 +62,7 @@ Ext.define('kalix.view.components.common.SecurityToolbar', {
             });
         }
         verifyItems.forEach(function (item) {
-            if (item.permission == '') {
+            if (!item.permission||item.permission == '') {
                 securityToolbar.add(item);
             }
         });
