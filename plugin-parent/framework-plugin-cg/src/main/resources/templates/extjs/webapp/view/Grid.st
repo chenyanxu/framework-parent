@@ -45,20 +45,20 @@ Ext.define('<extjsPrefix>.view.<beanName>Grid', {
                 items: [
                     {
                         iconCls: "iconfont icon-view-column",
-                        permission: '',
+                        permission: 'view',
                         tooltip: '查看',
                         handler: 'onView'
                     },
                     {
                         //bind: {icon: ''},
                         iconCls: "iconfont icon-edit-column",
-                        permission: '',
+                        permission: 'edit',
                         tooltip: '编辑',
                         handler: 'onEdit'
                     },
                     {
                         iconCls: "iconfont icon-delete",
-                        permission: '',
+                        permission: 'delete',
                         tooltip: '删除',
                         handler: 'onDelete'
                     }
@@ -73,7 +73,7 @@ Ext.define('<extjsPrefix>.view.<beanName>Grid', {
                 text: '添加',
                 xtype: 'button',
                 iconCls:'iconfont icon-add',
-                permission: '',
+                permission: 'add',
                 handler: 'onAdd'
             }
         ]
