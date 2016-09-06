@@ -25,8 +25,23 @@ Ext.define('kalix.controller.LoginController', {
     //处理回车键提交
     onKeyup: function (event, el) {
         if (event.getKey() == event.ENTER) {
-            el.blur();
-            this.onLogin();
+            var username=this.getView().lookupViewModel().get('username');
+            var password=this.getView().lookupViewModel().get('password');
+
+            if(username&&username.trim()!=''&&password&&password.trim()!='')
+            {
+                el.blur();
+                this.onLogin();
+            }
+            else if(username&&username.trim()!=''){
+                if(el.placeholder=='账号'){
+                    var passwordField=this.getReferences().password;
+
+                    if(passwordField){
+                        passwordField.focus();
+                    }
+                }
+            }
         }
     },
 
@@ -54,7 +69,6 @@ Ext.define('kalix.controller.LoginController', {
                     } else {
                         Ext.MessageBox.alert(CONFIG.ALTER_TITLE_FAILURE, '您的请求太复杂了，我们正在寻找解决方案...');
                     }
-                    Ext.MessageBox.focus();
                 }
             });
         } else {

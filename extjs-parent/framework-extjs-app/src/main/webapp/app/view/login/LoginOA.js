@@ -39,6 +39,10 @@ Ext.define('kalix.view.login.LoginOA', {
             listeners: {
                 afterrender: function () {
                     this.focus();
+                },
+                keyup: {
+                    element: 'el',
+                    fn: 'onKeyup'
                 }
             }
         },
@@ -46,6 +50,7 @@ Ext.define('kalix.view.login.LoginOA', {
             xtype: 'textfield',
             inputType: 'password',
             fieldStyle: 'font-size:15px;height:50px;',
+            reference:'password',
             emptyText: '密码',
             height: 50,
             bind: {

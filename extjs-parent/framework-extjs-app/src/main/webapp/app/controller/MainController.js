@@ -7,6 +7,7 @@
 Ext.define('kalix.controller.MainController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.mainController',
+    requires: ['kalix.Notify'],
     //==custom perperty
     lastClickShotcut:null,//the last top bar button we click
     //custom perperty==

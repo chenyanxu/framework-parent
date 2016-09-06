@@ -8,7 +8,7 @@ Ext.define('kalix.controller.BaseTreeController', {
      * 刷新.
      * @returns {Ext.panel.Panel}
      */
-    onRefersh: function () {
+    onRefresh: function () {
         var grid = this.getView();
         var store = grid.getStore();
 

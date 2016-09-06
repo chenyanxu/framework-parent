@@ -2,6 +2,7 @@ Ext.define('kalix.view.MainTreelist', {
     extend: 'Ext.list.Tree',
     xtype: 'maintreelist',
     store: "navigationTreeStore",
+    singleExpand:true,
     constructor: function () {
         this.callParent(arguments);
 

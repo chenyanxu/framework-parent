@@ -85,11 +85,12 @@ Ext.define('kalix.controller.BaseWindowController', {
 
                 for (var fieldIndex = 0; fieldIndex < fieldItems.length; ++fieldIndex) {
                     var fieldItem = fieldItems.getAt(fieldIndex);
-                    var bindPath = fieldItem.bind.value.stub.path;
-                    var msg = validation[fieldItem.bind.value.stub.path.split('.')[1]];
+                    if (fieldItem.bind != null) {
+                        var msg = validation[fieldItem.bind.value.stub.path.split('.')[1]];
 
-                    if (msg != undefined) {
-                        fieldItem.setActiveError(msg);
+                        if (msg != undefined) {
+                            fieldItem.setActiveError(msg);
+                        }
                     }
                 }
             }
@@ -154,18 +155,18 @@ Ext.define('kalix.controller.BaseWindowController', {
                 var fieldItem = fieldItems.getAt(fieldIndex);
 
                 if (fieldItem.config.bind != null && fieldItem.config.bind.value) {
-                        var bindValueSplit=fieldItem.config.bind.value.replace('}', '').split('.');
+                    var bindValueSplit = fieldItem.config.bind.value.replace('}', '').split('.');
 
-                        if(bindValueSplit.length==2){
-                            var instanceValidators = model.getField(bindValueSplit[1]).instanceValidators;
+                    if (bindValueSplit.length == 2) {
+                        var instanceValidators = model.getField(bindValueSplit[1]).instanceValidators;
 
-                            if (instanceValidators != undefined && instanceValidators[0].type == 'presence') {
-                                fieldItem.beforeLabelTextTpl = '<span class="field-required" data-qtip="必填选项">*</span>'
-                            }
-                            else if(!fieldItem.allowBlank){
-                                fieldItem.beforeLabelTextTpl = '<span class="field-required" data-qtip="必填选项">*</span>'
-                            }
+                        if (instanceValidators != undefined && instanceValidators[0].type == 'presence') {
+                            fieldItem.beforeLabelTextTpl = '<span class="field-required" data-qtip="必填选项">*</span>'
                         }
+                        else if (!fieldItem.allowBlank) {
+                            fieldItem.beforeLabelTextTpl = '<span class="field-required" data-qtip="必填选项">*</span>'
+                        }
+                    }
                 }
             }
         }

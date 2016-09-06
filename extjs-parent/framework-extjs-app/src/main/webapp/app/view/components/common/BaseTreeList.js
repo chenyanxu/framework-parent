@@ -9,7 +9,7 @@ Ext.define('kalix.view.components.common.BaseTreeList', {
     {
       tooltip: '刷新',
       iconCls: 'iconfont icon-refresh',
-      handler: 'onRefersh',
+      handler: 'onRefresh',
       text:'刷新'
     }
   ]
