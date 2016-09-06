@@ -3,6 +3,7 @@
  */
 Ext.define('kalix.container.BaseContainer', {
   extend: 'Ext.container.Container',
+  xtype:'baseContainer',
   listeners: {
     render: function (target, eOpts) {
       if(this.items.length>1) {
