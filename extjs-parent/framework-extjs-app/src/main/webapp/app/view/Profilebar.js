@@ -28,10 +28,12 @@ Ext.define('kalix.view.Profilebar', {
                 items: [
                     {
                         text: '修改个人信息',
+                        iconCls: 'iconfont icon-edit-column',
                         handler: 'onUpdateUserInfo'
                     },
                     {
                         text: '修改密码',
+                        iconCls: 'iconfont icon-password-reset',
                         handler: 'onUpdateUserPassword'
                     }
                 ]
