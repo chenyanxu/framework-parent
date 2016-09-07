@@ -26,7 +26,7 @@ Ext.define('kalix.view.UpdateUserPasswordWindow', {
             items: [
                 {
                     inputType: 'password',
-                    fieldLabel: '原密码',
+                    fieldLabel: '<span class="field-required" data-qtip="必填选项">*</span>原密码',
                     listeners: {
                         blur: 'oldPasswordBlur'
                     }
