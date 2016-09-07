@@ -110,6 +110,10 @@ Ext.define('Ext.ux.DateTimePicker', {
     afterRender: function () {
         var me = this;
 
+        if(Ext.theme){
+            me.setWidth(Ext.theme.isClassic()?210:310);
+        }
+
         me.timePicker = Ext.create('Ext.panel.Panel', {
             layout: {
                 type: 'hbox',
