@@ -411,7 +411,7 @@ Ext.define('kalix.controller.MainController', {
                     var vm = view.lookupViewModel();
 
                     vm.set('rec', selModel);
-                    vm.set('iconCls', 'iconfont icon-view');
+                    vm.set('iconCls', 'iconfont icon-edit');
                     vm.set('store', store);
 
                     view.show();
@@ -441,7 +441,7 @@ Ext.define('kalix.controller.MainController', {
                     selModel.set('password', '');
 
                     vm.set('rec', selModel);
-                    vm.set('iconCls', 'iconfont icon-view');
+                    vm.set('iconCls', 'iconfont icon-edit');
                     vm.set('store', store);
                     view.show();
                 }
