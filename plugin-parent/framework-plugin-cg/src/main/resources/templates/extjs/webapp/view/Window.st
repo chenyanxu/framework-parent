@@ -1,5 +1,5 @@
 /**
- * <moduleDescription>新增和修改表单
+ * <moduleDescription>添加和修改表单
  *
  * @author
  * @version 1.0.0

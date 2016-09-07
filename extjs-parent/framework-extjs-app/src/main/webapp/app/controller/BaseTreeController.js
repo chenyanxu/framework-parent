@@ -36,7 +36,7 @@ Ext.define('kalix.controller.BaseTreeController', {
         }
     },
     /**
-     * 打开新增操作.
+     * 打开添加操作.
      */
     onAdd: function () {
         var rows = this.getView().getSelectionModel().getSelection();
@@ -124,7 +124,7 @@ Ext.define('kalix.controller.BaseTreeController', {
             border: false,
             modal: true,
             iconCls: model.get('id')==0?'iconfont icon-add':'iconfont icon-edit',
-            title:  model.get('id')==0 ? '新增': '编辑' ,
+            title: model.get('id') == 0 ? '添加' : '编辑',
             items: [treeForm]
         });
 
