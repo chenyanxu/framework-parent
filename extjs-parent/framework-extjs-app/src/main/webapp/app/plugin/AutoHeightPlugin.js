@@ -11,7 +11,7 @@ Ext.define('kalix.plugin.AutoHeightPlugin', {
         var baseContainer = this.findParentByType('container');
 
         if (baseContainer) {
-          var mainContainer = baseContainer.findParentByType('container')
+          var mainContainer = baseContainer.findParentByType('container');
           var clientHeight = height = Ext.Element.getViewportHeight() - 65;
 
           if (baseContainer.layout.type=='autocontainer') {

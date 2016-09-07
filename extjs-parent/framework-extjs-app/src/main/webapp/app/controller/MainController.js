@@ -391,5 +391,61 @@ Ext.define('kalix.controller.MainController', {
             navTree.selectTreeItem(this.lastClickShotcut.routeId);
             this.lastClickShotcut=null;
         }
+    },
+    // 修改个人信息
+    onUpdateUserInfo: function() {
+        var view = Ext.create('kalix.view.UpdateUserInfoWindow');
+        var store = Ext.create('kalix.store.UpdateUserStore');
+        var jsonObjNew = {};
+
+        jsonObjNew['id'] = Ext.util.Cookies.get('currentUserId');
+
+        var jsonStr = Ext.JSON.encode(jsonObjNew);
+
+        store.proxy.extraParams = {'jsonStr': jsonStr};
+        store.load({
+            scope: this,
+            callback: function(records, operation, success) {
+                if (records != "") {
+                    var selModel = store.getData().items[0];
+                    var vm = view.lookupViewModel();
+
+                    vm.set('rec', selModel);
+                    vm.set('iconCls', 'iconfont icon-edit');
+                    vm.set('store', store);
+
+                    view.show();
+                }
+            }
+        });
+
+    },
+    // 修改密码
+    onUpdateUserPassword: function() {
+        var view = Ext.create('kalix.view.UpdateUserPasswordWindow');
+        var store = Ext.create('kalix.store.UpdateUserStore');
+        var jsonObjNew = {};
+
+        jsonObjNew['id'] = Ext.util.Cookies.get('currentUserId');
+
+        var jsonStr = Ext.JSON.encode(jsonObjNew);
+
+        store.proxy.extraParams = {'jsonStr': jsonStr};
+        store.load({
+            scope: this,
+            callback: function(records, operation, success) {
+                if (records != "") {
+                    var selModel = store.getData().items[0];
+                    var vm = view.lookupViewModel();
+
+                    selModel.set('password', '');
+
+                    vm.set('rec', selModel);
+                    vm.set('iconCls', 'iconfont icon-edit');
+                    vm.set('store', store);
+                    view.show();
+                }
+            }
+        });
     }
 });
