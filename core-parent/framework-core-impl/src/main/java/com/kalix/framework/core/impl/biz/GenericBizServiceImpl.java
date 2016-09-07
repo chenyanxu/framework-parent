@@ -71,7 +71,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     @Transactional
     public void doSave(TP entity, JsonStatus jsonStatus) {
         if (entity.getId() == 0) {
-            jsonStatus.setMsg("新增成功！");
+            jsonStatus.setMsg("添加成功！");
         } else {
             jsonStatus.setMsg("修改成功！");
         }
@@ -170,7 +170,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
             e.printStackTrace();
             jsonStatus.setFailure(true);
             /*if (entity.getId() == 0)
-                jsonStatus.setMsg("新增失败！");
+                jsonStatus.setMsg("添加失败！");
             else
                 jsonStatus.setMsg("修改失败！");*/
             jsonStatus.setMsg("服务器异常，操作失败！");

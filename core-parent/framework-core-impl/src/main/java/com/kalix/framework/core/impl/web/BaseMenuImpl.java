@@ -1,11 +1,7 @@
 package com.kalix.framework.core.impl.web;
 
 import com.kalix.framework.core.api.web.IMenu;
-import com.kalix.framework.core.api.web.IModule;
 import com.kalix.framework.core.util.ConfigUtil;
-
-import java.util.Dictionary;
-import java.util.List;
 
 /**
  * Created by chenyanxu on 2016/6/24.
@@ -19,7 +15,7 @@ public class BaseMenuImpl implements IMenu {
     private String applicationId;
     private String routeId;
     private String moduleId;
-    private String buttons="新增,add;刪除,delete;修改,edit;查看,view";
+    private String buttons = "添加,add;刪除,delete;修改,edit;查看,view";
 
     public BaseMenuImpl() {
         String[] splits = this.getClass().getSimpleName().split("Menu");
