@@ -21,6 +21,12 @@ Ext.define('kalix.view.UpdateUserInfoWindow', {
             xtype: 'baseForm',
             items: [
                 {
+                    fieldLabel: '工号',
+                    bind: {
+                        value: '{rec.code}'
+                    }
+                },
+                {
                     fieldLabel: '登录名',
                     readOnly: true,
                     bind: {
