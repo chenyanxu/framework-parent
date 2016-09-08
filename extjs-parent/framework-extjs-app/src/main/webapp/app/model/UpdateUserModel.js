@@ -9,8 +9,7 @@ Ext.define('kalix.model.UpdateUserModel', {
             name: 'loginName',
             validators: [{type: 'presence'}]
         }, {
-            name: 'password',
-            validators: [{type: 'presence'}]
+            name: 'password'
         },
         {
             name: 'confirmPassword'
@@ -27,7 +26,7 @@ Ext.define('kalix.model.UpdateUserModel', {
             validators: [{type: 'presence'}, {type: 'mail'}]
         },
         {
-            name: 'phone',
+            name: 'phone'
         },
         {
             name: 'mobile',
@@ -37,8 +36,11 @@ Ext.define('kalix.model.UpdateUserModel', {
             name: 'loginIp'
         },
         {
-            name: 'is_ent_user',
+            name: 'code',
             type: 'int'
+        },
+        {
+            name: 'sex'
         },
         {
             name: 'org'
@@ -63,9 +65,18 @@ Ext.define('kalix.model.UpdateUserModel', {
             name: 'available',
             type: 'string',
             defaultValue: '1'
-        },
-        {
-            name: 'availableText'
-        }
-    ]
+        }, {
+            name: 'availableText',
+            calculate: function (data) {
+                var options = [
+                    ['1', '启用'],
+                    ['0', '停用']
+                ];
+                var available = data.available;
+
+                return _.find(options, function (item) {
+                    return item[0] === available;
+                })[1];
+            }
+        }]
 });
