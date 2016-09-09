@@ -32,6 +32,14 @@ Ext.define('kalix.controller.MainController', {
             else if(appName=='sys'){
                 appName='admin';
             }
+            else if(appName=='system'){
+                appName='oa';
+            }
+            else if(appName=='task'){
+                appName='schedule';
+            }else if(appName=='plan'){
+                appName='schedule';
+            }
         }
 
         var navTreeSelection=this.getReferences().navigationTreeList.getSelection();
