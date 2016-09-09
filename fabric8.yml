@@ -1,11 +1,11 @@
 ---
 buildName: "framework-parent"
-codeReview: false
+codeReview: true
 links:
   Backlog: "http://taiga.apps.kalix.com/project/admin-kalix-parent-1/backlog"
-  Current: "http://172.30.221.109:80/kubernetes/pods?namespace=develop"
+  Current: "http://172.30.8.74:80/kubernetes/pods?namespace=develop"
   Git: "https://github.com/chenyanxu/framework-parent.git"
-  Job: "http://jenkins.apps.kalix.com/job/framework-parent"
+  Job: "http://jenkins.app.kalix.com/job/framework-parent"
   Team: "http://taiga.apps.kalix.com/project/admin-kalix-parent-1/team"
 environments:
   Current: "develop"
