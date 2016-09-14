@@ -23,5 +23,10 @@
             <groupId>com.kalix.framework.osgi</groupId>
             <artifactId>framework-osgi-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kalix.framework.core</groupId>
+            <artifactId>framework-core-util</artifactId>
+            <version>${globle.version}</version>
+        </dependency>
     </dependencies>
 </project>
