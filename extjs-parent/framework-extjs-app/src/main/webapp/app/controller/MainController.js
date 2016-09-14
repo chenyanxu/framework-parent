@@ -34,6 +34,8 @@ Ext.define('kalix.controller.MainController', {
             }
             else if(appName=='system'){
                 appName='oa';
+            }else if(appName=='usecase'){
+                appName='oa';
             }
             else if(appName=='task'){
                 appName='schedule';
