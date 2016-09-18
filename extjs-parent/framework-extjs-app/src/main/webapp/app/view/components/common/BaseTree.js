@@ -19,11 +19,13 @@ Ext.define('kalix.view.components.common.BaseTree', {
   rootVisible: false,
   margin: 5,
   plugins:['autoheightplugin','zorderPlugin'],
+  viewConfig: {
+    enableTextSelection: true
+  },
   //==custom property
   config: {
     expandId: -1 //config the id in child class to expand a tree node
   },
-
   //custom property
   listeners: {
     load: function (root) {
