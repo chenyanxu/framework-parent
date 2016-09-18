@@ -16,7 +16,9 @@ Ext.define('kalix.plugin.AutoHeightPlugin', {
 
           if (baseContainer.layout.type=='autocontainer') {
             if(baseContainer.items.length == 2){
-              this.setHeight(clientHeight - 115);
+              if(Ext.theme){
+                this.setHeight(Ext.theme.isClassic()?clientHeight-85:clientHeight-115);
+              }
             }
             else if(baseContainer.items.length == 1){
               this.setHeight(clientHeight - 14);
