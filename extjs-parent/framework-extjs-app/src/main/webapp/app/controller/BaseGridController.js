@@ -27,21 +27,27 @@ Ext.define('kalix.controller.BaseGridController', {
     itemdblclick: function (target, record, item, index, e, eOpts) {
         var grid = this.getView();
         var columns = grid.columns;
-        var lastColumn = columns[columns.length - 1];
+        var lastColumn;
         var findViewItem=false;
 
-        if (lastColumn.text == '操作') {
-            var items = lastColumn.items;
+        for(var colIndex=columns.length-1;colIndex>=0;--colIndex){
+            lastColumn=columns[colIndex];
 
-            for (var idx = 0; idx < items.length; ++idx) {
-                var item = items[idx];
+            if (lastColumn instanceof Ext.grid.ActionColumn) {
+                var items = lastColumn.items;
 
-                if (item.handler == 'onView') {
-                    this.onView(grid, index, 0);
-                    findViewItem=true;
+                for (var idx = 0; idx < items.length; ++idx) {
+                    var item = items[idx];
 
-                    break;
+                    if (item.handler == 'onView') {
+                        this.onView(grid, index, 0);
+                        findViewItem=true;
+
+                        break;
+                    }
                 }
+
+                break;
             }
         }
 
