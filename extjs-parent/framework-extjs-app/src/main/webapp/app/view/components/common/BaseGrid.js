@@ -16,12 +16,15 @@ Ext.define('kalix.view.components.common.BaseGrid', {
     autoLoad: true,
     stripeRows: true,
     margin: 5,
-    plugins:['autoheightplugin','zorderPlugin'],
+    plugins: ['autoheightplugin', 'zorderPlugin'],
     bind: {
       iconCls: '{grid_iconCls}'
     },
     listeners: {
       itemdblclick: 'itemdblclick'
+    },
+    viewConfig: {
+      enableTextSelection: true
     },
     bbar: [
       {
