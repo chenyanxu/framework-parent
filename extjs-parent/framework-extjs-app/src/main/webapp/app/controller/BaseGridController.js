@@ -47,7 +47,9 @@ Ext.define('kalix.controller.BaseGridController', {
                     }
                 }
 
-                break;
+                if (findViewItem) {
+                    break;
+                }
             }
         }
 
