@@ -17,4 +17,15 @@
     <properties>
         <bundle.symbolicName>com.kalix.framework.osgi.api</bundle.symbolicName>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.kalix.framework.core</groupId>
+            <artifactId>framework-core-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kalix.framework.core</groupId>
+            <artifactId>framework-core-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

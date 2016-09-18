@@ -3,13 +3,13 @@
 \<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
+    \<modelVersion>4.0.0\</modelVersion>
+
     \<parent>
         \<groupId><parentGroupId>\</groupId>
         \<artifactId><parentArtifactId>\</artifactId>
         \<version><parentVersion>\</version>
     \</parent>
-
-    \<modelVersion>4.0.0\</modelVersion>
 
     \<groupId><packageName>\</groupId>
     \<artifactId><pomName>-parent\</artifactId>

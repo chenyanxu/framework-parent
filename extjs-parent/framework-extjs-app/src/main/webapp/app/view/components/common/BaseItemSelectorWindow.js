@@ -56,7 +56,7 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
               fieldLabel: me.Config.fieldLabel
             },
             labelAlign: 'left',
-            labelWidth: 30,
+            labelWidth: 60,
             width: 200,
             name: 'name',
             listeners:{
