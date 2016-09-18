@@ -47,7 +47,11 @@ Ext.define('kalix.view.components.common.TableFormPanel', {
                     tempItem.html = '<span style="color:#BFBFBF">' + tempItem.html + '</span>';
                 }
 
-                tempItem.setHeight(40);
+                if (tempItem.height) {
+                    tempItem.setHeight(tempItem.height);
+                }else{
+                    tempItem.setHeight(40);
+                }
 
                 if (tempItem.items.length == 1) {
                     tempItem.setLayout('fit');

@@ -22,15 +22,13 @@ Ext.define('kalix.model.UpdateUserModel', {
             name: 'position'
         },
         {
-            name: 'email',
-            validators: [{type: 'presence'}, {type: 'mail'}]
+            name: 'email'
         },
         {
             name: 'phone'
         },
         {
-            name: 'mobile',
-            validators: [{type: 'presence'}, {type: 'mobile'}]
+            name: 'mobile'
         },
         {
             name: 'loginIp'
