@@ -195,15 +195,16 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
                 predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Short(value)));
             } else if (attrJavaTypeName.equals(Date.class.getName())) {
                 SingularAttribute<T, Date> tempAttribute = (SingularAttribute<T, Date>) bean_.getSingularAttribute(key.split(":")[0]);
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
+                DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+                DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 try {
+                    Date date = dateFormat1.parse(value);
                     if (key.contains(":begin:gt")) {
-                        Date date = dateFormat.parse(value + " 00:00:00");
-                        predicatesList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(tempAttribute), date));
+                        Date date1 = dateFormat2.parse(dateFormat1.format(date) + " 00:00:00");
+                        predicatesList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(tempAttribute), date1));
                     } else if (key.contains(":end:lt")) {
-                        Date date = dateFormat.parse(value + " 23:59:59");
-                        predicatesList.add(criteriaBuilder.lessThanOrEqualTo(root.get(tempAttribute), date));
+                        Date date1 = dateFormat2.parse(dateFormat1.format(date) + " 23:59:59");
+                        predicatesList.add(criteriaBuilder.lessThanOrEqualTo(root.get(tempAttribute), date1));
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
