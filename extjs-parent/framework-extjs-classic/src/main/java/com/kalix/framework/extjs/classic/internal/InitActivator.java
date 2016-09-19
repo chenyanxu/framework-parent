@@ -17,7 +17,7 @@ public class InitActivator extends KalixBundleActivator {
         reference = bundleContext.getServiceReference(HttpService.class.getName());
         httpService = (HttpService) bundleContext.getService(reference);
 
-        httpService.registerResources(contextPath + "/extjs/classic", "/classic", null);
+        httpService.registerResources(contextPath + "/extjs/classic", "/classic-min", null);
     }
 
     @Override
