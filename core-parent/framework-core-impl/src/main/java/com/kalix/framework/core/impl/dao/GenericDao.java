@@ -181,25 +181,28 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
             attrJavaTypeName = attribute.getJavaType().getName();
 
             if (attrJavaTypeName.equals(String.class.getName())) {
-                SingularAttribute<T, String> tempAttribute = (SingularAttribute<T, String>)bean_.getSingularAttribute(key);
-                predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value + "%"));
+                SingularAttribute<T, String> tempAttribute = (SingularAttribute<T, String>) bean_.getSingularAttribute(key);
+                if ("orgCode".equals(key)) {
+                    predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), value + "%"));
+                } else {
+                    predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value + "%"));
+                }
             } else if (attrJavaTypeName.equals(long.class.getName()) || attrJavaTypeName.equals(Long.class.getName())) {
                 predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Long(value)));
             } else if (attrJavaTypeName.equals(int.class.getName()) || attrJavaTypeName.equals(Integer.class.getName())) {
                 predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Integer(value)));
             } else if (attrJavaTypeName.equals(short.class.getName()) || attrJavaTypeName.equals(Short.class.getName())) {
                 predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Short(value)));
-            } else if(attrJavaTypeName.equals(Date.class.getName())){
-                SingularAttribute<T, Date> tempAttribute = (SingularAttribute<T, Date>)bean_.getSingularAttribute(key.split(":")[0]);
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            } else if (attrJavaTypeName.equals(Date.class.getName())) {
+                SingularAttribute<T, Date> tempAttribute = (SingularAttribute<T, Date>) bean_.getSingularAttribute(key.split(":")[0]);
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
                 try {
-                    Date date = dateFormat.parse(value);
-
-                    if(key.contains(":begin:gt")){
+                    if (key.contains(":begin:gt")) {
+                        Date date = dateFormat.parse(value + " 00:00:00");
                         predicatesList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(tempAttribute), date));
-                    }
-                    else if(key.contains(":end:lt")){
+                    } else if (key.contains(":end:lt")) {
+                        Date date = dateFormat.parse(value + " 23:59:59");
                         predicatesList.add(criteriaBuilder.lessThanOrEqualTo(root.get(tempAttribute), date));
                     }
                 } catch (ParseException e) {
@@ -219,13 +222,12 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     public JsonData getAll(int page, int limit, CriteriaQuery criteriaQuery) {
         JsonData jsonData = new JsonData();
 
-        if(0==page && 0 == limit){
-            List list=getAll();
+        if (0 == page && 0 == limit) {
+            List list = getAll();
 
             jsonData.setTotalCount((long) list.size());
             jsonData.setData(list);
-        }
-        else{
+        } else {
             try {
                 Class.forName(className);
             } catch (ClassNotFoundException e) {
@@ -527,31 +529,29 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     }
 
     @Override
-    public Integer getFieldMaxValue(String fieldName,String where){
-        Query query=null;
+    public Integer getFieldMaxValue(String fieldName, String where) {
+        Query query = null;
 
-        if(where==null || where.equals("")){
-            query= createQuery("SELECT MAX(t."+fieldName+") from "+this.persistentClass.getSimpleName()+ " t");
+        if (where == null || where.equals("")) {
+            query = createQuery("SELECT MAX(t." + fieldName + ") from " + this.persistentClass.getSimpleName() + " t");
+        } else {
+            query = createQuery("SELECT MAX(t." + fieldName + ") from " + this.persistentClass.getSimpleName() + " t WHERE t." + where);
         }
-        else{
-            query= createQuery("SELECT MAX(t."+fieldName+") from "+this.persistentClass.getSimpleName()+" t WHERE t."+where);
-        }
 
-        Object result  = query.getResultList().get(0);
+        Object result = query.getResultList().get(0);
 
-        if(result==null){
+        if (result == null) {
             return -1;
-        }
-        else{
+        } else {
             return Integer.valueOf(result.toString());
         }
     }
 
     @Override
-    public String getTableName(){
-        Table tb=persistentClass.getAnnotation(Table.class);
+    public String getTableName() {
+        Table tb = persistentClass.getAnnotation(Table.class);
 
-        if(tb!=null){
+        if (tb != null) {
             return tb.name();
         }
 
