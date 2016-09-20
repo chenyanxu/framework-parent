@@ -41,7 +41,7 @@ Ext.theme={
 //Ext函数重写
 Ext.override(Ext.JSON, {
   encodeDate: function (d) {
-    return Ext.Date.format(d, '"Y-m-d T H:i:s"');
+    return Ext.Date.format(d, '"Y-m-d H:i:s"');
   }
 });
 //override the render function: edit the zIndex of the class extend from panel.
