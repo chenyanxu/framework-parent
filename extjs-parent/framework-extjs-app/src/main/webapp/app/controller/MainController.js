@@ -433,7 +433,7 @@ Ext.define('kalix.controller.MainController', {
     // 修改密码
     onUpdateUserPassword: function() {
         var view = Ext.create('kalix.view.UpdateUserPasswordWindow');
-        var store = Ext.create('kalix.store.UpdateUserStore');
+        var store = Ext.create('kalix.store.UpdatePasswordStore');
         var jsonObjNew = {};
 
         jsonObjNew['id'] = Ext.util.Cookies.get('currentUserId');
