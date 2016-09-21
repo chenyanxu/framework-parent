@@ -2,7 +2,7 @@
  * 用户修改个人信息、密码模型
  */
 
-Ext.define('kalix.model.UpdateUserModel', {
+Ext.define('kalix.model.UpdatePasswordModel', {
     extend: 'kalix.model.BaseModel',
     fields: [
         {
@@ -22,15 +22,13 @@ Ext.define('kalix.model.UpdateUserModel', {
             name: 'position'
         },
         {
-            name: 'email',
-            validators: [{type: 'presence'}, {type: 'mail'}]
+            name: 'email'
         },
         {
             name: 'phone'
         },
         {
-            name: 'mobile',
-            validators: [{type: 'presence'}, {type: 'mobile'}]
+            name: 'mobile'
         },
         {
             name: 'loginIp'
