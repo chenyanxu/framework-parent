@@ -16,7 +16,6 @@
     <script type="text/javascript" src="<%=path %>/resources/js/underscore-min.js"></script>
     <script type="text/javascript">CONFIG.restRoot = '<%=path %>';</script>
     <script type="text/javascript" src="<%=path %>/resources/js/index.js"></script>
-    <script type="text/javascript" src="<%=path %>/resources/js/tinymce/tinymce.min.js"></script>
 </head>
 <body>
 </body>

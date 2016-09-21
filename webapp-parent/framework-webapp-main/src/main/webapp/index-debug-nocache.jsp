@@ -19,7 +19,6 @@
         Ext.Loader.setConfig({ enabled: true, disableCaching: false });
     </script>
     <script type="text/javascript" src="<%=path %>/resources/js/index.js"></script>
-    <script type="text/javascript" src="<%=path %>/resources/js/tinymce/tinymce.min.js"></script>
 </head>
 <body>
 </body>
