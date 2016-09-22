@@ -6,6 +6,7 @@ import com.kalix.framework.core.api.exception.SearchException;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.web.model.QueryDTO;
+import com.kalix.framework.core.util.DateUtil;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -196,16 +197,12 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
                 predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Short(value)));
             } else if (attrJavaTypeName.equals(Date.class.getName())) {
                 SingularAttribute<T, Date> tempAttribute = (SingularAttribute<T, Date>) bean_.getSingularAttribute(key.split(":")[0]);
-                DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
-                DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 try {
-                    Date date = dateFormat1.parse(value);
+                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(value);
                     if (key.contains(":begin:gt")) {
-                        Date date1 = dateFormat2.parse(dateFormat1.format(date) + " 00:00:00");
-                        predicatesList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(tempAttribute), date1));
+                        predicatesList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(tempAttribute), DateUtil.getCurrentDayStartTime(date)));
                     } else if (key.contains(":end:lt")) {
-                        Date date1 = dateFormat2.parse(dateFormat1.format(date) + " 23:59:59");
-                        predicatesList.add(criteriaBuilder.lessThanOrEqualTo(root.get(tempAttribute), date1));
+                        predicatesList.add(criteriaBuilder.lessThanOrEqualTo(root.get(tempAttribute), DateUtil.getCurrentDayEndTime(date)));
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();

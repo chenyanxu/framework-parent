@@ -82,6 +82,19 @@ public class DateUtil {
     }
 
     /**
+     * 获得本天的开始时间，即2012-01-01 00:00:00
+     *
+     * @return
+     */
+    public static Date getCurrentDayStartTime(Date date) {
+        try {
+            date = shortSdf.parse(shortSdf.format(date) + " 00:00:00");
+        } catch (Exception e) {
+        }
+        return date;
+    }
+
+    /**
      * 获得本天的按6整除的某个整点时间，即2012-01-01 00:00:00;2012-01-01 06:00:00;2012-01-01 12:00:00;2012-01-01
      * 18:00:00
      */
@@ -159,6 +172,20 @@ public class DateUtil {
         } catch (Exception e) {
         }
         return now;
+    }
+
+    /**
+     * 获得时间参数的结束时间，即2012-01-01 23:59:59
+     *
+     * @return
+     */
+
+    public static Date getCurrentDayEndTime(Date date) {
+        try {
+            date = longSdf.parse(shortSdf.format(date) + " 23:59:59");
+        } catch (Exception e) {
+        }
+        return date;
     }
 
     /**
@@ -552,11 +579,10 @@ public class DateUtil {
 
 
     /**
-     * String To Date
      *
      * @param dateString
-     * @param formatter
-     * @return Date
+     * @param sdf
+     * @return
      */
     public static Date convertStringToDate(String dateString, SimpleDateFormat sdf) {
         Date date = null;
