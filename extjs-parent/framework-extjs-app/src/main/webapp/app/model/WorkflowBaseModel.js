@@ -7,6 +7,9 @@ Ext.define('kalix.model.WorkflowBaseModel', {
     extend: 'kalix.model.BaseModel',
     fields: [
         {
+            name: 'businessNo', //业务编号
+        },
+        {
             name: 'orgId', //组织机构Id
             validators: [{type: 'presence'}]
         },
