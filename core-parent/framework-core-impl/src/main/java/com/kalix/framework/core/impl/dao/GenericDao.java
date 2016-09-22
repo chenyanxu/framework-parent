@@ -18,6 +18,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.SingularAttribute;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.text.DateFormat;
@@ -337,6 +338,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     }
 
     @Override
+    @Transactional
     public T save(T object) {
         if (object.getId() == 0)//do not persist
             entityManager.persist(object);
@@ -350,6 +352,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     }
 
     @Override
+    @Transactional
     public T save(T object, String userName) {
         if (object.getId() == 0)//do not persist
         {
@@ -371,6 +374,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     }
 
     @Override
+    @Transactional
     public void remove(PK id) {
         Object object = get(id);
         entityManager.remove(object);
@@ -379,6 +383,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
 
     // 批量删除
     @Override
+    @Transactional
     public void removeBatch(String ids) {
         String strIds = ids;
         if (strIds != null && strIds.trim().length() > 0) {
@@ -513,7 +518,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
      * @return
      */
     @Override
-//    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional
     public int update(String qlString, Object... parameter) {
         return createQuery(qlString, parameter).executeUpdate();
     }
@@ -525,6 +530,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
      * @return
      */
     @Override
+    @Transactional
     public int updateNativeQuery(String sql) {
         return entityManager.createNativeQuery(sql).executeUpdate();
     }

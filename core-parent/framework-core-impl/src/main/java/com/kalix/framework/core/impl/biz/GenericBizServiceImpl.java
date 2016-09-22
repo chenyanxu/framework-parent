@@ -54,6 +54,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
+    @Transactional
     public void doDelete(long entityId,JsonStatus jsonStatus) {
         dao.remove(entityId);
         jsonStatus.setSuccess(true);
@@ -61,6 +62,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
+    @Transactional
     public void doBatchDelete(String entityIds, JsonStatus jsonStatus) {
         dao.removeBatch(entityIds);
         jsonStatus.setSuccess(true);
@@ -83,6 +85,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
+    @Transactional
     public void doUpdate(TP entity, JsonStatus jsonStatus) {
         dao.save(entity);
         jsonStatus.setSuccess(true);
@@ -105,6 +108,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
+    @Transactional
     public JsonStatus deleteEntity(long entityId) {
         JsonStatus jsonStatus = new JsonStatus();
         try {
@@ -121,6 +125,8 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         return jsonStatus;
     }
 
+    @Override
+    @Transactional
     public JsonStatus batchDeleteEntity(String entityIds) {
         JsonStatus jsonStatus = new JsonStatus();
         try {
@@ -133,7 +139,9 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
         return jsonStatus;
     }
+
     @Override
+    @Transactional
     public JsonStatus removeEntity(TP entity) {
         return deleteEntity(entity.getId());
     }
@@ -145,7 +153,6 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
-    @Transactional
     public void afterSaveEntity(TP entity, JsonStatus status) {
         postEvent(this.entityClassName.replace(".", "/") + "/after/save", entity);
     }
@@ -195,6 +202,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
+    @Transactional
     public JsonStatus updateEntity(TP entity) {
         JsonStatus jsonStatus = new JsonStatus();
         try {
@@ -213,6 +221,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
 
     @Override
+    @Transactional
     public Object saveEntityAndReturn(PersistentEntity entity) {
         return dao.save(entity);
     }
