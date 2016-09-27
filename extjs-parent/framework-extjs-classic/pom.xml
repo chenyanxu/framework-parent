@@ -27,29 +27,23 @@
             <artifactId>org.osgi.compendium</artifactId>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>compress-resources</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.alchim31.maven</groupId>
-                        <artifactId>yuicompressor-maven-plugin</artifactId>
-                        <configuration>
-                            <!-- 压缩后保存文件后缀 无后缀 -->
-                            <nosuffix>false</nosuffix>
-                            <!--压缩后文件后缀-->
-                            <suffix>.min</suffix>
-                            <includes>
-                                <include>**/theme-*-all_*.css</include>
-                            </includes>
-                            <excludes>
-                                <exclude>**/*.min.css</exclude>
-                            </excludes>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>yuicompressor-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 压缩后保存文件后缀 无后缀 -->
+                    <nosuffix>false</nosuffix>
+                    <!--压缩后文件后缀-->
+                    <suffix>.min</suffix>
+                    <outputDirectory>target/classes</outputDirectory>
+                    <includes>
+                        <include>**/theme-*-all_*.css</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

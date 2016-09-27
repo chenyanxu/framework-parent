@@ -17,7 +17,12 @@ public class InitActivator extends KalixBundleActivator {
         reference = bundleContext.getServiceReference(HttpService.class.getName());
         httpService = (HttpService) bundleContext.getService(reference);
 
-        httpService.registerResources(contextPath+"/app/dict", "/system/dict", null);
+        if(deploy){
+            httpService.registerResources(contextPath+"/app/dict", "/min/system/dict", null);
+        }
+        else{
+            httpService.registerResources(contextPath+"/app/dict", "/system/dict", null);
+        }
     }
 
     @Override
