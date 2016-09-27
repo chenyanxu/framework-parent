@@ -6,6 +6,7 @@ import com.kalix.framework.core.api.exception.SearchException;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.web.model.QueryDTO;
+import com.kalix.framework.core.util.DateUtil;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -18,6 +19,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.SingularAttribute;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.text.DateFormat;
@@ -195,16 +197,12 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
                 predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Short(value)));
             } else if (attrJavaTypeName.equals(Date.class.getName())) {
                 SingularAttribute<T, Date> tempAttribute = (SingularAttribute<T, Date>) bean_.getSingularAttribute(key.split(":")[0]);
-                DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
-                DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 try {
-                    Date date = dateFormat1.parse(value);
+                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(value);
                     if (key.contains(":begin:gt")) {
-                        Date date1 = dateFormat2.parse(dateFormat1.format(date) + " 00:00:00");
-                        predicatesList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(tempAttribute), date1));
+                        predicatesList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(tempAttribute), DateUtil.getCurrentDayStartTime(date)));
                     } else if (key.contains(":end:lt")) {
-                        Date date1 = dateFormat2.parse(dateFormat1.format(date) + " 23:59:59");
-                        predicatesList.add(criteriaBuilder.lessThanOrEqualTo(root.get(tempAttribute), date1));
+                        predicatesList.add(criteriaBuilder.lessThanOrEqualTo(root.get(tempAttribute), DateUtil.getCurrentDayEndTime(date)));
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -337,6 +335,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     }
 
     @Override
+    @Transactional
     public T save(T object) {
         if (object.getId() == 0)//do not persist
             entityManager.persist(object);
@@ -350,6 +349,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     }
 
     @Override
+    @Transactional
     public T save(T object, String userName) {
         if (object.getId() == 0)//do not persist
         {
@@ -371,6 +371,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     }
 
     @Override
+    @Transactional
     public void remove(PK id) {
         Object object = get(id);
         entityManager.remove(object);
@@ -379,6 +380,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
 
     // 批量删除
     @Override
+    @Transactional
     public void removeBatch(String ids) {
         String strIds = ids;
         if (strIds != null && strIds.trim().length() > 0) {
@@ -513,7 +515,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
      * @return
      */
     @Override
-//    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional
     public int update(String qlString, Object... parameter) {
         return createQuery(qlString, parameter).executeUpdate();
     }
@@ -525,6 +527,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
      * @return
      */
     @Override
+    @Transactional
     public int updateNativeQuery(String sql) {
         return entityManager.createNativeQuery(sql).executeUpdate();
     }
