@@ -174,7 +174,9 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
                 continue;
             }
 
-            if (key.contains(":begin:gt") || key.contains(":end:lt")) {
+            if (key.contains("%")) {
+                attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key.replace("%", ""));
+            } else if (key.contains(":begin:gt") || key.contains(":end:lt")) {
                 attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key.split(":")[0]);
             } else {
                 attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key);
@@ -183,12 +185,21 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
             attrJavaTypeName = attribute.getJavaType().getName();
 
             if (attrJavaTypeName.equals(String.class.getName())) {
-                SingularAttribute<T, String> tempAttribute = (SingularAttribute<T, String>) bean_.getSingularAttribute(key);
-                if ("orgCode".equals(key)) {
-                    predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), value + "%"));
-                } else {
-                    predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value + "%"));
+                SingularAttribute<T, String> tempAttribute = (SingularAttribute<T, String>) bean_.getSingularAttribute(key.replace("%",""));
+                int cIndex = key.indexOf("%");
+
+                switch (cIndex){
+                    case -1:
+                        predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value + "%"));
+                        break;
+                    case 0:
+                        predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value));
+                        break;
+                    default:
+                        predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), value + "%"));
+                        break;
                 }
+
             } else if (attrJavaTypeName.equals(long.class.getName()) || attrJavaTypeName.equals(Long.class.getName())) {
                 predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Long(value)));
             } else if (attrJavaTypeName.equals(int.class.getName()) || attrJavaTypeName.equals(Integer.class.getName())) {
