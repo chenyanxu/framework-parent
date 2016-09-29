@@ -154,4 +154,28 @@ public final class StringUtils {
         }
         return collection.toArray(new String[collection.size()]);
     }
+
+    public static Long[] toLongArray(String[] origin) {
+        Long[] destination = new Long[origin.length];
+        for (int i = 0; i < origin.length; i++) {
+            destination[i] = Long.parseLong(origin[i]);
+        }
+        return destination;
+    }
+
+    public static int[] toIntArray(String[] origin) {
+        int[] destination = new int[origin.length];
+        for (int i = 0; i < origin.length; i++) {
+            destination[i] = Integer.parseInt(origin[i]);
+        }
+        return destination;
+    }
+
+    public static short[] toShortArray(String[] origin) {
+        short[] destination = new short[origin.length];
+        for (int i = 0; i < origin.length; i++) {
+            destination[i] = Short.parseShort(origin[i]);
+        }
+        return destination;
+    }
 }
