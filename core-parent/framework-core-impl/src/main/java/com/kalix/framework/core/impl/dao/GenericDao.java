@@ -7,16 +7,14 @@ import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.web.model.QueryDTO;
 import com.kalix.framework.core.util.DateUtil;
+import com.kalix.framework.core.util.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.transaction.Transactional;
@@ -174,38 +172,62 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
                 continue;
             }
 
+            boolean isIn = false;
             if (key.contains("%")) {
                 attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key.replace("%", ""));
             } else if (key.contains(":begin:gt") || key.contains(":end:lt")) {
                 attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key.split(":")[0]);
-            } else {
+            } else if (key.contains(":in")) {
+                isIn = true;
+                attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key.split(":")[0]);
+            }
+            else {
                 attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key);
             }
 
             attrJavaTypeName = attribute.getJavaType().getName();
 
             if (attrJavaTypeName.equals(String.class.getName())) {
-                SingularAttribute<T, String> tempAttribute = (SingularAttribute<T, String>) bean_.getSingularAttribute(key.replace("%",""));
-                int cIndex = key.indexOf("%");
+                if (isIn) {
+                    String[] s = value.split(",");
+                    predicatesList.add(root.get(attribute.getName()).in(s));
+                } else {
+                    SingularAttribute<T, String> tempAttribute = (SingularAttribute<T, String>) bean_.getSingularAttribute(key.replace("%",""));
+                    int cIndex = key.indexOf("%");
 
-                switch (cIndex){
-                    case -1:
-                        predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value + "%"));
-                        break;
-                    case 0:
-                        predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value));
-                        break;
-                    default:
-                        predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), value + "%"));
-                        break;
+                    switch (cIndex){
+                        case -1:
+                            predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value + "%"));
+                            break;
+                        case 0:
+                            predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value));
+                            break;
+                        default:
+                            predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), value + "%"));
+                            break;
+                    }
                 }
-
             } else if (attrJavaTypeName.equals(long.class.getName()) || attrJavaTypeName.equals(Long.class.getName())) {
-                predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Long(value)));
+                if (isIn) {
+                    String[] s = value.split(",");
+                    predicatesList.add(root.get(attribute.getName()).in(StringUtils.toLongArray(s)));
+                } else {
+                    predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Long(value)));
+                }
             } else if (attrJavaTypeName.equals(int.class.getName()) || attrJavaTypeName.equals(Integer.class.getName())) {
-                predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Integer(value)));
+                if (isIn) {
+                    String[] s = value.split(",");
+                    predicatesList.add(root.get(attribute.getName()).in(StringUtils.toIntArray(s)));
+                } else {
+                    predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Integer(value)));
+                }
             } else if (attrJavaTypeName.equals(short.class.getName()) || attrJavaTypeName.equals(Short.class.getName())) {
-                predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Short(value)));
+                if (isIn) {
+                    String[] s = value.split(",");
+                    predicatesList.add(root.get(attribute.getName()).in(StringUtils.toShortArray(s)));
+                } else {
+                    predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Short(value)));
+                }
             } else if (attrJavaTypeName.equals(Date.class.getName())) {
                 SingularAttribute<T, Date> tempAttribute = (SingularAttribute<T, Date>) bean_.getSingularAttribute(key.split(":")[0]);
                 try {
