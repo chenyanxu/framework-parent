@@ -1,5 +1,5 @@
 var Ext;
-DynamicLoading.css(rootPath + '/extjs/classic/theme-triton/theme-triton-all.css');
+DynamicLoading.css(rootPath + '/resources/css/theme-triton-all.css');
 DynamicLoading.js(rootPath + '/extjs/classic/ext-all.js');
 CONFIG.restRoot=rootPath;
 var intervalObj = setInterval(function () {
