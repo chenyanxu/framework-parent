@@ -6,7 +6,7 @@
     <reference id="bundleService" interface="com.kalix.framework.osgi.api.IBundleService"/>
     <camelContext id="osgiCamel" xmlns="http://camel.apache.org/schema/blueprint">
         <restConfiguration component="servlet" bindingMode="json">
-            <dataFormatProperty key="prettyPrint" value="true"/>
+            <dataFormatProperty key="prettyPrint" value="${rest.pretty}"/>
         </restConfiguration>
         <rest path="/osgi/bundle" consumes="application/json;charset=utf-8" produces="application/json;charset=utf-8">
             <get id="route-bundleStart" uri="/start">
