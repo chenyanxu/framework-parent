@@ -15,7 +15,7 @@
     <camelContext id="cgCamel" xmlns="http://camel.apache.org/schema/blueprint">
         <restConfiguration component="servlet" bindingMode="json">
             <componentProperty key="servletName" value="CamelServletCG"/>
-            <dataFormatProperty key="prettyPrint" value="true"/>
+            <dataFormatProperty key="prettyPrint" value="${rest.pretty}"/>
         </restConfiguration>
         <!-- 提供生成代码、zip包上传到couchdb的服务-->
         <route id="upload-bean-route" streamCache="true">

@@ -7,7 +7,7 @@
     \<reference id="<pomName>Service" interface="<packageName>.api.biz.I<beanName>BeanService"/>
     \<camelContext id="<pomName>Camel" xmlns="http://camel.apache.org/schema/blueprint">
         \<restConfiguration component="servlet" bindingMode="json">
-            \<dataFormatProperty key="prettyPrint" value="true"/>
+            \<dataFormatProperty key="prettyPrint" value="${rest.pretty}"/>
         \</restConfiguration>
 
         \<!-- defines the rest services using the context-path /<pomName> -->
