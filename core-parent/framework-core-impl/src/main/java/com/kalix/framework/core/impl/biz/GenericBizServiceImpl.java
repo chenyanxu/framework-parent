@@ -46,7 +46,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
             this.persistentClass = (Class<T>) ((ParameterizedType) type).getRawType();
         }
 
-        this.entityClassName=this.persistentClass.getName();
+        this.entityClassName = this.persistentClass.getName();
     }
 
     public void setDao(T dao) {
@@ -55,7 +55,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     @Override
     @Transactional
-    public void doDelete(long entityId,JsonStatus jsonStatus) {
+    public void doDelete(long entityId, JsonStatus jsonStatus) {
         dao.remove(entityId);
         jsonStatus.setSuccess(true);
         jsonStatus.setMsg("删除成功！");
@@ -114,7 +114,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         try {
             if (isDelete(entityId, jsonStatus)) {
                 beforeDeleteEntity(entityId, jsonStatus);
-                doDelete(entityId,jsonStatus);
+                doDelete(entityId, jsonStatus);
                 afterDeleteEntity(entityId, jsonStatus);
             }
         } catch (Exception e) {
@@ -168,9 +168,9 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     public JsonStatus saveEntity(TP entity) {
         JsonStatus jsonStatus = new JsonStatus();
         try {
-            if(isSave(entity,jsonStatus)) {
+            if (isSave(entity, jsonStatus)) {
                 beforeSaveEntity(entity, jsonStatus);
-                doSave(entity,jsonStatus);
+                doSave(entity, jsonStatus);
                 afterSaveEntity(entity, jsonStatus);
             }
         } catch (Exception e) {
@@ -206,15 +206,15 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     public JsonStatus updateEntity(TP entity) {
         JsonStatus jsonStatus = new JsonStatus();
         try {
-            if(isUpdate(entity,jsonStatus)) {
+            if (isUpdate(entity, jsonStatus)) {
                 beforeUpdateEntity(entity, jsonStatus);
-                doUpdate(entity,jsonStatus);
+                doUpdate(entity, jsonStatus);
                 afterUpdateEntity(entity, jsonStatus);
             }
         } catch (Exception e) {
             e.printStackTrace();
             jsonStatus.setFailure(true);
-            jsonStatus.setMsg( "修改失败！");
+            jsonStatus.setMsg("修改失败！");
         }
         return jsonStatus;
     }
@@ -283,24 +283,40 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     public JsonData getAllEntityByQuery(Integer page, Integer limit, String jsonStr) {
         QueryDTO queryDto = new QueryDTO();
 
-        if(page==null){
+        if (page == null) {
             queryDto.setPage(0);
-        }
-        else
-        {
+        } else {
             queryDto.setPage(page);
         }
 
-        if(limit==null) {
+        if (limit == null) {
             queryDto.setLimit(0);
-        }
-        else{
+        } else {
             queryDto.setLimit(limit);
         }
 
         queryDto.setJsonMap(SerializeUtil.json2Map(jsonStr));
 
         return getAllEntityByQuery(queryDto);
+    }
+
+    @Override
+    public JsonData getAllEntityByQuery(Integer page, Integer limit, String jsonStr, String sort) {
+        List<Map> sortList;
+        String sortJsonStr=jsonStr;
+
+        if (sort != null) {
+            sortList = SerializeUtil.unserializeJson(sort, List.class);
+
+            if(sortList!=null && sortList.size()==1){
+                String sortField= (String) sortList.get(0).get("property");
+                String direction= (String) sortList.get(0).get("direction");
+
+                sortJsonStr=jsonStr.substring(0,jsonStr.length()-1)+",\""+sortField+":sort\":\""+direction+"\"}";
+            }
+        }
+
+        return getAllEntityByQuery(page, limit, sortJsonStr);
     }
 
     @Override
@@ -332,29 +348,29 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
-    public List<Object> getFieldValuesByIds(Object[] ids,String fieldName){
+    public List<Object> getFieldValuesByIds(Object[] ids, String fieldName) {
         if (ids == null || ids.length <= 0)
             return null;
-        String sql="SELECT a FROM %s a WHERE a.id in (%s)";
-        List queryIds=new ArrayList<Long>();
+        String sql = "SELECT a FROM %s a WHERE a.id in (%s)";
+        List queryIds = new ArrayList<Long>();
 
-        for(int index=0;index<ids.length;++index){
-            if(ids[index] != null && !ids[index].equals("")) {
+        for (int index = 0; index < ids.length; ++index) {
+            if (ids[index] != null && !ids[index].equals("")) {
                 if (!queryIds.contains(ids[index])) {
                     queryIds.add(ids[index]);
                 }
             }
         }
 
-        sql=String.format(sql,this.entityClassName, StringUtils.join(queryIds,","));
+        sql = String.format(sql, this.entityClassName, StringUtils.join(queryIds, ","));
 
         List records = this.dao.find(sql);
 
-        if(records.size()>0){
+        if (records.size() > 0) {
             Map fieldValueMap = BeanUtil.getBeanFieldValueMap(records, fieldName);
-            List rtn=new ArrayList<Object>();
+            List rtn = new ArrayList<Object>();
 
-            for(int idsIndex=0;idsIndex<ids.length;++idsIndex){
+            for (int idsIndex = 0; idsIndex < ids.length; ++idsIndex) {
                 rtn.add(fieldValueMap.get(ids[idsIndex].toString()));
             }
 

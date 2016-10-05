@@ -159,6 +159,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         EntityType<T> bean_ = root.getModel(); //实体元数据
         List<Predicate> predicatesList = new ArrayList<Predicate>();
         Map<String, String> jsonMap = queryDTO.getJsonMap();
+        String sortField = "updateDate";
+        String sortDirection = "DESC";
 
 
         for (Map.Entry<String, String> entry : jsonMap.entrySet()) {
@@ -180,8 +182,14 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
             } else if (key.contains(":in")) {
                 isIn = true;
                 attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key.split(":")[0]);
-            }
-            else {
+            } else if (key.contains(":sort")) {
+                if(bean_.getAttributes().toString().indexOf("."+key.replace(":sort",""))>-1){
+                    sortField = key.replace(":sort", "");
+                    sortDirection = value;
+                }
+
+                continue;
+            } else {
                 attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key);
             }
 
@@ -192,10 +200,10 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
                     String[] s = value.split(",");
                     predicatesList.add(root.get(attribute.getName()).in(s));
                 } else {
-                    SingularAttribute<T, String> tempAttribute = (SingularAttribute<T, String>) bean_.getSingularAttribute(key.replace("%",""));
+                    SingularAttribute<T, String> tempAttribute = (SingularAttribute<T, String>) bean_.getSingularAttribute(key.replace("%", ""));
                     int cIndex = key.indexOf("%");
 
-                    switch (cIndex){
+                    switch (cIndex) {
                         case -1:
                             predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value + "%"));
                             break;
@@ -245,8 +253,13 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
 
         criteriaQuery.where(predicatesList.toArray(new Predicate[predicatesList.size()]));
         CriteriaQuery select = criteriaQuery.select(root);
-        //按照数据修改时间进行排序
-        select.orderBy(criteriaBuilder.desc(root.get("updateDate")));
+        //排序
+        if (sortDirection.equals("DESC")) {
+            select.orderBy(criteriaBuilder.desc(root.get(sortField)));
+        } else {
+            select.orderBy(criteriaBuilder.asc(root.get(sortField)));
+        }
+
         return select;
     }
 
