@@ -254,10 +254,13 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         criteriaQuery.where(predicatesList.toArray(new Predicate[predicatesList.size()]));
         CriteriaQuery select = criteriaQuery.select(root);
         //排序
-        if (sortDirection.equals("DESC")) {
-            select.orderBy(criteriaBuilder.desc(root.get(sortField)));
-        } else {
-            select.orderBy(criteriaBuilder.asc(root.get(sortField)));
+        switch(sortDirection){
+            case "DESC":
+                select.orderBy(criteriaBuilder.desc(root.get(sortField)));
+                break;
+            case "ASC":
+                select.orderBy(criteriaBuilder.asc(root.get(sortField)));
+                break;
         }
 
         return select;
