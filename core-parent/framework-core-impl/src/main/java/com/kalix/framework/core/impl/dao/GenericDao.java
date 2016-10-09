@@ -14,7 +14,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.transaction.Transactional;
@@ -23,10 +26,7 @@ import java.lang.reflect.ParameterizedType;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 //import javax.transaction.Transactional;
 
@@ -285,8 +285,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
             TypedQuery typedQuery = entityManager.createQuery(criteriaQuery);
             typedQuery.setFirstResult((page - 1) * limit);
             typedQuery.setMaxResults(limit);
-            jsonData.setTotalCount(getTotalCount(className, criteriaQuery));
             jsonData.setData(typedQuery.getResultList());
+            jsonData.setTotalCount(getTotalCount(className, criteriaQuery));
         }
 
         return jsonData;
@@ -343,16 +343,29 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
      * @return
      */
     private Long getTotalCount(String className, CriteriaQuery criteriaQuery) {
+        Long count = 0L;
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-        countQuery.where(criteriaQuery.getRestriction());
-        try {
-            countQuery.select(criteriaBuilder.count(countQuery.from(Class.forName(className))));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+//        CriteriaQuery countQuery = criteriaBuilder.createQuery();
+        //构造where条件
+//        countQuery.where(criteriaQuery.getRestriction());
+        //构造from
+        Set<Root> rootSet = criteriaQuery.getRoots();
+        /*for (Root root : rootSet) {
+            countQuery.from(root.getModel());
+        }*/
+        //构造select
+        Root[] arr = new Root[rootSet.size()];
+        rootSet.toArray(arr);
+        criteriaQuery.select(criteriaBuilder.count(arr[0].get("id")));
+        System.out.println("jpql statement is : " + criteriaQuery.toString());
+        TypedQuery query = entityManager.createQuery(criteriaQuery);
+//        System.out.println("sql statement is : "+query.unwrap(DelegatingQuery.class).getQueryString());
+        List results = query.getResultList();
+        if (!results.isEmpty()) {
+            count = (Long) results.get(0);
         }
-        Long count = entityManager.createQuery(countQuery).getSingleResult();
         return count;
+//        return Long.valueOf(entityManager.createQuery(criteriaQuery).getResultList().size());
     }
 
     @Override
