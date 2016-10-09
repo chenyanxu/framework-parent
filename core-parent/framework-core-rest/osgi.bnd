@@ -7,4 +7,5 @@ Import-Package: org.apache.camel.component.servlet, \
                 com.kalix.framework.core.api.web.model,\
                 com.kalix.framework.core.api.system.model,\
                 com.kalix.framework.core.api.persistence,*
+Include-Resource: target/classes
 Bundle-Category: Kalix Framework Core
