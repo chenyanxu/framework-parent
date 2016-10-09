@@ -23,10 +23,7 @@ import java.lang.reflect.ParameterizedType;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 //import javax.transaction.Transactional;
 
@@ -285,8 +282,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
             TypedQuery typedQuery = entityManager.createQuery(criteriaQuery);
             typedQuery.setFirstResult((page - 1) * limit);
             typedQuery.setMaxResults(limit);
-            jsonData.setTotalCount(getTotalCount(className, criteriaQuery));
             jsonData.setData(typedQuery.getResultList());
+            jsonData.setTotalCount(getTotalCount(className, criteriaQuery));
         }
 
         return jsonData;
@@ -343,16 +340,30 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
      * @return
      */
     private Long getTotalCount(String className, CriteriaQuery criteriaQuery) {
+        Long count = 0L;
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-        countQuery.where(criteriaQuery.getRestriction());
-        try {
-            countQuery.select(criteriaBuilder.count(countQuery.from(Class.forName(className))));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+//        CriteriaQuery countQuery = criteriaBuilder.createQuery();
+        //构造where条件
+//        countQuery.where(criteriaQuery.getRestriction());
+        //构造from
+        Set<Root> rootSet = criteriaQuery.getRoots();
+        /*for (Root root : rootSet) {
+            countQuery.from(root.getModel());
+        }*/
+        //构造select
+        Root[] arr = new Root[rootSet.size()];
+        rootSet.toArray(arr);
+        criteriaQuery.select(criteriaBuilder.count(arr[0].get("id")));
+        criteriaQuery.orderBy((Order[]) null);
+        System.out.println("jpql statement is : " + criteriaQuery.toString());
+        TypedQuery query = entityManager.createQuery(criteriaQuery);
+//        System.out.println("sql statement is : "+query.unwrap(DelegatingQuery.class).getQueryString());
+        List results = query.getResultList();
+        if (!results.isEmpty()) {
+            count = (Long) results.get(0);
         }
-        Long count = entityManager.createQuery(countQuery).getSingleResult();
         return count;
+//        return Long.valueOf(entityManager.createQuery(criteriaQuery).getResultList().size());
     }
 
     @Override
