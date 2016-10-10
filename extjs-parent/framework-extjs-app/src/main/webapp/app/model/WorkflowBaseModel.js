@@ -7,7 +7,7 @@ Ext.define('kalix.model.WorkflowBaseModel', {
     extend: 'kalix.model.BaseModel',
     fields: [
         {
-            name: 'title' //标题
+            name: 'title' //流程名称
         },
         {
             name: 'businessNo' //业务编号
