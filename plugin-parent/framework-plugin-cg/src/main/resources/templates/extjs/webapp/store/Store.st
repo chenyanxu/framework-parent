@@ -10,5 +10,5 @@ Ext.define('<extjsPrefix>.store.<beanName>Store', {
     alias: 'store.<pomName>Store',
     xtype: '<pomName>Store',
     storeId: "<pomName>Store",
-    proxyUrl: '/kalix/camel/rest/<pomName>s'
+    proxyUrl: CONFIG.restRoot + '/camel/rest/<pomName>s'
 });
