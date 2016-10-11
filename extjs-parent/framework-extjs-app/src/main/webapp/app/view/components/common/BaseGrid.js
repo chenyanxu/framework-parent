@@ -42,13 +42,16 @@ Ext.define('kalix.view.components.common.BaseGrid', {
     ],
     constructor: function () {
       if (this.columns instanceof Array) {
-        for (var cIndex = this.columns.length - 1; cIndex >= 0; --cIndex) {
-          if (this.columns[cIndex].xtype && this.columns[cIndex].xtype.indexOf('DictGrid') > -1) {
-            this.autoLoad = false;
-            this.columns[cIndex].lastDictColumnInGrid = true;
-            break;
+          if (this.autoLoad) {
+              for (var cIndex = this.columns.length - 1; cIndex >= 0; --cIndex) {
+                  if (this.columns[cIndex].xtype && this.columns[cIndex].xtype.indexOf('DictGrid') > -1) {
+                      this.autoLoad = false;
+                      this.columns[cIndex].lastDictColumnInGrid = true;
+                      break;
+                  }
+              }
           }
-        }
+
 
         for (var cIndex = 0; cIndex < this.columns.length; ++cIndex) {
           if (this.columns[cIndex].xtype && this.columns[cIndex].xtype == 'rownumberer') {
