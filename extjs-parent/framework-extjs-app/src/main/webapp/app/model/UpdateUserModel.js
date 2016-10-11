@@ -33,6 +33,9 @@ Ext.define('kalix.model.UpdateUserModel', {
             validators: [{type: 'presence'}, {type: 'mobile'}]
         },
         {
+            name: 'icon'
+        },
+        {
             name: 'loginIp'
         },
         {
