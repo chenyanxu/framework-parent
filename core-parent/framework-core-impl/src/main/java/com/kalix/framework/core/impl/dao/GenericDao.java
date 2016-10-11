@@ -3,11 +3,8 @@ package com.kalix.framework.core.impl.dao;
 
 import com.kalix.framework.core.api.dao.IGenericDao;
 import com.kalix.framework.core.api.exception.SearchException;
-import com.kalix.framework.core.api.persistence.JsonData;
-import com.kalix.framework.core.api.persistence.PersistentEntity;
+import com.kalix.framework.core.api.persistence.*;
 import com.kalix.framework.core.api.web.model.QueryDTO;
-import com.kalix.framework.core.util.DateUtil;
-import com.kalix.framework.core.util.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -39,8 +36,8 @@ import java.util.*;
 public abstract class GenericDao<T extends PersistentEntity, PK extends Serializable> implements IGenericDao<T, PK> {
     protected EntityManager entityManager;
     protected final Logger logger = Logger.getLogger(this.getClass());
-    private Class<T> persistentClass;//直接获取T Class，函数不需要className
-    private String className;
+    protected Class<T> persistentClass;//直接获取T Class，函数不需要className
+    protected String className;
 
     public GenericDao() {
         Object obj = this.getClass().getGenericSuperclass();
@@ -155,110 +152,90 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         Root<T> root = criteriaQuery.from(this.persistentClass);
         EntityType<T> bean_ = root.getModel(); //实体元数据
         List<Predicate> predicatesList = new ArrayList<Predicate>();
+        List<Selection<?>> selectionList = new ArrayList<>();
         Map<String, String> jsonMap = queryDTO.getJsonMap();
-        String sortField = "updateDate";
-        String sortDirection = "DESC";
+        JpaQuery<T> jpaQuery = new JpaQuery<T>(criteriaBuilder, root);
+        Map<String,JpaQuery> relationQueryMap=new HashMap<>();
+        String sortKey = null;
+        String sortValue = null;
 
+        selectionList.add(root);
+
+        TableRelation tr = this.persistentClass.getAnnotation(TableRelation.class);
+
+        if (tr != null) {
+            Object[] managedTypes = entityManager.getMetamodel().getManagedTypes().toArray();
+            Relation[] relations = tr.relations();
+
+            for (Relation relation : relations) {
+                String beanName = relation.BeanName();
+
+                for (Object managedType : managedTypes) {
+                    String fullName = managedType.toString();
+
+                    if (fullName.contains(beanName)) {
+                        try {
+                            Root relationRoot = criteriaQuery.from(Class.forName(fullName));
+
+                            String[] pFields = relation.PFields();
+                            String[] fFields = relation.FFields();
+                            predicatesList.add(criteriaBuilder.equal(root.get(relation.FK()), relationRoot.get(relation.PK())));
+
+                            if (pFields.length == fFields.length) {
+                                for (int fIndex = 0; fIndex < pFields.length; ++fIndex) {
+                                    selectionList.add(relationRoot.get(pFields[fIndex]).alias(fFields[fIndex]));
+                                }
+                            }
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
 
         for (Map.Entry<String, String> entry : jsonMap.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            SingularAttribute<T, Object> attribute = null;
-
-            String attrJavaTypeName = null;
 
             if (value == null || value.trim().isEmpty()) {
                 continue;
             }
 
-            boolean isIn = false;
             if (key.contains("%")) {
-                attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key.replace("%", ""));
+                predicatesList.add(jpaQuery.LIKE(key, value));
             } else if (key.contains(":begin:gt") || key.contains(":end:lt")) {
-                attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key.split(":")[0]);
+                predicatesList.add(jpaQuery.DATE(key, value));
             } else if (key.contains(":in")) {
-                isIn = true;
-                attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key.split(":")[0]);
+                predicatesList.add(jpaQuery.IN(key, value));
             } else if (key.contains(":sort")) {
-                if(bean_.getAttributes().toString().indexOf("."+key.replace(":sort",""))>-1){
-                    sortField = key.replace(":sort", "");
-                    sortDirection = value;
-                }
-
-                continue;
+                sortKey = key;
+                sortValue = value;
+            } else if (key.contains(":relation")) {
+                String[] keySplit=key.split(":");
             } else {
-                attribute = (SingularAttribute<T, Object>) bean_.getSingularAttribute(key);
-            }
-
-            attrJavaTypeName = attribute.getJavaType().getName();
-
-            if (attrJavaTypeName.equals(String.class.getName())) {
-                if (isIn) {
-                    String[] s = value.split(",");
-                    predicatesList.add(root.get(attribute.getName()).in(s));
-                } else {
-                    SingularAttribute<T, String> tempAttribute = (SingularAttribute<T, String>) bean_.getSingularAttribute(key.replace("%", ""));
-                    int cIndex = key.indexOf("%");
-
-                    switch (cIndex) {
-                        case -1:
-                            predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value + "%"));
-                            break;
-                        case 0:
-                            predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), "%" + value));
-                            break;
-                        default:
-                            predicatesList.add(criteriaBuilder.like(root.get(tempAttribute), value + "%"));
-                            break;
-                    }
-                }
-            } else if (attrJavaTypeName.equals(long.class.getName()) || attrJavaTypeName.equals(Long.class.getName())) {
-                if (isIn) {
-                    String[] s = value.split(",");
-                    predicatesList.add(root.get(attribute.getName()).in(StringUtils.toLongArray(s)));
-                } else {
-                    predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Long(value)));
-                }
-            } else if (attrJavaTypeName.equals(int.class.getName()) || attrJavaTypeName.equals(Integer.class.getName())) {
-                if (isIn) {
-                    String[] s = value.split(",");
-                    predicatesList.add(root.get(attribute.getName()).in(StringUtils.toIntArray(s)));
-                } else {
-                    predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Integer(value)));
-                }
-            } else if (attrJavaTypeName.equals(short.class.getName()) || attrJavaTypeName.equals(Short.class.getName())) {
-                if (isIn) {
-                    String[] s = value.split(",");
-                    predicatesList.add(root.get(attribute.getName()).in(StringUtils.toShortArray(s)));
-                } else {
-                    predicatesList.add(criteriaBuilder.equal(root.get(attribute), new Short(value)));
-                }
-            } else if (attrJavaTypeName.equals(Date.class.getName())) {
-                SingularAttribute<T, Date> tempAttribute = (SingularAttribute<T, Date>) bean_.getSingularAttribute(key.split(":")[0]);
-                try {
-                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(value);
-                    if (key.contains(":begin:gt")) {
-                        predicatesList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(tempAttribute), DateUtil.getCurrentDayStartTime(date)));
-                    } else if (key.contains(":end:lt")) {
-                        predicatesList.add(criteriaBuilder.lessThanOrEqualTo(root.get(tempAttribute), DateUtil.getCurrentDayEndTime(date)));
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                predicatesList.add(jpaQuery.EQUAL(key, value));
             }
         }
 
-        criteriaQuery.where(predicatesList.toArray(new Predicate[predicatesList.size()]));
-        CriteriaQuery select = criteriaQuery.select(root);
+        //添加条件
+        if (predicatesList.size() > 0) {
+            criteriaQuery.where(predicatesList.toArray(new Predicate[predicatesList.size()]));
+        }
+
+        CriteriaQuery select = null;
+
+        if (selectionList.size() == 1) {
+            select = criteriaQuery.select(root);
+        } else {
+            //此操作需要实体类拥有相应参数的构造函数
+            select = criteriaQuery.multiselect(selectionList);
+        }
+
         //排序
-        switch(sortDirection){
-            case "DESC":
-                select.orderBy(criteriaBuilder.desc(root.get(sortField)));
-                break;
-            case "ASC":
-                select.orderBy(criteriaBuilder.asc(root.get(sortField)));
-                break;
-        }
+        jpaQuery.SORT(select, sortKey, sortValue);
 
         return select;
     }

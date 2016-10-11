@@ -34,7 +34,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     protected String entityClassName;
     protected Class<T> persistentClass;
     protected final Logger logger = Logger.getLogger(this.getClass());
-    private EventAdmin eventAdmin;
+    protected EventAdmin eventAdmin;
 
     public GenericBizServiceImpl() {
         Object obj = this.getClass().getGenericSuperclass();
