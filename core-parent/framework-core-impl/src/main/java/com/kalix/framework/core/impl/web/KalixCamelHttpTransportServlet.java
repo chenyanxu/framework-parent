@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.log.trace("Service: {}", request);
         HttpConsumer consumer = this.resolve(request);
         if (consumer == null) {
