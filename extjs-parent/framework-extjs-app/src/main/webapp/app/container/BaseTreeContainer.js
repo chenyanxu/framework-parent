@@ -2,9 +2,13 @@
  * @author chenyanxu
  */
 Ext.define('kalix.container.BaseTreeContainer', {
-  extend: 'Ext.container.Container',
+  //extend: 'Ext.container.Container',
+  extend:'Ext.panel.Panel',
   requires:['kalix.plugin.ZOrderPlugin'],
   xtype:'baseTreeContainer',
+  collapsible: true,
+  collapseDirection: Ext.Component.DIRECTION_LEFT,
+  border:false,
   //==custom property
   tree: null,
   childItemMargin:-1,
@@ -25,13 +29,11 @@ Ext.define('kalix.container.BaseTreeContainer', {
   },
   items: [
     {
-      title: '查询',
       xtype: 'form',
       bodyPadding: 10,
       margin: 5,
       defaults: {border: 0},
       layout: 'column',
-      iconCls: 'iconfont icon-query',
       plugins:['zorderPlugin'],
       items: [
         {

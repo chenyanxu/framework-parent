@@ -30,7 +30,7 @@ public class TestHTTPRequests extends APITest {
 
 
     /**
-     * return json format is :{success:true,location:'/kalix/index.jsp',message:'登入成功',
+     * return json format is :{success:true,location:CONFIG.restRoot + '/index.jsp',message:'登入成功',
      * user:{name:'管理员',token:'70841dfd-97f3-43e3-b1d9-dded905d9f73'}}
      * 登录，获得服务器返回的token
      */
