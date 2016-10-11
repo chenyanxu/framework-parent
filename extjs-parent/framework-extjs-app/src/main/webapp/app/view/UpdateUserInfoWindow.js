@@ -11,6 +11,7 @@ Ext.define('kalix.view.UpdateUserInfoWindow', {
     alias: 'widget.updateUserInfoWindow',
     xtype: 'updateUserInfoWindow',
     requires: [
+        'kalix.view.components.common.BaseImage',
         'kalix.controller.UpdateUserInfoController',
         'kalix.viewmodel.UpdateUserViewModel',
         'kalix.view.UploadIcon'
@@ -46,20 +47,11 @@ Ext.define('kalix.view.UpdateUserInfoWindow', {
                             margin: '30 0 0 20',
                         },
                         {
-                            xtype: 'image',
-                            title: '头像',
+                            xtype: 'baseImage',
+                            title: 'resources/images/default_user.png',
                             width: 72,
                             height: 72,
-                            margin: '0 0 0 30',
-                            bind: {
-                                src: '{rec.icon}'
-                            },
-                            listeners: {
-                                click: function () {
-                                    var upload = Ext.getCmp('meUploadIcon');
-                                    upload.fireEvent('click');
-                                }
-                            }
+                            margin: '0 0 0 30'
                         },
                         {
                             xtype: 'uploadIcon',
