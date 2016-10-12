@@ -46,18 +46,21 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             String realName = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_REAL_NAME));
             String loginName = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_LOGIN_NAME));
             String userId = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ID));
+            String userIcon=String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ICON));
             httpServletResponse.setContentType("application/json");
             httpServletResponse.setCharacterEncoding("UTF-8");
 
             Cookie cookieRealName = new Cookie("currentUserRealName", UnicodeConverter.string2UnicodeCookie(realName));
             Cookie cookieLoginName = new Cookie("currentUserLoginName", UnicodeConverter.string2UnicodeCookie(loginName));
             Cookie cookieUserId=new Cookie("currentUserId",UnicodeConverter.string2UnicodeCookie(userId));
+            Cookie cookieUserIcon=new Cookie("currentUserIcon",UnicodeConverter.string2UnicodeCookie(userIcon));
 
             String contextPath = httpServletRequest.getContextPath();
 
             httpServletResponse.addCookie(cookieRealName);
             httpServletResponse.addCookie(cookieLoginName);
             httpServletResponse.addCookie(cookieUserId);
+            httpServletResponse.addCookie(cookieUserIcon);
 
             PrintWriter out = httpServletResponse.getWriter();
             out.println("{success:true,location:'" + contextPath + "/index.jsp',message:'登入成功',user:{name:'" + realName + "',token:'" + session.getId() + "'}}");

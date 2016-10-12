@@ -14,6 +14,7 @@ public class PermissionConstant {
     public final static String SYS_CURRENT_USER_ID = "currentUserId";
     public final static String SYS_CURRENT_USER_REAL_NAME = "currentUserRealName";
     public final static String SYS_CURRENT_USER_LOGIN_NAME = "currentUserLoginName";
+    public final static String SYS_CURRENT_USER_ICON="currentUserIcon";
     //验证码
     public static final String VALIDATE_CODE = "validateCode";
 }

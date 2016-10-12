@@ -106,6 +106,7 @@ public class ShiroRealm extends AuthorizingRealm implements IAuthorizingRealm {
             session.setAttribute(PermissionConstant.SYS_CURRENT_USER_REAL_NAME, result.get("name"));
             session.setAttribute(PermissionConstant.SYS_CURRENT_USER_LOGIN_NAME, result.get("user_name"));
             session.setAttribute(PermissionConstant.SYS_CURRENT_USER_ID,result.get("user_id"));
+            session.setAttribute(PermissionConstant.SYS_CURRENT_USER_ICON,result.get("user_icon"));
 
             userLoginService.updateUserLoginInfo((Long) result.get("user_id"), session.getHost());
 //            发送用户登录的事件
