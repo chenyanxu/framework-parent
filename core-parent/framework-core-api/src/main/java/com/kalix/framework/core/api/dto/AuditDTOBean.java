@@ -12,9 +12,11 @@ package com.kalix.framework.core.api.dto;
 public class AuditDTOBean {
     private String clsName; //类名称
     private String action;//操作
+    private String actor;//操作人
     private String content;//操作内容
     private Object oldEntity = null;
     private Object newEntity = null;
+
 
     public String getAction() {
         return action;
@@ -54,5 +56,13 @@ public class AuditDTOBean {
 
     public void setOldEntity(Object oldEntity) {
         this.oldEntity = oldEntity;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
     }
 }

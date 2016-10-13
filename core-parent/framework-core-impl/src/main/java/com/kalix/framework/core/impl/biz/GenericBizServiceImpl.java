@@ -3,7 +3,6 @@ package com.kalix.framework.core.impl.biz;
 import com.google.gson.Gson;
 import com.kalix.framework.core.api.biz.IBizService;
 import com.kalix.framework.core.api.dao.IGenericDao;
-import com.kalix.framework.core.api.dto.AuditDTOBean;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
@@ -38,7 +37,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     protected Class<T> persistentClass;
     protected final Logger logger = Logger.getLogger(this.getClass());
     protected EventAdmin eventAdmin;
-    private final static String EVENT_TOPIC = "com/kalix/business/";
+    public final static String EVENT_TOPIC = "com/kalix/business/";
 
     public GenericBizServiceImpl() {
 
@@ -106,13 +105,6 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     @Override
     public void beforeDeleteEntity(Long id, JsonStatus status) {
-        //记录业务监控数据 delete
-        AuditDTOBean dtoBean = new AuditDTOBean();
-        dtoBean.setClsName(this.entityClassName);
-        dtoBean.setAction("删除");
-        dtoBean.setOldEntity(dao.get(id).toString());
-        postEvent(EVENT_TOPIC + "delete", dtoBean);
-
         postEvent(this.entityClassName.replace(".", "/") + "/before/delete", id);
     }
 
@@ -168,22 +160,6 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     @Override
     @Transactional
     public void beforeSaveEntity(TP entity, JsonStatus status) {
-        //记录业务监控数据
-        AuditDTOBean dtoBean = new AuditDTOBean();
-        dtoBean.setClsName(this.entityClassName);
-        if (entity.getId() > 0) {
-            dtoBean.setAction("更新");
-            final TP oldEntity = (TP) dao.get(entity.getId());
-            dtoBean.setOldEntity(oldEntity);
-            dtoBean.setNewEntity(entity);
-            postEvent(EVENT_TOPIC + "update", dtoBean);
-        } else {
-            dtoBean.setAction("添加");
-            dtoBean.setNewEntity(entity);
-            postEvent(EVENT_TOPIC + "save", dtoBean);
-        }
-
-
         postEvent(this.entityClassName.replace(".", "/") + "/before/save", entity);
     }
 
@@ -223,15 +199,6 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     @Override
     public void beforeUpdateEntity(TP entity, JsonStatus status) {
-        //记录业务监控数据
-        AuditDTOBean dtoBean = new AuditDTOBean();
-        dtoBean.setClsName(this.entityClassName);
-        dtoBean.setAction("更新");
-        final TP oldEntity = (TP) dao.get(entity.getId());
-        dtoBean.setOldEntity(oldEntity);
-        dtoBean.setNewEntity(entity);
-        postEvent(EVENT_TOPIC + "update", dtoBean);
-
         postEvent(this.entityClassName.replace(".", "/") + "/before/update", entity);
     }
 
