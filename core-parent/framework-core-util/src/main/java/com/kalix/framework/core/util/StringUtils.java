@@ -163,16 +163,16 @@ public final class StringUtils {
         return destination;
     }
 
-    public static int[] toIntArray(String[] origin) {
-        int[] destination = new int[origin.length];
+    public static Integer[] toIntArray(String[] origin) {
+        Integer[] destination = new Integer[origin.length];
         for (int i = 0; i < origin.length; i++) {
             destination[i] = Integer.parseInt(origin[i]);
         }
         return destination;
     }
 
-    public static short[] toShortArray(String[] origin) {
-        short[] destination = new short[origin.length];
+    public static Short[] toShortArray(String[] origin) {
+        Short[] destination = new Short[origin.length];
         for (int i = 0; i < origin.length; i++) {
             destination[i] = Short.parseShort(origin[i]);
         }
