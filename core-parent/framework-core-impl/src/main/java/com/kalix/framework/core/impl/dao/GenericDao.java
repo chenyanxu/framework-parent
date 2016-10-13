@@ -154,8 +154,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         List<Predicate> predicatesList = new ArrayList<Predicate>();
         List<Selection<?>> selectionList = new ArrayList<>();
         Map<String, String> jsonMap = queryDTO.getJsonMap();
-        JpaQuery<T> jpaQuery = new JpaQuery<T>(criteriaBuilder, root);
-        Map<String,JpaQuery> relationQueryMap=new HashMap<>();
+        JpaQuery jpaQuery = new JpaQuery(criteriaBuilder, root);
+        Map<String, JpaQuery> relationJpaQueryMap = new HashMap<>();
         String sortKey = null;
         String sortValue = null;
 
@@ -176,6 +176,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
                     if (fullName.contains(beanName)) {
                         try {
                             Root relationRoot = criteriaQuery.from(Class.forName(fullName));
+
+                            relationJpaQueryMap.put(beanName, new JpaQuery(criteriaBuilder, relationRoot));
 
                             String[] pFields = relation.PFields();
                             String[] fFields = relation.FFields();
@@ -214,7 +216,15 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
                 sortKey = key;
                 sortValue = value;
             } else if (key.contains(":relation")) {
-                String[] keySplit=key.split(":");
+                String[] keySplit = key.split(":");
+                String fieldName = keySplit[0];
+                String beanName = keySplit[2];
+
+                if (fieldName.contains("%")) {
+                    predicatesList.add(relationJpaQueryMap.get(beanName).LIKE(fieldName,value));
+                } else {
+                    predicatesList.add(relationJpaQueryMap.get(beanName).EQUAL(fieldName,value));
+                }
             } else {
                 predicatesList.add(jpaQuery.EQUAL(key, value));
             }
