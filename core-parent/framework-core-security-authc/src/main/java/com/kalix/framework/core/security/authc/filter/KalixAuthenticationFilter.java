@@ -1,6 +1,7 @@
 package com.kalix.framework.core.security.authc.filter;
 
 import com.kalix.framework.core.api.PermissionConstant;
+import com.kalix.framework.core.util.ConfigUtil;
 import com.kalix.framework.core.util.UnicodeConverter;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -63,10 +64,20 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             httpServletResponse.addCookie(cookieUserIcon);
 
             PrintWriter out = httpServletResponse.getWriter();
-            out.println("{success:true,location:'" + contextPath + "/index.jsp',message:'登入成功',user:{name:'" + realName + "',token:'" + session.getId() + "'}}");
+            String rtnPage="";
+
+            if(Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy","ConfigWebContext"))){
+                rtnPage="/index.jps";
+            }
+            else{
+                rtnPage="/index-debug.jsp";
+            }
+
+            out.println("{success:true,location:'" + contextPath + rtnPage+"',message:'登入成功',user:{name:'" + realName + "',token:'" + session.getId() + "'}}");
             out.flush();
             out.close();
         }
+
         return false;
     }
 
