@@ -10,6 +10,7 @@ import com.kalix.framework.core.api.web.model.BaseDTO;
 import com.kalix.framework.core.api.web.model.QueryDTO;
 import com.kalix.framework.core.util.Assert;
 import com.kalix.framework.core.util.BeanUtil;
+import com.kalix.framework.core.util.JNDIHelper;
 import com.kalix.framework.core.util.SerializeUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -17,6 +18,7 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
@@ -35,8 +37,10 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     protected Class<T> persistentClass;
     protected final Logger logger = Logger.getLogger(this.getClass());
     protected EventAdmin eventAdmin;
+    public final static String EVENT_TOPIC = "com/kalix/business/";
 
     public GenericBizServiceImpl() {
+
         Object obj = this.getClass().getGenericSuperclass();
         ParameterizedType genericSuperclass = (ParameterizedType) this.getClass().getGenericSuperclass();
         java.lang.reflect.Type type = genericSuperclass.getActualTypeArguments()[1];
@@ -47,6 +51,13 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         }
 
         this.entityClassName = this.persistentClass.getName();
+
+        try {
+            this.eventAdmin = JNDIHelper.getJNDIServiceForName(EventAdmin.class.getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void setDao(T dao) {
