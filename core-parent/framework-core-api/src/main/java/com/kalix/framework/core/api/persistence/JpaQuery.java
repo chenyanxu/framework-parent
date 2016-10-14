@@ -114,15 +114,16 @@ public class JpaQuery {
     }
 
     public void SORT(CriteriaQuery criteriaQuery,String key,String value){
-        if(key==null || value ==null) return;
-
-        EntityType bean_ = root.getModel();
         String sortField = "updateDate";
         String sortDirection = "DESC";
 
-        if(bean_.getAttributes().toString().indexOf("."+key.replace(":sort",""))>-1){
-            sortField = key.replace(":sort", "");
-            sortDirection = value;
+        if(key!=null && value !=null){
+            EntityType bean_ = root.getModel();
+
+            if(bean_.getAttributes().toString().indexOf("."+key.replace(":sort",""))>-1){
+                sortField = key.replace(":sort", "");
+                sortDirection = value;
+            }
         }
 
         switch(sortDirection){
