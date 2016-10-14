@@ -3,6 +3,7 @@ package com.kalix.framework.core.api.persistence;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kalix.framework.core.api.exception.StaleEntityException;
+import org.dozer.DozerBeanMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,18 +26,19 @@ public abstract class PersistentEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @Version
-    @Column(name = "version_")
-    private long version;
-    //@JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private long version_;
     private Date creationDate = new Date();// 创建日期
     private String createBy;    // 创建者
     private String updateBy;    // 更新者
     private Long createById; //创建者Id
     private Long updateById; //更新者Id
-    // @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateDate = new Date();
-    // 更新日期
 
+    public PersistentEntity(){}
+
+    public PersistentEntity(PersistentEntity obj){
+        new DozerBeanMapper().map(obj, this);
+    }
 
     public long getId() {
         return id;
@@ -46,15 +48,15 @@ public abstract class PersistentEntity implements Serializable {
         this.id = id;
     }
 
-    public long getVersion() {
-        return version;
+    public long getVersion_() {
+        return version_;
     }
 
     public void setVersion(long vers) {
-        if (vers < version) {
+        if (vers <version_) {
             throw new StaleEntityException(this);
         }
-        this.version = vers;
+        this.version_ = vers;
     }
 
     public String getCreateBy() {

@@ -33,6 +33,6 @@ public class StaleEntityException extends InternalRuntimeException {
     public StaleEntityException(PersistentEntity entity) {
         super(new InternalError(Translations.STALE_OBJECT_STATE_EXCEPTION,
                 entity.getClass(),
-                entity.getVersion()));
+                entity.getVersion_()));
     }
 }

@@ -22,8 +22,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-//import javax.transaction.Transactional;
-
 /**
  * @类描述：DAO数据访问通用实现抽象类
  * @创建人：sunlf
@@ -206,7 +204,17 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
                 continue;
             }
 
-            if (key.contains("%")) {
+            if (key.contains(":relation")) {
+                String[] keySplit = key.split(":");
+                String fieldName = keySplit[0];
+                String beanName = keySplit[2];
+
+                if (fieldName.contains("%")) {
+                    predicatesList.add(relationJpaQueryMap.get(beanName).LIKE(fieldName, value));
+                } else {
+                    predicatesList.add(relationJpaQueryMap.get(beanName).EQUAL(fieldName, value));
+                }
+            } else if (key.contains("%")) {
                 predicatesList.add(jpaQuery.LIKE(key, value));
             } else if (key.contains(":begin:gt") || key.contains(":end:lt")) {
                 predicatesList.add(jpaQuery.DATE(key, value));
@@ -215,16 +223,6 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
             } else if (key.contains(":sort")) {
                 sortKey = key;
                 sortValue = value;
-            } else if (key.contains(":relation")) {
-                String[] keySplit = key.split(":");
-                String fieldName = keySplit[0];
-                String beanName = keySplit[2];
-
-                if (fieldName.contains("%")) {
-                    predicatesList.add(relationJpaQueryMap.get(beanName).LIKE(fieldName,value));
-                } else {
-                    predicatesList.add(relationJpaQueryMap.get(beanName).EQUAL(fieldName,value));
-                }
             } else {
                 predicatesList.add(jpaQuery.EQUAL(key, value));
             }
