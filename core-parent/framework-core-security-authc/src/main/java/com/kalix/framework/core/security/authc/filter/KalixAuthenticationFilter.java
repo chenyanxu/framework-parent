@@ -67,7 +67,7 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             String rtnPage="";
 
             if(Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy","ConfigWebContext"))){
-                rtnPage="/index.jps";
+                rtnPage = "/index.jsp";
             }
             else{
                 rtnPage="/index-debug.jsp";
