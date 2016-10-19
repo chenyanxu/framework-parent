@@ -3,6 +3,7 @@ package com.kalix.framework.core.impl.biz;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kalix.framework.core.api.cache.ICacheManager;
 import com.kalix.framework.core.api.dao.IGenericDao;
 import com.kalix.framework.core.api.dto.AuditDTOBean;
 import com.kalix.framework.core.api.persistence.JsonStatus;
@@ -10,22 +11,29 @@ import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.security.IShiroService;
 import com.kalix.framework.core.util.Assert;
 import com.kalix.framework.core.util.JNDIHelper;
+import com.kalix.framework.core.util.KalixCascade;
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONObject;
 import org.osgi.service.event.Event;
 
 import java.io.IOException;
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.*;
 
 /**
  * @author chenyanxu
  */
 public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP extends PersistentEntity> extends GenericBizServiceImpl<T, TP> {
-    private IShiroService shiroService;
+    protected IShiroService shiroService;
+    protected ICacheManager cacheManager;
+
+    public void setCacheManager(ICacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
 
     public ShiroGenericBizServiceImpl() {
         try {
             this.shiroService = JNDIHelper.getJNDIServiceForName(IShiroService.class.getName());
+            this.cacheManager = JNDIHelper.getJNDIServiceForName(ICacheManager.class.getName());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,8 +94,67 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
         super.beforeUpdateEntity(entity, status);
     }
 
+    /**
+     * 解析redis中存储的级联信息
+     *
+     * @param map
+     * @param jsonCascade   redis中存储的级联信息
+     * @param cascadeKey
+     * @param id
+     * @param searchSql 拼接的操作查询串
+     * @return
+     */
+    private Map<String, String> getCascade(Map<String, String> map, JSONObject jsonCascade, String cascadeKey, Long id, String searchSql) {
+        if (jsonCascade.has(cascadeKey)) {
+            JSONObject mainJsonCascade = jsonCascade.getJSONObject(cascadeKey);
+
+            for (Iterator iter = mainJsonCascade.keys(); iter.hasNext(); ) {
+                String key = (String) iter.next();
+                if (map.get(key) == null || map.get(key).isEmpty()) {
+                    JSONObject object = mainJsonCascade.getJSONObject(key);
+                    if (object != null) {
+                        String operation = object.get("operation").toString();
+                        String table = object.get("table").toString();
+                        String primaryKey = object.get("primaryKey").toString();
+                        String foreignKey = object.get("foreignKey").toString();
+
+                        String operationSql = "";
+                        String mySearchSql = "";
+                        if (searchSql == "") {
+                            operationSql = operation + " from " + table + " where " + foreignKey + " = " + id;
+                            mySearchSql = "select " + primaryKey + " from " + table + " where " + foreignKey + " = " + id;
+                        } else {
+                            operationSql = operation + " from " + table + " where " + foreignKey + " in (" + searchSql + ") ";
+                            mySearchSql = "select id from " + table + " where " + foreignKey + " in (" + searchSql + ") ";
+                        }
+
+                        map = getCascade(map, jsonCascade, key, id, mySearchSql);
+                        map.put(key, operationSql);
+                    }
+                }
+            }
+        }
+
+        return map;
+    }
+
     @Override
     public void beforeDeleteEntity(Long id, JsonStatus status) {
+        String jedisString = cacheManager.get(KalixCascade.alias);
+        if (jedisString != null && !jedisString.isEmpty()) {
+            Map<String, String> map = new HashMap<>();
+            map.put(super.persistentClass.getName(), "");
+
+            map = getCascade(map, new JSONObject(jedisString), super.persistentClass.getName(), id, "");
+
+            for (String key : map.keySet()) {
+                if (map.get(key) != null && !map.get(key).isEmpty()) {
+                    dao.updateNativeQuery(map.get(key));
+                }
+            }
+        }
+
+
         String userName = shiroService.getCurrentUserRealName();
         Assert.notNull(userName, "用户名不能为空.");
         //记录业务监控数据 delete
