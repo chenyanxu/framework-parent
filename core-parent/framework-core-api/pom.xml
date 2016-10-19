@@ -50,7 +50,7 @@
                 <groupId>org.apache.openjpa</groupId>
                 <artifactId>openjpa-maven-plugin</artifactId>
                 <configuration>
-                    <includes>**/PersistentEntity.class</includes>
+                    <includes>**/*Entity.class</includes>
                 </configuration>
             </plugin>
         </plugins>

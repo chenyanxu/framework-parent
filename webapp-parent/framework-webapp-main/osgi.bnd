@@ -15,5 +15,5 @@ Import-Package: com.kalix.framework.core.security.authc.filter,\
                 javax.servlet.jsp,\
                 org.apache.shiro.session,*
 Include-Resource: src/main/webapp,src/main/resources
-Web-ContextPath:/kalix
+Web-ContextPath: /
 Bundle-Category: Kalix Framework WebApp
