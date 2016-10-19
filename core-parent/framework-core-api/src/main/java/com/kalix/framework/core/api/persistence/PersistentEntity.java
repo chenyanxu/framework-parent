@@ -21,6 +21,7 @@ import java.util.Date;
 @MappedSuperclass
 @Access(AccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class PersistentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

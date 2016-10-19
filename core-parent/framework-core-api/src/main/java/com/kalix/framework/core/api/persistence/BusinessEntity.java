@@ -2,10 +2,7 @@ package com.kalix.framework.core.api.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 /**
  * Created by chenyanxu on 2016/10/13.
@@ -13,6 +10,7 @@ import javax.persistence.Transient;
 @MappedSuperclass
 @Access(AccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class BusinessEntity extends PersistentEntity {
     protected Long userId;
     @Transient
