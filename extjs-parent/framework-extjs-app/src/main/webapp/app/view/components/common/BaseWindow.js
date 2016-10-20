@@ -33,10 +33,7 @@ Ext.define('kalix.view.components.common.BaseWindow', {
     defaults: {
         layout: 'form',
         xtype: 'baseForm',
-        flex: 1,
-        defaults: {
-            labelAlign: 'right'
-        }
+        flex: 1
     },
     buttons: [{
         text: '保存',
