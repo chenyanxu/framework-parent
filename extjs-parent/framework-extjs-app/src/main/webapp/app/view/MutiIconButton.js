@@ -20,6 +20,7 @@ Ext.define('kalix.view.MutiIconButton', {
                     }
 
                     btnIconEl.setStyle('background-image', urls.join(','));
+                    btnIconEl.setStyle('background-size','100% 100%');
                 }
 
                 me._syncHasIconCls();
