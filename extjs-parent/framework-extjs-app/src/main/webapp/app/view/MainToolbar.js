@@ -39,7 +39,6 @@ Ext.define('kalix.view.MainToolbar', {
                         target.findParentByType('toolbar').items.items.forEach(function (child, index) {
                             child.ariaEl.dom.style.background = '';
                         });
-
                         target.ariaEl.dom.style.background = '#e1e1e1';
                     },
                     afterrender: function (target) {

@@ -208,7 +208,12 @@ Ext.define('kalix.controller.MainController', {
             }
         }
         else {
-            treeStore.load({hashToken: this.getFirstPath(hash)});
+            var mainToolBar = this.getReferences().maintoolbar;
+
+            mainToolBar.disable();
+            treeStore.load({scope: mainToolBar,hashToken: this.getFirstPath(hash),callback: function (records, operation, success){
+                this.enable();
+            }});
             this.setCurrentView(hash);
             treeStore.treeSelInfo.selected = false;
         }
