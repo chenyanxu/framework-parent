@@ -11,15 +11,17 @@ Ext.define('kalix.view.MutiIconButton', {
     if (icon !== oldIcon) {
       if (btnIconEl) {
         if (icon && icon instanceof Array) {
-          var urls=new Array();
+          var urls = new Array();
 
           for (var uIndex = 0; uIndex < icon.length; ++uIndex) {
+            if (icon[uIndex] != 'null' ) {
               urls.push('url(' + icon[uIndex] + ')')
+            }
           }
 
-          btnIconEl.setStyle('background-image',urls.join(','));
+          btnIconEl.setStyle('background-image', urls.join(','));
         }
-        
+
         me._syncHasIconCls();
         if (me.didIconStateChange(oldIcon, icon)) {
           me.updateLayout();
