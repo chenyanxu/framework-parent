@@ -62,7 +62,8 @@ Ext.define('kalix.view.Main', {
         xtype: 'messagebar'
       },
       {
-        xtype: 'profilebar'
+        xtype: 'profilebar',
+        reference: 'profilebar'
       },
       {
         xtype: 'combo',

@@ -6,10 +6,10 @@ Ext.define('kalix.viewmodel.ProfilebarViewModel', {
   alias : 'viewmodel.profilebarViewModel',
 
   data : {
-    user : {
+    user : Ext.create('Ext.data.Model',{
       name : Ext.util.Cookies.get('currentUserRealName') || '系统管理员',
       icon:Ext.util.Cookies.get('currentUserIcon'),
       quit: CONFIG.restRoot + '/logout'
-    }
+    })
   }
 });
