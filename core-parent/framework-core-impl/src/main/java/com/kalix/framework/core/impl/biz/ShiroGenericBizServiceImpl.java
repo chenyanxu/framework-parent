@@ -97,10 +97,10 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
     /**
      * 解析redis中存储的级联信息
      *
-     * @param map
+     * @param map   查询结果map<实体类名, 执行语句>
      * @param jsonCascade   redis中存储的级联信息
-     * @param cascadeKey
-     * @param id
+     * @param cascadeKey    要解析的key（实体类）
+     * @param id    删除的实体类主键值
      * @param searchSql 拼接的操作查询串
      * @return
      */
@@ -110,6 +110,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
 
             for (Iterator iter = mainJsonCascade.keys(); iter.hasNext(); ) {
                 String key = (String) iter.next();
+                // 判断需要查找的key是否在map中存在，防止循环递归
                 if (map.get(key) == null || map.get(key).isEmpty()) {
                     JSONObject object = mainJsonCascade.getJSONObject(key);
                     if (object != null) {
@@ -120,15 +121,22 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
 
                         String operationSql = "";
                         String mySearchSql = "";
+
                         if (searchSql == "") {
+                            // 不存在查询语句
                             operationSql = operation + " from " + table + " where " + foreignKey + " = " + id;
                             mySearchSql = "select " + primaryKey + " from " + table + " where " + foreignKey + " = " + id;
-                        } else {
+                        }
+                        else {
+                            // 存在查询语句，拼接in条件
                             operationSql = operation + " from " + table + " where " + foreignKey + " in (" + searchSql + ") ";
                             mySearchSql = "select id from " + table + " where " + foreignKey + " in (" + searchSql + ") ";
                         }
 
+                        // 递归查询
                         map = getCascade(map, jsonCascade, key, id, mySearchSql);
+
+                        // 查询结果存储于map
                         map.put(key, operationSql);
                     }
                 }
@@ -144,7 +152,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
         if (jedisString != null && !jedisString.isEmpty()) {
             Map<String, String> map = new HashMap<>();
             map.put(super.persistentClass.getName(), "");
-
+            // 递归方式搜素是否有关于自己的依赖信息，并存储在map中
             map = getCascade(map, new JSONObject(jedisString), super.persistentClass.getName(), id, "");
 
             for (String key : map.keySet()) {

@@ -42,7 +42,7 @@ public abstract class BundleActivatorImpl implements BundleActivator {
     /**
      * 注册级联信息
      *
-     * @param me
+     * @param me 注册的实体类
      * @throws Exception
      */
     public void registerCascade(Class<? extends PersistentEntity> me) throws Exception {
@@ -62,9 +62,12 @@ public abstract class BundleActivatorImpl implements BundleActivator {
 
         Field[] fields = me.getDeclaredFields();
         for (Field f : fields) {
+            // 查找是否有依赖注解关系
             KalixCascade cascade = f.getAnnotation(KalixCascade.class);
             if (cascade != null) {
+                // 是否需要级联删除
                 if (cascade.deletable()) {
+                    // 保存级联删除信息到json
                     JSONObject object = new JSONObject();
                     object.put("operation", "delete");
                     object.put("table", table.name());
@@ -82,22 +85,28 @@ public abstract class BundleActivatorImpl implements BundleActivator {
     /**
      * 反注册级联信息
      *
+     * @param me 反注册的实体类
      * @throws Exception
      */
     public void unRegisterCascade(Class<? extends PersistentEntity> me) throws Exception {
         if (cacheManager.exists(KalixCascade.alias)) {
             String jedisString = cacheManager.get(KalixCascade.alias);
+            // 存在级联信息
             if (jedisString != null) {
                 boolean isChange = false;
                 JSONObject jsonCascade = new JSONObject(jedisString);
+                // 遍历json级联信息
                 for (Iterator mainCascadeIterator = jsonCascade.keys(); mainCascadeIterator.hasNext(); ) {
                     String mainCascadeKey = (String) mainCascadeIterator.next();
                     JSONObject mainJsonCascade = jsonCascade.getJSONObject(mainCascadeKey);
-                        if (mainJsonCascade.has(me.getName())) {
-                            isChange = true;
-                            mainJsonCascade.remove(me.getName());
-                            jsonCascade.put(mainCascadeKey, mainJsonCascade);
-                        }
+                    // 有需要反注册的信息
+                    if (mainJsonCascade.has(me.getName())) {
+                        isChange = true;
+                        // 删除
+                        mainJsonCascade.remove(me.getName());
+                        // 保存至json
+                        jsonCascade.put(mainCascadeKey, mainJsonCascade);
+                    }
                 }
 
                 // 有反注册信息，修改redis缓存
