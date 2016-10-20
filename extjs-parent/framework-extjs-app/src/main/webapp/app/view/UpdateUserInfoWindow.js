@@ -48,6 +48,7 @@ Ext.define('kalix.view.UpdateUserInfoWindow', {
                         },
                         {
                             xtype: 'baseImage',
+                            id: 'updateUserInfoWindowImage',
                             title: 'resources/images/default_user.png',
                             width: 72,
                             height: 72,
