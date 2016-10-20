@@ -23,9 +23,11 @@ import java.util.Map;
  */
 public class HttpClientUtil {
     public static String shiroGet(String url,String sessionId) throws IOException{
+        String webContext=(String)ConfigUtil.getConfigProp("path","ConfigWebContext");
+        String serverUrl=(String)ConfigUtil.getConfigProp("server_url","ConfigWebContext");
         String result=null;
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(url);
+        HttpGet httpGet = new HttpGet(serverUrl+webContext+"/camel/rest"+url);
 
         if(sessionId!=null && !sessionId.isEmpty()){
             httpGet.addHeader("Cookie","JSESSIONID="+sessionId);
@@ -63,10 +65,12 @@ public class HttpClientUtil {
 
 
     public static String shiroPost(String url, Map<String,String> params, String sessionId) throws IOException{
+        String webContext=(String)ConfigUtil.getConfigProp("path","ConfigWebContext");
+        String serverUrl=(String)ConfigUtil.getConfigProp("server_url","ConfigWebContext");
         String result=null;
         CloseableHttpResponse response1 =null;
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpPost httpPost=new HttpPost(url);
+        HttpPost httpPost=new HttpPost(serverUrl+webContext+"/camel/rest"+url);
 
         if(sessionId!=null && !sessionId.isEmpty()){
             httpPost.addHeader("Cookie","JSESSIONID="+sessionId);
