@@ -13,13 +13,21 @@ import org.osgi.framework.BundleContext;
  * @修改备注：
  */
 public class InitActivator implements BundleActivator {
+    private static BundleContext context;
+
     @Override
     public void start(BundleContext bundleContext) throws Exception {
         SystemUtil.startBundlePrintln(bundleContext);
+        context = bundleContext;
     }
 
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
         SystemUtil.stopBundlePrintln(bundleContext);
+        this.context = null;
+    }
+
+    public static BundleContext getBundleContext() {
+        return context;
     }
 }
