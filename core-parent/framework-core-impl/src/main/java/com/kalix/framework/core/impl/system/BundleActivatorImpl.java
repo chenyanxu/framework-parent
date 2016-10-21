@@ -60,24 +60,28 @@ public abstract class BundleActivatorImpl implements BundleActivator {
             jsonCascade = new JSONObject(jedisString);
         }
 
-        Field[] fields = me.getDeclaredFields();
-        for (Field f : fields) {
-            // 查找是否有依赖注解关系
-            KalixCascade cascade = f.getAnnotation(KalixCascade.class);
-            if (cascade != null) {
-                // 是否需要级联删除
-                if (cascade.deletable()) {
-                    // 保存级联删除信息到json
-                    JSONObject object = new JSONObject();
-                    object.put("operation", "delete");
-                    object.put("table", table.name());
-                    object.put("primaryKey", "id");
-                    object.put("foreignKey", cascade.foreignKey());
+        // 处理依赖关系注解在父类的实体类
+        for (Class<?> classes = me; classes != Object.class; classes = classes.getSuperclass()) {
+            Field[] fields = classes.getDeclaredFields();
+            for (Field f : fields) {
+                // 查找是否有依赖注解关系
+                KalixCascade cascade = f.getAnnotation(KalixCascade.class);
+                if (cascade != null) {
+                    // 是否需要级联删除
+                    if (cascade.deletable()) {
+                        // 保存级联删除信息到json
+                        JSONObject object = new JSONObject();
+                        object.put("operation", "delete");
+                        object.put("table", table.name());
+                        object.put("primaryKey", "id");
+                        object.put("foreignKey", cascade.foreignKey());
 
-                    jsonCascade = writeJson(jsonCascade, cascade.beans(), me.getName(), object);
+                        jsonCascade = writeJson(jsonCascade, cascade.beans(), me.getName(), object);
+                    }
                 }
             }
         }
+
         // 保存级联信息到redis
         cacheManager.save(KalixCascade.alias, jsonCascade.toString());
     }
