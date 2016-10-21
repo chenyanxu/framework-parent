@@ -43,6 +43,11 @@
             <groupId>com.kalix.framework.core</groupId>
             <artifactId>framework-core-util</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
