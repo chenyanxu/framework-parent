@@ -1,6 +1,7 @@
 package com.kalix.framework.core.api.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.kalix.framework.core.util.KalixCascade;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class BusinessEntity extends PersistentEntity {
+    @KalixCascade(beans = "com.kalix.admin.core.entities.UserBean", deletable = true, foreignKey = "userId")
     protected Long userId;
     @Transient
     protected String userName;
