@@ -5,6 +5,12 @@
  */
 Ext.define('kalix.model.BaseModel', {
     extend: 'Ext.data.Model',
+    requires:[
+        'kalix.validator.Presence',
+        'kalix.validator.Length',
+        'kalix.validator.Mail',
+        'kalix.validator.Mobile'
+    ],
     constructor: function () {
         this.callParent(arguments);
 

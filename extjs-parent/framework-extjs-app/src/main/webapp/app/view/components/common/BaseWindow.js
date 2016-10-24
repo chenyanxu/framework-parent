@@ -7,10 +7,6 @@ Ext.define('kalix.view.components.common.BaseWindow', {
     requires: [
         'kalix.view.components.common.FormPanel',
         'kalix.controller.BaseWindowController',
-        'kalix.validator.Presence',
-        'kalix.validator.Length',
-        'kalix.validator.Mail',
-        'kalix.validator.Mobile',
         'kalix.viewmodel.BaseViewModel'
     ],
     alias: 'widget.baseWindow',

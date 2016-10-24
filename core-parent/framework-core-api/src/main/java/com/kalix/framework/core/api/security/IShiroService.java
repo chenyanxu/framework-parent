@@ -1,5 +1,6 @@
 package com.kalix.framework.core.api.security;
 
+import com.kalix.framework.core.api.IService;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -8,23 +9,23 @@ import org.apache.shiro.subject.Subject;
  * Created by sunlf on 2015/7/23.
  * 安全服务
  */
-public interface IShiroService {
+public interface IShiroService extends IService {
     /**
-     * 获得当前登录用户 登录名
+     * 获得当前登录用户的登录名
      *
      * @return 登录名
      */
     String getCurrentUserLoginName();
 
     /**
-     * 获得当前登录用户 真实姓名
+     * 获得当前登录用户的真实姓名
      *
      * @return 真实姓名
      */
     String getCurrentUserRealName();
 
     /**
-     * 获得当前登录用户 用户ID
+     * 获得当前登录用户ID
      *
      * @return 用户ID
      */
