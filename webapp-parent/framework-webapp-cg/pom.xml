@@ -23,9 +23,8 @@
             <artifactId>commons-fileupload</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.kalix.middleware.couchdb</groupId>
-            <artifactId>middleware-couchdb-api</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <groupId>com.kalix.framework.core</groupId>
+            <artifactId>framework-core-api</artifactId>
         </dependency>
     </dependencies>
 </project>
