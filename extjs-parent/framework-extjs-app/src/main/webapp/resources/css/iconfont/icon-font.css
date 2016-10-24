@@ -8,12 +8,13 @@
 /*}*/
 @font-face {
   font-family: 'iconfont';
-  src: url('//at.alicdn.com/t/font_1476840460_7899606.eot'); /* IE9*/
-  src: url('//at.alicdn.com/t/font_1476840460_7899606.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('//at.alicdn.com/t/font_1476840460_7899606.woff') format('woff'), /* chrome、firefox */
-  url('//at.alicdn.com/t/font_1476840460_7899606.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('//at.alicdn.com/t/font_1476840460_7899606.svg#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('//at.alicdn.com/t/font_1477276150_2682366.eot'); /* IE9*/
+  src: url('//at.alicdn.com/t/font_1477276150_2682366.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/font_1477276150_2682366.woff') format('woff'), /* chrome、firefox */
+  url('//at.alicdn.com/t/font_1477276150_2682366.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/font_1477276150_2682366.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
+
 
 .iconfont {
   font-family:"iconfont" !important;
@@ -98,7 +99,6 @@
 .icon-reset:before { content: "\e623"; }
 
 .icon-config:before{content: "\e66f";}
-
 .icon-query:before { content: "\e62a"; }
 .icon-password-reset:before { content: "\e618"; }
 .icon-view-column:before { content: "\e630"; }
@@ -111,15 +111,17 @@
 .icon-tree-collapse:before{content: "\e635";}
 .icon-start:before{content: "\e636";}
 .icon-stop:before{content: "\e637";}
-.icon-workflow-view-column:before{content: "\e638";}
 .icon-attachment-column:before{content: "\e639";}
 .icon-upload:before{content: "\e63a";}
 .icon-download:before{content: "\e64c";}
+.icon-stop-using:before{content: "\e671";}
+.icon-start-using:before{content:"\e672";}
+
+/*workflow*/
 .icon-current-process:before{content: "\e63b";}
-.icon-meeting-room-reservation:before{content: "\e63c";}
 .icon-workflow-delegate:before{content: "\e63d";}
 .icon-workflow-approval:before{content: "\e63e";}
-
+.icon-workflow-view-column:before{content: "\e638";}
 .icon-workflow-stock:before{content: "\e63f";}
 .icon-workflow-fee:before{content: "\e640";}
 .icon-workflow-doc:before{content: "\e641";}
@@ -132,7 +134,7 @@
 .icon-workflow-purchase:before{content: "\e648";}
 .icon-workflow-apply:before{content: "\e649";}
 .icon-workflow-view:before{content: "\e64a";}
-
+.icon-meeting-room-reservation:before{content: "\e63c";}
 
 /*schedule*/
 .icon-schedule:before{content: "\e653";}
