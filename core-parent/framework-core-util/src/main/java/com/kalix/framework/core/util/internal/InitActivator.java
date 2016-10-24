@@ -18,13 +18,13 @@ public class InitActivator implements BundleActivator {
     @Override
     public void start(BundleContext bundleContext) throws Exception {
         SystemUtil.startBundlePrintln(bundleContext);
-        context=bundleContext;
+        context = bundleContext;
     }
 
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
         SystemUtil.stopBundlePrintln(bundleContext);
-        this.context=null;
+        this.context = null;
     }
 
     public static BundleContext getBundleContext() {

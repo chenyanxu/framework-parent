@@ -1,15 +1,7 @@
 package com.kalix.framework.core.web.internal;
 
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
+import com.kalix.framework.core.api.osgi.BaseBundleActivator;
 
-public class InitActivator implements BundleActivator {
 
-    @Override
-    public void start(BundleContext bundleContext) throws Exception {
-    }
-
-    @Override
-    public void stop(BundleContext bundleContext) throws Exception {
-    }
+public class InitActivator extends BaseBundleActivator {
 }

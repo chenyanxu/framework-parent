@@ -1,13 +1,10 @@
-package com.kalix.framework.core.impl.system;
+package com.kalix.framework.core.api.osgi;
 
 import com.kalix.framework.core.api.cache.ICacheManager;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.util.JNDIHelper;
 import com.kalix.framework.core.util.KalixCascade;
-import com.kalix.framework.core.util.SystemUtil;
 import org.json.JSONObject;
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
 
 import javax.persistence.Table;
 import java.io.IOException;
@@ -18,25 +15,15 @@ import java.util.Iterator;
  * @author Administrator
  * @create 2016-10-13 16:18.
  */
-public abstract class BundleActivatorImpl implements BundleActivator {
+public abstract class CascadeBundleActivator extends BaseBundleActivator {
     protected ICacheManager cacheManager = null;
 
-    public BundleActivatorImpl() {
+    public CascadeBundleActivator() {
         try {
             this.cacheManager = JNDIHelper.getJNDIServiceForName(ICacheManager.class.getName());
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void start(BundleContext bundleContext) throws Exception {
-        SystemUtil.startBundlePrintln(bundleContext);
-    }
-
-    @Override
-    public void stop(BundleContext bundleContext) throws Exception {
-        SystemUtil.stopBundlePrintln(bundleContext);
     }
 
     /**
