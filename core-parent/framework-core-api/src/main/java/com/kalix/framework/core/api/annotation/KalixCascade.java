@@ -1,4 +1,4 @@
-package com.kalix.framework.core.util;
+package com.kalix.framework.core.api.annotation;
 
 import java.lang.annotation.*;
 
