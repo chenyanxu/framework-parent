@@ -3,7 +3,6 @@ package com.kalix.framework.core.api.annotation;
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
 @Documented
 public @interface KalixCascade {
     public static String alias = "KalixCascade";

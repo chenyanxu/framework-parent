@@ -1,6 +1,8 @@
 package com.kalix.framework.core.impl.dao;
 
 
+import com.kalix.framework.core.api.annotation.Relation;
+import com.kalix.framework.core.api.annotation.TableRelation;
 import com.kalix.framework.core.api.dao.IGenericDao;
 import com.kalix.framework.core.api.exception.SearchException;
 import com.kalix.framework.core.api.persistence.*;

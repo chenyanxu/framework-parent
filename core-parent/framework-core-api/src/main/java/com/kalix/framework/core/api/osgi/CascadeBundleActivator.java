@@ -1,14 +1,14 @@
 package com.kalix.framework.core.api.osgi;
 
+import com.kalix.framework.core.api.annotation.KalixCascade;
+import com.kalix.framework.core.api.annotation.TableCascade;
 import com.kalix.framework.core.api.cache.ICacheManager;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.util.JNDIHelper;
-import com.kalix.framework.core.api.annotation.KalixCascade;
 import org.json.JSONObject;
 
 import javax.persistence.Table;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.Iterator;
 
 /**
@@ -33,10 +33,20 @@ public abstract class CascadeBundleActivator extends BaseBundleActivator {
      * @throws Exception
      */
     public void registerCascade(Class<? extends PersistentEntity> me) throws Exception {
+        // 先反注册级联信息
+        unRegisterCascade(me);
+
         // 获取当前需要注册实体类的table注解信息
         Table table = me.getAnnotation(Table.class);
         // 没有table注解信息，不需要注册
         if (table == null) {
+            return;
+        }
+
+        // 获取是否有依赖注解关系
+        TableCascade tableCascade = me.getAnnotation(TableCascade.class);
+        // 没有tableCascade注解信息，不需要注册
+        if (tableCascade == null) {
             return;
         }
 
@@ -48,24 +58,16 @@ public abstract class CascadeBundleActivator extends BaseBundleActivator {
         }
 
         // 处理依赖关系注解在父类的实体类
-        for (Class<?> classes = me; classes != Object.class; classes = classes.getSuperclass()) {
-            Field[] fields = classes.getDeclaredFields();
-            for (Field f : fields) {
-                // 查找是否有依赖注解关系
-                KalixCascade cascade = f.getAnnotation(KalixCascade.class);
-                if (cascade != null) {
-                    // 是否需要级联删除
-                    if (cascade.deletable()) {
-                        // 保存级联删除信息到json
-                        JSONObject object = new JSONObject();
-                        object.put("operation", "delete");
-                        object.put("table", table.name());
-                        object.put("primaryKey", "id");
-                        object.put("foreignKey", cascade.foreignKey());
+        for (KalixCascade cascade : tableCascade.kalixCascades()) {
+            if (cascade.deletable()) {
+                // 保存级联删除信息到json
+                JSONObject object = new JSONObject();
+                object.put("operation", "delete");
+                object.put("table", table.name());
+                object.put("primaryKey", "id");
+                object.put("foreignKey", cascade.foreignKey());
 
-                        jsonCascade = writeJson(jsonCascade, cascade.beans(), me.getName(), object);
-                    }
-                }
+                jsonCascade = writeJson(jsonCascade, cascade.beans(), me.getName(), object);
             }
         }
 

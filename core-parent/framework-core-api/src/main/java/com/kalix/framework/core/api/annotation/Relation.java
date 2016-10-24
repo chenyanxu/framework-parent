@@ -1,6 +1,5 @@
-package com.kalix.framework.core.api.persistence;
+package com.kalix.framework.core.api.annotation;
 
-import javax.persistence.Table;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 

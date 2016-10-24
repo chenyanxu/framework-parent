@@ -1,4 +1,4 @@
-package com.kalix.framework.core.api.persistence;
+package com.kalix.framework.core.api.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
