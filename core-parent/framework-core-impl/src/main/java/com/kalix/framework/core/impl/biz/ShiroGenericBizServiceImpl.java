@@ -11,7 +11,7 @@ import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.security.IShiroService;
 import com.kalix.framework.core.util.Assert;
 import com.kalix.framework.core.util.JNDIHelper;
-import com.kalix.framework.core.util.KalixCascade;
+import com.kalix.framework.core.api.annotation.KalixCascade;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.osgi.service.event.Event;

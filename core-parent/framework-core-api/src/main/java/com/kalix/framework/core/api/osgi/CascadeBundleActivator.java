@@ -3,7 +3,7 @@ package com.kalix.framework.core.api.osgi;
 import com.kalix.framework.core.api.cache.ICacheManager;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.util.JNDIHelper;
-import com.kalix.framework.core.util.KalixCascade;
+import com.kalix.framework.core.api.annotation.KalixCascade;
 import org.json.JSONObject;
 
 import javax.persistence.Table;
