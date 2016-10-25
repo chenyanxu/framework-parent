@@ -1,28 +1,37 @@
-package com.kalix.framework.core.api.osgi;
+package com.kalix.framework.core.api.dao;
 
 import com.kalix.framework.core.api.annotation.KalixCascade;
 import com.kalix.framework.core.api.annotation.TableCascade;
 import com.kalix.framework.core.api.cache.ICacheManager;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
-import com.kalix.framework.core.util.JNDIHelper;
 import org.json.JSONObject;
 
 import javax.persistence.Table;
-import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Administrator
- * @create 2016-10-13 16:18.
+ * @create 2016-10-25 16:15.
  */
-public abstract class CascadeBundleActivator extends BaseBundleActivator {
+public abstract class CascadeManager {
     protected ICacheManager cacheManager = null;
 
-    public CascadeBundleActivator() {
-        try {
-            this.cacheManager = JNDIHelper.getJNDIServiceForName(ICacheManager.class.getName());
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void setCacheManager(ICacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
+
+    public abstract List<Class<? extends PersistentEntity>> getEntityClass();
+
+    public void start() throws Exception {
+        for(Class<? extends PersistentEntity> entityClass : getEntityClass()) {
+            registerCascade(entityClass);
+        }
+    }
+
+    public void stop() throws Exception {
+        for(Class<? extends PersistentEntity> entityClass : getEntityClass()) {
+            unRegisterCascade(entityClass);
         }
     }
 
@@ -132,14 +141,5 @@ public abstract class CascadeBundleActivator extends BaseBundleActivator {
         jsonCascade.put(mainCascadeKey, mainJsonCascade);
 
         return jsonCascade;
-//        for (Iterator mainCascadeIterator = jsonCascade.keys(); mainCascadeIterator.hasNext(); ) {
-//            String mainCascadeKey = (String) mainCascadeIterator.next();
-//            JSONObject mainJsonCascade = jsonCascade.getJSONObject(mainCascadeKey);
-//            for (Iterator relationCascadeIterator = mainJsonCascade.keys(); relationCascadeIterator.hasNext(); ) {
-//                String relationCascadeKey = (String) relationCascadeIterator.next();
-//                JSONObject relationJsonCascade = mainJsonCascade.getJSONObject(relationCascadeKey);
-//
-//            }
-//        }
     }
 }
