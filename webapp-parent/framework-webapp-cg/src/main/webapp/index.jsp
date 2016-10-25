@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE HTML>
+<%String path = request.getContextPath();%>
 <html manifest="">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,9 +8,9 @@
     <title>Code Generation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" type="image/x-icon" href=""/>
-    <link rel="stylesheet" href="/kalix/extjs/classic/theme-triton/theme-triton-all.css" type="text/css"/>
-    <script type="text/javascript" src="/kalix/extjs/classic/ext-all.js"></script>
-    <script type="text/javascript" src="/kalix/extjs/classic/locale/locale-zh_CN.js"></script>
+    <link rel="stylesheet" href="<%=path %>/extjs/classic/theme-triton/theme-triton-all.css" type="text/css"/>
+    <script type="text/javascript" src="<%=path %>/extjs/classic/ext-all.js"></script>
+    <script type="text/javascript" src="<%=path %>/extjs/classic/locale/locale-zh_CN.js"></script>
     <script type="text/javascript">
         Ext.onReady(function () {
             Ext.create('Ext.container.Viewport', {

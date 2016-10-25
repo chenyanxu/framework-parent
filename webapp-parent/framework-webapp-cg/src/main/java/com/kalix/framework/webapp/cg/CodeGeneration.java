@@ -1,7 +1,7 @@
 package com.kalix.framework.webapp.cg;
 
+import com.kalix.framework.core.api.system.IAttachmentService;
 import com.kalix.framework.core.util.ZipCompressorByAnt;
-import com.kalix.middleware.couchdb.api.biz.ICouchdbService;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.util.ObjectHelper;
@@ -13,7 +13,6 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.shiro.codec.Base64;
-import org.lightcouch.Response;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
@@ -28,7 +27,7 @@ public class CodeGeneration implements Processor {
     private String karafPath;
     private String mavenPath;
 
-    private ICouchdbService couchdbService = null;
+    private IAttachmentService attachement = null;
     private ServletFileUpload uploader = null;
     private Map<String, Object> rtnMap = null;
 
@@ -165,8 +164,8 @@ public class CodeGeneration implements Processor {
             fis.close();
 
             String base64Str = new String(Base64.encode(buffer));
-            Response response = couchdbService.addAttachment(base64Str, beanName + ".zip", "application/octet-stream");
-            String sourcePath = couchdbService.getDBUrl() + response.getId() + "/" + beanName + ".zip";
+            String id = attachement.addNewAttachment(base64Str, beanName + ".zip", "application/octet-stream");
+            String sourcePath = attachement.getAttachmentUrl() + id + "/" + beanName + ".zip";
 
             this.rtnMap.put("success", true);
             this.rtnMap.put("sourcePath", sourcePath);
@@ -370,11 +369,11 @@ public class CodeGeneration implements Processor {
         }
     }
 
-    public ICouchdbService getCouchdbService() {
-        return couchdbService;
+    public IAttachmentService getAttachement() {
+        return attachement;
     }
 
-    public void setCouchdbService(ICouchdbService couchdbService) {
-        this.couchdbService = couchdbService;
+    public void setAttachement(IAttachmentService attachement) {
+        this.attachement = attachement;
     }
 }

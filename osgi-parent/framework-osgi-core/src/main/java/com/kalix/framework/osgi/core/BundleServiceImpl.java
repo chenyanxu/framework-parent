@@ -1,7 +1,9 @@
 package com.kalix.framework.osgi.core;
 
 import com.kalix.framework.osgi.api.IBundleService;
-import org.osgi.framework.*;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +27,7 @@ public class BundleServiceImpl implements IBundleService {
     @Override
     public Map startApp(String id) {
         this.rtnMap.clear();
+        getBundleList();
 
         if (appBundles.size() > 0) {
             try {
@@ -74,6 +77,7 @@ public class BundleServiceImpl implements IBundleService {
     @Override
     public Map stopApp(String id) {
         this.rtnMap.clear();
+        getBundleList();
 
         if (appBundles.size() > 0) {
             try {
@@ -122,6 +126,7 @@ public class BundleServiceImpl implements IBundleService {
     @Override
     public Map getAppStatus(String appIds) {
         this.rtnMap.clear();
+        getBundleList();
         String[] appIdArray = null;
 
         if (appIds != null) {
@@ -159,11 +164,19 @@ public class BundleServiceImpl implements IBundleService {
     public void setBundleContext(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
 
+
+
+    }
+
+    /**
+     * 获得IApplication服务
+     */
+    private void getBundleList() {
+        this.appBundles.clear();
         for (Bundle bundle : this.bundleContext.getBundles()) {
             if ("IApplication".equals(bundle.getHeaders().get("Bundle-Classifier"))) {
                 this.appBundles.add(bundle);
             }
         }
-
     }
 }

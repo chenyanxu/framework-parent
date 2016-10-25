@@ -25,19 +25,20 @@ public class KalixSecurityFilter extends AbstractShiroFilter {
 
     @Override
     public void init() throws Exception {
-        WebEnvironment env = WebUtils.getRequiredWebEnvironment(getServletContext());
         try {
-//            securityManager = JNDIHelper.getJNDIServiceForName(WebSecurityManager.class.getName());
+            WebEnvironment env = WebUtils.getRequiredWebEnvironment(getServletContext());
             securityManager = OsgiUtil.waitForServices(WebSecurityManager.class,null);
             SystemUtil.colorPrintln(" start shiro security manager succeed!",SystemUtil.ANSI_GREEN);
+
+            super.setSecurityManager(securityManager);
+
+            FilterChainResolver resolver = env.getFilterChainResolver();
+
+            if (resolver != null) {
+                setFilterChainResolver(resolver);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        super.setSecurityManager(securityManager);
-        FilterChainResolver resolver = env.getFilterChainResolver();
-        if (resolver != null) {
-            setFilterChainResolver(resolver);
         }
     }
 }
