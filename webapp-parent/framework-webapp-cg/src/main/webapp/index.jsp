@@ -1,6 +1,7 @@
+<%@ page import="com.kalix.framework.webapp.cg.internal.InitActivator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE HTML>
-<%String path = request.getContextPath();%>
+<%String path = InitActivator.mainPath;%>
 <html manifest="">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
