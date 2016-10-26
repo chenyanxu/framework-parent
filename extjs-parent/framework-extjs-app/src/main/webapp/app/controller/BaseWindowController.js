@@ -46,7 +46,7 @@ Ext.define('kalix.controller.BaseWindowController', {
                 return;
             }
 
-            model.modified = model.data;
+            //model.modified = model.data;
 
             if (0 == model.id) {
                 store.add(model);
