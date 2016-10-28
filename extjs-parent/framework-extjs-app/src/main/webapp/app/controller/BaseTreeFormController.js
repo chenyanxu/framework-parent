@@ -9,8 +9,11 @@ Ext.define('kalix.controller.BaseTreeFormController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.baseTreeFormController',
     onReset: function () {
-        var model=this.getView().lookupViewModel().get('rec');
-        model.set(model.modified);
+        var view = this.getView();
+        view.close();
+
+        //var model=this.getView().lookupViewModel().get('rec');
+        //model.set(model.modified);
     },
     /**
      * 保存操作.
@@ -18,13 +21,14 @@ Ext.define('kalix.controller.BaseTreeFormController', {
      */
     onSave: function () {
         var form = this.getView();
-        var vm=form.lookupViewModel();
+        var me = this.getView();
+        var vm = form.lookupViewModel();
 
-        if(0==vm.get('rec').get('id')){
-            form.getForm().method='POST';
+        if (0 == vm.get('rec').get('id')) {
+            form.getForm().method = 'POST';
         }
-        else{
-            form.getForm().method='PUT';
+        else {
+            form.getForm().method = 'PUT';
         }
 
         if (form.isValid()) {
@@ -40,6 +44,8 @@ Ext.define('kalix.controller.BaseTreeFormController', {
                     var store = tree.getStore();
 
                     store.reload();
+
+                    vm.get('win').close()
                 },
                 failure: function (form, action) {
                     Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, action.result.msg);

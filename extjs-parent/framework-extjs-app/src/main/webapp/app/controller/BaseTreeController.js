@@ -25,10 +25,10 @@ Ext.define('kalix.controller.BaseTreeController', {
      * 收起
      */
     onCollapseAll: function () {
-        try{
+        try {
             this.getView().collapseAll();
         }
-        catch(e){
+        catch (e) {
             var grid = this.getView();
             var store = grid.getStore();
 
@@ -40,20 +40,20 @@ Ext.define('kalix.controller.BaseTreeController', {
      */
     onAdd: function () {
         var rows = this.getView().getSelectionModel().getSelection();
-        var model=Ext.create('Ext.data.Model');
+        var model = Ext.create('Ext.data.Model');
 
-        model.set('url',this.getView().store.proxy.url);
-        model.set('id',0);
-        model.set('tree',this.getView());
+        model.set('url', this.getView().store.proxy.url);
+        model.set('id', 0);
+        model.set('tree', this.getView());
 
-        if(rows!=null&&rows.length>0){
-            if(rows[0]!=null){
-                model.set('parentName',rows[0].data.name);
-                model.set('parentId',rows[0].data.id);
+        if (rows != null && rows.length > 0) {
+            if (rows[0] != null) {
+                model.set('parentName', rows[0].data.name);
+                model.set('parentId', rows[0].data.id);
             }
-        }else{
-            model.set('parentName','根');
-            model.set('parentId',-1);
+        } else {
+            model.set('parentName', '根');
+            model.set('parentId', -1);
         }
 
         this.showWindow(model);
@@ -66,19 +66,19 @@ Ext.define('kalix.controller.BaseTreeController', {
      */
     onEdit: function (grid, rowIndex, colIndex) {
         var rec = grid.getStore().getAt(rowIndex);
-        var model=Ext.create('Ext.data.Model');
+        var model = Ext.create('Ext.data.Model');
 
-        model.set('url',this.getView().store.proxy.url);
-        model.set('id',rec.data.id);
-        model.set('name',rec.data.name);
-        model.set('code',rec.data.code);
-        model.set('parentId',rec.data.parentId);
-        model.set('parentName',rec.data.parentName);
+        model.set('url', this.getView().store.proxy.url);
+        model.set('id', rec.data.id);
+        model.set('name', rec.data.name);
+        model.set('code', rec.data.code);
+        model.set('parentId', rec.data.parentId);
+        model.set('parentName', rec.data.parentName);
 
-        model.set('tree',this.getView());
+        model.set('tree', this.getView());
 
-        if(rec.data.parentId =='root'){
-            model.set('parentId',-1);
+        if (rec.data.parentId == 'root') {
+            model.set('parentId', -1);
         }
 
         this.showWindow(model);
@@ -110,23 +110,25 @@ Ext.define('kalix.controller.BaseTreeController', {
             }
         });
     },
-    showWindow:function(model){
+    showWindow: function (model) {
         model.modified = {};
         model.dirty = false;
 
         var treeForm = Ext.create(this.cfgForm);
 
-        treeForm.lookupViewModel().set('rec',model);
-        treeForm.getForm().url=model.get('url');
+        treeForm.lookupViewModel().set('rec', model);
+        treeForm.getForm().url = model.get('url');
 
         var win = Ext.create('Ext.Window', {
             width: 400,
             border: false,
             modal: true,
-            iconCls: model.get('id')==0?'iconfont icon-add':'iconfont icon-edit',
+            iconCls: model.get('id') == 0 ? 'iconfont icon-add' : 'iconfont icon-edit',
             title: model.get('id') == 0 ? '添加' : '编辑',
             items: [treeForm]
         });
+
+        treeForm.lookupViewModel().set('win', win);
 
         win.show();
     }
