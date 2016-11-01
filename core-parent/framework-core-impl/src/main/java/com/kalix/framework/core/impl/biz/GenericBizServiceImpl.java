@@ -3,6 +3,7 @@ package com.kalix.framework.core.impl.biz;
 import com.google.gson.Gson;
 import com.kalix.framework.core.api.biz.IBizService;
 import com.kalix.framework.core.api.dao.IGenericDao;
+import com.kalix.framework.core.api.exception.KalixRuntimeException;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
@@ -130,7 +131,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("删除失败！");
+            throw new KalixRuntimeException("删除失败！", e.getMessage());
         }
         return jsonStatus;
     }
@@ -142,7 +143,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         try {
             doBatchDelete(entityIds, jsonStatus);
         } catch (Exception e) {
-            throw new RuntimeException("批量删除失败！");
+            throw new KalixRuntimeException("批量删除失败！", e.getMessage());
         }
 
         return jsonStatus;
@@ -183,7 +184,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("服务器异常，操作失败！");
+            throw new KalixRuntimeException("服务器异常，操作失败！", e.getMessage());
         }
         return jsonStatus;
 
@@ -216,7 +217,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("修改失败！");
+            throw new KalixRuntimeException("修改失败！", e.getMessage());
         }
         return jsonStatus;
     }

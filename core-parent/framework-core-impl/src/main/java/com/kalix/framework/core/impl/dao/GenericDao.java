@@ -5,7 +5,9 @@ import com.kalix.framework.core.api.annotation.Relation;
 import com.kalix.framework.core.api.annotation.TableRelation;
 import com.kalix.framework.core.api.dao.IGenericDao;
 import com.kalix.framework.core.api.exception.SearchException;
-import com.kalix.framework.core.api.persistence.*;
+import com.kalix.framework.core.api.persistence.JpaQuery;
+import com.kalix.framework.core.api.persistence.JsonData;
+import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.web.model.QueryDTO;
 import org.apache.log4j.Logger;
 
@@ -333,7 +335,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         rootSet.toArray(arr);
         criteriaQuery.select(criteriaBuilder.count(arr[0].get("id")));
         criteriaQuery.orderBy((Order[]) null);
-        System.out.println("jpql statement is : " + criteriaQuery.toString());
+        logger.debug("jpql statement is : " + criteriaQuery.toString());
         TypedQuery query = entityManager.createQuery(criteriaQuery);
 //        System.out.println("sql statement is : "+query.unwrap(DelegatingQuery.class).getQueryString());
         List results = query.getResultList();
