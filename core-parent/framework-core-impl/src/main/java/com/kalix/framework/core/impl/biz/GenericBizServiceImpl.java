@@ -130,8 +130,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
             }
         } catch (Exception e) {
             e.printStackTrace();
-            jsonStatus.setFailure(true);
-            jsonStatus.setMsg("删除失败！");
+            throw new RuntimeException("删除失败！");
         }
         return jsonStatus;
     }
@@ -143,9 +142,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         try {
             doBatchDelete(entityIds, jsonStatus);
         } catch (Exception e) {
-            e.printStackTrace();
-            jsonStatus.setFailure(true);
-            jsonStatus.setMsg("批量删除失败！");
+            throw new RuntimeException("批量删除失败！");
         }
 
         return jsonStatus;
@@ -186,12 +183,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
             }
         } catch (Exception e) {
             e.printStackTrace();
-            jsonStatus.setFailure(true);
-            /*if (entity.getId() == 0)
-                jsonStatus.setMsg("添加失败！");
-            else
-                jsonStatus.setMsg("修改失败！");*/
-            jsonStatus.setMsg("服务器异常，操作失败！");
+            throw new RuntimeException("服务器异常，操作失败！");
         }
         return jsonStatus;
 
@@ -224,8 +216,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
             }
         } catch (Exception e) {
             e.printStackTrace();
-            jsonStatus.setFailure(true);
-            jsonStatus.setMsg("修改失败！");
+            throw new RuntimeException("修改失败！");
         }
         return jsonStatus;
     }
