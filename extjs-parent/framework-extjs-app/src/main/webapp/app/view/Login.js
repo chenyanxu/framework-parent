@@ -10,6 +10,8 @@ Ext.define('kalix.view.Login', {
   constructor: function () {
     this.callParent(arguments);
 
+    doSysServiceTest(true);
+
     Ext.Ajax.request({
       url: CONFIG.restRoot + '/camel/rest/system/login',
       scope: this,
