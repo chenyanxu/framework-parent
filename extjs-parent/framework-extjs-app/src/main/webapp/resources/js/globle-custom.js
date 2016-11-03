@@ -17,7 +17,7 @@ var CONFIG = {
 //define the var to avoid the js error about Ext no defined when ext-all.js not load
 var Ext;
 
-if(Ext) {
+if (Ext) {
 //Ext附加函数
 //change a json obj to key value array
   Ext.JSON.toArray = function (obj) {
@@ -54,6 +54,60 @@ if(Ext) {
     render: function () {
       this.callParent(arguments);
       this.ariaEl.dom.style.zIndex = 0;
+    }
+  });
+
+  Ext.override(Ext.window.MessageBox, {
+    hide: function () {
+      this.callParent(arguments);
+
+      if (this.dockedItems.getAt(1).items.length == 5) {
+        var btn = this.dockedItems.getAt(1).items.getAt(4);
+
+        btn.setVisible(false);
+      }
+    },
+    alert: function (title, message, fn, scope) {
+      if (Ext.isString(title)) {
+        title = {
+          title: title,
+          message: typeof(message) == 'object' ? message.msg : message,
+          buttons: this.OK,
+          fn: fn,
+          scope: scope,
+          minWidth: this.minWidth
+        };
+      }
+
+      var dockedItems = this.dockedItems;
+      var bbar=dockedItems.getAt(dockedItems.length - 1);
+      if (bbar.items.length == 4) {
+        this.dockedItems.getAt(dockedItems.length - 1).add({
+          xtype: 'button', text: '详情', handler: function () {
+            var tag = this.findParentByType('messagebox').tag;
+
+            if (tag && tag.detial) {
+              alert(tag.detial);
+            } else {
+              alert('无详细信息');
+            }
+          }
+        });
+      }
+      else if(bbar.items.length ==5){
+        var btn = bbar.items.getAt(4);
+
+        btn.setVisible(true);
+      }
+
+      if (typeof(message) == 'object') {
+        this.tag = message;
+      }
+      else {
+        this.tag = undefined;
+      }
+
+      return this.show(title);
     }
   });
 }

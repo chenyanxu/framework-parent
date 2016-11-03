@@ -46,8 +46,6 @@ Ext.define('kalix.controller.BaseWindowController', {
                 return;
             }
 
-            //model.modified = model.data;
-
             if (0 == model.id) {
                 store.add(model);
             }
@@ -68,7 +66,7 @@ Ext.define('kalix.controller.BaseWindowController', {
                             kalix.Notify.success(res.msg, CONFIG.ALTER_TITLE_SUCCESS);
                         }
                         else {
-                            Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, res.msg);
+                            Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, res);
                         }
                     }
                 }
@@ -128,7 +126,7 @@ Ext.define('kalix.controller.BaseWindowController', {
                                         kalix.Notify.success(res.msg, CONFIG.ALTER_TITLE_SUCCESS);
                                     }
                                     else {
-                                        Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, res.msg);
+                                        Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, res);
                                     }
                                 }
                             }

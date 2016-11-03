@@ -1,5 +1,6 @@
 package com.kalix.framework.core.impl.web;
 
+import com.kalix.framework.core.api.exception.KalixRuntimeException;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.apache.camel.http.common.HttpConsumer;
@@ -98,7 +99,12 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
                     consumer.getBinding().writeResponse(exchange, response);
                 } else {
                     response.setHeader("Content-Type", " text/html;charset=utf-8");
-                    response.getWriter().write("{success:false,msg:'" + exchange.getException().getMessage() + "'}");
+
+                    if (exchange.getException() instanceof KalixRuntimeException) {
+                        response.getWriter().write("{success:false,msg:'" + ((KalixRuntimeException) exchange.getException()).getContent() + "',detial:'" + exchange.getException().getMessage() + "'}");
+                    } else {
+                        response.getWriter().write("{success:false,msg:'操作失败',detial:'" + exchange.getException().getMessage() + "'}");
+                    }
                 }
                 //===CODE_END===
             } catch (IOException var17) {
