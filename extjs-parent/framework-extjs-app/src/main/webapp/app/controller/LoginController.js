@@ -46,7 +46,24 @@ Ext.define('kalix.controller.LoginController', {
     },
 
     onLogin: function () {
+        var rtn= doSysServiceTest(false);
+
         var form = Ext.getCmp('loginForm').getForm();
+
+        if(rtn.success){
+            if(form.findField('username').value ==rtn.msg){
+                window.location.href = rtn.tag;
+            }
+            else{
+                Ext.MessageBox.confirm(CONFIG.ALTER_TITLE_INFO, '用户 '+rtn.msg+' 已登录，是否登出?',function (btn) {
+                    if(btn=='yes'){
+                        window.location.href='/logout';
+                    }
+                });
+
+                return;
+            }
+        }
 
         if (form.isValid()) {
             form.submit({

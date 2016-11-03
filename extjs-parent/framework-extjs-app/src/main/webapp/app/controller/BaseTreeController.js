@@ -103,7 +103,7 @@ Ext.define('kalix.controller.BaseTreeController', {
                             var store = grid.getStore();
                             store.reload();
                         } else {
-                            Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, resp.msg);
+                            Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, resp);
                         }
                     }
                 });

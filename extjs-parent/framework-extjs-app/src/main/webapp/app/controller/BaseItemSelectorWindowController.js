@@ -47,7 +47,7 @@ Ext.define('kalix.controller.BaseItemSelectorWindowController', {
             if (resp != null && resp.success) {
               kalix.Notify.success(resp.msg, CONFIG.ALTER_TITLE_SUCCESS);
             } else {
-              Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, resp.msg);
+              Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, resp);
             }
 
             win.close();

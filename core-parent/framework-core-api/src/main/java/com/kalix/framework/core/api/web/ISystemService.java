@@ -57,4 +57,6 @@ public interface ISystemService {
      * 设置用户偏好
      */
     JsonStatus setUserPreferences(String key, String value);
+
+    JsonStatus doSysServiceTest();
 }

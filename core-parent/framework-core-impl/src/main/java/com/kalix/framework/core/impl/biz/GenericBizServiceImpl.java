@@ -85,6 +85,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     @Transactional
     public void doSave(TP entity, JsonStatus jsonStatus) {
         if (entity.getId() == 0) {
+            entity.setCreationDate(new Date());
             jsonStatus.setMsg("添加成功！");
         } else {
             jsonStatus.setMsg("修改成功！");

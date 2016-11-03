@@ -14,6 +14,6 @@ Ext.define('kalix.dict.view.DictSearchForm', {
             labelAlign: 'right',
             labelWidth: 60,
             width: 200,
-            name: 'type'
+            name: '%type%'
         }]
 });

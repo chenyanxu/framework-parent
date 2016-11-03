@@ -10,6 +10,7 @@ import com.kalix.framework.core.web.Const;
 import com.kalix.framework.core.web.manager.ApplicationManager;
 import com.kalix.framework.core.web.manager.MenuManager;
 import com.kalix.framework.core.web.manager.ModuleManager;
+import org.apache.openjpa.json.JSON;
 import org.apache.shiro.subject.Subject;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
@@ -301,5 +302,22 @@ public class SystemServiceImpl implements ISystemService {
 
     public void setPreferencesService(PreferencesService preferencesService) {
         this.preferencesService = preferencesService;
+    }
+
+    @Override
+    public JsonStatus doSysServiceTest(){
+        JsonStatus jsonStatus=new JsonStatus();
+
+        jsonStatus.setSuccess(true);
+        jsonStatus.setMsg(this.shiroService.getCurrentUserLoginName());
+
+        if(Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy","ConfigWebContext"))){
+            jsonStatus.setTag("/index.jsp");
+        }
+        else{
+            jsonStatus.setTag("/index-debug.jsp");
+        }
+
+        return jsonStatus;
     }
 }

@@ -36,7 +36,9 @@
         <!-- defines the rest services using the context-path /user -->
         <rest path="/system" consumes="application/json;charset=utf-8" produces="application/json;charset=utf-8">
             <description>Kalix System rest service</description>
-
+            <get id="route-sys-test">
+                <to uri="bean:systemService?method=doSysServiceTest"/>
+            </get>
             <!-- this is a rest GET to view an user by the given id -->
             <get id="route-getAllApp" uri="/applications" outType="com.kalix.framework.core.api.web.model.WebApplicationBean[]">
                 <description>Find user by id</description>

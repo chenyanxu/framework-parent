@@ -30,7 +30,7 @@ Ext.define('kalix.store.BaseStore', {
       }
 
       if (rtnJson.success != undefined && false == rtnJson.success) {
-        Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, rtnJson.msg);
+        Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, rtnJson);
       }
     }
   },

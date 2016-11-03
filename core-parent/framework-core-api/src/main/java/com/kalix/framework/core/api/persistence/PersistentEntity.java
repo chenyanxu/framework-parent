@@ -28,7 +28,7 @@ public abstract class PersistentEntity implements Serializable {
     private long id;
     @Version
     private long version_;
-    private Date creationDate = new Date();// 创建日期
+    private Date creationDate;// 创建日期
     private String createBy;    // 创建者
     private String updateBy;    // 更新者
     private Long createById; //创建者Id

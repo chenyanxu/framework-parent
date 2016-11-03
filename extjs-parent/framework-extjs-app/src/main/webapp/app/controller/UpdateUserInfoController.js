@@ -74,7 +74,7 @@ Ext.define('kalix.controller.UpdateUserInfoController', {
                             kalix.Notify.success(res.msg, CONFIG.ALTER_TITLE_SUCCESS);
                         }
                         else {
-                            Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, res.msg);
+                            Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, res);
                         }
                     }
                 }
