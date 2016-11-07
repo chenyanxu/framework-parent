@@ -7,11 +7,12 @@
     <parent>
         <groupId>com.kalix.framework.osgi</groupId>
         <artifactId>osgi-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-RELEASE</version>
     </parent>
 
     <artifactId>framework-osgi-rest</artifactId>
     <name>Kalix Framework OSGI Rest</name>
+    <version>${project.framework.version}</version>
     <packaging>bundle</packaging>
 
     <properties>
@@ -26,7 +27,7 @@
         <dependency>
             <groupId>com.kalix.framework.core</groupId>
             <artifactId>framework-core-util</artifactId>
-            <version>${globle.version}</version>
+            <version>${project.framework.version}</version>
         </dependency>
     </dependencies>
 </project>

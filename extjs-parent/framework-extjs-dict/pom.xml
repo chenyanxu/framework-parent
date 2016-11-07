@@ -5,13 +5,14 @@
     <parent>
         <artifactId>extjs-parent</artifactId>
         <groupId>com.kalix.framework.extjs</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kalix.framework.extjs</groupId>
     <artifactId>framework-extjs-dict</artifactId>
     <name>Kalix Framework Extjs Dict</name>
+    <version>${project.framework.version}</version>
     <packaging>bundle</packaging>
 
     <properties>

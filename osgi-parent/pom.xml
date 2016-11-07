@@ -7,7 +7,7 @@
     <parent>
         <artifactId>framework-parent</artifactId>
         <groupId>com.kalix.framework</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-RELEASE</version>
     </parent>
 
     <groupId>com.kalix.framework.osgi</groupId>
@@ -26,7 +26,7 @@
             <dependency>
                 <groupId>com.kalix.framework.poms</groupId>
                 <artifactId>framework-poms-dm</artifactId>
-                <version>${globle.version}</version>
+                <version>${project.framework.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -34,19 +34,19 @@
             <dependency>
                 <groupId>com.kalix.framework.osgi</groupId>
                 <artifactId>framework-osgi-api</artifactId>
-                <version>${globle.version}</version>
+                <version>${project.framework.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.kalix.framework.core</groupId>
                 <artifactId>framework-core-util</artifactId>
-                <version>${globle.version}</version>
+                <version>${project.framework.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.kalix.framework.core</groupId>
                 <artifactId>framework-core-api</artifactId>
-                <version>${globle.version}</version>
+                <version>${project.framework.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -55,7 +55,7 @@
             <groupId>com.kalix.framework.poms</groupId>
             <artifactId>framework-poms-dm</artifactId>
             <type>pom</type>
-            <version>${globle.version}</version>
+            <version>${project.framework.version}</version>
         </dependency>
     </dependencies>
 </project>
