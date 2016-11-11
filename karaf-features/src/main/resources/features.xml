@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"
+          name="kalix-features-framework-${project.framework.version}">
+
+    <feature name="framework-all" version="${project.framework.version}">
+        <feature>framework-config</feature>
+        <feature>framework-core</feature>
+        <feature>framework-osgi</feature>
+        <feature>framework-extjs</feature>
+        <feature>framework-webapp</feature>
+    </feature>
+
+    <feature name="framework-config" version="${project.framework.version}">
+        <configfile finalname="/etc/ConfigShiro.cfg" override="true">
+            mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigShiro
+        </configfile>
+        <configfile finalname="/etc/ConfigLogin.cfg" override="true">
+            mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigLogin
+        </configfile>
+
+        <configfile finalname="/etc/ConfigWebContext.cfg" override="true">
+            mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigWebContext
+        </configfile>
+        <configfile finalname="/etc/ConfigCouchdb.cfg" override="true">
+            mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigCouchdb
+        </configfile>
+        <configfile finalname="/etc/ConfigRedis.cfg" override="true">
+            mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigRedis
+        </configfile>
+        <configfile finalname="/etc/org.ops4j.datasource-kalix.cfg" override="true">
+            mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/org.ops4j.datasource-kalix
+        </configfile>
+    </feature>
+
+    <feature name="framework-core" version="${project.framework.version}">
+        <bundle start-level="30">mvn:com.kalix.framework.core/framework-core-util/${project.framework.version}</bundle>
+        <bundle start-level="30">mvn:com.kalix.framework.core/framework-core-api/${project.framework.version}</bundle>
+        <bundle start-level="30">mvn:com.kalix.framework.core/framework-core-cache/${project.framework.version}</bundle>
+        <bundle start-level="30">mvn:com.kalix.framework.core/framework-core-delegate/${project.framework.version}
+        </bundle>
+        <!--<bundle>mvn:com.kalix.framework.core/framework-core-etc/${parent.version}</bundle>-->
+        <bundle start-level="30">mvn:com.kalix.framework.core/framework-core-impl/${project.framework.version}</bundle>
+        <bundle start-level="30">mvn:com.kalix.framework.core/framework-core-mq/${project.framework.version}</bundle>
+        <bundle start-level="30">mvn:com.kalix.framework.core/framework-core-rest/${project.framework.version}</bundle>
+        <!--<bundle>mvn:com.kalix.framework.core/core-restfultest/${parent.version}</bundle>-->
+        <bundle start-level="30">mvn:com.kalix.framework.core/framework-core-security/${project.framework.version}
+        </bundle>
+        <bundle start-level="30">
+            mvn:com.kalix.framework.core/framework-core-security-authc/${project.framework.version}
+        </bundle>
+        <bundle>mvn:com.kalix.framework.core/framework-core-web/${project.framework.version}</bundle>
+    </feature>
+
+    <feature name="framework-osgi" version="${project.framework.version}">
+        <bundle>mvn:com.kalix.framework.osgi/framework-osgi-api/${project.framework.version}</bundle>
+        <bundle>mvn:com.kalix.framework.osgi/framework-osgi-core/${project.framework.version}</bundle>
+        <bundle>mvn:com.kalix.framework.osgi/framework-osgi-rest/${project.framework.version}</bundle>
+    </feature>
+
+    <feature name="framework-extjs" version="${project.framework.version}">
+        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-app/${project.framework.version}</bundle>
+        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-bpmn/${project.framework.version}</bundle>
+        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-classic/${project.framework.version}</bundle>
+        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-dict/${project.framework.version}</bundle>
+        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-orgchart/${project.framework.version}</bundle>
+        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-packages/${project.framework.version}</bundle>
+    </feature>
+
+    <feature name="framework-webapp" version="${project.framework.version}">
+        <bundle>mvn:com.kalix.framework.webapp/framework-webapp-main/${project.framework.version}</bundle>
+    </feature>
+
+</features>

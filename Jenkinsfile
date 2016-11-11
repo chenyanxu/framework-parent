@@ -39,6 +39,6 @@ node {
       .inside {
 
     stage 'Deploy'
-    sh 'mvn clean -DskipTests=true install -U org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy'
+    sh 'mvn clean -DskipTests=true install -U org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy -P openshift-release'
   }
 }

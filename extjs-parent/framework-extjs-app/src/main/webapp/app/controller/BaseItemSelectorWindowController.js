@@ -56,6 +56,9 @@ Ext.define('kalix.controller.BaseItemSelectorWindowController', {
       }
 
     },
-    onResetItemSelector: function () {}
+    onResetItemSelector: function () {
+      this.getView().items.getAt(0).reset();
+      this.getView().items.getAt(1).reset();
+    }
   }
 );
