@@ -12,7 +12,7 @@
     <groupId>com.kalix.framework.extjs</groupId>
     <artifactId>framework-extjs-dict</artifactId>
     <name>Kalix Framework Extjs Dict</name>
-    <version>${project.framework.version}</version>
+    <version>${parent.version}</version>
     <packaging>bundle</packaging>
 
     <properties>

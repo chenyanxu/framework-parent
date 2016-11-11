@@ -11,7 +11,7 @@
 
     <artifactId>framework-core-web</artifactId>
     <name>Kalix Framework Core Web</name>
-    <version>${project.framework.version}</version>
+    <version>${parent.version}</version>
     <packaging>bundle</packaging>
 
     <properties>

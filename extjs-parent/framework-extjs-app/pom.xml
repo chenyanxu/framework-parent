@@ -11,7 +11,7 @@
 
     <artifactId>framework-extjs-app</artifactId>
     <name>Kalix Framework ExtJS Application</name>
-    <version>${project.framework.version}</version>
+    <version>${parent.version}</version>
     <packaging>bundle</packaging>
 
     <properties>

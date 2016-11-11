@@ -12,7 +12,7 @@
 
     <artifactId>framework-webapp-swagger</artifactId>
     <name>Kalix Framework Web Application Swagger</name>
-    <version>${project.framework.version}</version>
+    <version>${parent.version}</version>
     <packaging>bundle</packaging>
 
     <properties>

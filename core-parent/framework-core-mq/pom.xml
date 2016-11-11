@@ -13,7 +13,7 @@
     <!--need to change after copy-->
     <artifactId>framework-core-mq</artifactId>
     <name>Kalix Framework Core MQ</name>
-    <version>${project.framework.version}</version>
+    <version>${parent.version}</version>
     <packaging>bundle</packaging>
     <!--need to change after copy-->
     <properties>

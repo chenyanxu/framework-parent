@@ -12,7 +12,7 @@
 
     <artifactId>framework-poms-dm</artifactId>
     <name>Kalix Framework POMS DM</name>
-    <version>${project.framework.version}</version>
+    <version>${parent.version}</version>
     <packaging>pom</packaging>
 
     <dependencyManagement>
@@ -548,27 +548,27 @@
             <dependency>
                 <groupId>com.kalix.framework.core</groupId>
                 <artifactId>framework-core-util</artifactId>
-                <version>${project.framework.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.kalix.framework.core</groupId>
                 <artifactId>framework-core-api</artifactId>
-                <version>${project.framework.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.kalix.framework.core</groupId>
                 <artifactId>framework-core-impl</artifactId>
-                <version>${project.framework.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.kalix.framework.core</groupId>
                 <artifactId>framework-core-web</artifactId>
-                <version>${project.framework.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.kalix.framework.core</groupId>
                 <artifactId>framework-core-security</artifactId>
-                <version>${project.framework.version}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.ant</groupId>

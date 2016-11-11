@@ -39,7 +39,7 @@
         <dependency>
             <groupId>com.kalix.framework.core</groupId>
             <artifactId>framework-core-util</artifactId>
-            <version>${project.framework.version}</version>
+            <version>${parent.version}</version>
         </dependency>
     </dependencies>
 

@@ -12,7 +12,7 @@
 
     <artifactId>framework-core-rest</artifactId>
     <name>Kalix Framework Core REST</name>
-    <version>${project.framework.version}</version>
+    <version>${parent.version}</version>
     <packaging>bundle</packaging>
 
     <properties>

@@ -11,7 +11,7 @@
 
     <artifactId>framework-extjs-orgchart</artifactId>
     <name>Kalix Framework ExtJS OrgChart</name>
-    <version>${project.framework.version}</version>
+    <version>${parent.version}</version>
     <packaging>bundle</packaging>
 
     <properties>

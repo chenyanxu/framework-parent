@@ -12,7 +12,7 @@
 
     <artifactId>framework-core-security</artifactId>
     <name>Kalix Framework Core Security</name>
-    <version>${project.framework.version}</version>
+    <version>${parent.version}</version>
     <packaging>bundle</packaging>
 
     <properties>
