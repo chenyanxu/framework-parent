@@ -11,7 +11,7 @@
 
     <artifactId>framework-extjs-classic</artifactId>
     <name>Kalix Framework ExtJS Classic</name>
-    <version>${parent.version}</version>
+    <!--<version>${parent.version}</version>-->
     <packaging>bundle</packaging>
 
     <properties>

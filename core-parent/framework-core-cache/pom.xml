@@ -13,7 +13,7 @@
 
     <artifactId>framework-core-cache</artifactId>
     <name>Kalix Framework Core Cache</name>
-    <version>${parent.version}</version>
+    <!--<version>${parent.version}</version>-->
     <packaging>bundle</packaging>
     <!--need to change after copy-->
     <properties>

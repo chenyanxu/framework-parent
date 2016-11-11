@@ -12,7 +12,7 @@
 
     <artifactId>framework-osgi-api</artifactId>
     <name>Kalix Framework OSGI API</name>
-    <version>${parent.version}</version>
+    <!--<version>${parent.version}</version>-->
     <packaging>bundle</packaging>
 
     <properties>

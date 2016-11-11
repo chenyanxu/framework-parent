@@ -13,7 +13,7 @@
 
     <artifactId>framework-core-util</artifactId>
     <name>Kalix Framework Core Util</name>
-    <version>${parent.version}</version>
+    <!--<version>${parent.version}</version>-->
     <packaging>bundle</packaging>
 
     <properties>

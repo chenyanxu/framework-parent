@@ -10,7 +10,7 @@
 
     <artifactId>framework-core-delegate</artifactId>
     <name>Kalix Framework Core Delegate</name>
-    <version>${parent.version}</version>
+    <!--<version>${parent.version}</version>-->
     <packaging>bundle</packaging>
 
     <properties>

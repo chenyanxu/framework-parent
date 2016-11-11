@@ -12,7 +12,7 @@
 
     <artifactId>framework-osgi-core</artifactId>
     <name>Kalix Framework OSGI Core</name>
-    <version>${parent.version}</version>
+    <!--<version>${parent.version}</version>-->
     <packaging>bundle</packaging>
 
     <properties>

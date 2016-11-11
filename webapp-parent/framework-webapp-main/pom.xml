@@ -11,7 +11,7 @@
 
     <artifactId>framework-webapp-main</artifactId>
     <name>Kalix Framework Web Application Main</name>
-    <version>${parent.version}</version>
+    <!--<version>${parent.version}</version>-->
     <packaging>bundle</packaging>
 
     <properties>
