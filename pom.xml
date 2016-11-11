@@ -14,6 +14,11 @@
     <name>Kalix Framework Parent</name>
     <packaging>pom</packaging>
 
+    <scm>
+        <connection>scm:git:https://github.com/chenyanxu/framework-parent.git</connection>
+        <developerConnection>scm:git:https://github.com/chenyanxu/framework-parent.git</developerConnection>
+    </scm>
+
     <modules>
         <module>poms-parent</module>
         <module>core-parent</module>
