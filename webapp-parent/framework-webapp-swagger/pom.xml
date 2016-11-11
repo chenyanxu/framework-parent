@@ -5,7 +5,7 @@
     <parent>
         <artifactId>webapp-parent</artifactId>
         <groupId>com.kalix.framework.webapp</groupId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>framework-webapp-swagger</artifactId>
