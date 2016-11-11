@@ -34,7 +34,7 @@
             <dependency>
                 <groupId>com.kalix.framework.poms</groupId>
                 <artifactId>framework-poms-dm</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.parent.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -45,7 +45,7 @@
             <groupId>com.kalix.framework.poms</groupId>
             <artifactId>framework-poms-dm</artifactId>
             <type>pom</type>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 </project>

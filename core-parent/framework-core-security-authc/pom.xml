@@ -12,7 +12,7 @@
 
     <artifactId>framework-core-security-authc</artifactId>
     <name>Kalix Framework Core Security Authentication</name>
-    <!--<version>${parent.version}</version>-->
+    <!--<version>${project.parent.version}</version>-->
     <packaging>bundle</packaging>
 
     <properties>

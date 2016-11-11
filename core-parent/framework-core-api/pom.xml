@@ -11,7 +11,7 @@
 
     <artifactId>framework-core-api</artifactId>
     <name>Kalix Framework Core API</name>
-    <!--<version>${parent.version}</version>-->
+    <!--<version>${project.parent.version}</version>-->
     <packaging>bundle</packaging>
 
     <properties>
