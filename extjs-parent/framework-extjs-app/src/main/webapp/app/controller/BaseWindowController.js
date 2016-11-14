@@ -42,7 +42,7 @@ Ext.define('kalix.controller.BaseWindowController', {
 
         if (model.isValid()) {
             if (!model.dirty) {
-                Ext.Msg.alert(CONFIG.ALTER_TITLE_INFO, '请录入必填项');
+                Ext.Msg.alert(CONFIG.ALTER_TITLE_INFO, '信息未变化');
                 return;
             }
 
