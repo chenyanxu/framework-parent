@@ -50,7 +50,7 @@ Ext.define('kalix.view.components.common.BaseWindow', {
             text: '关闭',
             glyph: 'xf00d@FontAwesome',
             handler: function () {
-                this.up('window').close();
+                //this.up('window').close();
             },
             bind: {
                 hidden: '{!view_operation}'
@@ -60,6 +60,7 @@ Ext.define('kalix.view.components.common.BaseWindow', {
     ,
     listeners: {
         close: 'onClose',
+        //beforeclose: 'onClose',
         beforerender: 'onBeforerender'
     }
 });
