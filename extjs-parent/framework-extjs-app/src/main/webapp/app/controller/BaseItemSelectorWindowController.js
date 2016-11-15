@@ -34,7 +34,7 @@ Ext.define('kalix.controller.BaseItemSelectorWindowController', {
       var saveUrl = win.Config.baseUrl+'/'+recordId+'/users';
 
       if(selectIds.toString()==win.Config.selectItems.toString()){
-        Ext.Msg.alert(CONFIG.ALTER_TITLE_INFO, "未修改");
+        Ext.Msg.alert(CONFIG.ALTER_TITLE_INFO, "信息未变化");
       }
       else{
         Ext.Ajax.request({
