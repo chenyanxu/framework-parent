@@ -26,6 +26,7 @@ Ext.define('kalix.controller.BaseWindowController', {
             }
         }
 
+        this.getView().fireEvent('customReset');
     },
 
     /**
