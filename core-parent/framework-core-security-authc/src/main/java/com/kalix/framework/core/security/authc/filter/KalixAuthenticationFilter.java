@@ -29,6 +29,8 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
     private static final Logger log = LoggerFactory
             .getLogger(KalixAuthenticationFilter.class);
 
+    private static final String ERROR_MSG = "{\"success\":false,\"message\":\"%s\"}";
+
     /*
      *  主要是针对登入成功的处理方法。对于请求头是AJAX的之间返回JSON字符串。
      */
@@ -73,7 +75,7 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
                 rtnPage="/index-debug.jsp";
             }
 
-            out.println("{success:true,location:'" + contextPath + rtnPage+"',message:'登入成功',user:{name:'" + realName + "',token:'" + session.getId() + "'}}");
+            out.println("{\"success\":true,\"location\":\"" + contextPath + rtnPage + "\",\"message\":\"登入成功\",\"user\":{\"name\":\"" + realName + "\",\"token\":\"" + session.getId() + "\"}}");
             out.flush();
             out.close();
         }
@@ -99,14 +101,14 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             PrintWriter out = response.getWriter();
             String message = e.getClass().getSimpleName();
             if ("IncorrectCredentialsException".equals(message)) {
-                out.println("{success:false,message:'密码错误'}");
+                out.println(String.format(ERROR_MSG, "密码错误"));
             } else if ("UnknownAccountException".equals(message)) {
-                out.println("{success:false,message:'账号不存在'}");
+                out.println(String.format(ERROR_MSG, "账号不存在"));
             } else if ("LockedAccountException".equals(message)) {
-                out.println("{success:false,message:'账号被锁定'}");
+                out.println(String.format(ERROR_MSG, "账号被锁定"));
             } else {
                 e.printStackTrace();
-                out.println("{success:false,message:'未知错误'}");
+                out.println(String.format(ERROR_MSG, "未知错误"));
             }
             out.flush();
             out.close();
