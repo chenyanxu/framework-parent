@@ -8,16 +8,17 @@ Ext.define('kalix.view.components.common.BaseComboBox', {
     xtype: 'baseComboBox',
     queryMode: 'remote',
     minChars: 0,
-    queryField: '',//use inside only
+    //queryField: '',//use inside only
     modelField: '',//config in the child class
+    resetObj:undefined,
     //to satisfy the new rest service which params as (int page,int limit,string jsonStr)
     //wee need to convert the query string in queryPlan to json string.
     listeners: {
-        beforequery: function (queryPlan, opts) {
-            queryPlan.query = '{' + this.queryField + ':\'' + queryPlan.query + '\'}';
-
-            return true;
-        }
+        // beforequery: function (queryPlan, opts) {
+        //     queryPlan.query = '{' + this.queryField + ':\'' + queryPlan.query + '\'}';
+        //
+        //     return true;
+        // }
     },
     //by default, the combobox send a query to server when we click the trigger button every time.
     //we don't need this in the base component.
@@ -36,8 +37,8 @@ Ext.define('kalix.view.components.common.BaseComboBox', {
     },
     constructor: function () {
         this.callParent(arguments);
-        this.queryField = this.queryParam;//the queryParam will change for rest request,we need the default value in beforequery callback.
-        this.queryParam = 'jsonStr';//override the property to match the param in server method.
+        //this.queryField = this.queryParam;//the queryParam will change for rest request,we need the default value in beforequery callback.
+        //this.queryParam = 'jsonStr';//override the property to match the param in server method.
 
         var scope = {target: this, firstQuery: true};
 
@@ -77,12 +78,19 @@ Ext.define('kalix.view.components.common.BaseComboBox', {
                             var mobj = Ext.create('Ext.data.Model', obj);//we create a new model when we find the target in remote server.
 
                             store.removeAll();//clear the auto load records,we don't need them for combobox selection.
-                            store.add(Ext.create('Ext.data.Model', obj));
+                            store.add(mobj);
                             this.target.setSelection(mobj)
+                            this.target.resetObj=mobj;
                         }
                     }
                 }
             }
         }, scope);
+    },
+    customReset:function () {
+        var mobj=this.resetObj;
+
+        this.store.removeAll();
+        this.store.add(mobj);
     }
 })

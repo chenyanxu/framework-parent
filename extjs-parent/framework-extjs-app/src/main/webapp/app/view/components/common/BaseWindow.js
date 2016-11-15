@@ -56,11 +56,18 @@ Ext.define('kalix.view.components.common.BaseWindow', {
                 hidden: '{!view_operation}'
             }
         }
-    ]
-    ,
+    ],
     listeners: {
         close: 'onClose',
-        //beforeclose: 'onClose',
-        beforerender: 'onBeforerender'
+        beforerender: 'onBeforerender',
+        customReset:function () {
+            var refs=Ext.JSON.toArray(this.controller.getReferences());
+
+            for(var refIndex=0;refIndex<refs.length;++refIndex){
+                if(refs[refIndex].value instanceof kalix.view.components.common.BaseComboBox){
+                    refs[refIndex].value.customReset();
+                }
+            }
+        }
     }
 });
