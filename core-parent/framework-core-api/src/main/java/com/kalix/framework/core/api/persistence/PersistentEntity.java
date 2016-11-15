@@ -25,7 +25,7 @@ import java.util.Date;
 public abstract class PersistentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     @Version
     private long version_;
     private Date creationDate;// 创建日期
@@ -41,11 +41,11 @@ public abstract class PersistentEntity implements Serializable {
         new DozerBeanMapper().map(obj, this);
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
