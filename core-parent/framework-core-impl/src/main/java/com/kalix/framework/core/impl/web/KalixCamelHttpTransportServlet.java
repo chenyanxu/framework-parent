@@ -101,7 +101,7 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
                     response.setHeader("Content-Type", " text/html;charset=utf-8");
 
                     if (exchange.getException() instanceof KalixRuntimeException) {
-                        response.getWriter().write("{success:false,msg:'" + ((KalixRuntimeException) exchange.getException()).getContent() + "',detial:'" + exchange.getException().getMessage() + "'}");
+                        response.getWriter().write("{success:false,msg:'" + ((KalixRuntimeException) exchange.getException()).getDetailMsg() + "',detial:'" + exchange.getException().getMessage() + "'}");
                     } else {
                         response.getWriter().write("{success:false,msg:'操作失败',detial:'" + exchange.getException().getMessage() + "'}");
                     }
