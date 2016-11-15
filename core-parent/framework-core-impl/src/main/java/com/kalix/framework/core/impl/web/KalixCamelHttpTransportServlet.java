@@ -1,5 +1,6 @@
 package com.kalix.framework.core.impl.web;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kalix.framework.core.api.exception.KalixRuntimeException;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
@@ -102,7 +103,16 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
 
                     if (exchange.getException() instanceof KalixRuntimeException) {
                         response.getWriter().write("{success:false,msg:'" + ((KalixRuntimeException) exchange.getException()).getContent() + "',detial:'" + exchange.getException().getMessage() + "'}");
-                    } else {
+                    }
+                    else if(exchange.getException() instanceof JsonMappingException){
+                        if(exchange.getException().getMessage().contains("FAIL_ON_EMPTY_BEANS")){
+                            response.getWriter().write("{success:false,msg:'数据不存在',detial:'" + exchange.getException().getMessage() + "'}");
+                        }
+                        else{
+                            response.getWriter().write("{success:false,msg:'序列化失败',detial:'" + exchange.getException().getMessage() + "'}");
+                        }
+                    }
+                    else {
                         response.getWriter().write("{success:false,msg:'操作失败',detial:'" + exchange.getException().getMessage() + "'}");
                     }
                 }
