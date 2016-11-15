@@ -86,8 +86,8 @@ if (Ext) {
           xtype: 'button', text: '详情', handler: function () {
             var tag = this.findParentByType('messagebox').tag;
 
-            if (tag && tag.detial) {
-              alert(tag.detial);
+            if (tag && tag.detail) {
+              alert(tag.detail);
             } else {
               alert('无详细信息');
             }
