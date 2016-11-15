@@ -103,6 +103,12 @@ Ext.define('kalix.controller.BaseWindowController', {
             return;
         }
 
+        //判断是否为查看窗口的关闭
+        if(viewModel.data.view_operation){
+            model.set(model.modified);
+            return;
+        }
+
         if (model.dirty) {
             var store = viewModel.get('store');
 
