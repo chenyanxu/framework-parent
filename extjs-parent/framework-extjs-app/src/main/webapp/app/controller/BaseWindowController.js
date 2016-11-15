@@ -26,6 +26,7 @@ Ext.define('kalix.controller.BaseWindowController', {
             }
         }
 
+        this.getView().fireEvent('customReset');
     },
 
     /**
@@ -42,7 +43,7 @@ Ext.define('kalix.controller.BaseWindowController', {
 
         if (model.isValid()) {
             if (!model.dirty) {
-                Ext.Msg.alert(CONFIG.ALTER_TITLE_INFO, '请录入必填项');
+                Ext.Msg.alert(CONFIG.ALTER_TITLE_INFO, '信息未变化');
                 return;
             }
 
@@ -99,6 +100,12 @@ Ext.define('kalix.controller.BaseWindowController', {
         var model = viewModel.get('rec');
 
         if (model == null) {
+            return;
+        }
+
+        //判断是否为查看窗口的关闭
+        if (viewModel.data.view_operation) {
+            model.set(model.modified);
             return;
         }
 
