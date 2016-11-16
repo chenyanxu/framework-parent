@@ -151,7 +151,7 @@ public class ExtjsGenerateImpl extends AbstractGenernateImpl {
             if (field.getType().getValue().equals("Date")) {
                 resultBuffer.append(",\r\n");
                 resultBuffer.append("\t\txtype: 'datecolumn',\r\n");
-                resultBuffer.append("\t\tformat: 'Y-m-d',");
+                resultBuffer.append("\t\tformat: 'Y-m-d', formatText:'格式为YYYY-mm-dd',");
                 resultBuffer.append("\t\trenderer:null");
             }
             resultBuffer.append("\r\n\t},\r\n");
@@ -170,7 +170,7 @@ public class ExtjsGenerateImpl extends AbstractGenernateImpl {
             if (field.getType().getValue().equals("Date")) {
                 resultBuffer.append("\t{\r\n");
                 resultBuffer.append("\t\txtype: 'datefield',\r\n");
-                resultBuffer.append("\t\tformat: 'Y-m-d',\r\n");
+                resultBuffer.append("\t\tformat: 'Y-m-d', formatText:'格式为YYYY-mm-dd',\r\n");
                 if(fieldTag != null) {
                     resultBuffer.append("\t\tfieldLabel: '" + fieldTag.getValue() + ":',\r\n");
                 }
@@ -189,7 +189,7 @@ public class ExtjsGenerateImpl extends AbstractGenernateImpl {
 
                 resultBuffer.append("\t{\r\n");
                 resultBuffer.append("\t\txtype: 'datefield',\r\n");
-                resultBuffer.append("\t\tformat: 'Y-m-d',\r\n");
+                resultBuffer.append("\t\tformat: 'Y-m-d', formatText:'格式为YYYY-mm-dd',\r\n");
                 resultBuffer.append("\t\theadLabel: true,\r\n");
                 resultBuffer.append("\t\tlabelAlign: 'right',\r\n");
                 resultBuffer.append("\t\twidth: 140,\r\n");
@@ -236,7 +236,7 @@ public class ExtjsGenerateImpl extends AbstractGenernateImpl {
             resultBuffer.append("\t\tallowBlank: false,\r\n");
             if (field.getType().getValue().equals("Date")) {
                 resultBuffer.append("\t\txtype: 'datefield',\r\n");
-                resultBuffer.append("\t\tformat: 'Y-m-d',\r\n");
+                resultBuffer.append("\t\tformat: 'Y-m-d', formatText:'格式为YYYY-mm-dd',\r\n");
             }
             if (field.getType().getValue().equals("int") || field.getType().getValue().equals("Integer")) {
                 resultBuffer.append("\t\txtype: 'numberfield',\r\n");
