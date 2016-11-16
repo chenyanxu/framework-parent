@@ -79,29 +79,29 @@ if (Ext) {
         };
       }
 
-      var dockedItems = this.dockedItems;
-      var bbar=dockedItems.getAt(dockedItems.length - 1);
-      if (bbar.items.length == 4) {
-        this.dockedItems.getAt(dockedItems.length - 1).add({
-          xtype: 'button', text: '详情', handler: function () {
-            var tag = this.findParentByType('messagebox').tag;
-
-            if (tag && tag.detail) {
-              alert(tag.detail);
-            } else {
-              alert('无详细信息');
-            }
-          }
-        });
-      }
-      else if(bbar.items.length ==5){
-        var btn = bbar.items.getAt(4);
-
-        btn.setVisible(true);
-      }
-
       if (typeof(message) == 'object') {
         this.tag = message;
+
+        var dockedItems = this.dockedItems;
+        var bbar = dockedItems.getAt(dockedItems.length - 1);
+        if (bbar.items.length == 4) {
+          this.dockedItems.getAt(dockedItems.length - 1).add({
+            xtype: 'button', text: '详情', handler: function () {
+              var tag = this.findParentByType('messagebox').tag;
+
+              if (tag && tag.detail) {
+                alert(tag.detail);
+              } else {
+                alert('无详细信息');
+              }
+            }
+          });
+        }
+        else if (bbar.items.length == 5) {
+          var btn = bbar.items.getAt(4);
+
+          btn.setVisible(true);
+        }
       }
       else {
         this.tag = undefined;
