@@ -102,16 +102,16 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
                     response.setHeader("Content-Type", " text/html;charset=utf-8");
 
                     if (exchange.getException() instanceof KalixRuntimeException) {
-                        response.getWriter().write("{success:false,msg:'" + exchange.getException().getMessage() + "'," +
-                                "detail:'" + ((KalixRuntimeException) exchange.getException()).getDetailMsg() + "'}");
+                        response.getWriter().write("{\"success\":false,\"msg\":'" + exchange.getException().getMessage() + "'," +
+                                "\"detail\":\"" + ((KalixRuntimeException) exchange.getException()).getDetailMsg() + "\"}");
                     } else if (exchange.getException() instanceof JsonMappingException) {
                         if (exchange.getException().getMessage().contains("FAIL_ON_EMPTY_BEANS")) {
-                            response.getWriter().write("{success:false,msg:'数据不存在',detail:'" + exchange.getException().getMessage() + "'}");
+                            response.getWriter().write("{\"success\":false,\"msg\":'数据不存在',\"detail\":\"" + exchange.getException().getMessage() + "\"}");
                         } else {
-                            response.getWriter().write("{success:false,msg:'序列化失败',detail:'" + exchange.getException().getMessage() + "'}");
+                            response.getWriter().write("{\"success\":false,\"msg\":\"序列化失败\",\"detail\":\"" + exchange.getException().getMessage() + "\"}");
                         }
                     } else {
-                        response.getWriter().write("{success:false,msg:'操作失败',detail:'" + exchange.getException().getMessage() + "'}");
+                        response.getWriter().write("{\"success\":false,\"msg\":\"操作失败\",\"detail\":\"" + exchange.getException().getMessage() + "\"}");
                     }
                 }
                 //===CODE_END===

@@ -175,10 +175,11 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             } else {
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter out = response.getWriter();
-                out.println("{success:false,message:'login'}");
+                out.println("{\"success\":false,\"message\":\"login\"}");
                 out.flush();
                 out.close();
             }
+
             return false;
         }
     }
