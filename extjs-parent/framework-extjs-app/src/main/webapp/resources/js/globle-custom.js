@@ -110,4 +110,18 @@ if (Ext) {
       return this.show(title);
     }
   });
+
+  Ext.override(Ext.form.field.Text,{
+    onKeyUp: function(e) {
+      this.fireEvent('keyup', this, e);
+
+      if(e.keyCode==13){
+        var parentComp=this.findParentByType('baseSearchForm');
+
+        if(parentComp){
+          parentComp.fireEvent("customEntryKeyUp");
+        }
+      }
+    }
+  });
 }
