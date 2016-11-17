@@ -7,8 +7,6 @@ import org.osgi.framework.BundleContext;
 public class InitActivator extends BaseBundleActivator {
     @Override
     public void start(BundleContext bundleContext) throws Exception {
-
-
         super.start(bundleContext);
     }
 }
