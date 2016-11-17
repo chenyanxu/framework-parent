@@ -6,5 +6,5 @@ Bundle-Activator: ${bundle.namespace}.internal.InitActivator
 Import-Package: org.apache.camel.swagger.servlet,org.apache.camel.component.servlet,com.kalix.framework.core.api.biz,*
 Include-Resource: src/main/webapp,src/main/swagger-ui,src/main/resources
 DynamicImport-Package: *
-Web-ContextPath:kalix/camel
+Web-ContextPath: swagger
 Bundle-Category: Kalix Framework WebApp
