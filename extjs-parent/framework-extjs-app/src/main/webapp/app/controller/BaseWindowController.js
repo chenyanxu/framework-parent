@@ -134,17 +134,19 @@ Ext.define('kalix.controller.BaseWindowController', {
                                     }
                                     else {
                                         Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, res);
+                                        panel.show();
                                     }
                                 }
                             }
                         );
                     } else {
+                        panel.show();
                         Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, "表单验证失败！");
-                        model.set(model.modified);
                     }
                 }
                 else {
                     model.set(model.modified);
+                    panel.destroy();
                 }
             });
         }

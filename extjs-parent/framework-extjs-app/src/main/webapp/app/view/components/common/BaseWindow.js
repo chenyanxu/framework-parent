@@ -18,6 +18,7 @@ Ext.define('kalix.view.components.common.BaseWindow', {
     modal: true,
     resizable: false,
     buttonAlign: 'center',
+    closeAction:'hide',
     layout: {
         type: 'hbox',
         align: 'stretch'
@@ -36,6 +37,7 @@ Ext.define('kalix.view.components.common.BaseWindow', {
         iconCls:'iconfont icon-save iconfont-btn-small',
         handler: 'onSave',
         bind: {
+            disabled:'{rec.value}',
             hidden: '{view_operation}'
         }
     }, {
