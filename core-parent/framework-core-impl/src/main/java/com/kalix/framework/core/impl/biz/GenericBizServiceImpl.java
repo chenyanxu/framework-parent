@@ -231,7 +231,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
 
-    @Override
+    //@Override
     public JsonData getAllEntityByQuery(QueryDTO queryDTO) {
         Assert.notNull(queryDTO, "查询条件不能为空.");
         return dao.getAll(queryDTO.getPage(), queryDTO.getLimit(), dao.buildCriteriaQuery(queryDTO));

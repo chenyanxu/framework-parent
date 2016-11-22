@@ -1,7 +1,7 @@
 package com.kalix.framework.core.api.security;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -72,8 +72,8 @@ public interface IUserLoginService {
      * @param response
      * @return
      */
-    Map loginByPhone(String username, String password, String client, HttpServletRequest request,
-                     HttpServletResponse response);
+    //Map loginByPhone(String username, String password, String client, HttpServletRequest request,
+    //                 HttpServletResponse response);
 
     /**
      * 修改用户的token
@@ -81,7 +81,7 @@ public interface IUserLoginService {
      * @param token
      * @return
      */
-    Map updateToken(HttpServletRequest request, String token, Long user_id);
+    //Map updateToken(HttpServletRequest request, String token, Long user_id);
 
     /**
      * 验证用户状态

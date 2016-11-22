@@ -4,8 +4,6 @@ import com.kalix.framework.core.api.IService;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
-import com.kalix.framework.core.api.web.model.QueryDTO;
-
 import java.util.List;
 
 /**
@@ -157,7 +155,7 @@ public interface IBizService<T extends PersistentEntity> extends IService {
      * @param queryDTO
      * @return
      */
-    JsonData getAllEntityByQuery(QueryDTO queryDTO);
+//    JsonData getAllEntityByQuery(QueryDTO queryDTO);
 
     /**
      * @param page
