@@ -11,6 +11,7 @@ Ext.define('kalix.viewmodel.BaseViewModel', {
         editTitle:'修改',
         viewTitle:'查看',
         rec:null,
-        view_operation:false
+        view_operation:false,
+        dirty:false
     }
 });

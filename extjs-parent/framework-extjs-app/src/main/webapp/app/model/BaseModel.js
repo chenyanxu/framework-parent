@@ -34,6 +34,15 @@ Ext.define('kalix.model.BaseModel', {
             this.dirty = false;
         }
     },
+    set:function(){
+        var rtn=this.callParent(arguments);
+
+        if(this.vm){
+            this.vm.set('dirty',this.dirty);
+        }
+
+        return rtn;
+    },
     fields: [
         {
             name: 'id'

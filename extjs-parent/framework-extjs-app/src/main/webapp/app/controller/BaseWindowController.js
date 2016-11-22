@@ -131,20 +131,23 @@ Ext.define('kalix.controller.BaseWindowController', {
 
                                     if (batch.operations[0].success) {
                                         kalix.Notify.success(res.msg, CONFIG.ALTER_TITLE_SUCCESS);
+                                        panel.destroy();
                                     }
                                     else {
                                         Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, res);
+                                        panel.show();
                                     }
                                 }
                             }
                         );
                     } else {
+                        panel.show();
                         Ext.Msg.alert(CONFIG.ALTER_TITLE_FAILURE, "表单验证失败！");
-                        model.set(model.modified);
                     }
                 }
                 else {
                     model.set(model.modified);
+                    panel.destroy();
                 }
             });
         }
