@@ -3,7 +3,6 @@
            xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
        http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
-
     <reference id="attachmentService" interface="com.kalix.framework.core.api.system.IAttachmentService"/>
 
     <bean id="cgService" class="com.kalix.framework.webapp.cg.CodeGeneration">
@@ -13,13 +12,10 @@
     </bean>
 
     <camelContext id="cgCamel" xmlns="http://camel.apache.org/schema/blueprint">
-        <restConfiguration component="servlet" bindingMode="json">
-            <componentProperty key="servletName" value="CamelServletCG"/>
-            <dataFormatProperty key="prettyPrint" value="${rest.pretty}"/>
-        </restConfiguration>
-        <!-- 提供生成代码、zip包上传到couchdb的服务-->
-        <route id="upload-bean-route" streamCache="true">
-            <from uri="servlet:///upload?httpMethodRestrict=POST"/>
+         <!--提供生成代码、zip包上传到couchdb的服务-->
+        <route  id="upload-bean-route" streamCache="true">
+            <!-- 此处参数之间的and在xml文件中为特殊字符，需写成&amp; -->
+            <from uri="servlet://upload?httpMethodRestrict=POST&amp;servletName=CamelServletCG"/>
             <process ref="cgService"/>
             <marshal>
                 <json library="Jackson"/>

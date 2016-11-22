@@ -26,7 +26,7 @@
                         defaultType: 'textfield',
                         defaultAlign: 'center',
                         jsonSubmit: true,
-                        url: '/cg/camel/rest/',
+                        //url: '/cg/camel/route/',
                         items: [
                             {
                                 fieldLabel: 'java实体Bean文件目录',
@@ -134,7 +134,7 @@
                                     var scope=this.findParentByType('form');
 
                                     this.findParentByType('form').submit({
-                                        url: '/cg/camel/rest/upload',
+                                        url: '/cg/camel/route/upload',
                                         waitMsg: '正在生成代码...',
                                         scope:scope,
                                         success: function (fp, o) {
