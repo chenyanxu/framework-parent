@@ -68,6 +68,7 @@ Ext.define('kalix.controller.BaseGridController', {
         vm.set('iconCls', vm.get('addIconCls'));
         vm.set('title', vm.get('addTitle'));
         vm.set('store',this.getView().store);
+        vm.get('rec').vm=vm;
 
         this.viewModelExtraInit(vm);
 
@@ -88,6 +89,7 @@ Ext.define('kalix.controller.BaseGridController', {
         vm.set('iconCls', vm.get('editIconCls'));
         vm.set('title',vm.get('editTitle'));
         vm.set('store',this.getView().store);
+        vm.get('rec').vm=vm;
 
         this.viewModelExtraInit(vm);
 

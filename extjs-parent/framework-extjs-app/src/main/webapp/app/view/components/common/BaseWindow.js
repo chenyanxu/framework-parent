@@ -37,7 +37,7 @@ Ext.define('kalix.view.components.common.BaseWindow', {
         iconCls:'iconfont icon-save iconfont-btn-small',
         handler: 'onSave',
         bind: {
-            disabled:'{rec.value}',
+            disabled:'{!dirty}',
             hidden: '{view_operation}'
         }
     }, {
