@@ -68,6 +68,7 @@
 
     <feature name="framework-webapp" version="${project.framework.version}">
         <bundle>mvn:com.kalix.framework.webapp/framework-webapp-main/${project.framework.version}</bundle>
+        <bundle>mvn:com.kalix.framework.webapp/framework-webapp-swagger/${project.framework.version}</bundle>
     </feature>
 
 </features>
