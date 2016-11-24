@@ -106,6 +106,7 @@ Ext.define('kalix.controller.BaseWindowController', {
         //判断是否为查看窗口的关闭
         if (viewModel.data.view_operation) {
             model.set(model.modified);
+            panel.destroy();
             return;
         }
 
@@ -150,6 +151,9 @@ Ext.define('kalix.controller.BaseWindowController', {
                     panel.destroy();
                 }
             });
+        }
+        else{
+            panel.destroy();
         }
     },
     onBeforerender: function (target, eOpts) {
