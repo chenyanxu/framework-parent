@@ -1,10 +1,18 @@
 package com.kalix.framework.core.api.persistence;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("请求状态<br>JsonStatus")
 public class JsonStatus {
     private static JsonStatus jsonStatus = new JsonStatus();
+    @ApiModelProperty("请求成功")
     Boolean success = false;
+    @ApiModelProperty("请求失败")
     Boolean failure = false;
+    @ApiModelProperty("返回消息")
     String msg;
+    @ApiModelProperty("附加消息")
     String tag;
 
     /**
