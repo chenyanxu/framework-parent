@@ -24,21 +24,13 @@
 
     <servlet>
         <servlet-name>CamelServletCG</servlet-name>
-        <servlet-class>com.kalix.framework.core.impl.web.KalixCamelHttpTransportServlet</servlet-class>
-        <init-param>
-            <param-name>matchOnUriPrefix</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        <init-param>
-            <param-name>ignoreDuplicateServletName</param-name>
-            <param-value>true</param-value>
-        </init-param>
+        <servlet-class>org.apache.camel.component.servlet.CamelHttpTransportServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>CamelServletCG</servlet-name>
-        <url-pattern>/camel/rest/*</url-pattern>
+        <url-pattern>/camel/route/*</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
