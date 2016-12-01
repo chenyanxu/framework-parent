@@ -141,6 +141,7 @@ public interface IBizService<T extends PersistentEntity> extends IService {
      */
     JsonStatus updateEntity(T entity);
 
+    JsonStatus updateEntity(long id,T entity);
     /**
      * 执行更新.
      * @param entity

@@ -3,6 +3,8 @@ package com.kalix.framework.core.api.persistence;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kalix.framework.core.api.exception.StaleEntityException;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.dozer.DozerBeanMapper;
 
 import javax.persistence.*;
@@ -25,19 +27,28 @@ import java.util.Date;
 public abstract class PersistentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(value = "实体ID（新增0）", hidden = true)
     private long id;
     @Version
+    @ApiModelProperty(value = "版本号", hidden = true)
     private long version_;
+    @ApiModelProperty(value = "创建日期", hidden = true)
     private Date creationDate;// 创建日期
+    @ApiModelProperty(value = "创建者", hidden = true)
     private String createBy;    // 创建者
+    @ApiModelProperty(value = "更新者", hidden = true)
     private String updateBy;    // 更新者
+    @ApiModelProperty(value = "创建者Id", hidden = true)
     private Long createById; //创建者Id
+    @ApiModelProperty(value = "更新者Id", hidden = true)
     private Long updateById; //更新者Id
+    @ApiModelProperty(value = "更新时间", hidden = true)
     private Date updateDate = new Date();
 
-    public PersistentEntity(){}
+    public PersistentEntity() {
+    }
 
-    public PersistentEntity(PersistentEntity obj){
+    public PersistentEntity(PersistentEntity obj) {
         new DozerBeanMapper().map(obj, this);
     }
 
@@ -54,7 +65,7 @@ public abstract class PersistentEntity implements Serializable {
     }
 
     public void setVersion(long vers) {
-        if (vers <version_) {
+        if (vers < version_) {
             throw new StaleEntityException(this);
         }
         this.version_ = vers;
@@ -76,7 +87,8 @@ public abstract class PersistentEntity implements Serializable {
         this.updateBy = updateBy;
     }
 
-    @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ApiModelProperty(hidden = true)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -84,7 +96,9 @@ public abstract class PersistentEntity implements Serializable {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
-    @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
+    @ApiModelProperty(hidden = true)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getCreationDate() {
         return creationDate;
     }

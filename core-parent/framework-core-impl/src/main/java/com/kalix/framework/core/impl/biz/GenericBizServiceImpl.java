@@ -223,6 +223,14 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         return jsonStatus;
     }
 
+    @Override
+    @Transactional
+    public JsonStatus updateEntity(long id,TP entity) {
+        entity.setId(id);
+
+        return this.updateEntity(entity);
+    }
+
 
     @Override
     @Transactional
@@ -316,7 +324,12 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
                 String sortField= (String) sortList.get(0).get("property");
                 String direction= (String) sortList.get(0).get("direction");
 
-                sortJsonStr=jsonStr.substring(0,jsonStr.length()-1)+",\""+sortField+":sort\":\""+direction+"\"}";
+                if(jsonStr!=null && !jsonStr.isEmpty()){
+                    sortJsonStr=jsonStr.substring(0,jsonStr.length()-1)+",\""+sortField+":sort\":\""+direction+"\"}";
+                }
+                else{
+                    sortJsonStr="{\""+sortField+":sort\":\""+direction+"\"}";
+                }
             }
         }
 

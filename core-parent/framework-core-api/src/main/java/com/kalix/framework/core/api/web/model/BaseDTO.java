@@ -1,6 +1,7 @@
 package com.kalix.framework.core.api.web.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,10 +16,14 @@ import java.util.Date;
 public abstract class BaseDTO implements Serializable {
     protected long id = -1L;
     @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ApiModelProperty(value="创建日期")
     protected Date creationDate;// 创建日期
+    @ApiModelProperty("创建者")
     protected String createBy;    // 创建者
-    @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ApiModelProperty("更新者")
     protected String updateBy;    // 更新者
+    @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ApiModelProperty("更新日期")
     protected Date updateDate; //更新日期
     protected long version;
 
