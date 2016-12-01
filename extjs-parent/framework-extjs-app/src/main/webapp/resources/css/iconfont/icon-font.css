@@ -8,11 +8,11 @@
 /*}*/
 @font-face {
   font-family: 'iconfont';  /* project id："102603" */
-  src: url('//at.alicdn.com/t/font_h9wdgqo24y22o6r.eot');
-  src: url('//at.alicdn.com/t/font_h9wdgqo24y22o6r.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_h9wdgqo24y22o6r.woff') format('woff'),
-  url('//at.alicdn.com/t/font_h9wdgqo24y22o6r.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_h9wdgqo24y22o6r.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_cam64xwr97r2j4i.eot');
+  src: url('//at.alicdn.com/t/font_cam64xwr97r2j4i.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_cam64xwr97r2j4i.woff') format('woff'),
+  url('//at.alicdn.com/t/font_cam64xwr97r2j4i.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_cam64xwr97r2j4i.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -137,6 +137,8 @@
 .icon-meeting-room-reservation:before{content: "\e63c";}
 .icon-workflow-loan-column:before{content: "\e674";}
 .icon-workflow-loan:before{content: "\e675";}
+.icon-workflow-reimbursement-column:before{content: "\e676";}
+.icon-workflow-reimbursement:before{content: "\e677";}
 
 /*schedule*/
 .icon-schedule:before{content: "\e653";}
