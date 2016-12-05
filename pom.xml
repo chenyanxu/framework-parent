@@ -71,7 +71,7 @@
             <id>openshift-release</id>
             <properties>
                 <openshift.couchdb.svcname>couchdb.database.svc.cluster.local</openshift.couchdb.svcname>
-                <openshift.couchdb.url>http://couchdb.sokylin.com.cn/</openshift.couchdb.url>
+                <openshift.couchdb.url>http://couchdb.sokylin.com.cn/kalix/</openshift.couchdb.url>
                 <openshift.redis.svcname>redis.database.svc.cluster.local</openshift.redis.svcname>
                 <openshift.postgresql.svcname>postgresql-db.database.svc.cluster.local</openshift.postgresql.svcname>
                 <webcontext.server.url>http://info.sokylin.com.cn</webcontext.server.url>
@@ -82,7 +82,7 @@
             <id>openshift-test</id>
             <properties>
                 <openshift.couchdb.svcname>couchdb-test.database.svc.cluster.local</openshift.couchdb.svcname>
-                <openshift.couchdb.url>http://couchdb.sokylin.com.cn/</openshift.couchdb.url>
+                <openshift.couchdb.url>http://couchdb.sokylin.com.cn/kalix/</openshift.couchdb.url>
                 <openshift.redis.svcname>redis-test.database.svc.cluster.local</openshift.redis.svcname>
                 <openshift.postgresql.svcname>postgresql-db-test.database.svc.cluster.local
                 </openshift.postgresql.svcname>
