@@ -1,7 +1,9 @@
 package com.kalix.framework.osgi.api;
 
 import com.kalix.framework.core.api.IService;
+import org.osgi.framework.Bundle;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,4 +31,11 @@ public interface IBundleService extends IService {
      * @return 返回信息
      */
     Map getAppStatus(String appIds);//connect by '_'
+
+    /**
+     * 根据过滤条件查询Bundle列表
+     * @param filter
+     * @return
+     */
+    List<Bundle> getBundleList(String filter);
 }

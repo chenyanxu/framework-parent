@@ -17,21 +17,21 @@ public class BundleServiceImpl implements IBundleService {
     private BundleContext bundleContext;
     //private BundleJsonStatus jsonStatus;
     private Map<String, Object> rtnMap;
-    private List<Bundle> appBundles = null;
+   // private List<Bundle> appBundles = null;
 
     public BundleServiceImpl() {
         this.rtnMap = new HashMap<>();
-        this.appBundles = new ArrayList<>();
+        //this.appBundles = new ArrayList<>();
     }
 
     @Override
     public Map startApp(String id) {
         this.rtnMap.clear();
-        getBundleList();
+        List<Bundle> appBundles = getBundleList("Bundle-Classifier:IApplication");
 
         if (appBundles.size() > 0) {
             try {
-                for (Bundle bundle : this.appBundles) {
+                for (Bundle bundle : appBundles) {
                     if (bundle.getHeaders().get("Bundle-ApplicationId").equals(id)) {
                         bundle.start();
                         rtnMap.put("success", true);
@@ -77,11 +77,11 @@ public class BundleServiceImpl implements IBundleService {
     @Override
     public Map stopApp(String id) {
         this.rtnMap.clear();
-        getBundleList();
+        List<Bundle> appBundles = getBundleList("Bundle-Classifier:IApplication");
 
         if (appBundles.size() > 0) {
             try {
-                for (Bundle bundle : this.appBundles) {
+                for (Bundle bundle : appBundles) {
                     if (bundle.getHeaders().get("Bundle-ApplicationId").equals(id)) {
                         bundle.stop();
                         rtnMap.put("success", true);
@@ -126,14 +126,14 @@ public class BundleServiceImpl implements IBundleService {
     @Override
     public Map getAppStatus(String appIds) {
         this.rtnMap.clear();
-        getBundleList();
+        List<Bundle> appBundles = getBundleList("Bundle-Classifier:IApplication");
         String[] appIdArray = null;
 
         if (appIds != null) {
             appIdArray = appIds.split("_");
 
             for (int idx = 0; idx < appIdArray.length; ++idx) {
-                for (Bundle bundle : this.appBundles) {
+                for (Bundle bundle : appBundles) {
                     if (bundle.getHeaders().get("Bundle-ApplicationId").equals(appIdArray[idx])) {
                         if (bundle.getState() == Bundle.ACTIVE) {
                             this.rtnMap.put(appIdArray[idx], true);
@@ -163,20 +163,23 @@ public class BundleServiceImpl implements IBundleService {
 
     public void setBundleContext(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
-
-
-
     }
 
-    /**
-     * 获得IApplication服务
-     */
-    private void getBundleList() {
-        this.appBundles.clear();
-        for (Bundle bundle : this.bundleContext.getBundles()) {
-            if ("IApplication".equals(bundle.getHeaders().get("Bundle-Classifier"))) {
-                this.appBundles.add(bundle);
+
+    @Override
+    public List<Bundle> getBundleList(String filter) {
+        List<Bundle> appBundles = new ArrayList<>();
+
+        if(filter!=null && !filter.isEmpty()) {
+            String[] filterSplit=filter.split(":");
+
+            for (Bundle bundle : this.bundleContext.getBundles()) {
+                if (filterSplit[1].equals(bundle.getHeaders().get(filterSplit[0]))) {
+                    appBundles.add(bundle);
+                }
             }
         }
+
+        return appBundles;
     }
 }
