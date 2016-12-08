@@ -66,6 +66,11 @@
                                     <classifier>ConfigWebContext</classifier>
                                 </artifact>
                                 <artifact>
+                                    <file>target/classes/ConfigXMPP.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>ConfigXMPP</classifier>
+                                </artifact>
+                                <artifact>
                                     <file>target/classes/org.ops4j.datasource-kalix.cfg</file>
                                     <type>cfg</type>
                                     <classifier>org.ops4j.datasource-kalix</classifier>

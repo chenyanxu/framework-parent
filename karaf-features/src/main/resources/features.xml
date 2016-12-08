@@ -27,6 +27,9 @@
         <configfile finalname="/etc/ConfigRedis.cfg" override="true">
             mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigRedis
         </configfile>
+        <configfile finalname="/etc/ConfigXMPP.cfg" override="true">
+            mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigXMPP
+        </configfile>
         <configfile finalname="/etc/org.ops4j.datasource-kalix.cfg" override="true">
             mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/org.ops4j.datasource-kalix
         </configfile>
