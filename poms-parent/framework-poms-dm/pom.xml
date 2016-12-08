@@ -545,6 +545,16 @@
                 <artifactId>java-object-diff</artifactId>
                 <version>${java.object.diff}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>${ant.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
 
             <!--dependency management for kalix framework-->
             <dependency>
@@ -573,14 +583,9 @@
                 <version>${project.parent.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.ant</groupId>
-                <artifactId>ant</artifactId>
-                <version>${ant.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${httpclient.version}</version>
+                <groupId>com.kalix.framework.osgi</groupId>
+                <artifactId>framework-osgi-api</artifactId>
+                <version>${project.parent.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
