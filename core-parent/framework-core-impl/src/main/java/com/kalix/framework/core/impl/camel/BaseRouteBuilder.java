@@ -87,7 +87,7 @@ public  class BaseRouteBuilder extends RouteBuilder {
             params.get(1).setDescription("每页记录数");
             params.get(1).setDefaultValue("0");
             params.get(1).setRequired(true);
-            params.get(1).allowableValues("0,10","20","30","40","50");
+            params.get(1).allowableValues("0","10","20","30","40","50");
             //查询条件：要求为json字符串格式 模糊查询用%%
             params.add(new RestOperationParamDefinition());
             params.get(2).setName("jsonStr");
