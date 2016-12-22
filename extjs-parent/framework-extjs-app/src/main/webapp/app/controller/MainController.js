@@ -10,6 +10,7 @@ Ext.define('kalix.controller.MainController', {
     requires: ['kalix.Notify'],
     //==custom perperty
     lastClickShotcut:null,//the last top bar button we click
+    lastLevel1Route:'',
     //custom perperty==
     listen: {
         controller: {
@@ -210,7 +211,11 @@ Ext.define('kalix.controller.MainController', {
         else {
             var mainToolBar = this.getReferences().maintoolbar;
 
-            mainToolBar.disable();
+            if(this.lastLevel1Route!=hash.path[0]){
+                mainToolBar.disable();
+                this.lastLevel1Route=hash.path[0];
+            }
+
             treeStore.load({scope: mainToolBar,hashToken: this.getFirstPath(hash),callback: function (records, operation, success){
                 this.enable();
             }});
