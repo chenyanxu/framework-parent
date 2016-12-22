@@ -61,7 +61,7 @@ Ext.define('kalix.view.components.common.BaseGrid', {
             this.columns[cIndex].align = 'center';
             this.columns[cIndex].renderer = null;
           }
-          else if (this.columns[cIndex].xtype && this.columns[cIndex].xtype.indexOf('DictGrid') > -1) {
+          else if (this.columns[cIndex].xtype){ //&& this.columns[cIndex].xtype.indexOf('DictGrid') > -1) {
             this.columns[cIndex].renderer = null;
           }
           else if (this.columns[cIndex].renderer === undefined) {
