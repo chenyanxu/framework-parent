@@ -7,12 +7,12 @@
 /*url('iconfont.svg?t=1464680894#iconfont') format('svg'); !* iOS 4.1- *!*/
 /*}*/
 @font-face {
-  font-family: 'iconfont';  /* project id："102603" */
-  src: url('//at.alicdn.com/t/font_cam64xwr97r2j4i.eot');
-  src: url('//at.alicdn.com/t/font_cam64xwr97r2j4i.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_cam64xwr97r2j4i.woff') format('woff'),
-  url('//at.alicdn.com/t/font_cam64xwr97r2j4i.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_cam64xwr97r2j4i.svg#iconfont') format('svg');
+  font-family: 'iconfont';  /* project id 102603 */
+  src: url('//at.alicdn.com/t/font_tpxb4u0j9g5mte29.eot');
+  src: url('//at.alicdn.com/t/font_tpxb4u0j9g5mte29.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_tpxb4u0j9g5mte29.woff') format('woff'),
+  url('//at.alicdn.com/t/font_tpxb4u0j9g5mte29.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_tpxb4u0j9g5mte29.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -73,6 +73,7 @@
 .icon-lecture:before { content: "\e651"; }
 .icon-meeting-room-apply:before { content: "\e652"; }
 .icon-meeting-room:before { content: "\e628"; }
+.icon-meeting-apply:before { content: "\e710"; }
 .icon-evection:before { content: "\e673"; }
 
 .icon-inbox:before { content: "\e60e"; }
