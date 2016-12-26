@@ -388,7 +388,11 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
             List rtn = new ArrayList<Object>();
 
             for (int idsIndex = 0; idsIndex < ids.length; ++idsIndex) {
-                rtn.add(fieldValueMap.get(ids[idsIndex].toString()));
+                if(ids[idsIndex] !=null) {
+                    rtn.add(fieldValueMap.get(ids[idsIndex].toString()));
+                }else{
+                    rtn.add("");
+                }
             }
 
             return rtn;
