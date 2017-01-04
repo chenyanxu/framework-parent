@@ -170,7 +170,10 @@ Ext.define('kalix.controller.BaseGridController', {
         }
     },
     addTooltip: function (value, metadata, record, rowIndex, colIndex, store) {
-        metadata.tdAttr = 'data-qtip="' + value + '"';
+        if(metadata) {
+          metadata.tdAttr = 'data-qtip="' + value + '"';
+        }
+
         return value;
     },
     viewModelExtraInit:function(vm){
