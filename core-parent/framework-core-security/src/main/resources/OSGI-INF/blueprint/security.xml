@@ -50,10 +50,30 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
     <service interface="org.apache.shiro.web.mgt.WebSecurityManager" ref="webSecurityManager"/>
     <bean id="webSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"
           destroy-method="destroy">
-        <property name="realm" ref="shiroRealm"/>
+        <!--<property name="realm" ref="shiroRealm"/>-->
         <property name="cacheManager" ref="shiroCacheManager"/>
         <!--<property name="sessionMode" value="native"/>-->
         <property name="sessionManager" ref="sessionManager"/>
+        <property name="authenticator" ref="defineModularRealmAuthenticator"/>
+        <property name="realms">
+            <list>
+                <ref component-id="shiroRealm"/>
+                <!--<ref bean="shiroDbRealm" />-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="defineModularRealmAuthenticator"
+          class="com.kalix.framework.core.security.DefaultModularRealm">
+        <property name="definedRealms">
+            <map>
+                <entry key="shiroRealm" value-ref="shiroRealm"/>
+                <!--<entry key="shiroDbRealm" value-ref="shiroDbRealm" />-->
+            </map>
+        </property>
+        <!-- <property name="authenticationStrategy">
+            <bean class="org.apache.shiro.authc.pam.FirstSuccessfulStrategy" />
+        </property> -->
     </bean>
 
 

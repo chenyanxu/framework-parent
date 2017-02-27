@@ -1,14 +1,18 @@
 package com.kalix.framework.core.security.authc;
 
 
+import com.google.gson.Gson;
 import com.kalix.framework.core.api.PermissionConstant;
+import com.kalix.framework.core.api.security.DefaultUsernamepasswordToken;
 import com.kalix.framework.core.api.security.IAuthorizingRealm;
 import com.kalix.framework.core.api.security.IUserLoginService;
 import com.kalix.framework.core.api.security.model.Audit;
 import com.kalix.framework.core.util.JNDIHelper;
-import com.google.gson.Gson;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -87,7 +91,8 @@ public class ShiroRealm extends AuthorizingRealm implements IAuthorizingRealm {
             e.printStackTrace();
         }
 
-        UsernamePasswordToken token = (UsernamePasswordToken) authToken;
+        DefaultUsernamepasswordToken token = (DefaultUsernamepasswordToken) authToken;
+        token.setLoginType("admin");
         String userName = (String) authToken.getPrincipal();
         char[] password = (char[]) authToken.getCredentials();
         // 判断验证码

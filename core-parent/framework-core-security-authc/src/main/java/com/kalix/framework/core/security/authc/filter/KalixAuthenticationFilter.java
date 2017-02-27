@@ -1,6 +1,7 @@
 package com.kalix.framework.core.security.authc.filter;
 
 import com.kalix.framework.core.api.PermissionConstant;
+import com.kalix.framework.core.api.security.DefaultUsernamepasswordToken;
 import com.kalix.framework.core.util.ConfigUtil;
 import com.kalix.framework.core.util.UnicodeConverter;
 import org.apache.shiro.SecurityUtils;
@@ -9,6 +10,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,6 +119,15 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             e1.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
+        String username = getUsername(request);
+        String password = getPassword(request);
+
+        String loginType = WebUtils.getCleanParam(request, "loginType");
+        return new DefaultUsernamepasswordToken(username, password, loginType);
     }
 
     /**
