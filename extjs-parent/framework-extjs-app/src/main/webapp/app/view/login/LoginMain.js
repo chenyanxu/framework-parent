@@ -11,89 +11,93 @@
  */
 
 Ext.define('kalix.view.login.LoginMain', {
-    extend: 'Ext.form.Panel',
-    requires: [
-        'kalix.controller.LoginController'
-    ],
-    xtype: 'loginMain',
-    controller: 'loginController',
-    icon: 'resources/images/lock.png',
-    title: '系统登录',
-    id: 'loginForm',
-    method: "POST",
-    defaultType: 'textfield',
-    frame: true,
-    url: 'login.jsp',
+  extend: 'Ext.form.Panel',
+  requires: [
+    'kalix.controller.LoginController'
+  ],
+  xtype: 'loginMain',
+  controller: 'loginController',
+  icon: 'resources/images/lock.png',
+  title: '系统登录',
+  id: 'loginForm',
+  method: "POST",
+  defaultType: 'textfield',
+  frame: true,
+  url: 'login.jsp',
 
-    bodyBorder: false,
-    bodyPadding: 20,
-    border: false,
-    buttonAlign: 'center',
-    width: 300,
-    layout: {
-        type: 'vbox',
-        align: 'stretch'
+  bodyBorder: false,
+  bodyPadding: 20,
+  border: false,
+  buttonAlign: 'center',
+  width: 300,
+  layout: {
+    type: 'vbox',
+    align: 'stretch'
+  },
+
+  items: [{
+    inputType: 'textfield',
+    fieldLabel: '账号',
+    name: 'username',
+    cls: 'auth-textbox',
+    allowBlank: false,
+    height: 55,
+    blankText: '账号不能为空!',
+    hideLabel: true,
+    emptyText: '账号',
+    triggers: {
+      glyphed: {
+        cls: 'trigger-glyph-noop auth-email-trigger'
+      }
     },
-
-    items: [{
-        inputType: 'textfield',
-        fieldLabel: '账号',
-        name: 'username',
-        cls: 'auth-textbox',
-        allowBlank: false,
-        height: 55,
-        blankText: '账号不能为空!',
-        hideLabel: true,
-        emptyText: '账号',
-        triggers: {
-            glyphed: {
-                cls: 'trigger-glyph-noop auth-email-trigger'
-            }
-        },
-        bind: {
-            value: '{username}'
-        }
-    }, {
-        inputType: 'password',
-        fieldLabel: '密码',
-        name: 'password',
-        cls: 'auth-textbox',
-        height: 55,
-        allowBlank: false,
-        blankText: '密码不能为空!',
-        hideLabel: true,
-        emptyText: '密码',
-        triggers: {
-            glyphed: {
-                cls: 'trigger-glyph-noop auth-password-trigger'
-            }
-        },
-        listeners: {
-            keyup: {
-                element: 'el',
-                fn: 'onKeyup'
-            }
-        },
-        bind: {
-            value: '{password}'
-        }
+    bind: {
+      value: '{username}'
     }
-    ],
-    buttons: [{
-        text: '登录',
-        handler: 'onLogin',
-        iconAlign: 'right',
-        glyph: 'xf090@FontAwesome'
-    }, {
-        text: '重置',
-        handler: 'onReset',
-        iconAlign: 'right',
-        glyph: 'xf0e2@FontAwesome',
+  }, {
+    inputType: 'password',
+    fieldLabel: '密码',
+    name: 'password',
+    cls: 'auth-textbox',
+    height: 55,
+    allowBlank: false,
+    blankText: '密码不能为空!',
+    hideLabel: true,
+    emptyText: '密码',
+    triggers: {
+      glyphed: {
+        cls: 'trigger-glyph-noop auth-password-trigger'
+      }
+    },
+    listeners: {
+      keyup: {
+        element: 'el',
+        fn: 'onKeyup'
+      }
+    },
+    bind: {
+      value: '{password}'
     }
-    ],
-    initComponent: function () {
-        var me = this, listen;
-        me.addCls('auth-dialog');
-        me.callParent();
+  }, {
+      inputType:'textField',
+      name:'loginType',
+      value:'admin'
     }
+  ],
+  buttons: [{
+    text: '登录',
+    handler: 'onLogin',
+    iconAlign: 'right',
+    glyph: 'xf090@FontAwesome'
+  }, {
+    text: '重置',
+    handler: 'onReset',
+    iconAlign: 'right',
+    glyph: 'xf0e2@FontAwesome',
+  }
+  ],
+  initComponent: function () {
+    var me = this, listen;
+    me.addCls('auth-dialog');
+    me.callParent();
+  }
 });
