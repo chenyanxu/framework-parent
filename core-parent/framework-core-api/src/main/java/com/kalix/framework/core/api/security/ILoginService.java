@@ -13,7 +13,7 @@ import java.util.Map;
  * 用户登录服务
  */
 
-public interface IUserLoginService {
+public interface ILoginService {
 
     /**
      * 用户名不存在
