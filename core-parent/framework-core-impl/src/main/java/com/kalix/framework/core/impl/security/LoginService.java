@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by chenyanxu on 2017/2/28.
  */
-public abstract class LoginServiceImpl implements ILoginService {
+public abstract class LoginService implements ILoginService {
     protected IUserEntityDao dao;
 
     @Override
