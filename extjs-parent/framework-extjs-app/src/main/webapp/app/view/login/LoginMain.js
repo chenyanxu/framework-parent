@@ -80,7 +80,7 @@ Ext.define('kalix.view.login.LoginMain', {
   }, {
       inputType:'textField',
       name:'loginType',
-      value:'admin'
+      value:'main'
     }
   ],
   buttons: [{
