@@ -24,10 +24,6 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class UserEntity extends PersistentEntity {
-    @ApiModelProperty(value="工号",position=0,example = "0")
-    private Long code;
-    @ApiModelProperty(value="岗位",position=1,example = "0")
-    private Integer position;
     @ApiModelProperty(value="性别（男 女）",allowableValues = "男,女",position=2,example = "男")
     private String sex;
     @ApiModelProperty(value="登录名",position=3,example = "test_login")
@@ -123,28 +119,12 @@ public abstract class UserEntity extends PersistentEntity {
         this.available = available;
     }
 
-    public Integer getPosition() {
-        return position;
-    }
-
-    public void setPosition(Integer position) {
-        this.position = position;
-    }
-
     public String getSex() {
         return sex;
     }
 
     public void setSex(String sex) {
         this.sex = sex;
-    }
-
-    public Long getCode() {
-        return code;
-    }
-
-    public void setCode(Long code) {
-        this.code = code;
     }
 
     public String getIcon() {
