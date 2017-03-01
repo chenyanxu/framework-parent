@@ -2,17 +2,17 @@ package com.kalix.framework.core.api.security;
 
 import org.apache.shiro.authc.UsernamePasswordToken;
 
-public class DefaultUsernamepasswordToken extends UsernamePasswordToken {
+public class DefaultUserNamePasswordToken extends UsernamePasswordToken {
 
     /**
      * Shiro 构造方法
      */
-    public DefaultUsernamepasswordToken(String username, String password, String loginType) {
+    public DefaultUserNamePasswordToken(String username, String password, String loginType) {
         super(username, password);
         this.loginType = loginType;
     }
 
-    public DefaultUsernamepasswordToken() {
+    public DefaultUserNamePasswordToken() {
 
     }
 

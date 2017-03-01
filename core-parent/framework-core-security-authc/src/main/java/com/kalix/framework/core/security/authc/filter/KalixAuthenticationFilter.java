@@ -1,7 +1,7 @@
 package com.kalix.framework.core.security.authc.filter;
 
 import com.kalix.framework.core.api.PermissionConstant;
-import com.kalix.framework.core.api.security.DefaultUsernamepasswordToken;
+import com.kalix.framework.core.api.security.DefaultUserNamePasswordToken;
 import com.kalix.framework.core.util.ConfigUtil;
 import com.kalix.framework.core.util.UnicodeConverter;
 import org.apache.shiro.SecurityUtils;
@@ -127,7 +127,7 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
         String password = getPassword(request);
 
         String loginType = WebUtils.getCleanParam(request, "loginType");
-        return new DefaultUsernamepasswordToken(username, password, loginType);
+        return new DefaultUserNamePasswordToken(username, password, loginType);
     }
 
     /**
