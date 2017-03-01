@@ -3,11 +3,13 @@ package com.kalix.framework.core.security.authc;
 
 import com.google.gson.Gson;
 import com.kalix.framework.core.api.PermissionConstant;
-import com.kalix.framework.core.api.security.DefaultUsernamepasswordToken;
 import com.kalix.framework.core.api.security.IAuthorizingRealm;
-import com.kalix.framework.core.api.security.IUserLoginService;
+import com.kalix.framework.core.api.security.ILoginService;
 import com.kalix.framework.core.api.security.model.Audit;
 import com.kalix.framework.core.util.JNDIHelper;
+import com.kalix.framework.core.util.OsgiUtil;
+import com.kalix.framework.core.util.StringUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -35,20 +37,23 @@ import java.util.Map;
  *
  * @author Minto van der Sluis (misl)
  */
-public class ShiroRealm extends AuthorizingRealm implements IAuthorizingRealm {
-    private IUserLoginService userLoginService;
+public abstract class ShiroRealm extends AuthorizingRealm implements IAuthorizingRealm {
+    private ILoginService userLoginService;
     private EventAdmin eventAdmin;
+    private Map<String,String> filter;
     // --------------------------------------------------------------------------
     // Constructors
     // --------------------------------------------------------------------------
 
     public ShiroRealm() {
-
         setName("myMemoryRealm");
         CredentialsMatcher cm = new SimpleCredentialsMatcher();
         setCredentialsMatcher(cm);
         setCachingEnabled(true);
-
+        eventAdmin= OsgiUtil.waitForServices(EventAdmin.class,null);
+        String[] pkgSplit=this.getClass().getName().split("\\.");
+        filter=new HashedMap();
+        filter.put("type",pkgSplit[pkgSplit.length-3]);
     }
 
     public void setEventAdmin(EventAdmin eventAdmin) {
@@ -64,7 +69,9 @@ public class ShiroRealm extends AuthorizingRealm implements IAuthorizingRealm {
         String userName = (String) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         try {
-            userLoginService = JNDIHelper.getJNDIServiceForName(IUserLoginService.class.getName());
+            if(userLoginService==null) {
+                userLoginService = JNDIHelper.getJNDIServiceForName(ILoginService.class.getName(), filter);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,13 +93,15 @@ public class ShiroRealm extends AuthorizingRealm implements IAuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authToken)
             throws AuthenticationException {
         try {
-            userLoginService = JNDIHelper.getJNDIServiceForName(IUserLoginService.class.getName());
+            if(userLoginService==null) {
+                userLoginService = JNDIHelper.getJNDIServiceForName(ILoginService.class.getName(), filter);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        DefaultUsernamepasswordToken token = (DefaultUsernamepasswordToken) authToken;
-        token.setLoginType("admin");
+        //DefaultUsernamepasswordToken token = (DefaultUsernamepasswordToken) authToken;
+        //token.setLoginType("admin");
         String userName = (String) authToken.getPrincipal();
         char[] password = (char[]) authToken.getCredentials();
         // 判断验证码
@@ -164,5 +173,4 @@ public class ShiroRealm extends AuthorizingRealm implements IAuthorizingRealm {
         Event event = new Event("com/kalix/userlogin", properties);
         eventAdmin.postEvent(event);
     }
-
 }
