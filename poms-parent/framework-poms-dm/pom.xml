@@ -583,6 +583,11 @@
                 <version>${project.parent.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.kalix.framework.core</groupId>
+                <artifactId>framework-core-security-authc</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.kalix.framework.osgi</groupId>
                 <artifactId>framework-osgi-api</artifactId>
                 <version>${project.parent.version}</version>

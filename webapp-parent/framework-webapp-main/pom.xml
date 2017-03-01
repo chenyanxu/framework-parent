@@ -25,5 +25,9 @@
             <groupId>com.kalix.framework.core</groupId>
             <artifactId>framework-core-security</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kalix.framework.core</groupId>
+            <artifactId>framework-core-security-authc</artifactId>
+        </dependency>
     </dependencies>
 </project>

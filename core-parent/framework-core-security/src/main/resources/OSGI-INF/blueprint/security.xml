@@ -45,7 +45,7 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
 
     <reference id="eventAdmin" interface="org.osgi.service.event.EventAdmin"/>
 
-    <reference id="shiroRealm" interface="com.kalix.framework.core.api.security.IAuthorizingRealm"/>
+    <!--<reference id="shiroRealm" interface="com.kalix.framework.core.api.security.IAuthorizingRealm"/>-->
     <!--<reference id="shiroRealm" interface="com.kalix.framework.core.web.api.security.IAuthorizingRealm" filter="(key=urgent)" />-->
     <service interface="org.apache.shiro.web.mgt.WebSecurityManager" ref="webSecurityManager"/>
     <bean id="webSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"
@@ -55,22 +55,21 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
         <!--<property name="sessionMode" value="native"/>-->
         <property name="sessionManager" ref="sessionManager"/>
         <property name="authenticator" ref="defineModularRealmAuthenticator"/>
-        <property name="realms">
-            <list>
-                <ref component-id="shiroRealm"/>
-                <!--<ref bean="shiroDbRealm" />-->
-            </list>
-        </property>
+        <!--<property name="realms">-->
+            <!--<list>-->
+                <!--&lt;!&ndash;<ref component-id="shiroRealm"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<ref bean="shiroDbRealm" />&ndash;&gt;-->
+            <!--</list>-->
+        <!--</property>-->
     </bean>
 
     <bean id="defineModularRealmAuthenticator"
           class="com.kalix.framework.core.security.DefaultModularRealm">
-        <property name="definedRealms">
-            <map>
-                <entry key="shiroRealm" value-ref="shiroRealm"/>
-                <!--<entry key="shiroDbRealm" value-ref="shiroDbRealm" />-->
-            </map>
-        </property>
+        <!--<property name="definedRealms">-->
+            <!--<map>-->
+                <!--&lt;!&ndash;<entry key="admin" value-ref="shiroRealm"/>&ndash;&gt;-->
+            <!--</map>-->
+        <!--</property>-->
         <!-- <property name="authenticationStrategy">
             <bean class="org.apache.shiro.authc.pam.FirstSuccessfulStrategy" />
         </property> -->
