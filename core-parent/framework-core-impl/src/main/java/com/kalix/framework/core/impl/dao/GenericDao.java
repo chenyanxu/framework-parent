@@ -40,6 +40,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     protected final Logger logger = Logger.getLogger(this.getClass());
     protected Class<T> persistentClass;//直接获取T Class，函数不需要className
     protected String className;
+    protected String classSimpleName;
 
     public GenericDao() {
         Object obj = this.getClass().getGenericSuperclass();
@@ -52,6 +53,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         }
 
         className = this.persistentClass.getName();
+        String[] pkgSplit=className.split("\\.");
+        classSimpleName=pkgSplit[pkgSplit.length-1];
     }
 
     /**
