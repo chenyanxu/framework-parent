@@ -1,6 +1,7 @@
 package com.kalix.framework.core.security;
 
-import com.kalix.framework.core.api.security.DefaultUsernamepasswordToken;
+import com.kalix.framework.core.api.security.DefaultUserNamePasswordToken;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -17,6 +18,10 @@ import java.util.Map;
  */
 public class DefaultModularRealm extends ModularRealmAuthenticator {
     private Map<String, Object> definedRealms;
+
+    public DefaultModularRealm(){
+        this.definedRealms=new HashedMap();
+    }
 
     /**
      * 多个realm实现
@@ -60,7 +65,7 @@ public class DefaultModularRealm extends ModularRealmAuthenticator {
 
         Realm realm = null;
 
-        DefaultUsernamepasswordToken token = (DefaultUsernamepasswordToken) authenticationToken;
+        DefaultUserNamePasswordToken token = (DefaultUserNamePasswordToken) authenticationToken;
 //        if (token.getLoginType().equals("admin")) {
         realm = (Realm) this.definedRealms.get(token.getLoginType());
 //        }
