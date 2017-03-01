@@ -45,7 +45,10 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
 
     <reference id="eventAdmin" interface="org.osgi.service.event.EventAdmin"/>
 
-    <reference id="shiroRealm" interface="com.kalix.framework.core.api.security.IAuthorizingRealm"/>
+    <reference id="shiroRealm" interface="com.kalix.framework.core.api.security.IAuthorizingRealm"
+               filter="(type=admin)"/>
+    <reference id="shiroRealm1" interface="com.kalix.framework.core.api.security.IAuthorizingRealm"
+               filter="(type=admin1)"/>
     <!--<reference id="shiroRealm" interface="com.kalix.framework.core.web.api.security.IAuthorizingRealm" filter="(key=urgent)" />-->
     <service interface="org.apache.shiro.web.mgt.WebSecurityManager" ref="webSecurityManager"/>
     <bean id="webSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"
@@ -58,6 +61,7 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
         <property name="realms">
             <list>
                 <ref component-id="shiroRealm"/>
+                <ref component-id="shiroRealm1"/>
                 <!--<ref bean="shiroDbRealm" />-->
             </list>
         </property>
@@ -67,7 +71,8 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
           class="com.kalix.framework.core.security.DefaultModularRealm">
         <property name="definedRealms">
             <map>
-                <entry key="shiroRealm" value-ref="shiroRealm"/>
+                <entry key="admin" value-ref="shiroRealm"/>
+                <entry key="admin1" value-ref="shiroRealm1"/>
                 <!--<entry key="shiroDbRealm" value-ref="shiroDbRealm" />-->
             </map>
         </property>

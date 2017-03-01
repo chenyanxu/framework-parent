@@ -8,5 +8,18 @@
     <bean id="shiroRealmImpl" class="com.kalix.framework.core.security.authc.ShiroRealm">
         <property name="eventAdmin" ref="eventAdmin"/>
     </bean>
-    <service id="shiroRealm" interface="com.kalix.framework.core.api.security.IAuthorizingRealm" ref="shiroRealmImpl"/>
+    <service id="shiroRealm" interface="com.kalix.framework.core.api.security.IAuthorizingRealm" ref="shiroRealmImpl">
+        <service-properties>
+            <entry key="type" value="admin"/>
+        </service-properties>
+    </service>
+
+    <bean id="shiroRealmImpl1" class="com.kalix.framework.core.security.authc.ShiroRealm">
+        <property name="eventAdmin" ref="eventAdmin"/>
+    </bean>
+    <service id="shiroRealm1" interface="com.kalix.framework.core.api.security.IAuthorizingRealm" ref="shiroRealmImpl1">
+        <service-properties>
+            <entry key="type" value="admin1"/>
+        </service-properties>
+    </service>
 </blueprint>
