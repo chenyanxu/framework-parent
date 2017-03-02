@@ -17,6 +17,11 @@ public abstract class UserEntityDao<T extends UserEntity,PK extends Serializable
     }
 
     @Override
+    public T getUser(Long id){
+        return this.get((PK) id);
+    }
+
+    @Override
     public void updateUserLoginInfo(long id, String loginIP) {
         this.update("update "+this.classSimpleName+" u set u.loginIp=?1, u.loginDate=?2 where u.id = ?3", loginIP, new Date(), id);
     }

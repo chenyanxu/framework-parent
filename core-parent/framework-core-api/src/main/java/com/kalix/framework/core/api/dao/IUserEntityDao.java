@@ -9,5 +9,6 @@ import java.io.Serializable;
  */
 public interface IUserEntityDao<T extends UserEntity,PK extends Serializable> extends IGenericDao<T,PK> {
     T getUser(String loginName);
+    T getUser(Long id);
     void updateUserLoginInfo(long id,String loginIP);
 }
