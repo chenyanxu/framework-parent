@@ -64,6 +64,7 @@
         <org.apache.poi.version>3.13</org.apache.poi.version>
         <java.object.diff>0.92.1</java.object.diff>
         <org.apache.xmlbeans.version>2.6.0</org.apache.xmlbeans.version>
+        <json.version>20150729</json.version>
     </properties>
     <modules>
         <module>framework-poms-dm</module>
