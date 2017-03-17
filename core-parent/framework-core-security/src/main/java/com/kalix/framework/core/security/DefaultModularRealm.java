@@ -19,8 +19,8 @@ import java.util.Map;
 public class DefaultModularRealm extends ModularRealmAuthenticator {
     private Map<String, Object> definedRealms;
 
-    public DefaultModularRealm(){
-        this.definedRealms=new HashedMap();
+    public DefaultModularRealm() {
+        this.definedRealms = new HashedMap();
     }
 
     /**
@@ -44,15 +44,15 @@ public class DefaultModularRealm extends ModularRealmAuthenticator {
             throw new ShiroException("token错误!");
         }
         AuthenticationInfo info = null;
-        try {
-            info = realm.getAuthenticationInfo(token);
 
-            if (info == null) {
-                throw new ShiroException("token不存在!");
-            }
-        } catch (Exception e) {
-            throw new ShiroException("用户名或者密码错误!");
+        info = realm.getAuthenticationInfo(token);
+
+        if (info == null) {
+            throw new ShiroException("token不存在!");
         }
+        /*} catch (Exception e) {
+            throw new ShiroException("用户名或者密码错误!");
+        }*/
         return info;
     }
 

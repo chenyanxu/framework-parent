@@ -179,16 +179,15 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
                         + "Authentication url [" + getLoginUrl() + "]");
             }
             // saveRequestAndRedirectToLogin(request, response);
-            if (!"XMLHttpRequest"
-                    .equalsIgnoreCase(((HttpServletRequest) request)
-                            .getHeader("X-Requested-With"))) {// 不是ajax请求
-                saveRequestAndRedirectToLogin(request, response);
-            } else {
+            //判断是否为ajax异步请求
+            if ("XMLHttpRequest".equalsIgnoreCase(((HttpServletRequest) request).getHeader("X-Requested-With"))) {
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter out = response.getWriter();
                 out.println("{\"success\":false,\"message\":\"login\"}");
                 out.flush();
                 out.close();
+            } else {
+                saveRequestAndRedirectToLogin(request, response);
             }
 
             return false;
