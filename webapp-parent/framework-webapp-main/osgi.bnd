@@ -13,7 +13,10 @@ Import-Package: com.kalix.framework.core.security.authc.filter,\
                 org.apache.shiro.subject, \
                 org.apache.shiro.web.tags, \
                 javax.servlet.jsp,\
-                org.apache.shiro.session,*
+                org.apache.shiro.session,\
+                com.google.code.kaptcha,\
+                com.google.code.kaptcha.util,\
+                com.google.code.kaptcha.servlet,*
 Include-Resource: src/main/webapp,src/main/resources
 Web-ContextPath: /
 Bundle-Category: Kalix Framework WebApp

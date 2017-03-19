@@ -1,5 +1,9 @@
 #-----------------------------------------------------------------
 # Use this file to add customized Bnd instructions for the bundle
 #-----------------------------------------------------------------
+
 Bundle-Activator: ${bundle.namespace}.internal.InitActivator
 Bundle-Category: Kalix Framework Core
+Embed-Dependency:*;artifactId=!camel-shiro|shiro-core|shiro-web|org.apache.servicemix.bundles.jedis|framework-core-api|framework-poms-dm
+Export-Package: ${bundle.namespace}.*;version="${project.version}", \
+                com.google.code.kaptcha.*
