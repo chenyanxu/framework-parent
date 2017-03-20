@@ -155,10 +155,16 @@ public  class BaseRouteBuilder extends RouteBuilder {
                     RestOperationParamDefinition nameParam=null;
                     params=new ArrayList<>();
 
-                    temp = rest(customRest.getPath())
-                            .consumes("application/json;charset=utf-8")
-                            .produces("application/json;charset=utf-8")
-                            .description(customRest.getDescription());
+                    if(!url.equals(customRest.getPath())){
+                        temp = rest(customRest.getPath())
+                                .consumes("application/json;charset=utf-8")
+                                .produces("application/json;charset=utf-8")
+                                .description(customRest.getDescription());
+                    }
+                    else{
+                        restDef_1.getVerbs().remove(0);
+                        temp=restDef_1;
+                    }
 
                     //自动追加必要的地址参数
                     if(customRest.getPath().contains("{id}")){
