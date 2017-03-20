@@ -32,6 +32,7 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             .getLogger(KalixAuthenticationFilter.class);
 
     private static final String ERROR_MSG = "{\"success\":false,\"message\":\"%s\"}";
+    public static final String KAPTCHA_SESSION_KEY = "KAPTCHA_SESSION_KEY";
 
     /*
      *  主要是针对登入成功的处理方法。对于请求头是AJAX的之间返回JSON字符串。
@@ -51,14 +52,14 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             String realName = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_REAL_NAME));
             String loginName = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_LOGIN_NAME));
             String userId = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ID));
-            String userIcon=String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ICON));
+            String userIcon = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ICON));
             httpServletResponse.setContentType("application/json");
             httpServletResponse.setCharacterEncoding("UTF-8");
 
             Cookie cookieRealName = new Cookie("currentUserRealName", UnicodeConverter.string2UnicodeCookie(realName));
             Cookie cookieLoginName = new Cookie("currentUserLoginName", UnicodeConverter.string2UnicodeCookie(loginName));
-            Cookie cookieUserId=new Cookie("currentUserId",UnicodeConverter.string2UnicodeCookie(userId));
-            Cookie cookieUserIcon=new Cookie("currentUserIcon",UnicodeConverter.string2UnicodeCookie(userIcon));
+            Cookie cookieUserId = new Cookie("currentUserId", UnicodeConverter.string2UnicodeCookie(userId));
+            Cookie cookieUserIcon = new Cookie("currentUserIcon", UnicodeConverter.string2UnicodeCookie(userIcon));
 
             String contextPath = httpServletRequest.getContextPath();
 
@@ -68,13 +69,12 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             httpServletResponse.addCookie(cookieUserIcon);
 
             PrintWriter out = httpServletResponse.getWriter();
-            String rtnPage="";
+            String rtnPage = "";
 
-            if(Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy","ConfigWebContext"))){
+            if (Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy", "ConfigWebContext"))) {
                 rtnPage = "/index.jsp";
-            }
-            else{
-                rtnPage="/index-debug.jsp";
+            } else {
+                rtnPage = "/index-debug.jsp";
             }
 
             out.println("{\"success\":true,\"location\":\"" + contextPath + rtnPage + "\",\"message\":\"登入成功\",\"user\":{\"name\":\"" + realName + "\",\"token\":\"" + session.getId() + "\"}}");
@@ -125,8 +125,15 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
         String username = getUsername(request);
         String password = getPassword(request);
+        String loginType;
 
-        String loginType = WebUtils.getCleanParam(request, "loginType");
+
+        loginType = WebUtils.getCleanParam(request, "loginType");
+        if (loginType == null) {
+            loginType = "main"; //set default value
+        }
+
+
         return new DefaultUserNamePasswordToken(username, password, loginType);
     }
 
@@ -144,27 +151,29 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
                 if (log.isTraceEnabled()) {
                     log.trace("Login submission detected.  Attempting to execute login.");
                 }
-                /*if ("XMLHttpRequest"
+                //判断是否为ajax异步请求
+                if ("XMLHttpRequest"
                         .equalsIgnoreCase(((HttpServletRequest) request)
-                                .getHeader("X-Requested-With"))) {// 不是ajax请求
+                                .getHeader("X-Requested-With"))) {
                     String vcode = request.getParameter("vcode");
                     HttpServletRequest httpservletrequest = (HttpServletRequest) request;
-                    *//*String vvcode = (String) httpservletrequest
+                    String vvcode = (String) httpservletrequest
                             .getSession()
-                            .getAttribute(
-                                    com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);*//*
+                            .getAttribute(KAPTCHA_SESSION_KEY);
 
-                    String vvcode = "123";
                     if (vvcode == null || "".equals(vvcode)
                             || !vvcode.equals(vcode)) {
                         response.setCharacterEncoding("UTF-8");
+                        response.setContentType("application/json;charset=UTF-8");
                         PrintWriter out = response.getWriter();
-                        out.println("{success:false,message:'验证码错误'}");
+                        out.println(String.format(ERROR_MSG, "验证码错误!"));
                         out.flush();
                         out.close();
                         return false;
                     }
-                }*/
+                } else {
+                    //不需要验证码
+                }
                 return executeLogin(request, response);
             } else {
                 if (log.isTraceEnabled()) {
@@ -193,4 +202,5 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             return false;
         }
     }
+
 }
