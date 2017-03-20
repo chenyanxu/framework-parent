@@ -81,6 +81,17 @@ Ext.define('kalix.view.login.LoginMain', {
       inputType:'textField',
       name:'loginType',
       value:'main'
+    },
+    {
+      xtype:'textfield',
+      fieldStyle: 'font-size:15px;',
+      height: 50,
+      margin: '0 10 0 0',
+      emptyText: '验证码',
+      name:'vcode',
+      bind: {
+        value: '{vcode}'
+      }
     }
   ],
   buttons: [{

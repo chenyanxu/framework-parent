@@ -31,7 +31,7 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
     private static final Logger log = LoggerFactory
             .getLogger(KalixAuthenticationFilter.class);
 
-    private static final String ERROR_MSG = "{\"success\":false,\"message\":\"%s\"}";
+    private static final String ERROR_MSG = "{\"success\":false,\"message\":\"%s\",\"detail\":\"%s\"}";
     public static final String KAPTCHA_SESSION_KEY = "KAPTCHA_SESSION_KEY";
 
     /*
@@ -103,14 +103,14 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             PrintWriter out = response.getWriter();
             String message = e.getClass().getSimpleName();
             if ("IncorrectCredentialsException".equals(message)) {
-                out.println(String.format(ERROR_MSG, "密码错误"));
+                out.println(String.format(ERROR_MSG, "密码错误",message));
             } else if ("UnknownAccountException".equals(message)) {
-                out.println(String.format(ERROR_MSG, "账号不存在"));
+                out.println(String.format(ERROR_MSG, "账号不存在",message));
             } else if ("LockedAccountException".equals(message)) {
-                out.println(String.format(ERROR_MSG, "账号被锁定"));
+                out.println(String.format(ERROR_MSG, "账号被锁定",message));
             } else {
                 e.printStackTrace();
-                out.println(String.format(ERROR_MSG, "未知错误"));
+                out.println(String.format(ERROR_MSG, "未知错误",message));
             }
             out.flush();
             out.close();
@@ -166,7 +166,7 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
                         response.setCharacterEncoding("UTF-8");
                         response.setContentType("application/json;charset=UTF-8");
                         PrintWriter out = response.getWriter();
-                        out.println(String.format(ERROR_MSG, "验证码错误!"));
+                        out.println(String.format(ERROR_MSG, "验证码错误!",""));
                         out.flush();
                         out.close();
                         return false;
@@ -192,7 +192,7 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             if ("XMLHttpRequest".equalsIgnoreCase(((HttpServletRequest) request).getHeader("X-Requested-With"))) {
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter out = response.getWriter();
-                out.println("{\"success\":false,\"message\":\"login\"}");
+                out.println(String.format(ERROR_MSG,"login",""));
                 out.flush();
                 out.close();
             } else {

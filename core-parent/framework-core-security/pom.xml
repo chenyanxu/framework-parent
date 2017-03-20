@@ -10,7 +10,6 @@
 
     <artifactId>framework-core-security</artifactId>
     <name>Kalix Framework Core Security</name>
-    <!--<version>${project.parent.version}</version>-->
     <packaging>bundle</packaging>
 
     <properties>

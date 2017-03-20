@@ -5,6 +5,7 @@ Ext.define('kalix.viewmodel.LoginViewModel', {
     alias: 'viewmodel.loginViewModel',
     data: {
         username: '',
-        password: ''
+        password: '',
+        vcode:''
     }
 });

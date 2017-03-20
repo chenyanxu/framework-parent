@@ -51,6 +51,7 @@ Ext.define('kalix.view.login.LoginOA', {
             inputType: 'password',
             fieldStyle: 'font-size:15px;height:50px;',
             reference:'password',
+            margin: '0 0 10 0',
             emptyText: '密码',
             height: 50,
             bind: {
@@ -62,6 +63,29 @@ Ext.define('kalix.view.login.LoginOA', {
                     fn: 'onKeyup'
                 }
             }
+        },
+        {
+            xtype: 'container',
+            margin: '0 0 10 0',
+            layout:'hbox',
+            items:[
+                {
+                    xtype:'textfield',
+                    fieldStyle: 'font-size:15px;',
+                    height: 50,
+                    margin: '0 10 0 0',
+                    emptyText: '验证码',
+                    bind: {
+                        value: '{vcode}'
+                    }
+                },
+                {
+                    xtype:'image',
+                    src:'/images/kaptcha',
+                    title:"点击更换图片",
+                    reference:'vcodeimage'
+                }
+            ]
         },
         {
             xtype: 'button',
