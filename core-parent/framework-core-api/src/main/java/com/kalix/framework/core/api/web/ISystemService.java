@@ -58,5 +58,8 @@ public interface ISystemService {
      */
     JsonStatus setUserPreferences(String key, String value);
 
+    //获得当前系统的登录状态 并根据具体配置返回加载页
     JsonStatus doSysServiceTest();
+    //检查系统是否需要验证码
+    JsonStatus doVCodeTest(String appName);
 }
