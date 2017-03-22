@@ -16,7 +16,8 @@ Import-Package: com.kalix.framework.core.security.authc.filter,\
                 org.apache.shiro.session,\
                 com.google.code.kaptcha,\
                 com.google.code.kaptcha.util,\
-                com.google.code.kaptcha.servlet,*
+                com.google.code.kaptcha.servlet,\
+                com.kalix.framework.core.security.listener,*
 Include-Resource: src/main/webapp,src/main/resources
 Web-ContextPath: /
 Bundle-Category: Kalix Framework WebApp
