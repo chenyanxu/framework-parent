@@ -78,7 +78,10 @@
                 <description></description>
                 <to uri="bean:systemService?method=setUserPreferences(${header.key},${header.value})"/>
             </put>
+            <get id="route-sys-vcode-test" uri="/vcode/{appName}" outType="com.kalix.framework.core.api.persistence.JsonStatus">
+                <description></description>
+                <to uri="bean:systemService?method=doVCodeTest(${header.appName})"/>
+            </get>
         </rest>
-
     </camelContext>
 </blueprint>
