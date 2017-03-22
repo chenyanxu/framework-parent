@@ -12,6 +12,8 @@ Ext.define('kalix.view.Login', {
 
     doSysServiceTest(true);
 
+    var vCodeTest=doVCOdeTest("main");
+
     Ext.Ajax.request({
       url: CONFIG.restRoot + '/camel/rest/system/login',
       scope: this,
@@ -26,6 +28,13 @@ Ext.define('kalix.view.Login', {
           Ext.util.Cookies.set('favicon', rtn.favicon);
 
           var loginView = Ext.create(rtn.component);
+          var vm=loginView.lookupViewModel();
+
+          vm.set('vcodeHidden',!vCodeTest);
+
+          if(!vCodeTest){
+            vm.set('vcodeUrl','');
+          }
 
           this.add(loginView);
 

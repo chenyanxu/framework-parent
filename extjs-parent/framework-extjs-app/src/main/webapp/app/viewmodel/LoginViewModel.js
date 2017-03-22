@@ -6,6 +6,8 @@ Ext.define('kalix.viewmodel.LoginViewModel', {
     data: {
         username: '',
         password: '',
-        vcode:''
+        vcode:'',
+        vcodeHidden:false,
+        vcodeUrl:'/images/kaptcha'
     }
 });

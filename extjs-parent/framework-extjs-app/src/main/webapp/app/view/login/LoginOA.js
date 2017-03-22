@@ -11,98 +11,109 @@
  */
 
 Ext.define('kalix.view.login.LoginOA', {
-    extend: 'Ext.container.Container',
-    requires: [
-        'kalix.view.login.LoginMain'
-    ],
-    controller: 'loginController',
+  extend: 'Ext.container.Container',
+  requires: [
+    'kalix.view.login.LoginMain'
+  ],
+  controller: 'loginController',
+  width: 380,
+  defaults: {
+    margin: '0 0 30 0',
     width: 380,
-    defaults: {
-        margin: '0 0 30 0',
-        width: 380,
+  },
+  align: 'center',
+  items: [
+    {
+      xtype: 'image',
+      src: 'resources/images/login_' + Ext.util.Cookies.get('loginImageTag') + '_top.png'
     },
-    align:'center',
-    items: [
-        {
-            xtype: 'image',
-            src: 'resources/images/login_'+Ext.util.Cookies.get('loginImageTag')+'_top.png'
+    {
+      xtype: 'textfield',
+      height: 50,
+      fieldStyle: 'font-size:15px;height:50px;',
+      emptyText: '账号',
+      margin: '0 0 10 0',
+      bind: {
+        value: '{username}'
+      },
+      listeners: {
+        afterrender: function () {
+          this.focus();
         },
-        {
-            xtype: 'textfield',
-            height: 50,
-            fieldStyle: 'font-size:15px;height:50px;',
-            emptyText: '账号',
-            margin: '0 0 10 0',
-            bind: {
-                value: '{username}'
-            },
-            listeners: {
-                afterrender: function () {
-                    this.focus();
-                },
-                keyup: {
-                    element: 'el',
-                    fn: 'onKeyup'
-                }
-            }
-        },
-        {
-            xtype: 'textfield',
-            inputType: 'password',
-            fieldStyle: 'font-size:15px;height:50px;',
-            reference:'password',
-            margin: '0 0 10 0',
-            emptyText: '密码',
-            height: 50,
-            bind: {
-                value: '{password}'
-            },
-            listeners: {
-                keyup: {
-                    element: 'el',
-                    fn: 'onKeyup'
-                }
-            }
-        },
-        {
-            xtype: 'container',
-            margin: '0 0 10 0',
-            layout:'hbox',
-            items:[
-                {
-                    xtype:'textfield',
-                    fieldStyle: 'font-size:15px;',
-                    height: 50,
-                    margin: '0 10 0 0',
-                    emptyText: '验证码',
-                    bind: {
-                        value: '{vcode}'
-                    }
-                },
-                {
-                    xtype:'image',
-                    src:'/images/kaptcha',
-                    title:"点击更换图片",
-                    reference:'vcodeimage'
-                }
-            ]
-        },
-        {
-            xtype: 'button',
-            style: {
-                background: 'url(resources/images/login_'+Ext.util.Cookies.get('loginImageTag')+'_btn.png) right bottom no-repeat'
-            },
-            height: 50,
-            border: false,
-            handler: 'onLogin'
-        },
-        {
-            xtype: 'image',
-            src: 'resources/images/login_'+Ext.util.Cookies.get('loginImageTag')+'_bottom.png'
-        },
-        {
-            xtype: 'loginMain',
-            hidden: true
+        keyup: {
+          element: 'el',
+          fn: 'onKeyup'
         }
-    ]
+      }
+    },
+    {
+      xtype: 'textfield',
+      inputType: 'password',
+      fieldStyle: 'font-size:15px;height:50px;',
+      reference: 'password',
+      margin: '0 0 10 0',
+      emptyText: '密码',
+      height: 50,
+      bind: {
+        value: '{password}'
+      },
+      listeners: {
+        keyup: {
+          element: 'el',
+          fn: 'onKeyup'
+        }
+      }
+    },
+    {
+      xtype: 'container',
+      margin: '0 0 10 0',
+      layout: 'hbox',
+      bind: {
+        hidden: '{vcodeHidden}'
+      },
+      items: [
+        {
+          xtype: 'textfield',
+          fieldStyle: 'font-size:15px;',
+          height: 50,
+          margin: '0 10 0 0',
+          emptyText: '验证码',
+          bind: {
+            value: '{vcode}'
+          }
+        },
+        {
+          xtype: 'image',
+          bind: {src: '{vcodeUrl}'},
+          title: "点击更换图片",
+          reference: 'vcodeimage',
+          style:'cursor:pointer',
+          listeners: {
+            afterrender: function (cmp) {
+              cmp.getEl().dom.onclick=function(){
+                cmp.setSrc(cmp.src);
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      xtype: 'button',
+      style: {
+        background: 'url(resources/images/login_' + Ext.util.Cookies.get('loginImageTag') + '_btn.png) right bottom no-repeat'
+      },
+      height: 50,
+      border: false,
+      handler: 'onLogin'
+    },
+    {
+      xtype: 'image',
+      src: 'resources/images/login_' + Ext.util.Cookies.get('loginImageTag') + '_bottom.png'
+    },
+    {
+      xtype: 'loginMain',
+      hidden: true
+    }
+  ]
 });

@@ -1,3 +1,23 @@
+function doVCOdeTest(appName){
+  var rtn=false;
+
+  Ext.Ajax.request({
+    url: CONFIG.restRoot + '/camel/rest/system/vcode/'+appName,
+    async:false,
+    scope: this,
+    method: "GET",
+    callback: function (options, success, response) {
+      var obj = Ext.JSON.decode(response.responseText);
+
+      if (obj && obj.success) {
+        rtn=(obj.msg=='true'?true:false);
+      }
+    }
+  });
+
+  return rtn;
+}
+
 
 function doSysServiceTest(autoLoad){
   var rtn;
@@ -27,7 +47,7 @@ var intervalObj = setInterval(function () {
   if (Ext) {
     clearInterval(intervalObj);
     DynamicLoading.js(rootPath + '/extjs/classic/locale/locale-zh_CN.js');
-
+    Ext.Loader.setConfig({ enabled: true, disableCaching: false });
     Ext.define("Ext.noclosebutton.window.MessageBox", {
       override: 'Ext.window.MessageBox',
       closable:false,
