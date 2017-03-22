@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class HttpClientUtil {
     public static String shiroGet(String url, String sessionId) throws IOException {
-        String webContext = (String) ConfigUtil.getConfigProp("path", "ConfigWebContext");
+        String webContext = (String) ConfigUtil.getConfigProp("main_path", "ConfigWebContext");
         String serverUrl = (String) ConfigUtil.getConfigProp("server_url", "ConfigWebContext");
         String result = null;
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -60,7 +60,7 @@ public class HttpClientUtil {
 
 
     public static String shiroPost(String url, Map<String, String> params, String sessionId) throws IOException {
-        String webContext = (String) ConfigUtil.getConfigProp("path", "ConfigWebContext");
+        String webContext = (String) ConfigUtil.getConfigProp("main_path", "ConfigWebContext");
         String serverUrl = (String) ConfigUtil.getConfigProp("server_url", "ConfigWebContext");
         String result = null;
         CloseableHttpResponse response1 = null;

@@ -305,18 +305,27 @@ public class SystemServiceImpl implements ISystemService {
     }
 
     @Override
-    public JsonStatus doSysServiceTest(){
-        JsonStatus jsonStatus=new JsonStatus();
+    public JsonStatus doSysServiceTest() {
+        JsonStatus jsonStatus = new JsonStatus();
 
         jsonStatus.setSuccess(true);
         jsonStatus.setMsg(this.shiroService.getCurrentUserLoginName());
 
-        if(Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy","ConfigWebContext"))){
+        if (Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy", "ConfigWebContext"))) {
             jsonStatus.setTag("/index.jsp");
-        }
-        else{
+        } else {
             jsonStatus.setTag("/index-debug.jsp");
         }
+
+        return jsonStatus;
+    }
+
+    @Override
+    public JsonStatus doVCodeTest(String appName) {
+        JsonStatus jsonStatus = new JsonStatus();
+
+        jsonStatus.setSuccess(true);
+        jsonStatus.setMsg((String) ConfigUtil.getConfigProp(appName+"_vcode", "ConfigWebContext"));
 
         return jsonStatus;
     }
