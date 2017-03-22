@@ -4,6 +4,7 @@ import com.kalix.framework.core.api.PermissionConstant;
 import com.kalix.framework.core.api.security.DefaultUserNamePasswordToken;
 import com.kalix.framework.core.util.ConfigUtil;
 import com.kalix.framework.core.util.UnicodeConverter;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -14,6 +15,7 @@ import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
@@ -26,13 +28,24 @@ import java.io.PrintWriter;
  * shiro首頁验证处理过滤器
  * Created by sunlf on 2015/7/10.
  */
-public class KalixAuthenticationFilter extends FormAuthenticationFilter {
+public abstract class KalixAuthenticationFilter extends FormAuthenticationFilter {
 
     private static final Logger log = LoggerFactory
             .getLogger(KalixAuthenticationFilter.class);
 
     private static final String ERROR_MSG = "{\"success\":false,\"message\":\"%s\",\"detail\":\"%s\"}";
     public static final String KAPTCHA_SESSION_KEY = "KAPTCHA_SESSION_KEY";
+
+    protected String appName;
+    protected Boolean deploy;
+    protected Boolean checkVCode;
+
+    //自动加载deploy配置 方便验证码的判断
+    public KalixAuthenticationFilter(){
+        appName =this.getClass().getSimpleName().split("AuthenticationFilter")[0].toLowerCase();
+        this.checkVCode=Boolean.valueOf((String) ConfigUtil.getConfigProp(appName+"_vcode", "ConfigWebContext"));
+        this.deploy=Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy", "ConfigWebContext"));
+    }
 
     /*
      *  主要是针对登入成功的处理方法。对于请求头是AJAX的之间返回JSON字符串。
@@ -71,7 +84,7 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             PrintWriter out = httpServletResponse.getWriter();
             String rtnPage = "";
 
-            if (Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy", "ConfigWebContext"))) {
+            if (this.deploy) {
                 rtnPage = "/index.jsp";
             } else {
                 rtnPage = "/index-debug.jsp";
@@ -151,29 +164,33 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
                 if (log.isTraceEnabled()) {
                     log.trace("Login submission detected.  Attempting to execute login.");
                 }
-                //判断是否为ajax异步请求
-                if ("XMLHttpRequest"
-                        .equalsIgnoreCase(((HttpServletRequest) request)
-                                .getHeader("X-Requested-With"))) {
-                    String vcode = request.getParameter("vcode");
-                    HttpServletRequest httpservletrequest = (HttpServletRequest) request;
-                    String vvcode = (String) httpservletrequest
-                            .getSession()
-                            .getAttribute(KAPTCHA_SESSION_KEY);
 
-                    if (vvcode == null || "".equals(vvcode)
-                            || !vvcode.equals(vcode)) {
-                        response.setCharacterEncoding("UTF-8");
-                        response.setContentType("application/json;charset=UTF-8");
-                        PrintWriter out = response.getWriter();
-                        out.println(String.format(ERROR_MSG, "验证码错误!",""));
-                        out.flush();
-                        out.close();
-                        return false;
+                if(this.checkVCode) {
+                    //判断是否为ajax异步请求
+                    if ("XMLHttpRequest"
+                            .equalsIgnoreCase(((HttpServletRequest) request)
+                                    .getHeader("X-Requested-With"))) {
+                        String vcode = request.getParameter("vcode");
+                        HttpServletRequest httpservletrequest = (HttpServletRequest) request;
+                        String vvcode = (String) httpservletrequest
+                                .getSession()
+                                .getAttribute(KAPTCHA_SESSION_KEY);
+
+                        if (vvcode == null || "".equals(vvcode)
+                                || !vvcode.equals(vcode)) {
+                            response.setCharacterEncoding("UTF-8");
+                            response.setContentType("application/json;charset=UTF-8");
+                            PrintWriter out = response.getWriter();
+                            out.println(String.format(ERROR_MSG, "验证码错误!", ""));
+                            out.flush();
+                            out.close();
+                            return false;
+                        }
+                    } else {
+                        //不需要验证码
                     }
-                } else {
-                    //不需要验证码
                 }
+
                 return executeLogin(request, response);
             } else {
                 if (log.isTraceEnabled()) {
@@ -202,5 +219,4 @@ public class KalixAuthenticationFilter extends FormAuthenticationFilter {
             return false;
         }
     }
-
 }
