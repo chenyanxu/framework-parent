@@ -36,18 +36,6 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <servlet>
-        <servlet-name>kaptcha</servlet-name>
-        <servlet-class>
-            com.google.code.kaptcha.servlet.KaptchaServlet
-        </servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>kaptcha</servlet-name>
-        <url-pattern>/images/kaptcha</url-pattern>
-    </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>CamelServlet</servlet-name>
         <url-pattern>/camel/rest/*</url-pattern>
@@ -56,6 +44,13 @@
     <listener>
         <listener-class>com.kalix.framework.core.security.web.evn.KalixEnvironmentLoaderListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>com.kalix.framework.core.security.listener.VCodeListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>app</param-name>
+        <param-value>main</param-value>
+    </context-param>
 
     <filter>
         <filter-name>ShiroFilter</filter-name>
