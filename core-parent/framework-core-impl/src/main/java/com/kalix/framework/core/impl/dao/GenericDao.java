@@ -4,6 +4,7 @@ package com.kalix.framework.core.impl.dao;
 import com.kalix.framework.core.api.annotation.Relation;
 import com.kalix.framework.core.api.annotation.TableRelation;
 import com.kalix.framework.core.api.dao.IGenericDao;
+import com.kalix.framework.core.api.exception.KalixRuntimeException;
 import com.kalix.framework.core.api.exception.SearchException;
 import com.kalix.framework.core.api.persistence.JpaQuery;
 import com.kalix.framework.core.api.persistence.JsonData;
@@ -365,6 +366,12 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     public T get(PK id) {
 
         try {
+            T entity=(T) entityManager.find(Class.forName(className), id);
+
+            if(entity==null){
+                throw new KalixRuntimeException("数据不存在","FAIL_ON_EMPTY_BEANS");
+            }
+
             return (T) entityManager.find(Class.forName(className), id);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
