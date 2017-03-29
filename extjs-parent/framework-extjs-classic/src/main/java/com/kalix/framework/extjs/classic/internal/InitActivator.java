@@ -18,7 +18,6 @@ public class InitActivator extends KalixBundleActivator {
         httpService = (HttpService) bundleContext.getService(reference);
 
         httpService.registerResources(contextPath + "/extjs/classic", "/classic", null);
-        httpService.registerResources(contextPath + "/extjs62/classic", "/classic62", null);
     }
 
     @Override
@@ -28,9 +27,8 @@ public class InitActivator extends KalixBundleActivator {
         if (reference != null)
             bundleContext.ungetService(reference);
 
-        if (httpService != null) {
+        if(httpService!=null){
             httpService.unregister(contextPath + "/extjs/classic");
-            httpService.unregister(contextPath + "/extjs62/classic");
         }
     }
 }
