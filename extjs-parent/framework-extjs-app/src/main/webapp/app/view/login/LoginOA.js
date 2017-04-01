@@ -13,7 +13,8 @@
 Ext.define('kalix.view.login.LoginOA', {
   extend: 'Ext.container.Container',
   requires: [
-    'kalix.view.login.LoginMain'
+    'kalix.view.login.LoginMain',
+    'kalix.view.components.common.VCodeImage'
   ],
   controller: 'loginController',
   width: 380,
@@ -83,18 +84,8 @@ Ext.define('kalix.view.login.LoginOA', {
           }
         },
         {
-          xtype: 'image',
-          bind: {src: '{vcodeUrl}'},
-          title: "点击更换图片",
-          reference: 'vcodeimage',
-          style:'cursor:pointer',
-          listeners: {
-            afterrender: function (cmp) {
-              cmp.getEl().dom.onclick=function(){
-                cmp.setSrc(cmp.src);
-              }
-            }
-          }
+          xtype: 'vcodeimage',
+          bind: {src: '{vcodeUrl}'}
         }
       ]
     },
