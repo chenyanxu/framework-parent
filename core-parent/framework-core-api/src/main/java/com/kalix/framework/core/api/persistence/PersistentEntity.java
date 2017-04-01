@@ -154,4 +154,14 @@ public abstract class PersistentEntity implements Serializable {
             return id;
         }
     }
+
+    public static String getTableName(Class cls){
+        Table tb = (Table) cls.getAnnotation(Table.class);
+
+        if (tb != null) {
+            return tb.name();
+        }
+
+        return null;
+    }
 }
