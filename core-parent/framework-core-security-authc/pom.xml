@@ -31,5 +31,7 @@
             <groupId>com.kalix.framework.core</groupId>
             <artifactId>framework-core-api</artifactId>
         </dependency>
+
+
     </dependencies>
 </project>
