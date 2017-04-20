@@ -4,7 +4,6 @@ import com.kalix.framework.core.api.PermissionConstant;
 import com.kalix.framework.core.api.security.DefaultUserNamePasswordToken;
 import com.kalix.framework.core.util.ConfigUtil;
 import com.kalix.framework.core.util.UnicodeConverter;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -15,7 +14,6 @@ import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
@@ -101,6 +99,8 @@ public abstract class KalixAuthenticationFilter extends FormAuthenticationFilter
 
         return false;
     }
+
+    public abstract String getToken();
 
     /**
      * 主要是处理登入失败的方法
