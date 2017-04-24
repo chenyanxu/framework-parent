@@ -1,4 +1,4 @@
-package com.jcj.rest.http.fluent;
+package com.kalix.framework.core.rest.test;
 
 import javax.ws.rs.core.Response;
 import static org.junit.Assert.assertEquals;

@@ -1,4 +1,4 @@
-package com.jcj.rest.http.fluent;
+package com.kalix.framework.core.rest.test;
 
 import java.util.HashMap;
 import java.util.Map;

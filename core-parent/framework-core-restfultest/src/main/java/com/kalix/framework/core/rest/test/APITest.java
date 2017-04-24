@@ -1,4 +1,4 @@
-package com.jcj.rest.general.helper;
+package com.kalix.framework.core.rest.test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestName;
-import org.slf4j.LoggerFactory;
 
 /**
  * 

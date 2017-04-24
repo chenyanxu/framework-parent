@@ -92,7 +92,7 @@ public abstract class KalixAuthenticationFilter extends FormAuthenticationFilter
                         "\"location\":\"" + contextPath + rtnPage +
                         "\",\"message\":\"登入成功\"," +
                         "\"user\":{\"name\":\"" + realName +
-                        "\",\"token\":\"" + session.getId() + "\",\"id\":\""+userId+"\"}}");
+                        "\",\"token\":\"" + getToken() + "\",\"id\":\""+userId+"\"}}");
             out.flush();
             out.close();
         }
