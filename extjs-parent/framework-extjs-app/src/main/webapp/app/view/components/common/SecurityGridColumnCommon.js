@@ -7,25 +7,25 @@ Ext.define('kalix.view.components.common.SecurityGridColumnCommon', {
   xtype: 'securityGridColumnCommon',
   header: '操作',
   //==custom property
-  verifyItems:[],//config the property to control the items in security
+  verifyItems: [],//config the property to control the items in security
   //custom property
   listeners: {
     afterrender: function () {
       var scope = this;
       var params = '';
-      var tempPermissions=[];
+      var tempPermissions = [];
 
       for (var index = 0; index < scope.verifyItems.length; ++index) {
         tempPermissions[index] = CONFIG.routePath.join(':') + ':' + scope.verifyItems[index].permission;
       }
 
-      params=tempPermissions.join('_');
+      params = tempPermissions.join('_');
 
       if (params != '') {
         //查询授权
         Ext.Ajax.request({
           url: CONFIG.restRoot + '/camel/rest/system/applications/modules/children/buttons/' + params,
-          method: "GET",
+          method: 'GET',
           async: false,
           callback: function (options, success, response) {
             var resp = Ext.JSON.decode(response.responseText);

@@ -29,7 +29,7 @@ Ext.define('kalix.view.Main', {
   },
   listeners: {
     afterrender: 'afterrender',
-    navTreeLoad:'navTreeLoad'
+    navTreeLoad: 'navTreeLoad'
   },
   items: [{
     xtype: 'toolbar',
@@ -116,26 +116,26 @@ Ext.define('kalix.view.Main', {
     flex: 1,
     items: [
       {
-        xtype: "maintreelist",
-        reference: "navigationTreeList",
-        itemId: "navigationTreeList",
-        ui: "navigation",
+        xtype: 'maintreelist',
+        reference: 'navigationTreeList',
+        itemId: 'navigationTreeList',
+        ui: 'navigation',
         width: 250,
         expanderFirst: false,
         expanderOnly: false,
         listeners: {
-          selectionchange: "onNavigationTreeSelectionChange"
+          selectionchange: 'onNavigationTreeSelectionChange'
         }
       },
       {
-        xtype: "container",
+        xtype: 'container',
         flex: 1,
-        reference: "mainCardPanel",
-        cls: "sencha-dash-right-main-container",
-        itemId: "contentPanel",
+        reference: 'mainCardPanel',
+        cls: 'sencha-dash-right-main-container',
+        itemId: 'contentPanel',
         layout: {
-          type: "card",
-          anchor: "100%"
+          type: 'card',
+          anchor: '100%'
         }
       }
     ]

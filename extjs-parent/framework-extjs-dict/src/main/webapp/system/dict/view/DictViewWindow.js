@@ -8,7 +8,7 @@
 Ext.define('kalix.dict.view.DictViewWindow', {
     extend: 'kalix.view.components.common.BaseWindow',
     alias: 'widget.dictViewWindow',
-    xtype: "dictViewWindow",
+    xtype: 'dictViewWindow',
     width: 400,
     items: [{
         defaults: {readOnly: true},

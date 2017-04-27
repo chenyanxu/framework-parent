@@ -7,26 +7,23 @@
  */
 
 Ext.define('kalix.store.MainToolbarStore', {
-    extend: 'Ext.data.Store',
-    storeId: 'mainToolbarStore',
-
-    state: {
-        hashInit: false
-    },
-
-    proxy: {
-        type: 'ajax',
-        url: CONFIG.restRoot + '/camel/rest/system/applications',
-        reader: {
-            type: 'json',
-            rootProperty: ''
-        }
-    },
-
-    load: function () {
-        if (!this.state.hasInit) {
-            this.callParent(arguments);
-            this.state.hasInit = true;
-        }
+  extend: 'Ext.data.Store',
+  storeId: 'mainToolbarStore',
+  state: {
+    hashInit: false
+  },
+  proxy: {
+    type: 'ajax',
+    url: CONFIG.restRoot + '/camel/rest/system/applications',
+    reader: {
+      type: 'json',
+      rootProperty: ''
     }
+  },
+  load: function () {
+    if (!this.state.hasInit) {
+      this.callParent(arguments);
+      this.state.hasInit = true;
+    }
+  }
 });

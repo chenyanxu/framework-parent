@@ -12,7 +12,7 @@ Ext.define('kalix.viewmodel.MainToolbarViewModel', {
         this.callParent(arguments);
 
         var mainToolbarStore = Ext.getStore('mainToolbarStore');
-        mainToolbarStore.on("load", function () {
+        mainToolbarStore.on('load', function () {
             this.updateItems(mainToolbarStore.getData());
         }, this);
     },

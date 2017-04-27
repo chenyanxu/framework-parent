@@ -7,37 +7,37 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
   ],
   alias: 'widget.baseItemSelectorWindow',
   xtype: 'baseItemSelectorWindow',
-  controller:'baseItemSelectorWindowController',
+  controller: 'baseItemSelectorWindowController',
   //==custom property
-  Config:{
-    fieldLabel:'',
+  Config: {
+    fieldLabel: '',
     fromTitle: '',
     toTitle: '',
-    baseUrl:'',   //the base url for the relation operation
-    recoredId:-1, //the parent id of the relation table
-    store:null,   //the child store
-    selectItems:[]//the child ids that has selected into relation table
+    baseUrl: '',   //the base url for the relation operation
+    recoredId: -1, //the parent id of the relation table
+    store: null,   //the child store
+    selectItems: []//the child ids that has selected into relation table
   },
   //custom property==
-  width:600,
+  width: 600,
   border: false,
   modal: true,
   resizable: false,
   buttonAlign: 'center',
-  constructor:function(){
+  constructor: function () {
     this.callParent(arguments);
-    me=this;
+    me = this;
 
-    if(!me.Config.fieldLabel){
-      me.Config.fieldLabel='名称';
+    if (!me.Config.fieldLabel) {
+      me.Config.fieldLabel = '名称';
     }
 
-    if(!me.Config.fromTitle){
-      me.Config.fromTitle='可选项';
+    if (!me.Config.fromTitle) {
+      me.Config.fromTitle = '可选项';
     }
 
-    if(!me.Config.toTitle){
-      me.Config.toTitle='已选项';
+    if (!me.Config.toTitle) {
+      me.Config.toTitle = '已选项';
     }
 
     this.add(
@@ -47,34 +47,34 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
         bodyPadding: 10,
         layout: 'column',
         defaults: {border: 0},
-        iconCls:'',
-        controller:'baseItemSelectorWindowController',
+        iconCls: '',
+        controller: 'baseItemSelectorWindowController',
         items: [
           {
             xtype: 'textfield',
-            bind:{
+            bind: {
               fieldLabel: me.Config.fieldLabel
             },
             labelAlign: 'left',
             labelWidth: 60,
             width: 200,
             name: 'name',
-            listeners:{
-              change:'onSearch'
+            listeners: {
+              change: 'onSearch'
             }
           }
         ]
       }
     );
 
-    if(me.Config.store){
-      me.Config.selectItems=[];
+    if (me.Config.store) {
+      me.Config.selectItems = [];
 
-      if(me.Config.baseUrl && me.Config.baseUrl!='' &&
-         me.Config.recoredId){
+      if (me.Config.baseUrl && me.Config.baseUrl != '' &&
+        me.Config.recoredId) {
         Ext.Ajax.request({
-          url:me.Config.baseUrl+'/'+me.Config.recoredId+'/'+me.Config.store.xtype.split('Store')[0]+'s/ids',
-          async:false,
+          url: me.Config.baseUrl + '/' + me.Config.recoredId + '/' + me.Config.store.xtype.split('Store')[0] + 's/ids',
+          async: false,
           method: 'GET',
           callback: function (options, success, response) {
             me.Config.selectItems = Ext.JSON.decode(response.responseText);
@@ -85,24 +85,24 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
       this.add(
         {
           xtype: 'itemselector',
-          width:585,
-          height:400,
+          width: 585,
+          height: 400,
           margin: '2 5 5 5',
           displayField: 'name',
           valueField: 'id',
           msgTarget: 'side',
           fromTitle: me.Config.fromTitle,
-          toTitle:me.Config.toTitle,
-          store:me.Config.store,
-          value:me.Config.selectItems,
+          toTitle: me.Config.toTitle,
+          store: me.Config.store,
+          value: me.Config.selectItems,
           buttonsText: {
-            top: "置顶",
-            up: "上移",
-            add: "添加",
-            remove: "删除",
-            down: "下移",
-            bottom: "置底"
-        }
+            top: '置顶',
+            up: '上移',
+            add: '添加',
+            remove: '删除',
+            down: '下移',
+            bottom: '置底'
+          }
         }
       );
     }
@@ -111,12 +111,12 @@ Ext.define('kalix.view.components.common.BaseItemSelectorWindow', {
   buttons: [
     {
       text: '保存',
-      iconCls:'iconfont icon-save iconfont-btn-small',
+      iconCls: 'iconfont icon-save iconfont-btn-small',
       handler: 'onSave'
     },
     {
       text: '重置',
-      iconCls:'iconfont icon-reset iconfont-btn-small',
+      iconCls: 'iconfont icon-reset iconfont-btn-small',
       handler: 'onResetItemSelector'
     }
   ]

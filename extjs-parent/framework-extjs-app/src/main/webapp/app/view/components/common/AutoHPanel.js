@@ -12,7 +12,7 @@ Ext.define('kalix.view.components.common.AutoHPanel', {
         case 0:
           items[index].margin = '5 2 5 5';
           break;
-        case items.length-1:
+        case items.length - 1:
           items[index].margin = '5 5 5 2';
           break;
         default:

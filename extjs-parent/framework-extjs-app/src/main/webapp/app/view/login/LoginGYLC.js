@@ -11,71 +11,71 @@
  */
 
 Ext.define('kalix.view.login.LoginGYLC', {
-    extend: 'Ext.container.Container',
-    requires: [
-        'kalix.view.login.LoginMain'
-    ],
-    controller: 'loginController',
-    width: 700,
-    defaults: {
-        margin: '0 0 30 150',
-        width:380,
+  extend: 'Ext.container.Container',
+  requires: [
+    'kalix.view.login.LoginMain'
+  ],
+  controller: 'loginController',
+  width: 700,
+  defaults: {
+    margin: '0 0 30 150',
+    width: 380,
+  },
+  align: 'center',
+  items: [
+    {
+      xtype: 'image',
+      width: 680,
+      margin: '0 0 30 0',
+      src: 'resources/images/login_' + Ext.util.Cookies.get('loginImageTag') + '_top.png'
     },
-    align:'center',
-    items: [
-        {
-            xtype: 'image',
-            width:680,
-            margin: '0 0 30 0',
-            src: 'resources/images/login_'+Ext.util.Cookies.get('loginImageTag')+'_top.png'
-        },
-        {
-            xtype: 'textfield',
-            height: 50,
-            fieldStyle: 'font-size:15px;height:50px;',
-            emptyText: '账号',
-            margin: '0 0 10 150',
-            bind: {
-                value: '{username}'
-            },
-            listeners: {
-                afterrender: function () {
-                    this.focus();
-                }
-            }
-        },
-        {
-            xtype: 'textfield',
-            inputType: 'password',
-            fieldStyle: 'font-size:15px;height:50px;',
-            emptyText: '密码',
-            height: 50,
-            bind: {
-                value: '{password}'
-            },
-            listeners: {
-                keyup: {
-                    element: 'el',
-                    fn: 'onKeyup'
-                }
-            }
-        },
-        {
-            xtype: 'button',
-            style: {
-                background: 'url(resources/images/login_'+Ext.util.Cookies.get('loginImageTag')+'_btn.png) right bottom no-repeat'
-            },
-            height: 50,
-            border: false,
-            handler: 'onLogin'
-        },
-        {
-            xtype: 'image',
-            src: 'resources/images/login_'+Ext.util.Cookies.get('loginImageTag')+'_bottom.png'
-        },
-        {
-            xtype: 'loginMain',
-            hidden: true
+    {
+      xtype: 'textfield',
+      height: 50,
+      fieldStyle: 'font-size:15px;height:50px;',
+      emptyText: '账号',
+      margin: '0 0 10 150',
+      bind: {
+        value: '{username}'
+      },
+      listeners: {
+        afterrender: function () {
+          this.focus();
         }
-    ]
+      }
+    },
+    {
+      xtype: 'textfield',
+      inputType: 'password',
+      fieldStyle: 'font-size:15px;height:50px;',
+      emptyText: '密码',
+      height: 50,
+      bind: {
+        value: '{password}'
+      },
+      listeners: {
+        keyup: {
+          element: 'el',
+          fn: 'onKeyup'
+        }
+      }
+    },
+    {
+      xtype: 'button',
+      style: {
+        background: 'url(resources/images/login_' + Ext.util.Cookies.get('loginImageTag') + '_btn.png) right bottom no-repeat'
+      },
+      height: 50,
+      border: false,
+      handler: 'onLogin'
+    },
+    {
+      xtype: 'image',
+      src: 'resources/images/login_' + Ext.util.Cookies.get('loginImageTag') + '_bottom.png'
+    },
+    {
+      xtype: 'loginMain',
+      hidden: true
+    }
+  ]
 });

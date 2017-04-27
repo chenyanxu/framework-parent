@@ -14,17 +14,17 @@ Ext.define('kalix.plugin.AutoHeightPlugin', {
           var mainContainer = baseContainer.findParentByType('container');
           var clientHeight = height = Ext.Element.getViewportHeight() - 65;
 
-          if (baseContainer.layout.type=='autocontainer') {
-            if(baseContainer.items.length == 2){
-              if(Ext.theme){
-                this.setHeight(Ext.theme.isClassic()?clientHeight-85:clientHeight-115);
+          if (baseContainer.layout.type == 'autocontainer') {
+            if (baseContainer.items.length == 2) {
+              if (Ext.theme) {
+                this.setHeight(Ext.theme.isClassic() ? clientHeight - 85 : clientHeight - 115);
               }
             }
-            else if(baseContainer.items.length == 1){
+            else if (baseContainer.items.length == 1) {
               this.setHeight(clientHeight - 14);
             }
           }
-          else if (baseContainer.layout.type=='hbox') {
+          else if (baseContainer.layout.type == 'hbox') {
             this.setHeight(clientHeight - 14);
           }
           else {

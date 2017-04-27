@@ -3,34 +3,34 @@
  *
  * date:2015-10-26
 
-主工具条只初始化一次
+ 主工具条只初始化一次
  */
 
 Ext.define('kalix.store.NavigationTreeStore', {
-  extend : 'kalix.store.BaseTreeStore',
-  storeId : 'navigationTreeStore',
+  extend: 'kalix.store.BaseTreeStore',
+  storeId: 'navigationTreeStore',
   //==custom property
-  state : {
-    hashToken : null //the token for request app menu
+  state: {
+    hashToken: null //the token for request app menu
   },
   //custom property==
   baseUrl: CONFIG.restRoot + '/camel/rest/system/applications/',
-  treeSelInfo:{
-    tree:null,
-    selected:false,
-    level1:'',
-    level2:''
+  treeSelInfo: {
+    tree: null,
+    selected: false,
+    level1: '',
+    level2: ''
   },
-  proxy : {
-    type : 'ajax',
-    url : '',
-    reader : {
-      type : 'json',
-      rootProperty : ''
+  proxy: {
+    type: 'ajax',
+    url: '',
+    reader: {
+      type: 'json',
+      rootProperty: ''
     }
   },
 
-  load : function (options) {
+  load: function (options) {
     if (this.state.hashToken != options.hashToken) {
       this.proxy.url = this.baseUrl + options.hashToken;
       this.state.hashToken = options.hashToken;
@@ -38,18 +38,18 @@ Ext.define('kalix.store.NavigationTreeStore', {
     }
   },
 
-  root : {
-    expanded : true,
-    children : []
+  root: {
+    expanded: true,
+    children: []
   },
-  fields : [{
-      name : 'text'
-    }
+  fields: [{
+    name: 'text'
+  }
   ],
-  listeners:{
-    load:function( target, records, successful, operation, node, eOpts ){
+  listeners: {
+    load: function (target, records, successful, operation, node, eOpts) {
       //fire the event when the navigation tree store load
-      Ext.app.Application.instance.getApplication()._mainView.fireEvent('navTreeLoad',this);
+      Ext.app.Application.instance.getApplication()._mainView.fireEvent('navTreeLoad', this);
     }
   }
 });

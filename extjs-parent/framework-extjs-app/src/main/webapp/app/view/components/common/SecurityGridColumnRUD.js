@@ -9,7 +9,7 @@ Ext.define('kalix.view.components.common.SecurityGridColumnRUD', {
   permissions: [],
   //custom property==
   header: '操作',
-  verifyItems:[
+  verifyItems: [
     {
       iconCls: 'iconfont icon-view-column',
       tooltip: '查看',
@@ -30,21 +30,21 @@ Ext.define('kalix.view.components.common.SecurityGridColumnRUD', {
     afterrender: function () {
       var scope = this;
 
-      scope.items=[];
+      scope.items = [];
 
       if (this.permissions.length > 0) {
         var params;
-        var tempPermissions=[];
+        var tempPermissions = [];
 
         for (var index = 0; index < this.permissions.length; ++index) {
           tempPermissions[index] = CONFIG.routePath.join(':') + ':' + this.permissions[index];
         }
 
-        params=tempPermissions.join('_');
+        params = tempPermissions.join('_');
 
         Ext.Ajax.request({
           url: CONFIG.restRoot + '/camel/rest/system/applications/modules/children/buttons/' + params,
-          method: "GET",
+          method: 'GET',
           async: false,
           callback: function (options, success, response) {
             var resp = Ext.JSON.decode(response.responseText);

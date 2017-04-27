@@ -20,7 +20,7 @@ Ext.define('kalix.view.login.LoginMain', {
   icon: 'resources/images/lock.png',
   title: '系统登录',
   id: 'loginForm',
-  method: "POST",
+  method: 'POST',
   defaultType: 'textfield',
   frame: true,
   url: 'login.jsp',
@@ -78,17 +78,17 @@ Ext.define('kalix.view.login.LoginMain', {
       value: '{password}'
     }
   }, {
-      inputType:'textField',
-      name:'loginType',
-      value:'main'
-    },
+    inputType: 'textField',
+    name: 'loginType',
+    value: 'main'
+  },
     {
-      xtype:'textfield',
+      xtype: 'textfield',
       fieldStyle: 'font-size:15px;',
       height: 50,
       margin: '0 10 0 0',
       emptyText: '验证码',
-      name:'vcode',
+      name: 'vcode',
       bind: {
         value: '{vcode}'
       }

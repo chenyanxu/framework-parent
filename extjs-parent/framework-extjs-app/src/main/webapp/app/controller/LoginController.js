@@ -20,80 +20,78 @@
 
  */
 Ext.define('kalix.controller.LoginController', {
-    extend: 'Ext.app.ViewController',
-    alias: 'controller.loginController',
-    //处理回车键提交
-    onKeyup: function (event, el) {
-        if (event.getKey() == event.ENTER) {
-            var username=this.getView().lookupViewModel().get('username');
-            var password=this.getView().lookupViewModel().get('password');
+  extend: 'Ext.app.ViewController',
+  alias: 'controller.loginController',
+  //处理回车键提交
+  onKeyup: function (event, el) {
+    if (event.getKey() == event.ENTER) {
+      var username = this.getView().lookupViewModel().get('username');
+      var password = this.getView().lookupViewModel().get('password');
 
-            if(username&&username.trim()!=''&&password&&password.trim()!='')
-            {
-                el.blur();
-                this.onLogin();
-            }
-            else if(username&&username.trim()!=''){
-                if(el.placeholder=='账号'){
-                    var passwordField=this.getReferences().password;
+      if (username && username.trim() != '' && password && password.trim() != '') {
+        el.blur();
+        this.onLogin();
+      }
+      else if (username && username.trim() != '') {
+        if (el.placeholder == '账号') {
+          var passwordField = this.getReferences().password;
 
-                    if(passwordField){
-                        passwordField.focus();
-                    }
-                }
-            }
+          if (passwordField) {
+            passwordField.focus();
+          }
         }
-    },
-
-    onLogin: function () {
-        var rtn= doSysServiceTest(false);
-
-        var form = Ext.getCmp('loginForm').getForm();
-
-        if(rtn.success){
-            if(form.findField('username').value ==rtn.msg){
-                window.location.href = rtn.tag;
-            }
-            else{
-                Ext.MessageBox.confirm(CONFIG.ALTER_TITLE_INFO, '用户 '+rtn.msg+' 已登录，是否登出?',function (btn) {
-                    if(btn=='yes'){
-                        window.location.href='/logout';
-                    }
-                });
-
-                return;
-            }
-        }
-
-        if (form.isValid()) {
-            form.submit({
-                success: function (form, action) {
-                    var resp = action.result;
-                    if (resp.location) {
-                        var urlSplit=window.location.href.split('#');
-                        var anchor='';
-
-                        if(urlSplit.length==2) {
-                            anchor='#'+urlSplit[1];
-                        }
-
-                        window.location.href = resp.location+anchor;
-                    }
-                },
-                failure: function (form, action) {
-                    if (action.response.status == 200) {
-                        Ext.MessageBox.alert(CONFIG.ALTER_TITLE_FAILURE, action.result.message);
-                    } else {
-                        Ext.MessageBox.alert(CONFIG.ALTER_TITLE_FAILURE, '您的请求太复杂了，我们正在寻找解决方案...');
-                    }
-                }
-            });
-        } else {
-            console.log('show tip');
-        }
-    },
-    onReset: function () {
-        this.getView().getForm().reset();
+      }
     }
+  },
+  onLogin: function () {
+    var rtn = doSysServiceTest(false);
+
+    var form = Ext.getCmp('loginForm').getForm();
+
+    if (rtn.success) {
+      if (form.findField('username').value == rtn.msg) {
+        window.location.href = rtn.tag;
+      }
+      else {
+        Ext.MessageBox.confirm(CONFIG.ALTER_TITLE_INFO, '用户 ' + rtn.msg + ' 已登录，是否登出?', function (btn) {
+          if (btn == 'yes') {
+            window.location.href = '/logout';
+          }
+        });
+
+        return;
+      }
+    }
+
+    if (form.isValid()) {
+      form.submit({
+        success: function (form, action) {
+          var resp = action.result;
+          if (resp.location) {
+            var urlSplit = window.location.href.split('#');
+            var anchor = '';
+
+            if (urlSplit.length == 2) {
+              anchor = '#' + urlSplit[1];
+            }
+
+            window.location.href = resp.location + anchor;
+          }
+        },
+        failure: function (form, action) {
+          if (action.response.status == 200) {
+            Ext.MessageBox.alert(CONFIG.ALTER_TITLE_FAILURE, action.result.message);
+          } else {
+            Ext.MessageBox.alert(CONFIG.ALTER_TITLE_FAILURE, '您的请求太复杂了，我们正在寻找解决方案...');
+          }
+        }
+      });
+    } else {
+      console.log('show tip');
+    }
+  },
+  onReset: function () {
+    this.getView().getForm().reset();
+  }
 })
 ;

@@ -4,63 +4,63 @@
  *
  */
 Ext.define('kalix.model.BaseModel', {
-    extend: 'Ext.data.Model',
-    requires:[
-        'kalix.validator.Presence',
-        'kalix.validator.Length',
-        'kalix.validator.Mail',
-        'kalix.validator.Mobile'
-    ],
-    constructor: function () {
-        this.callParent(arguments);
+  extend: 'Ext.data.Model',
+  requires: [
+    'kalix.validator.Presence',
+    'kalix.validator.Length',
+    'kalix.validator.Mail',
+    'kalix.validator.Mobile'
+  ],
+  constructor: function () {
+    this.callParent(arguments);
 
-        if (arguments.length == 0) {
-            this.set('id', 0);
+    if (arguments.length == 0) {
+      this.set('id', 0);
 
-            var dateFields = this.fields.filter(function (item) {
-                return item.type == 'date';
-            });
+      var dateFields = this.fields.filter(function (item) {
+        return item.type == 'date';
+      });
 
-            for (var fIndex = 0; fIndex < dateFields.length; ++fIndex) {
-                var tempDate = this.get(dateFields[fIndex].name);
+      for (var fIndex = 0; fIndex < dateFields.length; ++fIndex) {
+        var tempDate = this.get(dateFields[fIndex].name);
 
-                if (tempDate) {
-                    tempDate.setSeconds(0);
-                    tempDate.setMilliseconds(0);
-                }
-            }
-
-            this.modified = {};
-            this.dirty = false;
+        if (tempDate) {
+          tempDate.setSeconds(0);
+          tempDate.setMilliseconds(0);
         }
+      }
+
+      this.modified = {};
+      this.dirty = false;
+    }
+  },
+  set: function () {
+    var rtn = this.callParent(arguments);
+
+    if (this.vm) {
+      this.vm.set('dirty', this.dirty);
+    }
+
+    return rtn;
+  },
+  fields: [
+    {
+      name: 'id'
     },
-    set:function(){
-        var rtn=this.callParent(arguments);
-
-        if(this.vm){
-            this.vm.set('dirty',this.dirty);
-        }
-
-        return rtn;
+    {
+      name: 'version'
     },
-    fields: [
-        {
-            name: 'id'
-        },
-        {
-            name: 'version'
-        },
-        {
-            name: 'createBy'
-        },
-        {
-            name: 'creationDate'
-        },
-        {
-            name: 'updateBy'
-        },
-        {
-            name: 'updateDate'
-        }
-    ]
+    {
+      name: 'createBy'
+    },
+    {
+      name: 'creationDate'
+    },
+    {
+      name: 'updateBy'
+    },
+    {
+      name: 'updateDate'
+    }
+  ]
 });

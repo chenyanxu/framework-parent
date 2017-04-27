@@ -3,7 +3,7 @@
  */
 Ext.define('kalix.dict.component.DictGridColumn', {
     extend: 'Ext.grid.column.Template',
-    tpl: "",
+    tpl: '',
     alias: 'widget.dictGridColumn',
     xtype: 'dictGridColumn',
     colorConfig: null,

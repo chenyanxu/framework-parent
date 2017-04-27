@@ -18,7 +18,7 @@ Ext.define('kalix.view.components.common.BaseTree', {
   singleExpand: true,
   rootVisible: false,
   margin: 5,
-  plugins:['autoheightplugin','zorderPlugin'],
+  plugins: ['autoheightplugin', 'zorderPlugin'],
   viewConfig: {
     enableTextSelection: true
   },
@@ -77,12 +77,12 @@ Ext.define('kalix.view.components.common.BaseTree', {
     beforeitemmouseup: function (target, record) {
       if (record.data.expanded) {
         if (this.config.expandId != record.id) {
-          this.config.expandId = record.parentNode.id
+          this.config.expandId = record.parentNode.id;
         }
       }
       else {
         if (!record.data.leaf) {
-          this.config.expandId = record.data.id
+          this.config.expandId = record.data.id;
         }
       }
     }

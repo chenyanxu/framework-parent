@@ -6,7 +6,7 @@
 
     target.ariaEl.dom.onclick = function () {
       target.disable(true);
-      st.switchPosition(target.alt, "animate", {
+      st.switchPosition(target.alt, 'animate', {
         onComplete: function () {
           target.enable(true);
         }
@@ -211,7 +211,7 @@
     //compute node positions and layout
     st.compute();
     //optional: make a translation of the tree
-    st.geom.translate(new $jit.Complex(-200, 0), "current");
+    st.geom.translate(new $jit.Complex(-200, 0), 'current');
     //emulate a click on the root node.
     st.onClick(st.root);
   },

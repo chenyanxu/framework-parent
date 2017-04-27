@@ -8,8 +8,8 @@ Ext.define('kalix.plugin.ToolTipPlugin', {
   ],
   alias: 'plugin.tooltipplugin',
   //==custom property
-  tooltip:'CONFIG_THE_TOOLTIP_IN_PLUGIN', //the tooltip for the component
-  serviceUrl:'',  //the url to get the tooltip
+  tooltip: 'CONFIG_THE_TOOLTIP_IN_PLUGIN', //the tooltip for the component
+  serviceUrl: '',  //the url to get the tooltip
   //custom property==
   init: function (container) {
     this.callParent(arguments);
@@ -21,14 +21,14 @@ Ext.define('kalix.plugin.ToolTipPlugin', {
               var item = target.dockedItems.getAt(i);
 
               if (item.dock == 'top') {
-                if(item.items.length>0){
-                  item.items.getAt(0).flex=0
+                if (item.items.length > 0) {
+                  item.items.getAt(0).flex = 0
 
-                  item.items.insert(1,Ext.create('kalix.view.components.common.ImageToolTip', {
-                    tooltip: this.tooltip,margin:'0 0 0 5'
+                  item.items.insert(1, Ext.create('kalix.view.components.common.ImageToolTip', {
+                    tooltip: this.tooltip, margin: '0 0 0 5'
                   }));
 
-                  item.items.insert(2,Ext.create('Ext.toolbar.Spacer',{flex:1}));
+                  item.items.insert(2, Ext.create('Ext.toolbar.Spacer', {flex: 1}));
                 }
                 break;
               }
@@ -36,7 +36,7 @@ Ext.define('kalix.plugin.ToolTipPlugin', {
           }
         }
       },
-      scope:this
+      scope: this
     });
   },
   destroy: function () {

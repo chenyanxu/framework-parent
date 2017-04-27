@@ -1,7 +1,7 @@
 Ext.define('kalix.view.MainTreelist', {
     extend: 'Ext.list.Tree',
     xtype: 'maintreelist',
-    store: "navigationTreeStore",
+    store: 'navigationTreeStore',
     singleExpand:true,
     constructor: function () {
         this.callParent(arguments);
@@ -10,7 +10,7 @@ Ext.define('kalix.view.MainTreelist', {
         var self = this;
         var last = [];
 
-        navigationTreeStore.on("beforeload", function () {
+        navigationTreeStore.on('beforeload', function () {
             last = [];
             navigationTreeStore.each(function (recorder) {
                 last.push(recorder);
@@ -18,7 +18,7 @@ Ext.define('kalix.view.MainTreelist', {
             navigationTreeStore.treeSelInfo.tree=this;
         }, this);
 
-        navigationTreeStore.on("load", function () {
+        navigationTreeStore.on('load', function () {
             _.each(last, function (item) {
                 var destoryItem = self.getItem(item);
                 //if the module parent item has been destroy.
