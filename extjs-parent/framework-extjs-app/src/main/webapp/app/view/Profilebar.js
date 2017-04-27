@@ -45,10 +45,11 @@ Ext.define('kalix.view.Profilebar', {
       xtype: 'button',
       text: '退出',
       iconCls: 'iconfont icon-exit',
-      bind: {
-        href: '{user.quit}'
-      },
-      hrefTarget: '_self',
+      handler:'onLogout',
+      // bind: {
+      //   href: '{user.quit}'
+      // },
+      // hrefTarget: '_self',
       margin: '0 5 0 10'
     }
   ]

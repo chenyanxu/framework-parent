@@ -469,5 +469,8 @@ Ext.define('kalix.controller.MainController', {
         }
       }
     });
+  },
+  onLogout:function(){
+    window.location.href='/logout';
   }
 });
