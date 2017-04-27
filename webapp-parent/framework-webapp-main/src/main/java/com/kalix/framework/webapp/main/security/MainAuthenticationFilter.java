@@ -7,7 +7,7 @@ import org.apache.shiro.session.Session;
 /**
  * Created by chenyanxu on 2017/3/21.
  */
-public class ShiroAuthenticationFilter extends KalixAuthenticationFilter {
+public class MainAuthenticationFilter extends KalixAuthenticationFilter {
     @Override
     public String getToken() {
         Session session = SecurityUtils.getSubject().getSession();

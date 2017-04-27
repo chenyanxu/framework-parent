@@ -1,8 +1,8 @@
 package com.kalix.framework.core.restfulapi.test;
 
-import com.jcj.rest.general.helper.APITest;
-import com.jcj.rest.http.fluent.APIRequest;
-import com.jcj.rest.http.fluent.APIResponse;
+import com.kalix.framework.core.rest.test.APITest;
+import com.kalix.framework.core.rest.test.APIRequest;
+import com.kalix.framework.core.rest.test.APIResponse;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
