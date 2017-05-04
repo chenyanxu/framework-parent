@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kalix.framework.core.api.exception.StaleEntityException;
 import io.swagger.annotations.ApiModelProperty;
+import org.apache.openjpa.persistence.jdbc.Unique;
 import org.dozer.DozerBeanMapper;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public abstract class UserEntity extends PersistentEntity {
     @ApiModelProperty(value="性别（男 女）",allowableValues = "男,女",position=2,example = "男")
     private String sex;
     @ApiModelProperty(value="登录名",position=3,example = "test_login")
+    @Unique
     private String loginName;
     @ApiModelProperty(value="姓名",position =4,example = "陈某")
     private String name;
