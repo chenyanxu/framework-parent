@@ -42,7 +42,7 @@ public class CodeUtil {
         List<String> lists = dao.findByNativeSql(sql, String.class, parentId);
         String maxCode = "";
         if (lists != null && lists.size() > 0) {
-            maxCode = lists.get(0);
+            maxCode = lists.get(0).trim();
         }
         if (maxCode == null) {
             maxCode = "";
@@ -57,7 +57,7 @@ public class CodeUtil {
                 // 非根节点,取根节点code,合成新的code值
                 sql = "select t.code from " + tableName + " t where t.id=?1";
                 List<String> codes = dao.findByNativeSql(sql, String.class, parentId);
-                rtn = codes.get(0) + getNextCode("0", length);
+                rtn = codes.get(0).trim() + getNextCode("0", length);
             }
         }
         else {
