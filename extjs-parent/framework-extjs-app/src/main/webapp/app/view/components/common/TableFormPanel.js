@@ -40,11 +40,11 @@ Ext.define('kalix.view.components.common.TableFormPanel', {
         }
 
         if (tempItem.required) {
-          tempItem.html = tempItem.html + '<span style="color:red'>*</span>';
+          tempItem.html = tempItem.html + '<span style=\'color:red\'>*</span>';
         }
 
         if (tempItem.readOnly) {
-          tempItem.html = '<span style='color:#BFBFBF'>' + tempItem.html + '</span>';
+          tempItem.html = '<span style=\'color:#BFBFBF\'>' + tempItem.html + '</span>';
         }
 
         if (tempItem.height) {
