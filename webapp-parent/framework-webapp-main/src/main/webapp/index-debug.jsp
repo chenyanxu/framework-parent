@@ -9,6 +9,10 @@
 
     <title></title>
     <link rel="icon" href="resources/images/favicon.ico" type="image/x-icon"/>
+    <!--add this logic for the org chart display-->
+    <!--[if lt ie9]>
+    <script type="text/javascript" src="<%=path %>/resources/js/excanvas.js"></script>
+    <![endif]-->
     <script type="text/javascript" src="<%=path %>/resources/js/dynamic-loader.js"></script>
     <script type="text/javascript" src="<%=path %>/extjs/classic/ext-all-debug.js"></script>
     <script type="text/javascript" src="<%=path %>/extjs/classic/locale/locale-zh_CN.js"></script>

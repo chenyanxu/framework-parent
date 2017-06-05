@@ -7,6 +7,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" type="image/x-icon" href=""/>
+    <!--add this logic for the org chart display-->
+    <!--[if lt ie9]>
+    <script type="text/javascript" src="<%=path %>/resources/js/excanvas.js"></script>
+    <![endif]-->
     <script type="text/javascript" src="<%=path %>/resources/js/dynamic-loader.js"></script>
     <script type="text/javascript" src="<%=path %>/extjs/classic/ext-all.js"></script>
     <script type="text/javascript" src="<%=path %>/extjs/classic/locale/locale-zh_CN.js"></script>
