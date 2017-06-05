@@ -34,6 +34,7 @@ public class SystemServiceImpl implements ISystemService {
     public void setShiroService(IShiroService shiroService) {
         this.shiroService = shiroService;
     }
+
     /**
      * 返回实现IApplication接口的列表
      *
@@ -42,6 +43,7 @@ public class SystemServiceImpl implements ISystemService {
     @Override
     public List<WebApplicationBean> getApplicationList() {
         Subject subject = shiroService.getSubject();
+        //Subject subject=new Subject.Builder().sessionId(sessionId).buildSubject();
         List<WebApplicationBean> applicationBeans = new ArrayList<>();
         if (subject == null)
             return applicationBeans;
@@ -71,6 +73,7 @@ public class SystemServiceImpl implements ISystemService {
     @Override
     public List<ModuleBean> getModuleByApplication(String applicationId) {
         Subject subject = shiroService.getSubject();
+        //Subject subject=new Subject.Builder().sessionId(sessionId).buildSubject();
         List<IModule> moduleList = ModuleManager.getInstall().getModuleList(applicationId);
         List<ModuleBean> moduleBeanList = new ArrayList<ModuleBean>();
         if (moduleList == null)
@@ -157,6 +160,8 @@ public class SystemServiceImpl implements ISystemService {
         Map resp = new HashMap();
         List<Map> buttons = new ArrayList<Map>();
         Subject subject = shiroService.getSubject();
+        //Subject subject=new Subject.Builder().sessionId(sessionId).buildSubject();
+
         if (permission.indexOf("_") != -1) {
             String[] permissions = permission.split("_");
             for (String _permission : permissions) {
@@ -208,8 +213,8 @@ public class SystemServiceImpl implements ISystemService {
     }
 
     @Override
-    public Map getUserPreferences() {
-        String loginName = this.shiroService.getSubject().getPrincipal().toString();
+    public Map getUserPreferences(String loginName) {
+        //String loginName = this.shiroService.getSubject().getPrincipal().toString();
         Preferences userPreferences = this.preferencesService.getUserPreferences(loginName);
         Map rtn = new HashMap<String, String>();
 
@@ -227,12 +232,12 @@ public class SystemServiceImpl implements ISystemService {
     }
 
     @Override
-    public JsonStatus setUserPreferences(String key, String value) {
-        String loginName = this.shiroService.getSubject().getPrincipal().toString();
+    public JsonStatus setUserPreferences(String loginName, String key, String value) {
+        //String loginName = this.shiroService.getSubject().getPrincipal().toString();
 
         this.preferencesService.getUserPreferences(loginName).node(key).put("value", value);
 
-        JsonStatus jsonStatus=new JsonStatus();
+        JsonStatus jsonStatus = new JsonStatus();
 
         jsonStatus.setSuccess(true);
 
@@ -308,10 +313,19 @@ public class SystemServiceImpl implements ISystemService {
     public JsonStatus doSysServiceTest() {
         JsonStatus jsonStatus = new JsonStatus();
 
-        jsonStatus.setSuccess(true);
-        jsonStatus.setMsg(this.shiroService.getCurrentUserLoginName());
+        String userLoginName = this.shiroService.getCurrentUserLoginName();
 
-        if (Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy", "ConfigWebContext"))) {
+        if (userLoginName != null) {
+            jsonStatus.setSuccess(true);
+        }
+        else{
+            jsonStatus.setSuccess(false);
+        }
+
+        jsonStatus.setMsg(userLoginName);
+
+
+        if (Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy", "ConfigSystem"))) {
             jsonStatus.setTag("/index.jsp");
         } else {
             jsonStatus.setTag("/index-debug.jsp");
@@ -324,8 +338,10 @@ public class SystemServiceImpl implements ISystemService {
     public JsonStatus doVCodeTest(String appName) {
         JsonStatus jsonStatus = new JsonStatus();
 
+        String configId="Config"+StringUtils.changeFirstCharacterCase(appName,true)+"Web";
+
         jsonStatus.setSuccess(true);
-        jsonStatus.setMsg((String) ConfigUtil.getConfigProp(appName+"_vcode", "ConfigWebContext"));
+        jsonStatus.setMsg((String) ConfigUtil.getConfigProp("vcode", configId));
 
         return jsonStatus;
     }

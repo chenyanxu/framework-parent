@@ -52,11 +52,11 @@ public interface ISystemService {
     /**
      * 获取用户偏好
      */
-    Map getUserPreferences();
+    Map getUserPreferences(String loginName);
     /**
      * 设置用户偏好
      */
-    JsonStatus setUserPreferences(String key, String value);
+    JsonStatus setUserPreferences(String loginName,String key, String value);
 
     //获得当前系统的登录状态 并根据具体配置返回加载页
     JsonStatus doSysServiceTest();
