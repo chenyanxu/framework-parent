@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<blueprint xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+    <reference id="httpService" interface="org.osgi.service.http.HttpService"/>
+
+    <bean class="org.apache.camel.component.servlet.osgi.OsgiServletRegisterer"
+          init-method="register"
+          destroy-method="unregister">
+        <property name="alias" value="/camel/rest"/>
+        <property name="httpService" ref="httpService"/>
+        <property name="servlet" ref="camelServlet"/>
+    </bean>
+
+    <bean id="camelServlet" class="com.kalix.framework.core.impl.web.KalixCamelHttpTransportServlet">
+
+    </bean>
+
+    <!--<bean id="filteredServlet" class="org.ops4j.pax.web.extender.samples.whiteboard.internal.WhiteboardServlet">-->
+    <!--<argument type="java.lang.String" value="/filtered"/>-->
+    <!--</bean>-->
+    <!--<service id="camelServletService" ref="camelServlet"  interface="javax.servlet.Servlet">-->
+    <!--<service-properties>-->
+    <!--<entry key="alias" value="/camel/rest"/>-->
+    <!--&lt;!&ndash;<entry key="httpContext.id" value="ffff"/>&ndash;&gt;-->
+    <!--</service-properties>-->
+    <!--</service>-->
+    <service id="camelServletFilterService" interface="javax.servlet.Filter">
+        <service-properties>
+            <entry key="urlPatterns" value="/camel/rest/*"/>
+        </service-properties>
+        <bean class="com.kalix.framework.core.security.authc.filter.Oauth2Filter">
+            <property name="exceptUrlList">
+                <list>
+                    <value>/system</value>
+                    <value>/system/login</value>
+                    <value>/system/vcode/[a-zA-Z0-9]{1,}</value>
+                </list>
+            </property>
+        </bean>
+    </service>
+</blueprint>
