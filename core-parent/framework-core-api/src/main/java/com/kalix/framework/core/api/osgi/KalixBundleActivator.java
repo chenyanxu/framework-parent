@@ -10,10 +10,10 @@ public abstract class KalixBundleActivator extends BaseBundleActivator{
     protected Boolean deploy;
 
     public KalixBundleActivator() {
-        contextPath = (String) ConfigUtil.getConfigProp("main_path", "ConfigWebContext");
+        contextPath = (String) ConfigUtil.getConfigProp("path", "ConfigMainWeb");
         //if the deploy var is true
         //the child class will deploy the compress version code
-        deploy = Boolean.valueOf((String)ConfigUtil.getConfigProp("deploy","ConfigWebContext"));
+        deploy = Boolean.valueOf((String)ConfigUtil.getConfigProp("deploy","ConfigSystem"));
 
         if (contextPath.equals("/")) {
             contextPath = "";
