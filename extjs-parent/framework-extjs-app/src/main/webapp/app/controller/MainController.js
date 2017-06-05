@@ -361,7 +361,7 @@ Ext.define('kalix.controller.MainController', {
     }
     else {
       Ext.Ajax.request({
-        url: 'camel/rest/system/preferences?key=theme&value=' + newValue,
+        url: 'camel/rest/system/preferences/'+CONFIG.currentUserLoginName+'?key=theme&value=' + newValue,
         method: 'PUT',
         success: function (response, opts) {
           var obj = Ext.decode(response.responseText);
