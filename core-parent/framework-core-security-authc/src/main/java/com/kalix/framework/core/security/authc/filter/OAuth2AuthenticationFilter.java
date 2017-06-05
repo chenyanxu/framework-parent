@@ -1,9 +1,10 @@
-package com.kalix.framework.webapp.main.security;
+package com.kalix.framework.core.security.authc.filter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kalix.framework.core.security.authc.filter.KalixAuthenticationFilter;
+import com.kalix.framework.core.security.authc.OAuth2ClientParams;
 
+import javax.servlet.ServletResponse;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -17,16 +18,20 @@ import java.util.Map;
  * Created by sunlf on 2017/4/20.
  * oauth2 授权验证返回token
  */
-public class OAuth2AuthenticationFilter extends KalixAuthenticationFilter {
+public class OAuth2AuthenticationFilter extends ShiroAuthenticationFilter {
 
     private final static String HttpMethod_POST = "POST";
 
     @Override
-    public String getToken() {
+    public String getAccessToken(ServletResponse response) {
         String authCode, accessToken = null;
         try {
             authCode = getAuthCode();
             accessToken = getAccessToken(authCode);
+
+            //to simplify the web client ajax request we write the oauth2 access token in the cookie
+            //Cookie cookieAccessToken = new Cookie("access_token",accessToken);
+            //((HttpServletResponse)response).addCookie(cookieAccessToken);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -34,7 +39,7 @@ public class OAuth2AuthenticationFilter extends KalixAuthenticationFilter {
         return accessToken;
     }
 
-    private String getAuthCode() throws Exception {
+    private static String getAuthCode() throws Exception {
 
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         params.put("username", OAuth2ClientParams.USERNAME);

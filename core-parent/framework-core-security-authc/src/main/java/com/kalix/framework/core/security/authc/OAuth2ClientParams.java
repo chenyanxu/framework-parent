@@ -1,4 +1,4 @@
-package com.kalix.framework.webapp.main.security;
+package com.kalix.framework.core.security.authc;
 
 /**
  * 封装OAuth Server端认证需要的参数
