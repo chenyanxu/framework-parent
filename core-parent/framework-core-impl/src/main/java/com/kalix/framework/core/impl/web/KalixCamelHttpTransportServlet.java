@@ -8,6 +8,8 @@ import org.apache.camel.http.common.HttpConsumer;
 import org.apache.camel.http.common.HttpHelper;
 import org.apache.camel.http.common.HttpMessage;
 import org.apache.camel.impl.DefaultExchange;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ThreadContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,11 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
     @Override
     protected void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.log.trace("Service: {}", request);
+
+        if(request.getHeader("JSESSIONID")!=null && !request.getHeader("JSESSIONID").isEmpty()){
+            ThreadContext.bind(new Subject.Builder().sessionId(request.getHeader("JSESSIONID")).buildSubject());
+        }
+
         HttpConsumer consumer = this.resolve(request);
         if (consumer == null) {
             this.log.debug("No consumer to service request {}", request);
