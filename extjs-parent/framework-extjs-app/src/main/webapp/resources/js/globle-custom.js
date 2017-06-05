@@ -11,9 +11,12 @@ var CONFIG = {
   ALTER_TITLE_INFO: "提示信息",
   restRoot: '',
   theme: 'theme-triton',
-  routePath: [] //record the temp route path
+  routePath: [], //record the temp route path
+  currentUserLoginName:null,
+  JSESSIONID:null,
+  access_token:null,
+  timestamp:Date.now()
 };
-
 //define the var to avoid the js error about Ext no defined when ext-all.js not load
 var Ext;
 
@@ -228,5 +231,25 @@ if (!Array.prototype.map) {
 
     // 9. return A
     return A;
+  };
+}
+
+if (!Array.prototype.filter) {
+  Array.prototype.filter = function(fun /*, thisp*/){
+    var len = this.length;
+    if (typeof fun != "function"){
+      throw new TypeError();
+    }
+    var res = new Array();
+    var thisp = arguments[1];
+    for (var i = 0; i < len; i++){
+      if (i in this){
+        var val = this[i]; // in case fun mutates this
+        if (fun.call(thisp, val, i, this)) {
+          res.push(val);
+        }
+      }
+    }
+    return res;
   };
 }

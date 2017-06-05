@@ -70,13 +70,13 @@
                 <description></description>
                 <to uri="bean:systemService?method=getLogin()"/>
             </get>
-            <get id="route-getUserPreferences" uri="/preferences" outType="java.util.Map">
+            <get id="route-getUserPreferences" uri="/preferences/{loginName}" outType="java.util.Map">
                 <description></description>
-                <to uri="bean:systemService?method=getUserPreferences()"/>
+                <to uri="bean:systemService?method=getUserPreferences(${header.loginName})"/>
             </get>
-            <put id="route-setUserPreferences" uri="/preferences" outType="com.kalix.framework.core.api.persistence.JsonStatus">
+            <put id="route-setUserPreferences" uri="/preferences/{loginName}" outType="com.kalix.framework.core.api.persistence.JsonStatus">
                 <description></description>
-                <to uri="bean:systemService?method=setUserPreferences(${header.key},${header.value})"/>
+                <to uri="bean:systemService?method=setUserPreferences(${header.loginName},${header.key},${header.value})"/>
             </put>
             <get id="route-sys-vcode-test" uri="/vcode/{appName}" outType="com.kalix.framework.core.api.persistence.JsonStatus">
                 <description></description>

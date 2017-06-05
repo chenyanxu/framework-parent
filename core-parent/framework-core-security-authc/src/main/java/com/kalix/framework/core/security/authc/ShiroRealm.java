@@ -8,7 +8,6 @@ import com.kalix.framework.core.api.security.ILoginService;
 import com.kalix.framework.core.api.security.model.Audit;
 import com.kalix.framework.core.util.JNDIHelper;
 import com.kalix.framework.core.util.OsgiUtil;
-import com.kalix.framework.core.util.StringUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -46,7 +45,7 @@ public abstract class ShiroRealm extends AuthorizingRealm implements IAuthorizin
     // --------------------------------------------------------------------------
 
     public ShiroRealm() {
-        setName("myMemoryRealm");
+        //setName("myMemoryRealm");
         CredentialsMatcher cm = new SimpleCredentialsMatcher();
         setCredentialsMatcher(cm);
         setCachingEnabled(true);

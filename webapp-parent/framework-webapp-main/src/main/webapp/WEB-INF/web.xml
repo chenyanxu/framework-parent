@@ -22,24 +22,24 @@
 
     <display-name>My Camel Rest Application</display-name>
     <!--org.apache.camel.component.servlet.CamelHttpTransportServlet-->
-    <servlet>
-        <servlet-name>CamelServlet</servlet-name>
-        <servlet-class>com.kalix.framework.core.impl.web.KalixCamelHttpTransportServlet</servlet-class>
-        <init-param>
-            <param-name>matchOnUriPrefix</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        <init-param>
-            <param-name>ignoreDuplicateServletName</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+    <!--<servlet>-->
+        <!--<servlet-name>CamelServlet</servlet-name>-->
+        <!--<servlet-class>com.kalix.framework.core.impl.web.KalixCamelHttpTransportServlet</servlet-class>-->
+        <!--<init-param>-->
+            <!--<param-name>matchOnUriPrefix</param-name>-->
+            <!--<param-value>true</param-value>-->
+        <!--</init-param>-->
+        <!--<init-param>-->
+            <!--<param-name>ignoreDuplicateServletName</param-name>-->
+            <!--<param-value>true</param-value>-->
+        <!--</init-param>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
 
-    <servlet-mapping>
-        <servlet-name>CamelServlet</servlet-name>
-        <url-pattern>/camel/rest/*</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>CamelServlet</servlet-name>-->
+        <!--<url-pattern>/camel/rest/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <listener>
         <listener-class>com.kalix.framework.core.security.web.evn.KalixEnvironmentLoaderListener</listener-class>
@@ -66,9 +66,21 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!--<filter>-->
+        <!--<filter-name>oauth2</filter-name>-->
+        <!--<filter-class>com.kalix.framework.core.security.authc.filter.Oauth2Filter</filter-class>-->
+        <!--<init-param>-->
+            <!--<param-name>exceptUrls</param-name>-->
+            <!--&lt;!&ndash;url without camel servlet prefix&ndash;&gt;-->
+            <!--<param-value>/system/login;/system/vcode/[a-zA-Z0-9]{1,}</param-value>-->
+        <!--</init-param>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>oauth2</filter-name>-->
+        <!--<url-pattern>/camel/rest/*</url-pattern>-->
+    <!--</filter-mapping>-->
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-
 </web-app>
