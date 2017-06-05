@@ -32,6 +32,10 @@
             <artifactId>framework-core-api</artifactId>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.apache.oltu.oauth2</groupId>
+            <artifactId>org.apache.oltu.oauth2.resourceserver</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 </project>
