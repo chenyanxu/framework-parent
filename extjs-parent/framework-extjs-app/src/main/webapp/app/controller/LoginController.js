@@ -67,6 +67,7 @@ Ext.define('kalix.controller.LoginController', {
       form.submit({
         success: function (form, action) {
           var resp = action.result;
+
           if (resp.location) {
             var urlSplit = window.location.href.split('#');
             var anchor = '';
@@ -75,7 +76,24 @@ Ext.define('kalix.controller.LoginController', {
               anchor = '#' + urlSplit[1];
             }
 
-            window.location.href = resp.location + anchor;
+            var queryStr='?';
+
+            if(resp.user && resp.user.token){
+              queryStr+='JSESSIONID='+resp.user.token;
+            }
+
+            if(resp.access_token){
+              queryStr+='&access_token='+resp.access_token;
+            }
+
+            if(window.sessionStorage){
+              window.sessionStorage.setItem('JSESSIONID',resp.user.token);
+              window.sessionStorage.setItem('access_token',resp.access_token);
+              window.location.href = resp.location + anchor;
+            }
+            else{
+              window.location.href = resp.location + anchor+queryStr;
+            }
           }
         },
         failure: function (form, action) {
