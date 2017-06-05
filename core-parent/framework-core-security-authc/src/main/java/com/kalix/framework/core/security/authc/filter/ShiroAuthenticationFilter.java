@@ -3,6 +3,7 @@ package com.kalix.framework.core.security.authc.filter;
 import com.kalix.framework.core.api.PermissionConstant;
 import com.kalix.framework.core.api.security.DefaultUserNamePasswordToken;
 import com.kalix.framework.core.util.ConfigUtil;
+import com.kalix.framework.core.util.StringUtils;
 import com.kalix.framework.core.util.UnicodeConverter;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -14,6 +15,8 @@ import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
@@ -26,23 +29,45 @@ import java.io.PrintWriter;
  * shiro首頁验证处理过滤器
  * Created by sunlf on 2015/7/10.
  */
-public abstract class KalixAuthenticationFilter extends FormAuthenticationFilter {
+public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
 
     private static final Logger log = LoggerFactory
-            .getLogger(KalixAuthenticationFilter.class);
+            .getLogger(ShiroAuthenticationFilter.class);
 
     private static final String ERROR_MSG = "{\"success\":false,\"message\":\"%s\",\"detail\":\"%s\"}";
     public static final String KAPTCHA_SESSION_KEY = "KAPTCHA_SESSION_KEY";
 
-    protected String appName;
-    protected Boolean deploy;
-    protected Boolean checkVCode;
+    @Override
+    public void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
+        super.doFilterInternal(request, response, chain);
+    }
+
+    @Override
+    protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
+        //Cookie cookie=new Cookie("access_token","");
+        //cookie.setMaxAge(0);
+        //((HttpServletResponse)response).addCookie(cookie);
+        super.redirectToLogin(request, response);
+    }
+
+    protected String appName="";
+    protected Boolean debug=true;
+    protected Boolean checkVCode=true;
 
     //自动加载deploy配置 方便验证码的判断
-    public KalixAuthenticationFilter(){
-        appName =this.getClass().getSimpleName().split("AuthenticationFilter")[0].toLowerCase();
-        this.checkVCode=Boolean.valueOf((String) ConfigUtil.getConfigProp(appName+"_vcode", "ConfigWebContext"));
-        this.deploy=Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy", "ConfigWebContext"));
+    public ShiroAuthenticationFilter(){
+        //appName =this.getClass().getSimpleName().split("ShiroAuthenticationFilter")[0].toLowerCase();
+        //String configName="Config"+appName+"Web";
+
+        //this.checkVCode=Boolean.valueOf((String) ConfigUtil.getConfigProp(appName+"_vcode", configName));
+        //this.deploy=Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy", configName));
+    }
+
+    public void setAppName(String appName){
+        this.appName= StringUtils.changeFirstCharacterCase(appName,true);
+        String configName="Config"+appName+"Web";
+        this.checkVCode=Boolean.valueOf((String) ConfigUtil.getConfigProp("vcode", configName));
+        this.debug=Boolean.valueOf((String) ConfigUtil.getConfigProp("debug", configName));
     }
 
     /*
@@ -82,17 +107,13 @@ public abstract class KalixAuthenticationFilter extends FormAuthenticationFilter
             PrintWriter out = httpServletResponse.getWriter();
             String rtnPage = "";
 
-            if (this.deploy) {
-                rtnPage = "/index.jsp";
-            } else {
-                rtnPage = "/index-debug.jsp";
-            }
+            rtnPage=this.getRtnPage();
 
             out.println("{\"success\":true," +
                         "\"location\":\"" + contextPath + rtnPage +
                         "\",\"message\":\"登入成功\"," +
                         "\"user\":{\"name\":\"" + realName +
-                        "\",\"token\":\"" + getToken() + "\",\"id\":\""+userId+"\"}}");
+                        "\",\"token\":\"" + session.getId() + "\",\"id\":\""+userId+"\"},\"access_token\":\""+this.getAccessToken(response)+"\"}");
             out.flush();
             out.close();
         }
@@ -100,7 +121,21 @@ public abstract class KalixAuthenticationFilter extends FormAuthenticationFilter
         return false;
     }
 
-    public abstract String getToken();
+    public String getAccessToken(ServletResponse response){
+        return "";
+    }
+
+    public String getRtnPage(){
+        String rtnPage="";
+
+        if (this.debug) {
+            rtnPage = "/index-debug.jsp";
+        } else {
+            rtnPage = "/index.jsp";
+        }
+
+        return rtnPage;
+    }
 
     /**
      * 主要是处理登入失败的方法
