@@ -163,6 +163,7 @@ public abstract class ShiroRealm extends AuthorizingRealm implements IAuthorizin
         properties.put("message", gson.toJson(audit));
         Event event = new Event("com/kalix/userlogout", properties);
         eventAdmin.postEvent(event);
+
     }
 
     private void postLoginEvent(Audit audit) {

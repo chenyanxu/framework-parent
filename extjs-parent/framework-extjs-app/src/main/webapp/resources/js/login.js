@@ -31,7 +31,9 @@ function doSysServiceTest(autoLoad){
       rtn = Ext.JSON.decode(response.responseText);
 
       if (rtn.success && autoLoad) {
-        window.location.href = rtn.tag;
+        //window.location.href = rtn.tag;
+          //alert('已经登录，窗口将关闭！');
+          window.location.href='/message.html';
       }
     }
   });

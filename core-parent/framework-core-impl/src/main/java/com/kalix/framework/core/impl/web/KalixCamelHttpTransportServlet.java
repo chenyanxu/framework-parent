@@ -12,6 +12,7 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ThreadContext;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,6 +27,13 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
 
         if(request.getHeader("JSESSIONID")!=null && !request.getHeader("JSESSIONID").isEmpty()){
             ThreadContext.bind(new Subject.Builder().sessionId(request.getHeader("JSESSIONID")).buildSubject());
+        }else{
+            for(Cookie cookie:request.getCookies()){
+                if(cookie.getName().equals("JSESSIONID")){
+                    ThreadContext.bind(new Subject.Builder().sessionId(cookie.getValue()).buildSubject());
+                    break;
+                }
+            }
         }
 
         HttpConsumer consumer = this.resolve(request);
