@@ -60,11 +60,11 @@
                                     <type>cfg</type>
                                     <classifier>ConfigShiro</classifier>
                                 </artifact>
-                                <!--<artifact>
-                                    <file>target/classes/ConfigWebContext.cfg</file>
+                                <artifact>
+                                    <file>target/classes/ConfigSystem.cfg</file>
                                     <type>cfg</type>
-                                    <classifier>ConfigWebContext</classifier>
-                                </artifact>-->
+                                    <classifier>ConfigSystem</classifier>
+                                </artifact>
                                 <artifact>
                                     <file>target/classes/ConfigXMPP.cfg</file>
                                     <type>cfg</type>

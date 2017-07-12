@@ -18,8 +18,8 @@
             mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigLogin
         </configfile>
 
-        <configfile finalname="/etc/ConfigWebContext.cfg" override="true">
-            mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigWebContext
+        <configfile finalname="/etc/ConfigSystem.cfg" override="true">
+            mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigSystem
         </configfile>
         <configfile finalname="/etc/ConfigCouchdb.cfg" override="true">
             mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigCouchdb
