@@ -11,6 +11,9 @@
     </feature>
 
     <feature name="framework-config" version="${project.framework.version}">
+        <configfile finalname="/etc/ConfigMainWeb.cfg" override="true">
+            mvn:com.kalix.framework.webapp/framework-webapp-main/${project.version}/cfg/ConfigMainWeb
+        </configfile>
         <configfile finalname="/etc/ConfigShiro.cfg" override="true">
             mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/ConfigShiro
         </configfile>
