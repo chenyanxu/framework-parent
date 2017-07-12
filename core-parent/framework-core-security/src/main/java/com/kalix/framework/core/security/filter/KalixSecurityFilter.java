@@ -28,7 +28,7 @@ public class KalixSecurityFilter extends AbstractShiroFilter {
         try {
             WebEnvironment env = WebUtils.getRequiredWebEnvironment(getServletContext());
             securityManager = OsgiUtil.waitForServices(WebSecurityManager.class,null);
-            SystemUtil.colorPrintln(" start shiro security manager succeed!",SystemUtil.ANSI_GREEN);
+            SystemUtil.succeedPrintln(" start shiro security manager succeed!");
 
             super.setSecurityManager(securityManager);
 
