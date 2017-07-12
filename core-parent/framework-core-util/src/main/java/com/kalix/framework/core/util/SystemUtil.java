@@ -1,6 +1,10 @@
 package com.kalix.framework.core.util;
 
+import org.fusesource.jansi.AnsiConsole;
 import org.osgi.framework.BundleContext;
+
+import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  * @类描述：系统级别的工具类
@@ -14,25 +18,15 @@ import org.osgi.framework.BundleContext;
 public class SystemUtil {
     public static final String KALIX = "Kalix Info: ";
 
-    public static final String ANSI_RESET = "\033[0m";
-    public static final String ANSI_BLACK = "\033[30m";
-    public static final String ANSI_RED = "\033[31m";
-    public static final String ANSI_GREEN = "\033[32m";
-    public static final String ANSI_YELLOW = "\033[33m";
-    public static final String ANSI_BLUE = "\033[34m";
-    public static final String ANSI_PURPLE = "\033[35m";
-    public static final String ANSI_CYAN = "\033[36m";
-    public static final String ANSI_WHITE = "\033[37m";
-
     /**
      * 输出控制台以红色字体输出，表示异常
      *
      * @param str
      */
     static public void errorPrintln(String str) {
-        System.out.print(ANSI_RED);
-        System.err.print(KALIX + str);
-        System.out.println(ANSI_RESET);
+        AnsiConsole.systemInstall();
+        System.out.println(ansi().fg(RED).a(str).reset());
+        AnsiConsole.systemUninstall();
     }
 
     /**
@@ -41,9 +35,9 @@ public class SystemUtil {
      * @param str
      */
     static public void succeedPrintln(String str) {
-        System.out.print(ANSI_BLUE);
-        System.err.print(KALIX + str);
-        System.out.println(ANSI_RESET);
+        AnsiConsole.systemInstall();
+        System.out.println(ansi().fg(GREEN).a(str).reset());
+        AnsiConsole.systemUninstall();
     }
 
     /**
@@ -52,20 +46,22 @@ public class SystemUtil {
      * @param str
      */
     static public void colorPrintln(String str, String color) {
-        System.out.print(color);
-        System.err.print(KALIX + str);
-        System.out.println(ANSI_RESET);
+        AnsiConsole.systemInstall();
+        System.out.println(ansi().fg(GREEN).a(str).reset());
+        AnsiConsole.systemUninstall();
     }
 
     static public void startBundlePrintln(BundleContext context) {
-        System.out.print(ANSI_BLUE);
-        System.out.print(String.format(" START_BUNDLE [%d] %s ", context.getBundle().getBundleId(), context.getBundle().getHeaders().get("Bundle-Name")));
-        System.out.println(ANSI_RESET);
+        String str = String.format(" START_BUNDLE [%d] %s ", context.getBundle().getBundleId(), context.getBundle().getHeaders().get("Bundle-Name"));
+        AnsiConsole.systemInstall();
+        System.out.println(ansi().fg(BLUE).a(str).reset());
+        AnsiConsole.systemUninstall();
     }
 
     static public void stopBundlePrintln(BundleContext context) {
-        System.out.print(ANSI_BLUE);
-        System.out.print(String.format(" STOP_BUNDLE [%d] %s ", context.getBundle().getBundleId(), context.getBundle().getHeaders().get("Bundle-Name")));
-        System.out.println(ANSI_RESET);
+        String str = String.format(" STOP_BUNDLE [%d] %s ", context.getBundle().getBundleId(), context.getBundle().getHeaders().get("Bundle-Name"));
+        AnsiConsole.systemInstall();
+        System.out.println(ansi().fg(YELLOW).a(str).reset());
+        AnsiConsole.systemUninstall();
     }
 }
