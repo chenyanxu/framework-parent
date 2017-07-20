@@ -40,6 +40,35 @@ public class Oauth2Filter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpServletRequest req = (HttpServletRequest) request;
 
+        res.setHeader("Access-Control-Allow-Origin", "*");
+
+        res.setHeader(
+                "Access-Control-Allow-Headers",
+                "User-Agent,Origin,Cache-Control,Content-type,Date,Server,withCredentials,AccessToken,JSESSIONID,access_token");
+
+        res.setHeader("Access-Control-Allow-Credentials",
+                "true");
+
+        res.setHeader("Access-Control-Allow-Methods",
+                "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+
+        res.setHeader("Access-Control-Max-Age", "1209600");
+
+        res.setHeader("Access-Control-Expose-Headers", "access_token");
+
+        res.setHeader("Access-Control-Request-Headers", "access_token");
+
+        res.setHeader("Expires", "-1");
+
+        res.setHeader("Cache-Control", "no-cache");
+
+        res.setHeader("pragma", "no-cache");
+
+        if (req.getMethod().equals("OPTIONS")) {
+            res.setStatus(200);
+            return;
+        }
+
         try {
             boolean oauthUrl = true;
             //check the request url weather in the exceptURl or not
@@ -57,12 +86,20 @@ public class Oauth2Filter implements Filter {
 //                Cookie cookies[] = req.getCookies();
                 String accessToken = "";
 
-                if(req.getHeader("access_token")!=null){
-                    accessToken=req.getHeader("access_token");
+                if (req.getHeader("AccessToken") != null) {
+                    accessToken = req.getHeader("AccessToken");
                 }
 
-                if(req.getParameter("access_token")!=null){
-                    accessToken=req.getParameter("access_token");
+                if (req.getParameter("AccessToken") != null) {
+                    accessToken = req.getParameter("AccessToken");
+                }
+
+                if (req.getHeader("access_token") != null) {
+                    accessToken = req.getHeader("access_token");
+                }
+
+                if (req.getParameter("access_token") != null) {
+                    accessToken = req.getParameter("access_token");
                 }
 //
 //                for (int cIndex = cookies.length - 1; cIndex >= 0; --cIndex) {
@@ -72,6 +109,8 @@ public class Oauth2Filter implements Filter {
 //                    }
 //                }
                 //验证Access Token
+
+
                 if (!checkAccessToken(accessToken)) {
                     // 如果不存在/过期了，返回未验证错误，需重新验证
                     oAuthFailResponse(res);

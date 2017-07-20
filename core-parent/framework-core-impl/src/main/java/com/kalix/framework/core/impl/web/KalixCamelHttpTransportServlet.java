@@ -44,14 +44,15 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
             this.log.debug("Consumer suspended, cannot service request {}", request);
             response.sendError(503);
         } else if ("OPTIONS".equals(request.getMethod())) {
-            String exchange1;
+            /*String exchange1;
             if (consumer.getEndpoint().getHttpMethodRestrict() != null) {
                 exchange1 = "OPTIONS," + consumer.getEndpoint().getHttpMethodRestrict();
             } else {
                 exchange1 = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,CONNECT,PATCH";
             }
 
-            response.addHeader("Allow", exchange1);
+            response.addHeader("Allow", exchange1);*/
+            setCorsResponse(response);
             response.setStatus(200);
         } else if (consumer.getEndpoint().getHttpMethodRestrict() != null && !consumer.getEndpoint().getHttpMethodRestrict().contains(request.getMethod())) {
             response.sendError(405);
@@ -141,5 +142,32 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
                 this.restoreTccl(exchange, oldTccl);
             }
         }
+    }
+
+    private void setCorsResponse(HttpServletResponse httpServletResponse) {
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+
+        httpServletResponse
+                .setHeader(
+                        "Access-Control-Allow-Headers",
+                        "User-Agent,Origin,Cache-Control,Content-type,Date,Server,withCredentials,AccessToken,access_token");
+
+        httpServletResponse.setHeader("Access-Control-Allow-Credentials",
+                "true");
+
+        httpServletResponse.setHeader("Access-Control-Allow-Methods",
+                "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+
+        httpServletResponse.setHeader("Access-Control-Max-Age", "1209600");
+
+        httpServletResponse.setHeader("Access-Control-Expose-Headers", "access_token");
+
+        httpServletResponse.setHeader("Access-Control-Request-Headers", "access_token");
+
+        httpServletResponse.setHeader("Expires", "-1");
+
+        httpServletResponse.setHeader("Cache-Control", "no-cache");
+
+        httpServletResponse.setHeader("pragma", "no-cache");
     }
 }
