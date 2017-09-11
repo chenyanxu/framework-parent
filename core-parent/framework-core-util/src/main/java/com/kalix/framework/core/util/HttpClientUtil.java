@@ -17,9 +17,11 @@ import java.util.Map;
  * @author chenyanxu
  */
 public class HttpClientUtil {
+    private static String CONFIG_FILE_NAME = "ConfigMainWeb";
+
     public static String shiroGet(String url, String sessionId) throws IOException {
-        String webContext = (String) ConfigUtil.getConfigProp("main_path", "ConfigWebContext");
-        String serverUrl = (String) ConfigUtil.getConfigProp("server_url", "ConfigWebContext");
+        String webContext = (String) ConfigUtil.getConfigProp("path", CONFIG_FILE_NAME);
+        String serverUrl = (String) ConfigUtil.getConfigProp("server_url", CONFIG_FILE_NAME);
         String result = null;
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(serverUrl + webContext + "/camel/rest" + url);
@@ -60,8 +62,8 @@ public class HttpClientUtil {
 
 
     public static String shiroPost(String url, Map<String, String> params, String sessionId) throws IOException {
-        String webContext = (String) ConfigUtil.getConfigProp("main_path", "ConfigWebContext");
-        String serverUrl = (String) ConfigUtil.getConfigProp("server_url", "ConfigWebContext");
+        String webContext = (String) ConfigUtil.getConfigProp("path", CONFIG_FILE_NAME);
+        String serverUrl = (String) ConfigUtil.getConfigProp("server_url", CONFIG_FILE_NAME);
         String result = null;
         CloseableHttpResponse response1 = null;
         CloseableHttpClient httpclient = HttpClients.createDefault();
