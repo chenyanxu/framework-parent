@@ -19,14 +19,15 @@ import java.util.Map;
 public class HttpClientUtil {
     private static String CONFIG_FILE_NAME = "ConfigMainWeb";
 
-    public static String shiroGet(String url, String access_token) throws IOException {
+    public static String shiroGet(String url, String sessionId, String access_token) throws IOException {
         String webContext = (String) ConfigUtil.getConfigProp("path", CONFIG_FILE_NAME);
         String serverUrl = (String) ConfigUtil.getConfigProp("server_url", CONFIG_FILE_NAME);
         String result = null;
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(serverUrl + webContext + "/camel/rest" + url);
 
-        if (access_token != null && !access_token.isEmpty()) {
+        if (sessionId != null && !sessionId.isEmpty()) {
+            httpGet.addHeader("Cookie", "JSESSIONID=" + sessionId);
             httpGet.addHeader("access_token", access_token);
         }
 
@@ -57,11 +58,11 @@ public class HttpClientUtil {
     }
 
     public static String get(String url) throws IOException {
-        return shiroGet(url, null);
+        return shiroGet(url, null, null);
     }
 
 
-    public static String shiroPost(String url, Map<String, String> params, String access_token) throws IOException {
+    public static String shiroPost(String url, Map<String, String> params, String sessionId, String access_token) throws IOException {
         String webContext = (String) ConfigUtil.getConfigProp("path", CONFIG_FILE_NAME);
         String serverUrl = (String) ConfigUtil.getConfigProp("server_url", CONFIG_FILE_NAME);
         String result = null;
@@ -69,7 +70,8 @@ public class HttpClientUtil {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(serverUrl + webContext + "/camel/rest" + url);
 
-        if (access_token != null && !access_token.isEmpty()) {
+        if (sessionId != null && !sessionId.isEmpty()) {
+            httpPost.addHeader("Cookie", "JSESSIONID=" + sessionId);
             httpPost.addHeader("access_token", access_token);
         }
 
@@ -104,7 +106,7 @@ public class HttpClientUtil {
     }
 
     public static String post(String url, Map<String, String> params) throws IOException {
-        return shiroPost(url, params, null);
+        return shiroPost(url, params, null, null);
     }
 
     public static String convertStreamToString(InputStream is) {
