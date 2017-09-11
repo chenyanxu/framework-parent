@@ -50,12 +50,12 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
         super.redirectToLogin(request, response);
     }
 
-    protected String appName="";
-    protected Boolean debug=true;
-    protected Boolean checkVCode=true;
+    protected String appName = "";
+    protected Boolean debug = true;
+    protected Boolean checkVCode = true;
 
     //自动加载deploy配置 方便验证码的判断
-    public ShiroAuthenticationFilter(){
+    public ShiroAuthenticationFilter() {
         //appName =this.getClass().getSimpleName().split("ShiroAuthenticationFilter")[0].toLowerCase();
         //String configName="Config"+appName+"Web";
 
@@ -63,11 +63,11 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
         //this.deploy=Boolean.valueOf((String) ConfigUtil.getConfigProp("deploy", configName));
     }
 
-    public void setAppName(String appName){
-        this.appName= StringUtils.changeFirstCharacterCase(appName,true);
-        String configName="Config"+appName+"Web";
-        this.checkVCode=Boolean.valueOf((String) ConfigUtil.getConfigProp("vcode", configName));
-        this.debug=Boolean.valueOf((String) ConfigUtil.getConfigProp("debug", configName));
+    public void setAppName(String appName) {
+        this.appName = StringUtils.changeFirstCharacterCase(appName, true);
+        String configName = "Config" + appName + "Web";
+        this.checkVCode = Boolean.valueOf((String) ConfigUtil.getConfigProp("vcode", configName));
+        this.debug = Boolean.valueOf((String) ConfigUtil.getConfigProp("debug", configName));
     }
 
     /*
@@ -107,13 +107,14 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
             PrintWriter out = httpServletResponse.getWriter();
             String rtnPage = "";
 
-            rtnPage=this.getRtnPage();
-
+            rtnPage = this.getRtnPage();
+            String oauth_token = this.getAccessToken(response);
+            session.setAttribute("access_token", oauth_token);  // 保存 access_token 到session
             out.println("{\"success\":true," +
-                        "\"location\":\"" + contextPath + rtnPage +
-                        "\",\"message\":\"登入成功\"," +
-                        "\"user\":{\"name\":\"" + realName +
-                        "\",\"token\":\"" + session.getId() + "\",\"id\":\""+userId+"\"},\"access_token\":\""+this.getAccessToken(response)+"\"}");
+                    "\"location\":\"" + contextPath + rtnPage +
+                    "\",\"message\":\"登入成功\"," +
+                    "\"user\":{\"name\":\"" + realName +
+                    "\",\"token\":\"" + session.getId() + "\",\"id\":\"" + userId + "\"},\"access_token\":\"" + oauth_token + "\"}");
             out.flush();
             out.close();
         }
@@ -121,12 +122,12 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
         return false;
     }
 
-    public String getAccessToken(ServletResponse response){
+    public String getAccessToken(ServletResponse response) {
         return "";
     }
 
-    public String getRtnPage(){
-        String rtnPage="";
+    public String getRtnPage() {
+        String rtnPage = "";
 
         if (this.debug) {
             rtnPage = "/index-debug.jsp";
@@ -155,14 +156,14 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
             PrintWriter out = response.getWriter();
             String message = e.getClass().getSimpleName();
             if ("IncorrectCredentialsException".equals(message)) {
-                out.println(String.format(ERROR_MSG, "密码错误",message));
+                out.println(String.format(ERROR_MSG, "密码错误", message));
             } else if ("UnknownAccountException".equals(message)) {
-                out.println(String.format(ERROR_MSG, "账号不存在",message));
+                out.println(String.format(ERROR_MSG, "账号不存在", message));
             } else if ("LockedAccountException".equals(message)) {
-                out.println(String.format(ERROR_MSG, "账号被锁定",message));
+                out.println(String.format(ERROR_MSG, "账号被锁定", message));
             } else {
                 e.printStackTrace();
-                out.println(String.format(ERROR_MSG, "未知错误",message));
+                out.println(String.format(ERROR_MSG, "未知错误", message));
             }
             out.flush();
             out.close();
@@ -204,7 +205,7 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
                     log.trace("Login submission detected.  Attempting to execute login.");
                 }
 
-                if(this.checkVCode) {
+                if (this.checkVCode) {
                     //判断是否为ajax异步请求
                     if ("XMLHttpRequest"
                             .equalsIgnoreCase(((HttpServletRequest) request)
@@ -248,7 +249,7 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
             if ("XMLHttpRequest".equalsIgnoreCase(((HttpServletRequest) request).getHeader("X-Requested-With"))) {
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter out = response.getWriter();
-                out.println(String.format(ERROR_MSG,"login",""));
+                out.println(String.format(ERROR_MSG, "login", ""));
                 out.flush();
                 out.close();
             } else {
