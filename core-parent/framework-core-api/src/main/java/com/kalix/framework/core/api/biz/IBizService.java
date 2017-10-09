@@ -5,6 +5,7 @@ import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @类描述： 对外业务服务的根接口
@@ -201,6 +202,8 @@ public interface IBizService<T extends PersistentEntity> extends IService {
     JsonData getAllEntityforReport(String jsonStr);
 
     T getEntity(long entityId);
+
+    T getEntity(long entityId, Map<String, Object> objDictMap);
 
     List<Object> getFieldValuesByIds(Object[] ids,String fieldName);
 }

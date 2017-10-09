@@ -20,6 +20,7 @@ import org.osgi.service.event.EventAdmin;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
@@ -225,7 +226,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     @Override
     @Transactional
-    public JsonStatus updateEntity(long id,TP entity) {
+    public JsonStatus updateEntity(long id, TP entity) {
         entity.setId(id);
 
         return this.updateEntity(entity);
@@ -243,6 +244,16 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     public JsonData getAllEntityByQuery(QueryDTO queryDTO) {
         Assert.notNull(queryDTO, "查询条件不能为空.");
         return dao.getAll(queryDTO.getPage(), queryDTO.getLimit(), dao.buildCriteriaQuery(queryDTO));
+    }
+
+    public JsonData getAllEntityByQuery(QueryDTO queryDTO, Map<String, Object> objDictMap) {
+        Assert.notNull(queryDTO, "查询条件不能为空.");
+        JsonData jsonData = dao.getAll(queryDTO.getPage(), queryDTO.getLimit(), dao.buildCriteriaQuery(queryDTO));
+        List list = jsonData.getData();
+        for (Object tp:list) {
+            this.translateObjDict(tp, objDictMap);
+        }
+        return jsonData;
     }
 
     /**
@@ -315,20 +326,19 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     @Override
     public JsonData getAllEntityByQuery(Integer page, Integer limit, String jsonStr, String sort) {
         List<Map> sortList;
-        String sortJsonStr=jsonStr;
+        String sortJsonStr = jsonStr;
 
         if (sort != null) {
             sortList = SerializeUtil.unserializeJson(sort, List.class);
 
-            if(sortList!=null && sortList.size()==1){
-                String sortField= (String) sortList.get(0).get("property");
-                String direction= (String) sortList.get(0).get("direction");
+            if (sortList != null && sortList.size() == 1) {
+                String sortField = (String) sortList.get(0).get("property");
+                String direction = (String) sortList.get(0).get("direction");
 
-                if(jsonStr!=null && !jsonStr.isEmpty()&&!jsonStr.equals("{}")){
-                    sortJsonStr=jsonStr.substring(0,jsonStr.length()-1)+",\""+sortField+":sort\":\""+direction+"\"}";
-                }
-                else{
-                    sortJsonStr="{\""+sortField+":sort\":\""+direction+"\"}";
+                if (jsonStr != null && !jsonStr.isEmpty() && !jsonStr.equals("{}")) {
+                    sortJsonStr = jsonStr.substring(0, jsonStr.length() - 1) + ",\"" + sortField + ":sort\":\"" + direction + "\"}";
+                } else {
+                    sortJsonStr = "{\"" + sortField + ":sort\":\"" + direction + "\"}";
                 }
             }
         }
@@ -365,6 +375,13 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
+    public TP getEntity(long entityId, Map<String, Object> objDictMap) {
+        TP tp = (TP) dao.get(entityId);
+        this.translateObjDict(tp, objDictMap);
+        return tp;
+    }
+
+    @Override
     public List<Object> getFieldValuesByIds(Object[] ids, String fieldName) {
         if (ids == null || ids.length <= 0)
             return null;
@@ -388,9 +405,9 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
             List rtn = new ArrayList<Object>();
 
             for (int idsIndex = 0; idsIndex < ids.length; ++idsIndex) {
-                if(ids[idsIndex] !=null) {
+                if (ids[idsIndex] != null) {
                     rtn.add(fieldValueMap.get(ids[idsIndex].toString()));
-                }else{
+                } else {
                     rtn.add("");
                 }
             }
@@ -422,6 +439,38 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
             properties.put("message", gson.toJson(obj));
             Event event = new Event(topic, properties);
             eventAdmin.postEvent(event);
+        }
+    }
+
+    private void translateObjDict(Object entity, Map<String, Object> objDictMap) {
+        try {
+            for (String key : objDictMap.keySet()) {
+                String[] keys = key.split("/");
+                //获取需要翻译的对象字典字段及其值
+                String codeField = keys[0].substring(0, 1).toUpperCase() + keys[0].substring(1);
+                String getMethodName = "get" + codeField;
+                Method getMethod = entity.getClass().getMethod(getMethodName);
+                Long code = (Long) getMethod.invoke(entity);
+                if (code != null) {
+                    //通过服务获取对象字典翻译后的值
+                    Object service = objDictMap.get(key);
+                    Method method = service.getClass().getMethod("getEntity", Long.TYPE);
+                    Object dictEntity = method.invoke(service, code);
+                    String dictField = keys[2].substring(0, 1).toUpperCase() + keys[2].substring(1);
+                    String methodName = "get" + dictField;
+                    method = dictEntity.getClass().getMethod(methodName);
+                    String label = (String) method.invoke(dictEntity);
+                    //获取翻译后需要填写的对象字典的字段并赋值
+                    String labelField = keys[1].substring(0, 1).toUpperCase() + keys[1].substring(1);
+                    String setMethodName = "set" + labelField;
+                    Method setMethod = entity.getClass().getMethod(setMethodName, String.class);
+                    setMethod.invoke(entity, label);
+                }
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
