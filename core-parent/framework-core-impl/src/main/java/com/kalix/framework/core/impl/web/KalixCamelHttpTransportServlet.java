@@ -8,6 +8,8 @@ import org.apache.camel.http.common.HttpConsumer;
 import org.apache.camel.http.common.HttpHelper;
 import org.apache.camel.http.common.HttpMessage;
 import org.apache.camel.impl.DefaultExchange;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ThreadContext;
 
@@ -25,15 +27,22 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
     protected void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.log.trace("Service: {}", request);
 
-        if(request.getHeader("JSESSIONID")!=null && !request.getHeader("JSESSIONID").isEmpty()){
+        if (request.getHeader("JSESSIONID") != null && !request.getHeader("JSESSIONID").isEmpty()) {
             ThreadContext.bind(new Subject.Builder().sessionId(request.getHeader("JSESSIONID")).buildSubject());
-        }else{
-            for(Cookie cookie:request.getCookies()){
-                if(cookie.getName().equals("JSESSIONID")){
+        } else {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("JSESSIONID")) {
                     ThreadContext.bind(new Subject.Builder().sessionId(cookie.getValue()).buildSubject());
                     break;
                 }
             }
+        }
+
+        Session session = SecurityUtils.getSubject().getSession();
+        if (isDataAuthRequest(request)) {
+            session.setAttribute("DataAuthApp", request.getPathInfo());
+        } else {
+            session.setAttribute("DataAuthApp", "");
         }
 
         HttpConsumer consumer = this.resolve(request);
@@ -142,6 +151,20 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
                 this.restoreTccl(exchange, oldTccl);
             }
         }
+    }
+
+    /**
+     * 数据权限，处理请求的地址，条件为查询为get，后缀为s结尾
+     */
+    private boolean isDataAuthRequest(HttpServletRequest request) {
+        boolean path = request.getServletPath().equals("/camel/rest");
+        String bizName = request.getPathInfo();
+        //请求的最后是以s结尾的
+        boolean getAll = bizName.substring(bizName.length() - 1, bizName.length()).equals("s");
+        boolean isBizReq = bizName.split("/").length == 2; // 请求只包括一个字符串"/"
+        if ((request.getMethod().equals("GET")) && path && getAll && isBizReq)
+            return true;
+        return false;
     }
 
     private void setCorsResponse(HttpServletResponse httpServletResponse) {

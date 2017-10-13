@@ -2,15 +2,20 @@ package com.kalix.framework.core.web.impl;
 
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.security.IShiroService;
-import com.kalix.framework.core.api.web.*;
-import com.kalix.framework.core.api.web.model.*;
+import com.kalix.framework.core.api.web.IApplication;
+import com.kalix.framework.core.api.web.IMenu;
+import com.kalix.framework.core.api.web.IModule;
+import com.kalix.framework.core.api.web.ISystemService;
+import com.kalix.framework.core.api.web.model.LoginBean;
+import com.kalix.framework.core.api.web.model.MenuBean;
+import com.kalix.framework.core.api.web.model.ModuleBean;
+import com.kalix.framework.core.api.web.model.WebApplicationBean;
 import com.kalix.framework.core.util.ConfigUtil;
 import com.kalix.framework.core.util.StringUtils;
 import com.kalix.framework.core.web.Const;
 import com.kalix.framework.core.web.manager.ApplicationManager;
 import com.kalix.framework.core.web.manager.MenuManager;
 import com.kalix.framework.core.web.manager.ModuleManager;
-import org.apache.openjpa.json.JSON;
 import org.apache.shiro.subject.Subject;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
@@ -317,8 +322,7 @@ public class SystemServiceImpl implements ISystemService {
 
         if (userLoginName != null) {
             jsonStatus.setSuccess(true);
-        }
-        else{
+        } else {
             jsonStatus.setSuccess(false);
         }
 
@@ -338,11 +342,31 @@ public class SystemServiceImpl implements ISystemService {
     public JsonStatus doVCodeTest(String appName) {
         JsonStatus jsonStatus = new JsonStatus();
 
-        String configId="Config"+StringUtils.changeFirstCharacterCase(appName,true)+"Web";
+        String configId = "Config" + StringUtils.changeFirstCharacterCase(appName, true) + "Web";
 
         jsonStatus.setSuccess(true);
         jsonStatus.setMsg((String) ConfigUtil.getConfigProp("vcode", configId));
 
         return jsonStatus;
+    }
+
+    /**
+     * 通过menu名字，返回app的名称，用于数据权限
+     *
+     * @param menuName
+     * @return
+     */
+    public String getAppName(String menuName) {
+        List<IApplication> applicationList = ApplicationManager.getInstall().getApplicationList();
+        for (IApplication application : applicationList) {
+            for (IModule module : ModuleManager.getInstall().getModuleList(application.getId())) {
+                for (IMenu menu : MenuManager.getInstall().getMenuList(module.getId())) {
+                    if (menu.getId().equals(menuName + "Menu")) {
+                        return application.getId();
+                    }
+                }
+            }
+        }
+        return "";
     }
 }

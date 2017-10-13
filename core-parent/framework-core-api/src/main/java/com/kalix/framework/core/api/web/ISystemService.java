@@ -1,7 +1,10 @@
 package com.kalix.framework.core.api.web;
 
 import com.kalix.framework.core.api.persistence.JsonStatus;
-import com.kalix.framework.core.api.web.model.*;
+import com.kalix.framework.core.api.web.model.LoginBean;
+import com.kalix.framework.core.api.web.model.MenuBean;
+import com.kalix.framework.core.api.web.model.ModuleBean;
+import com.kalix.framework.core.api.web.model.WebApplicationBean;
 
 import java.util.List;
 import java.util.Map;
@@ -62,4 +65,7 @@ public interface ISystemService {
     JsonStatus doSysServiceTest();
     //检查系统是否需要验证码
     JsonStatus doVCodeTest(String appName);
+
+    // 通过menu名字，返回app的名称，用于数据权限
+    String getAppName(String menuName);
 }
