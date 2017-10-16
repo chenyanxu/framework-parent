@@ -480,18 +480,5 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
      * @param queryDTO 组织分页查询条件
      * @return
      */
-    private QueryDTO addDataAuthQueryDTO(QueryDTO queryDTO) {
-        String isDataAuth = null;
-        String userId = null;
-        String orgCode = null;
-        Map<String, String> jsonMap = queryDTO.getJsonMap();
-        // 本人数据
-        jsonMap.put("createbyid", userId);
-        // 所在组织机构数据
-        jsonMap.put("id", "40810");
-        // 所在组织机构及以下子机构数据
-        jsonMap.put("code", "%" + orgCode);
-        queryDTO.setJsonMap(jsonMap);
-        return queryDTO;
-    }
+    public abstract QueryDTO addDataAuthQueryDTO(QueryDTO queryDTO);
 }

@@ -3,15 +3,18 @@ package com.kalix.framework.core.impl.biz;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kalix.framework.core.api.annotation.KalixCascade;
 import com.kalix.framework.core.api.cache.ICacheManager;
 import com.kalix.framework.core.api.dao.IGenericDao;
 import com.kalix.framework.core.api.dto.AuditDTOBean;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
+import com.kalix.framework.core.api.security.IDataAuthService;
 import com.kalix.framework.core.api.security.IShiroService;
+import com.kalix.framework.core.api.security.model.EnumDataAuth;
+import com.kalix.framework.core.api.web.model.QueryDTO;
 import com.kalix.framework.core.util.Assert;
 import com.kalix.framework.core.util.JNDIHelper;
-import com.kalix.framework.core.api.annotation.KalixCascade;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.osgi.service.event.Event;
@@ -25,6 +28,7 @@ import java.util.*;
 public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP extends PersistentEntity> extends GenericBizServiceImpl<T, TP> {
     protected IShiroService shiroService;
     protected ICacheManager cacheManager;
+    protected IDataAuthService dataAuthService;
 
     public void setCacheManager(ICacheManager cacheManager) {
         this.cacheManager = cacheManager;
@@ -34,6 +38,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
         try {
             this.shiroService = JNDIHelper.getJNDIServiceForName(IShiroService.class.getName());
             this.cacheManager = JNDIHelper.getJNDIServiceForName(ICacheManager.class.getName());
+            this.dataAuthService = JNDIHelper.getJNDIServiceForName(IDataAuthService.class.getName());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,11 +102,11 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
     /**
      * 解析redis中存储的级联信息
      *
-     * @param map   查询结果map<实体类名, 执行语句>
-     * @param jsonCascade   redis中存储的级联信息
-     * @param cascadeKey    要解析的key（实体类）
-     * @param id    删除的实体类主键值
-     * @param searchSql 拼接的操作查询串
+     * @param map         查询结果map<实体类名, 执行语句>
+     * @param jsonCascade redis中存储的级联信息
+     * @param cascadeKey  要解析的key（实体类）
+     * @param id          删除的实体类主键值
+     * @param searchSql   拼接的操作查询串
      * @return
      */
     private Map<String, String> getCascade(Map<String, String> map, JSONObject jsonCascade, String cascadeKey, Long id, String searchSql) {
@@ -126,8 +131,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
                             // 不存在查询语句
                             operationSql = operation + " from " + table + " where " + foreignKey + " = " + id;
                             mySearchSql = "select " + primaryKey + " from " + table + " where " + foreignKey + " = " + id;
-                        }
-                        else {
+                        } else {
                             // 存在查询语句，拼接in条件
                             operationSql = operation + " from " + table + " where " + foreignKey + " in (" + searchSql + ") ";
                             mySearchSql = "select id from " + table + " where " + foreignKey + " in (" + searchSql + ") ";
@@ -199,5 +203,21 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
     }
 
     public void setShiroService(IShiroService shiroService) {
+    }
+
+    public QueryDTO addDataAuthQueryDTO(QueryDTO queryDTO) {
+        String isDataAuth = null;
+        Long userId = shiroService.getCurrentUserId();
+        String orgCode = null;
+        EnumDataAuth enumDataAuth = dataAuthService.getDataAuth(userId);
+        Map<String, String> jsonMap = queryDTO.getJsonMap();
+        // 本人数据
+        jsonMap.put("createbyid", String.valueOf(userId));
+        // 所在组织机构数据
+        jsonMap.put("id", "40810");
+        // 所在组织机构及以下子机构数据
+        jsonMap.put("code", "%" + orgCode);
+        queryDTO.setJsonMap(jsonMap);
+        return queryDTO;
     }
 }
