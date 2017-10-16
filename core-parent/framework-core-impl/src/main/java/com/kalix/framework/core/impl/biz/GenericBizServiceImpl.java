@@ -243,6 +243,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     //@Override
     public JsonData getAllEntityByQuery(QueryDTO queryDTO) {
         Assert.notNull(queryDTO, "查询条件不能为空.");
+        queryDTO = addDataAuthQueryDTO(queryDTO);
         return dao.getAll(queryDTO.getPage(), queryDTO.getLimit(), dao.buildCriteriaQuery(queryDTO));
     }
 
@@ -250,7 +251,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         Assert.notNull(queryDTO, "查询条件不能为空.");
         JsonData jsonData = dao.getAll(queryDTO.getPage(), queryDTO.getLimit(), dao.buildCriteriaQuery(queryDTO));
         List list = jsonData.getData();
-        for (Object tp:list) {
+        for (Object tp : list) {
             this.translateObjDict(tp, objDictMap);
         }
         return jsonData;
@@ -472,5 +473,25 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 为查询条件增加数据权限
+     * @param queryDTO 组织分页查询条件
+     * @return
+     */
+    private QueryDTO addDataAuthQueryDTO(QueryDTO queryDTO) {
+        String isDataAuth = null;
+        String userId = null;
+        String orgCode = null;
+        Map<String, String> jsonMap = queryDTO.getJsonMap();
+        // 本人数据
+        jsonMap.put("createbyid", userId);
+        // 所在组织机构数据
+        jsonMap.put("id", "40810");
+        // 所在组织机构及以下子机构数据
+        jsonMap.put("code", "%" + orgCode);
+        queryDTO.setJsonMap(jsonMap);
+        return queryDTO;
     }
 }
