@@ -3,6 +3,7 @@ package com.kalix.framework.core.impl.biz;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.reflect.TypeToken;
 import com.kalix.framework.core.api.annotation.KalixCascade;
 import com.kalix.framework.core.api.cache.ICacheManager;
 import com.kalix.framework.core.api.dao.IGenericDao;
@@ -14,12 +15,15 @@ import com.kalix.framework.core.api.security.IShiroService;
 import com.kalix.framework.core.api.security.model.EnumDataAuth;
 import com.kalix.framework.core.api.web.model.QueryDTO;
 import com.kalix.framework.core.util.Assert;
+import com.kalix.framework.core.util.HttpClientUtil;
 import com.kalix.framework.core.util.JNDIHelper;
+import com.kalix.framework.core.util.SerializeUtil;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.osgi.service.event.Event;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -205,19 +209,83 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
     public void setShiroService(IShiroService shiroService) {
     }
 
+    @Override
     public QueryDTO addDataAuthQueryDTO(QueryDTO queryDTO) {
-        String isDataAuth = null;
-        Long userId = shiroService.getCurrentUserId();
-        String orgCode = null;
-        EnumDataAuth enumDataAuth = dataAuthService.getDataAuth(userId);
         Map<String, String> jsonMap = queryDTO.getJsonMap();
-        // 本人数据
-        jsonMap.put("createbyid", String.valueOf(userId));
-        // 所在组织机构数据
-        jsonMap.put("id", "40810");
-        // 所在组织机构及以下子机构数据
-        jsonMap.put("code", "%" + orgCode);
+        Long userId = shiroService.getCurrentUserId();
+        EnumDataAuth enumDataAuth = dataAuthService.getDataAuth(userId);
+        String ids = "";
+        switch (enumDataAuth) {
+            // 本人数据
+            case SELF:
+                jsonMap.put("createbyid", String.valueOf(userId));
+                break;
+            // 所有数据
+            case ALL:
+                break;
+            // 所在组织机构数据
+            case SELF_ORG:
+                /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
+                jsonMap.put("createbyid:in", ids);*/
+                ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
+                jsonMap.put("orgid:in", ids);
+                break;
+            // 所在组织机构及以下子机构数据
+            case SELF_AND_CHILD_ORG:
+                /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
+                jsonMap.put("createbyid:in", ids);*/
+                ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
+                jsonMap.put("orgid:in", ids);
+                break;
+        }
         queryDTO.setJsonMap(jsonMap);
         return queryDTO;
+    }
+
+    /**
+     * 查找指定用户id其所在组织机构或组织机构及其下属机构的所有用户ids或组织机构ids
+     *
+     * @param userId
+     * @param enumDataAuth
+     * @param usersOrOrgs
+     * @return
+     */
+    private String findIdsByUserId(Long userId, EnumDataAuth enumDataAuth, Integer usersOrOrgs) {
+        String ids = "";
+        String url = "";
+        if (usersOrOrgs == 1) {
+            url = "/orgs/ids?userId=" + userId + "&includeChildOrg=";
+        } else {
+            url = "/users/ids?userId=" + userId + "&includeChildOrg=";
+        }
+        switch (enumDataAuth) {
+            case SELF_ORG:
+                url += "false";
+                break;
+            case SELF_AND_CHILD_ORG:
+                url += "true";
+                break;
+        }
+        String getStr = "";
+        try {
+            String sessionId = this.getShiroService().getSession().getId().toString();
+            String access_token = this.getShiroService().getSession().getAttribute("access_token").toString();
+            getStr = HttpClientUtil.shiroGet(url, sessionId, access_token);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        List<Long> list = new ArrayList<>();
+        if (getStr != null) {
+            Type type = new TypeToken<ArrayList<Long>>() {
+            }.getType();
+            list = SerializeUtil.unserializeJson(getStr, type);
+        }
+
+        for (Long obj : list) {
+            ids = ids + "," + String.valueOf(obj);
+        }
+        if (!ids.isEmpty())
+            ids = ids.substring(1, ids.length());
+        return ids;
     }
 }
