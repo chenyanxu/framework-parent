@@ -480,5 +480,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
      * @param queryDTO 组织分页查询条件
      * @return
      */
-    public abstract QueryDTO addDataAuthQueryDTO(QueryDTO queryDTO);
+    public QueryDTO addDataAuthQueryDTO(QueryDTO queryDTO) {
+        return queryDTO;
+    }
 }
