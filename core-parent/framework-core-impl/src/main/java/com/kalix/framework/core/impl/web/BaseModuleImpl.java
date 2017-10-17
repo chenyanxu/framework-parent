@@ -1,11 +1,9 @@
 package com.kalix.framework.core.impl.web;
 
-import com.kalix.framework.core.api.web.IApplication;
 import com.kalix.framework.core.api.web.IMenu;
 import com.kalix.framework.core.api.web.IModule;
 import com.kalix.framework.core.util.ConfigUtil;
 
-import java.util.Dictionary;
 import java.util.List;
 
 /**
@@ -59,6 +57,11 @@ public class BaseModuleImpl implements IModule {
     @Override
     public String getIconCls() {
         return iconCls;
+    }
+
+    @Override
+    public Boolean getSupportMobile() {
+        return true;
     }
 
     @Override
