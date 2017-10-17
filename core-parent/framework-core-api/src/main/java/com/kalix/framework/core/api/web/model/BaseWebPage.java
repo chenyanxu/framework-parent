@@ -9,6 +9,7 @@ public class BaseWebPage {
     private String description;
     private String iconCls;
     private String routeId;
+    private Boolean supportMobile;
     private int index;
 
     public String getId() {
@@ -57,5 +58,13 @@ public class BaseWebPage {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public Boolean getSupportMobile() {
+        return supportMobile;
+    }
+
+    public void setSupportMobile(Boolean supportMobile) {
+        this.supportMobile = supportMobile;
     }
 }

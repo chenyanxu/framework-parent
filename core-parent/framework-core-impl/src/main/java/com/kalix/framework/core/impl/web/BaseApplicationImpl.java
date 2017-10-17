@@ -16,6 +16,7 @@ public class BaseApplicationImpl implements IApplication {
     private String id;
     private String text;
     private String iconCls;
+    private Boolean supportMobile;
     private int index;
     private int permission;
     private BundleContext bundleContext;
@@ -41,6 +42,7 @@ public class BaseApplicationImpl implements IApplication {
             iconCls = ConfigUtil.getConfigProp(idUpper + "_ICONCLS", "ConfigApplication").toString();
             index = Integer.parseInt(ConfigUtil.getConfigProp(idUpper + "_INDEX", "ConfigApplication").toString());
             permission = Integer.parseInt(ConfigUtil.getConfigProp(idUpper + "_PERMISSION", "ConfigApplication").toString());
+            supportMobile = Boolean.parseBoolean(ConfigUtil.getConfigProp(idUpper + "_SUPPORTMOBILE", "ConfigApplication").toString());
         }
     }
 
@@ -66,6 +68,7 @@ public class BaseApplicationImpl implements IApplication {
                             iconCls = dictionary.get("APPLICATION_APP_ICONCLS");
                             index = Integer.parseInt(dictionary.get("APPLICATION_APP_INDEX"));
                             permission = Integer.parseInt(dictionary.get("APPLICATION_APP_PERMISSION"));
+                            supportMobile = Boolean.parseBoolean(dictionary.get("APPLICATION_APP_SUPPORTMOBILE"));
                             break;
                         case "MENU":
                             BaseMenuImpl menu = null;
@@ -206,6 +209,15 @@ public class BaseApplicationImpl implements IApplication {
     @Override
     public int getIndex() {
         return index;
+    }
+
+    @Override
+    public Boolean getSupportMobile() {
+        return supportMobile;
+    }
+
+    public void setSupportMobile(Boolean supportMobile) {
+        this.supportMobile = supportMobile;
     }
 
     @Override

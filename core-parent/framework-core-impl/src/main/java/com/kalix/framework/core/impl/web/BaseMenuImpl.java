@@ -12,6 +12,7 @@ public class BaseMenuImpl implements IMenu {
     private String iconCls;
     private int index;
     private int permission;
+    private Boolean supportMobild;
     private String applicationId;
     private String routeId;
     private String moduleId;
@@ -97,6 +98,11 @@ public class BaseMenuImpl implements IMenu {
     @Override
     public String getButtons() {
         return buttons;
+    }
+
+    @Override
+    public Boolean getSupportMobile() {
+        return true;
     }
 
     @Override
