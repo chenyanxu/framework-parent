@@ -42,7 +42,6 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
         try {
             this.shiroService = JNDIHelper.getJNDIServiceForName(IShiroService.class.getName());
             this.cacheManager = JNDIHelper.getJNDIServiceForName(ICacheManager.class.getName());
-            this.dataAuthService = JNDIHelper.getJNDIServiceForName(IDataAuthService.class.getName());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -211,34 +210,42 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
 
     @Override
     public QueryDTO addDataAuthQueryDTO(QueryDTO queryDTO) {
-        Map<String, String> jsonMap = queryDTO.getJsonMap();
-        Long userId = shiroService.getCurrentUserId();
-        EnumDataAuth enumDataAuth = dataAuthService.getDataAuth(userId);
-        String ids = "";
-        switch (enumDataAuth) {
-            // 本人数据
-            case SELF:
-                jsonMap.put("createbyid", String.valueOf(userId));
-                break;
-            // 所有数据
-            case ALL:
-                break;
-            // 所在组织机构数据
-            case SELF_ORG:
+        try {
+            Map<String, String> jsonMap = queryDTO.getJsonMap();
+            Long userId = shiroService.getCurrentUserId();
+            if (this.dataAuthService == null) {
+                this.dataAuthService = JNDIHelper.getJNDIServiceForName(IDataAuthService.class.getName());
+            }
+            EnumDataAuth enumDataAuth = dataAuthService.getDataAuth(userId);
+            String ids = "";
+            switch (enumDataAuth) {
+                // 本人数据
+                case SELF:
+                    jsonMap.put("createbyid", String.valueOf(userId));
+                    break;
+                // 所有数据
+                case ALL:
+                    break;
+                // 所在组织机构数据
+                case SELF_ORG:
                 /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
                 jsonMap.put("createbyid:in", ids);*/
-                ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
-                jsonMap.put("orgid:in", ids);
-                break;
-            // 所在组织机构及以下子机构数据
-            case SELF_AND_CHILD_ORG:
+                    ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
+                    jsonMap.put("orgid:in", ids);
+                    break;
+                // 所在组织机构及以下子机构数据
+                case SELF_AND_CHILD_ORG:
                 /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
                 jsonMap.put("createbyid:in", ids);*/
-                ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
-                jsonMap.put("orgid:in", ids);
-                break;
+                    ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
+                    jsonMap.put("orgid:in", ids);
+                    break;
+            }
+            queryDTO.setJsonMap(jsonMap);
         }
-        queryDTO.setJsonMap(jsonMap);
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         return queryDTO;
     }
 
@@ -287,5 +294,9 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
         if (!ids.isEmpty())
             ids = ids.substring(1, ids.length());
         return ids;
+    }
+
+    public void setDataAuthService(IDataAuthService dataAuthService) {
+        this.dataAuthService = dataAuthService;
     }
 }
