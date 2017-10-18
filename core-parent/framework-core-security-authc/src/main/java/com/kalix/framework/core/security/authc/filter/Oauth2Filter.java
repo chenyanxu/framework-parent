@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kalix.framework.core.security.authc.Constants;
 import com.kalix.framework.core.security.authc.Status;
+import com.kalix.framework.core.util.HttpUtil;
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
@@ -86,21 +87,7 @@ public class Oauth2Filter implements Filter {
 //                Cookie cookies[] = req.getCookies();
                 String accessToken = "";
 
-                if (req.getHeader("AccessToken") != null) {
-                    accessToken = req.getHeader("AccessToken");
-                }
 
-                if (req.getParameter("AccessToken") != null) {
-                    accessToken = req.getParameter("AccessToken");
-                }
-
-                if (req.getHeader("access_token") != null) {
-                    accessToken = req.getHeader("access_token");
-                }
-
-                if (req.getParameter("access_token") != null) {
-                    accessToken = req.getParameter("access_token");
-                }
 //
 //                for (int cIndex = cookies.length - 1; cIndex >= 0; --cIndex) {
 //                    if (cookies[cIndex].getName().equals("access_token")) {
@@ -109,7 +96,7 @@ public class Oauth2Filter implements Filter {
 //                    }
 //                }
                 //验证Access Token
-
+                accessToken = checkToken(req);
 
                 if (!checkAccessToken(accessToken)) {
                     // 如果不存在/过期了，返回未验证错误，需重新验证
@@ -157,6 +144,34 @@ public class Oauth2Filter implements Filter {
         //writer.write(gson.toJson(getStatus(401,Constants.INVALID_ACCESS_TOKEN)));
         //writer.flush();
         //writer.close();
+    }
+
+    private String checkToken(HttpServletRequest req) {
+        String accessToken = "";
+        if (req.getHeader("AccessToken") != null) {
+            accessToken = req.getHeader("AccessToken");
+            return accessToken;
+        }
+
+        if (req.getParameter("AccessToken") != null) {
+            accessToken = req.getParameter("AccessToken");
+            return accessToken;
+        }
+
+        if (req.getHeader("access_token") != null) {
+            accessToken = req.getHeader("access_token");
+            return accessToken;
+        }
+
+        if (req.getParameter("access_token") != null) {
+            accessToken = req.getParameter("access_token");
+            return accessToken;
+        }
+
+        if (HttpUtil.getCookieByName(req, "access_token") != null) {
+            accessToken = HttpUtil.getCookieByName(req, "access_token").getValue();
+        }
+        return accessToken;
     }
 
     /**

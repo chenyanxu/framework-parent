@@ -221,29 +221,28 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
             switch (enumDataAuth) {
                 // 本人数据
                 case SELF:
-                    jsonMap.put("createbyid", String.valueOf(userId));
+                    jsonMap.put("createById", String.valueOf(userId));
                     break;
                 // 所有数据
                 case ALL:
                     break;
                 // 所在组织机构数据
                 case SELF_ORG:
-                /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
-                jsonMap.put("createbyid:in", ids);*/
+                    /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
+                    jsonMap.put("createbyid:in", ids);*/
                     ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
-                    jsonMap.put("orgid:in", ids);
+                    jsonMap.put("orgId:in", ids);
                     break;
                 // 所在组织机构及以下子机构数据
                 case SELF_AND_CHILD_ORG:
-                /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
-                jsonMap.put("createbyid:in", ids);*/
+                    /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
+                    jsonMap.put("createbyid:in", ids);*/
                     ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
-                    jsonMap.put("orgid:in", ids);
+                    jsonMap.put("orgId:in", ids);
                     break;
             }
             queryDTO.setJsonMap(jsonMap);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return queryDTO;

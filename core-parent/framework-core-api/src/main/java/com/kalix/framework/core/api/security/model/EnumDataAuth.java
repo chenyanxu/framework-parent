@@ -5,10 +5,10 @@ package com.kalix.framework.core.api.security.model;
  * 数据权限枚举类
  */
 public enum EnumDataAuth {
-    SELF(1), // 仅本人数据
-    ALL(2),  // 所有数据
-    SELF_ORG(3), // 所在组织机构数据
-    SELF_AND_CHILD_ORG(4); // 所在组织机构及以下子机构数据
+    SELF(0), // 仅本人数据
+    ALL(1),  // 所有数据
+    SELF_ORG(2), // 所在组织机构数据
+    SELF_AND_CHILD_ORG(3); // 所在组织机构及以下子机构数据
 
     private final int value;
 
