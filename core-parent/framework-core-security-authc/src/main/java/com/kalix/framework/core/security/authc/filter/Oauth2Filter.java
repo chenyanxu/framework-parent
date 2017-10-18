@@ -149,7 +149,7 @@ public class Oauth2Filter implements Filter {
     }
 
     private String checkToken(HttpServletRequest req) {
-        String accessToken = null;
+        String accessToken = "";
         if (req.getHeader("AccessToken") != null) {
             accessToken = req.getHeader("AccessToken");
             return accessToken;
