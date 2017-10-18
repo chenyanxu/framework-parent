@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kalix.framework.core.security.authc.Constants;
 import com.kalix.framework.core.security.authc.Status;
+import com.kalix.framework.core.util.HttpUtil;
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
@@ -11,16 +12,13 @@ import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
 
 import javax.servlet.*;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -170,8 +168,8 @@ public class Oauth2Filter implements Filter {
             return accessToken;
         }
 
-        if (getCookieByName(req, "access_token") != null) {
-            accessToken = getCookieByName(req, "access_token").getValue();
+        if (HttpUtil.getCookieByName(req, "access_token") != null) {
+            accessToken = HttpUtil.getCookieByName(req, "access_token").getValue();
         }
         return accessToken;
     }
@@ -201,40 +199,6 @@ public class Oauth2Filter implements Filter {
     @Override
     public void destroy() {
 
-    }
-
-    /**
-     * 根据名字获取cookie
-     *
-     * @param request
-     * @param name    cookie名字
-     * @return
-     */
-    public static Cookie getCookieByName(HttpServletRequest request, String name) {
-        Map<String, Cookie> cookieMap = ReadCookieMap(request);
-        if (cookieMap.containsKey(name)) {
-            Cookie cookie = (Cookie) cookieMap.get(name);
-            return cookie;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * 将cookie封装到Map里面
-     *
-     * @param request
-     * @return
-     */
-    private static Map<String, Cookie> ReadCookieMap(HttpServletRequest request) {
-        Map<String, Cookie> cookieMap = new HashMap<String, Cookie>();
-        Cookie[] cookies = request.getCookies();
-        if (null != cookies) {
-            for (Cookie cookie : cookies) {
-                cookieMap.put(cookie.getName(), cookie);
-            }
-        }
-        return cookieMap;
     }
 
     public List<String> getExceptUrlList() {
