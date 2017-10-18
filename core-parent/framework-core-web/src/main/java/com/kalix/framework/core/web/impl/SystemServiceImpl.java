@@ -361,7 +361,7 @@ public class SystemServiceImpl implements ISystemService {
         for (IApplication application : applicationList) {
             for (IModule module : ModuleManager.getInstall().getModuleList(application.getId())) {
                 for (IMenu menu : MenuManager.getInstall().getMenuList(module.getId())) {
-                    if (menu.getId().equals(menuName + "Menu")) {
+                    if (menu.getId().toLowerCase().equals(menuName + "menu")) {
                         return application.getId();
                     }
                 }

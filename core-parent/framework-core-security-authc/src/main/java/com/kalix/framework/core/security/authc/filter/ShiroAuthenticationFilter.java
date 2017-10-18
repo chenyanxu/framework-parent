@@ -110,6 +110,8 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
             rtnPage = this.getRtnPage();
             String oauth_token = this.getAccessToken(response);
             session.setAttribute("access_token", oauth_token);  // 保存 access_token 到session
+            Cookie cookieAccessToken = new Cookie("access_token", oauth_token);
+            httpServletResponse.addCookie(cookieAccessToken);
             out.println("{\"success\":true," +
                     "\"location\":\"" + contextPath + rtnPage +
                     "\",\"message\":\"登入成功\"," +
