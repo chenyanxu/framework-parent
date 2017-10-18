@@ -11,13 +11,16 @@ import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
 
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -86,21 +89,7 @@ public class Oauth2Filter implements Filter {
 //                Cookie cookies[] = req.getCookies();
                 String accessToken = "";
 
-                if (req.getHeader("AccessToken") != null) {
-                    accessToken = req.getHeader("AccessToken");
-                }
 
-                if (req.getParameter("AccessToken") != null) {
-                    accessToken = req.getParameter("AccessToken");
-                }
-
-                if (req.getHeader("access_token") != null) {
-                    accessToken = req.getHeader("access_token");
-                }
-
-                if (req.getParameter("access_token") != null) {
-                    accessToken = req.getParameter("access_token");
-                }
 //
 //                for (int cIndex = cookies.length - 1; cIndex >= 0; --cIndex) {
 //                    if (cookies[cIndex].getName().equals("access_token")) {
@@ -109,7 +98,7 @@ public class Oauth2Filter implements Filter {
 //                    }
 //                }
                 //验证Access Token
-
+                accessToken = checkToken(req);
 
                 if (!checkAccessToken(accessToken)) {
                     // 如果不存在/过期了，返回未验证错误，需重新验证
@@ -159,6 +148,34 @@ public class Oauth2Filter implements Filter {
         //writer.close();
     }
 
+    private String checkToken(HttpServletRequest req) {
+        String accessToken = null;
+        if (req.getHeader("AccessToken") != null) {
+            accessToken = req.getHeader("AccessToken");
+            return accessToken;
+        }
+
+        if (req.getParameter("AccessToken") != null) {
+            accessToken = req.getParameter("AccessToken");
+            return accessToken;
+        }
+
+        if (req.getHeader("access_token") != null) {
+            accessToken = req.getHeader("access_token");
+            return accessToken;
+        }
+
+        if (req.getParameter("access_token") != null) {
+            accessToken = req.getParameter("access_token");
+            return accessToken;
+        }
+
+        if (getCookieByName(req, "access_token") != null) {
+            accessToken = getCookieByName(req, "access_token").getValue();
+        }
+        return accessToken;
+    }
+
     /**
      * 验证accessToken
      *
@@ -184,6 +201,40 @@ public class Oauth2Filter implements Filter {
     @Override
     public void destroy() {
 
+    }
+
+    /**
+     * 根据名字获取cookie
+     *
+     * @param request
+     * @param name    cookie名字
+     * @return
+     */
+    public static Cookie getCookieByName(HttpServletRequest request, String name) {
+        Map<String, Cookie> cookieMap = ReadCookieMap(request);
+        if (cookieMap.containsKey(name)) {
+            Cookie cookie = (Cookie) cookieMap.get(name);
+            return cookie;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 将cookie封装到Map里面
+     *
+     * @param request
+     * @return
+     */
+    private static Map<String, Cookie> ReadCookieMap(HttpServletRequest request) {
+        Map<String, Cookie> cookieMap = new HashMap<String, Cookie>();
+        Cookie[] cookies = request.getCookies();
+        if (null != cookies) {
+            for (Cookie cookie : cookies) {
+                cookieMap.put(cookie.getName(), cookie);
+            }
+        }
+        return cookieMap;
     }
 
     public List<String> getExceptUrlList() {
