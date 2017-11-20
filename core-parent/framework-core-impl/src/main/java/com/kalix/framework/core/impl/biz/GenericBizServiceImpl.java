@@ -483,4 +483,15 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     public QueryDTO addDataAuthQueryDTO(QueryDTO queryDTO) {
         return queryDTO;
     }
+
+    /**
+     * 为查询条件增加数据权限
+     * @param sql 原查询条件
+     * @param tableAlias 查询表别名
+     * @param hasWhere 是否存在where条件
+     * @return
+     */
+    public String addDataAuthNativeSql(String sql, String tableAlias, Boolean hasWhere) {
+        return sql;
+    }
 }

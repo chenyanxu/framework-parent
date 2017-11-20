@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.osgi.service.event.Event;
 
+import javax.persistence.criteria.CriteriaQuery;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -212,6 +213,9 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
     public QueryDTO addDataAuthQueryDTO(QueryDTO queryDTO) {
         try {
             Map<String, String> jsonMap = queryDTO.getJsonMap();
+            if (jsonMap == null) {
+                jsonMap = new HashMap<String, String>();
+            }
             Long userId = shiroService.getCurrentUserId();
             if (this.dataAuthService == null) {
                 this.dataAuthService = JNDIHelper.getJNDIServiceForName(IDataAuthService.class.getName());
@@ -246,6 +250,64 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
             e.printStackTrace();
         }
         return queryDTO;
+    }
+
+    @Override
+    public String addDataAuthNativeSql(String sql, String tableAlias, Boolean hasWhere) {
+        try {
+            String dataAuthSql = "";
+            Long userId = shiroService.getCurrentUserId();
+            if (this.dataAuthService == null) {
+                this.dataAuthService = JNDIHelper.getJNDIServiceForName(IDataAuthService.class.getName());
+            }
+            EnumDataAuth enumDataAuth = dataAuthService.getDataAuth(userId);
+            String ids = "";
+            switch (enumDataAuth) {
+                // 本人数据
+                case SELF:
+                    if (tableAlias == null || tableAlias.equals("")) {
+                        dataAuthSql = "createbyid=" + userId;
+                    } else {
+                        dataAuthSql = tableAlias + ".createbyid=" + userId;
+                    }
+                    break;
+                // 所有数据
+                case ALL:
+                    break;
+                // 所在组织机构数据
+                case SELF_ORG:
+                    /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
+                    jsonMap.put("createbyid:in", ids);*/
+                    ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
+                    if (tableAlias == null || tableAlias.equals("")) {
+                        dataAuthSql = "orgid in(" + ids + ")";
+                    } else {
+                        dataAuthSql = tableAlias + ".orgid in(" + ids + ")";
+                    }
+                    break;
+                // 所在组织机构及以下子机构数据
+                case SELF_AND_CHILD_ORG:
+                    /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
+                    jsonMap.put("createbyid:in", ids);*/
+                    ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
+                    if (tableAlias == null || tableAlias.equals("")) {
+                        dataAuthSql = "orgid in(" + ids + ")";
+                    } else {
+                        dataAuthSql = tableAlias + ".orgid in(" + ids + ")";
+                    }
+                    break;
+            }
+            if (!dataAuthSql.equals("")) {
+                if (hasWhere) {
+                    sql += " and " + dataAuthSql;
+                } else {
+                    sql += " where " + dataAuthSql;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sql;
     }
 
     /**
