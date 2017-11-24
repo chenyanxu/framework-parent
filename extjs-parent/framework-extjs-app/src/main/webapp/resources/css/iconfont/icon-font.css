@@ -188,7 +188,7 @@
 .icon-common-both:before{content: "\e667";}
 
 /*research*/
-.icon-research:before{content: "\e681";}
+.icon-research:before{content: "\e684";}
 .icon-research-person-student:before{content: "\e67d";}
 .icon-research-person-teacher:before{content: "\e67e";}
 .icon-research-person-worker:before{content: "\e67c";}
@@ -197,3 +197,8 @@
 .icon-research-competiton-award:before{content: "\e6c2";}
 .icon-research-competiton-competionInfo:before{content: "\e67b";}
 .icon-research-statistics-datastatistics:before{content: "\e680";}
+
+/*art*/
+.icon-art:before{content: "\e681";}
+.icon-art-recruit:before{content: "\e683";}
+.icon-art-candidate:before{content: "\e682";}
