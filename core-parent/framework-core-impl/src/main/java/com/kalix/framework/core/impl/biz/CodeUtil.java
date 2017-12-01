@@ -42,11 +42,12 @@ public class CodeUtil {
         List<String> lists = dao.findByNativeSql(sql, String.class, parentId);
         String maxCode = "";
         if (lists != null && lists.size() > 0) {
-            maxCode = lists.get(0).trim();
+            maxCode = lists.get(0);
         }
         if (maxCode == null) {
             maxCode = "";
         }
+        maxCode = maxCode.trim();
         if (maxCode.equals("")) {
             //  无子节点
             if (parentId == -1) {
