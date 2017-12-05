@@ -47,6 +47,7 @@ public class CodeUtil {
         if (maxCode == null) {
             maxCode = "";
         }
+        maxCode = maxCode.trim();
         if (maxCode.equals("")) {
             //  无子节点
             if (parentId == -1) {

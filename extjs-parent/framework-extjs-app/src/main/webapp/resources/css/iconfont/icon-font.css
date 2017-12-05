@@ -16,11 +16,11 @@
 }*/
 @font-face {
   font-family: 'iconfont';  /* project id 102603 */
-  src: url('//at.alicdn.com/t/font_102603_j2x2l6pta9k9.eot');
-  src: url('//at.alicdn.com/t/font_102603_j2x2l6pta9k9.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_102603_j2x2l6pta9k9.woff') format('woff'),
-  url('//at.alicdn.com/t/font_102603_j2x2l6pta9k9.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_102603_j2x2l6pta9k9.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_102603_nxplp6yv8p808uxr.eot');
+  src: url('//at.alicdn.com/t/font_102603_nxplp6yv8p808uxr.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_102603_nxplp6yv8p808uxr.woff') format('woff'),
+  url('//at.alicdn.com/t/font_102603_nxplp6yv8p808uxr.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_102603_nxplp6yv8p808uxr.svg#iconfont') format('svg');
 }
 
 
@@ -87,9 +87,9 @@
 .icon-meeting-room:before { content: "\e628"; }
 .icon-meeting-apply:before { content: "\e710"; }
 .icon-evection:before { content: "\e673"; }
-
 .icon-inbox:before { content: "\e60e"; }
 .icon-outbox:before { content: "\e60f"; }
+.icon-temporary:before { content: "\e687"; }
 
 .icon-task:before { content: "\e617"; }
 .icon-history:before { content: "\e60a"; }
@@ -200,5 +200,7 @@
 
 /*art*/
 .icon-art:before{content: "\e681";}
-.icon-art-recruit:before{content: "\e683";}
-.icon-art-candidate:before{content: "\e682";}
+.icon-art-recruit:before{content: "\e682";}
+.icon-art-candidate:before{content: "\e683";}
+.icon-art-function:before{content: "\e686";}
+.icon-art-major:before{content: "\e685";}
