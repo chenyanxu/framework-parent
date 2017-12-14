@@ -14,7 +14,7 @@ import java.util.Date;
  * @version 1.0.0
  */
 public abstract class BaseDTO implements Serializable {
-    protected long id = -1L;
+    protected Long id = -1L;
     @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty(value="创建日期")
     protected Date creationDate;// 创建日期
@@ -62,11 +62,11 @@ public abstract class BaseDTO implements Serializable {
         this.updateDate = updateDate;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
