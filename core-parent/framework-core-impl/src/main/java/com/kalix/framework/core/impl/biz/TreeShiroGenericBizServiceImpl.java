@@ -53,9 +53,9 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
     public void afterSaveEntity(TP entity, JsonStatus status) {
         Assert.notNull(entity, "实体不能为空.");
 
-        if (entity.getParentId() != -1) {
+        if (!entity.getParentId().equals(-1L)) {
             TP parentEntity = (TP) dao.get(entity.getParentId());
-            if (parentEntity != null && parentEntity.getIsLeaf() == 1) {
+            if (parentEntity != null && parentEntity.getIsLeaf().equals(1L)) {
                 parentEntity.setIsLeaf(0L);
                 dao.save(parentEntity);
             }
@@ -156,7 +156,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
      */
     @Transactional
     public void updateParent(Long parentId) {
-        if (parentId != -1) {
+        if (!parentId.equals(-1L)) {
             // 获取父节点
             TP parentEntity = (TP) dao.get(parentId);
             if (parentEntity != null) {
@@ -258,7 +258,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
         String parentName = "根";
 
         for (TP entity : entities) {
-            if (entity.getId() == id) {
+            if (entity.getId() == id.longValue()) {
                 root = mapper.map(entity, BaseTreeDTO.class);
                 root.setText(entity.getName());
                 parentName = entity.getName();
@@ -273,7 +273,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
             if (rootElements != null && rootElements.size() > 0) {
                 for (TP rootElement : rootElements) {
                     BaseTreeDTO entityDTO = mapper.map(rootElement, BaseTreeDTO.class);
-                    entityDTO.setLeaf(rootElement.getIsLeaf() != 0);
+                    entityDTO.setLeaf(!rootElement.getIsLeaf().equals(0L));
                     entityDTO.setParentName(parentName);
                     entityDTO.setText(rootElement.getName());
                     getChilden(entityDTO, entities, mapper, true);
@@ -305,15 +305,15 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
     private void getChilden(BaseTreeDTO root, List<TP> elements, Mapper mapper, boolean isRecursion) {
 
         List<BaseTreeDTO> children = new ArrayList<>();
-        elements.stream().filter(n -> root.getId() != -1 && (root.getId() == n.getParentId()))
+        elements.stream().filter(n -> !root.getId().equals(-1L) && (root.getId().equals(n.getParentId())))
                 .forEach(n -> {
                     BaseTreeDTO entityDTO = mapper.map(n, BaseTreeDTO.class);
-                    entityDTO.setLeaf(n.getIsLeaf() != 0);
+                    entityDTO.setLeaf(!n.getIsLeaf().equals(0L));
                     entityDTO.setParentName(root.getName());
                     entityDTO.setText(n.getName());
                     children.add(entityDTO);
 
-                    if (isRecursion && n.getIsLeaf() == 0) {
+                    if (isRecursion && n.getIsLeaf().equals(0L)) {
                         getChilden(entityDTO, elements, mapper, isRecursion);
                     }
                 });
