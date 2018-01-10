@@ -12,10 +12,8 @@ import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.web.model.QueryDTO;
 import org.apache.log4j.Logger;
 
-import javax.persistence.EntityManager;
+import javax.persistence.*;
 import javax.persistence.Query;
-import javax.persistence.Table;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.SingularAttribute;
@@ -610,5 +608,71 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         }
 
         return null;
+    }
+
+    /**
+     * 1.select
+     * 2.where
+     * 3.groupby
+     * 4.having
+     * 5.统计类型
+     * @return
+     */
+    public JsonData getAllByStatistic(QueryDTO queryDTO) {
+        JsonData jsonData = new JsonData();
+        Map<String, String> jsonMap = queryDTO.getJsonMap();
+        // groupby 分组字段
+        String[] groupBys = jsonMap.get("groupBys").split(",");
+        // select 中非统计字段
+        String[] notStatistics = jsonMap.get("selectNotStatistic").split(",");
+        String[] statistics = jsonMap.get("selectStatistic").split(",");
+        String[] statisticTypes = jsonMap.get("selectStatisticType").split(",");
+        // 统计字段为空，或者统计字段类型为空，或者统计字段数与类型数不符直接返回
+        if (statisticTypes == null || statisticTypes.length == 0
+                || statistics == null || statistics.length==0 || statisticTypes.length != statistics.length) {
+            return null;
+        }
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Tuple> cq = criteriaBuilder.createQuery(Tuple.class);
+        Root<T> root = cq.from(this.persistentClass);
+        if (groupBys != null) {
+            List groupList = new ArrayList<>();
+            for (String groupBy : groupBys) {
+                groupList.add(root.get(groupBy));
+            }
+            cq.groupBy(groupList);
+        }
+        //cq.where()
+        //cq.having(criteriaBuilder.like(root.get(Employee_.name), "N%"));
+        List<Selection<?>> selections = new ArrayList<>();
+        // 非统计的select字段如果不空添加到select中
+        if (notStatistics != null || notStatistics.length > 0) {
+            for (String notStatistic : notStatistics) {
+                selections.add(root.get(notStatistic));
+            }
+        }
+        for (int i=0; i<statisticTypes.length; i++) {
+            switch(statisticTypes[i]){
+                case "count": selections.add(criteriaBuilder.count(root.get(statistics[i])));
+                    break;
+                case "sum": selections.add(criteriaBuilder.sum(root.get(statistics[i])));
+                    break;
+                case "max": selections.add(criteriaBuilder.max(root.get(statistics[i])));
+                    break;
+                case "min": selections.add(criteriaBuilder.min(root.get(statistics[i])));
+                    break;
+                case "avg": selections.add(criteriaBuilder.avg(root.get(statistics[i])));
+                    break;
+                default:
+                    break;
+            }
+        }
+//        cq.select(criteriaBuilder.tuple(root.get(Employee_.name),criteriaBuilder.count(root)));
+        cq.select(criteriaBuilder.tuple((Selection[])selections.toArray()));
+        TypedQuery<Tuple> q = entityManager.createQuery(cq);
+        List<Tuple> result = q.getResultList();
+        jsonData.setData(result);
+        return jsonData;
     }
 }

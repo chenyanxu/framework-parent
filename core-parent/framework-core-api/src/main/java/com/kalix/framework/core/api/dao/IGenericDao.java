@@ -6,6 +6,7 @@ import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.web.model.QueryDTO;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Tuple;
 import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
 import java.util.List;
@@ -172,4 +173,5 @@ public interface IGenericDao<T, PK extends Serializable> extends IService {
 
     //Get the entity bean table name of the dao
     String getTableName();
+    JsonData getAllByStatistic(QueryDTO queryDTO);
 }
