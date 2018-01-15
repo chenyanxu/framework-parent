@@ -54,6 +54,12 @@ public class ConfigUtil {
         }
         return null;
     }
+    /**
+     * 获取配置文件信息
+     *
+     * @param configId 配置文件名称
+     * @return
+     */
 
     public static Dictionary<String, Object> getAllConfig(String configId) {
         try {
