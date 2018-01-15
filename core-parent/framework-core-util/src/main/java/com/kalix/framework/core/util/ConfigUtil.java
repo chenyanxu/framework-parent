@@ -76,4 +76,18 @@ public class ConfigUtil {
         }
         return null;
     }
+
+    public static  void saveAllConfig(Dictionary dictionary,String configId) {
+        try {
+            if(configurationAdmin==null){
+                configurationAdmin = JNDIHelper.getJNDIServiceForName(ConfigurationAdmin.class.getName());
+            }
+
+            Configuration config = configurationAdmin.getConfiguration(configId);
+            config.update(dictionary);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
