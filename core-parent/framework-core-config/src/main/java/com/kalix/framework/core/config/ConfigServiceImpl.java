@@ -21,9 +21,9 @@ public class ConfigServiceImpl implements IConfigService {
      *
      * @return
      */
-    public JsonData getConfigInfo(String configid) {
+    public JsonData getConfigInfo(String AppName) {
         JsonData jsondata = new JsonData();
-        Dictionary<String, Object> config= ConfigUtil.getAllConfig(configid);
+        Dictionary<String, Object> config= ConfigUtil.getAllConfig(AppName);
 
         HashMap map = new HashMap();
         Enumeration enumeration= config.keys();
@@ -63,10 +63,10 @@ public class ConfigServiceImpl implements IConfigService {
      *
      * @return
      */
-    public  JsonStatus configureConfigInfo(String content,String configid)
+    public  JsonStatus configureConfigInfo(String content,String AppName)
     {
         ConfigBean configBean = new ConfigBean();
-        Dictionary<String, Object> config=ConfigUtil.getAllConfig(configid);
+        Dictionary<String, Object> config=ConfigUtil.getAllConfig(AppName);
         JsonParser jsonParser = new JsonParser();
         JsonElement el= jsonParser.parse(content);
         JsonObject jsonObject=el.getAsJsonObject();
@@ -77,7 +77,7 @@ public class ConfigServiceImpl implements IConfigService {
             configBean.setValue(jObject.getAsJsonPrimitive("value").getAsString());
             config.put(configBean.getId()+".value", configBean.getValue());
         }
-        ConfigUtil.saveAllConfig(config,configid);
+        ConfigUtil.saveAllConfig(config,AppName);
         jsonStatus.setMsg("设置成功！");
         jsonStatus.setSuccess(true);
         return jsonStatus;
