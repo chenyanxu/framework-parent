@@ -77,6 +77,10 @@ public class ConfigUtil {
         return null;
     }
 
+    /**
+     * 保存配置文件信息
+     * @return
+     */
     public static  void saveAllConfig(Dictionary dictionary,String configId) {
         try {
             if(configurationAdmin==null){
