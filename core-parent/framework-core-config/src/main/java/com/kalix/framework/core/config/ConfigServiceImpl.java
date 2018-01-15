@@ -3,8 +3,8 @@ package com.kalix.framework.core.config;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.kalix.framework.core.api.config.IAdminConfigService;
-import com.kalix.framework.core.api.config.model.AdminConfigBean;
+import com.kalix.framework.core.api.config.IConfigService;
+import com.kalix.framework.core.api.config.model.ConfigBean;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.util.ConfigUtil;
@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * Created by Administrator_ on 2018/1/15.
  */
-public class AdminConfigInfo implements IAdminConfigService {
+public class ConfigServiceImpl implements IConfigService {
     private JsonStatus jsonStatus = new JsonStatus();
     /**
      * 获取配置信息
@@ -65,7 +65,7 @@ public class AdminConfigInfo implements IAdminConfigService {
      */
     public  JsonStatus configureConfigInfo(String content,String configid)
     {
-        AdminConfigBean adminConfigBean = new AdminConfigBean();
+        ConfigBean configBean = new ConfigBean();
         Dictionary<String, Object> config=ConfigUtil.getAllConfig(configid);
         JsonParser jsonParser = new JsonParser();
         JsonElement el= jsonParser.parse(content);
@@ -73,9 +73,9 @@ public class AdminConfigInfo implements IAdminConfigService {
         Set<Map.Entry<String, JsonElement>> entrySet=jsonObject.entrySet();
         for (Map.Entry<String, JsonElement> entry : entrySet) {
             JsonObject jObject = jsonObject.getAsJsonObject(entry.getKey());
-            adminConfigBean.setId(jObject.getAsJsonPrimitive("id").getAsString());
-            adminConfigBean.setValue(jObject.getAsJsonPrimitive("value").getAsString());
-            config.put(adminConfigBean.getId()+".value",adminConfigBean.getValue());
+            configBean.setId(jObject.getAsJsonPrimitive("id").getAsString());
+            configBean.setValue(jObject.getAsJsonPrimitive("value").getAsString());
+            config.put(configBean.getId()+".value", configBean.getValue());
         }
         ConfigUtil.saveAllConfig(config,configid);
         jsonStatus.setMsg("设置成功！");

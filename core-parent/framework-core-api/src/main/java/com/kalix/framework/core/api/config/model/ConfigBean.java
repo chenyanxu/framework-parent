@@ -3,12 +3,12 @@ package com.kalix.framework.core.api.config.model;
 /**
  * Created by Administrator_ on 2018/1/15.
  */
-public class AdminConfigBean {
-    private String id;
-    private String name;
-    private String value;
-    private String type;
-    private String desc;
+public class ConfigBean {
+    private String id;   //id
+    private String name; //名称
+    private String value; //数据
+    private String type;  //类型
+    private String desc;  //描述
 
     public String getId() {
         return id;

@@ -8,7 +8,7 @@ import com.kalix.framework.core.api.persistence.JsonStatus;
  * Created by fwb on 2018-01-15.
  * 配置服务接口类
  */
-public interface IAdminConfigService extends IService {
+public interface IConfigService extends IService {
     /**
      * 获取配置信息
      *
