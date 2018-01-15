@@ -2,6 +2,6 @@
 # Use this file to add customized Bnd instructions for the bundle
 #-----------------------------------------------------------------
 
-Bundle-Activator: ${bundle.namespace}.internal.JsonConfigInstaller
+Bundle-Activator: ${bundle.namespace}.internal.InitActivator
 Import-Package:*
 Bundle-Category: Kalix Framework Core
