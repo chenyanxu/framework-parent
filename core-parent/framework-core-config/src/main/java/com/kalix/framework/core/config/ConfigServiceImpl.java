@@ -25,7 +25,7 @@ public class ConfigServiceImpl implements IConfigService {
         JsonData jsondata = new JsonData();
         Dictionary<String, Object> config= ConfigUtil.getAllConfig(AppName);
 
-        HashMap map = new HashMap();
+        ConfigBean configBean = null;
         Enumeration enumeration= config.keys();
         List list = new ArrayList();
         String key_str="";
@@ -36,18 +36,48 @@ public class ConfigServiceImpl implements IConfigService {
             {
                 String key=keyName.split("\\.")[0];
                 String value=keyName.split("\\.")[1];
+
                 if(key_str.indexOf(key)>-1)
                 {
-                    map.put(value,config.get(keyName));
+                    if("desc".equals(value))
+                    {
+                        configBean.setDesc(config.get(keyName).toString());
+                    }
+                    if("name".equals(value))
+                    {
+                        configBean.setName(config.get(keyName).toString());
+                    }
+                    if("type".equals(value))
+                    {
+                        configBean.setType(config.get(keyName).toString());
+                    }
+                    if("value".equals(value))
+                    {
+                        configBean.setValue(config.get(keyName).toString());
+                    }
 
                 }
                 else
                 {
-                    Map map_parent = new HashMap();
-                    map = new HashMap();
-                    map.put(value,config.get(keyName));
-                    map_parent.put(key,map);
-                    list.add(map_parent);
+                    configBean = new ConfigBean();
+                    configBean.setId(key);
+                    if("desc".equals(value))
+                    {
+                        configBean.setDesc(config.get(keyName).toString());
+                    }
+                    if("name".equals(value))
+                    {
+                        configBean.setName(config.get(keyName).toString());
+                    }
+                    if("type".equals(value))
+                    {
+                        configBean.setType(config.get(keyName).toString());
+                    }
+                    if("value".equals(value))
+                    {
+                        configBean.setValue(config.get(keyName).toString());
+                    }
+                    list.add(configBean);
                 }
                 key_str+=key+",";
             }
@@ -81,5 +111,78 @@ public class ConfigServiceImpl implements IConfigService {
         jsonStatus.setMsg("设置成功！");
         jsonStatus.setSuccess(true);
         return jsonStatus;
+    }
+
+    /**
+     * 根据id获取配置信息
+     *
+     * @return
+     */
+    public JsonData getConfigInfoById(String AppName,String id) {
+        JsonData jsondata = new JsonData();
+        Dictionary<String, Object> config= ConfigUtil.getAllConfig(AppName);
+
+        ConfigBean configBean = null;
+        Enumeration enumeration= config.keys();
+        List list = new ArrayList();
+        String key_str="";
+        for(Enumeration e=enumeration;e.hasMoreElements();){
+            String keyName=e.nextElement().toString();
+
+            if(!"felix.fileinstall.filename".equals(keyName)&&!"service.pid".equals(keyName))
+            {
+                String key=keyName.split("\\.")[0];
+                String value=keyName.split("\\.")[1];
+                if(key.equals(id)||"all".equals(id)){
+                    if(key_str.indexOf(key)>-1)
+                    {
+                        if("desc".equals(value))
+                        {
+                            configBean.setDesc(config.get(keyName).toString());
+                        }
+                        if("name".equals(value))
+                        {
+                            configBean.setName(config.get(keyName).toString());
+                        }
+                        if("type".equals(value))
+                        {
+                            configBean.setType(config.get(keyName).toString());
+                        }
+                        if("value".equals(value))
+                        {
+                            configBean.setValue(config.get(keyName).toString());
+                        }
+
+                    }
+                    else {
+                            configBean = new ConfigBean();
+                            configBean.setId(key);
+                            if ("desc".equals(value)) {
+                                configBean.setDesc(config.get(keyName).toString());
+                            }
+                            if ("name".equals(value)) {
+                                configBean.setName(config.get(keyName).toString());
+                            }
+                            if ("type".equals(value)) {
+                                configBean.setType(config.get(keyName).toString());
+                            }
+                            if ("value".equals(value)) {
+                                configBean.setValue(config.get(keyName).toString());
+                            }
+                            Map map = new HashMap();
+                            map.put(key,configBean);
+                            list.add(map);
+                            key_str+=key+",";
+
+                    }
+
+                }
+
+            }
+
+        }
+        jsonStatus.setSuccess(true);
+        jsondata.setData(list);
+        return jsondata;
     }
 }
