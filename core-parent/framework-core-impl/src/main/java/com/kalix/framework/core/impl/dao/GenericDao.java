@@ -7,6 +7,7 @@ import com.kalix.framework.core.api.dao.IGenericDao;
 import com.kalix.framework.core.api.exception.KalixRuntimeException;
 import com.kalix.framework.core.api.exception.SearchException;
 import com.kalix.framework.core.api.persistence.JpaQuery;
+import com.kalix.framework.core.api.persistence.JpaStatistic;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.web.model.QueryDTO;
@@ -52,8 +53,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         }
 
         className = this.persistentClass.getName();
-        String[] pkgSplit=className.split("\\.");
-        classSimpleName=pkgSplit[pkgSplit.length-1];
+        String[] pkgSplit = className.split("\\.");
+        classSimpleName = pkgSplit[pkgSplit.length - 1];
     }
 
     /**
@@ -364,10 +365,10 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     public T get(PK id) {
 
         try {
-            T entity=(T) entityManager.find(Class.forName(className), id);
+            T entity = (T) entityManager.find(Class.forName(className), id);
 
-            if(entity==null){
-                throw new KalixRuntimeException("数据不存在","FAIL_ON_EMPTY_BEANS");
+            if (entity == null) {
+                throw new KalixRuntimeException("数据不存在", "FAIL_ON_EMPTY_BEANS");
             }
 
             return (T) entityManager.find(Class.forName(className), id);
@@ -611,31 +612,34 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     }
 
     /**
-     * 1.select
-     * 2.where
-     * 3.groupby
-     * 4.having
-     * 5.统计类型
+     * add by yangz 2018-01-10
+     * 获取统计数据,暂时实现sum，count，avg，min，max 简单方式
+     * queryDTO :
+     * 1.groupBys 分组字段
+     * 2.selectNotStatistic select中非统计字段
+     * 3.selectStatistic select中统计字段
+     * 4.selectStatisticType select中统计字段类型
+     *
      * @return
      */
     public JsonData getAllByStatistic(QueryDTO queryDTO) {
         JsonData jsonData = new JsonData();
         Map<String, String> jsonMap = queryDTO.getJsonMap();
-        // groupby 分组字段
-        String[] groupBys = jsonMap.get("groupBys").split(",");
-        // select 中非统计字段
-        String[] notStatistics = jsonMap.get("selectNotStatistic").split(",");
-        String[] statistics = jsonMap.get("selectStatistic").split(",");
-        String[] statisticTypes = jsonMap.get("selectStatisticType").split(",");
+        String[] groupBys = jsonMap.get(JpaStatistic.tag_groupbys).split(",");
+        String[] notStatistics = jsonMap.get(JpaStatistic.tag_selectNotStatistic).split(",");
+        String[] statistics = jsonMap.get(JpaStatistic.tag_selectStatistic).split(",");
+        String[] statisticTypes = jsonMap.get(JpaStatistic.tag_statisticType).split(",");
+
         // 统计字段为空，或者统计字段类型为空，或者统计字段数与类型数不符直接返回
         if (statisticTypes == null || statisticTypes.length == 0
-                || statistics == null || statistics.length==0 || statisticTypes.length != statistics.length) {
+                || statistics == null || statistics.length == 0 || statisticTypes.length != statistics.length) {
             return null;
         }
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Tuple> cq = criteriaBuilder.createQuery(Tuple.class);
         Root<T> root = cq.from(this.persistentClass);
+        // groupby 添加
         if (groupBys != null) {
             List groupList = new ArrayList<>();
             for (String groupBy : groupBys) {
@@ -643,36 +647,100 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
             }
             cq.groupBy(groupList);
         }
-        //cq.where()
-        //cq.having(criteriaBuilder.like(root.get(Employee_.name), "N%"));
-        List<Selection<?>> selections = new ArrayList<>();
-        // 非统计的select字段如果不空添加到select中
+
+        int selectLength = 0;
         if (notStatistics != null || notStatistics.length > 0) {
-            for (String notStatistic : notStatistics) {
-                selections.add(root.get(notStatistic));
+            selectLength = notStatistics.length + statisticTypes.length;
+        } else {
+            selectLength = statisticTypes.length;
+        }
+        Selection<?>[] selections = new Selection<?>[selectLength];
+        if (notStatistics != null || notStatistics.length > 0) {
+            // 非统计的select字段如果不空添加到select中
+            for (int i = 0; i < notStatistics.length; i++) {
+                selections[i] = root.get(notStatistics[i]);
+            }
+            // 统计字段添加到select
+            for (int i = 0; i < statisticTypes.length; i++) {
+                if (statisticTypes[i].equals(JpaStatistic.Statistic.COUNT.name())) {
+                    selections[notStatistics.length + i] = criteriaBuilder.count(root.get(statistics[i]));
+                }
+                if (statisticTypes[i].equals(JpaStatistic.Statistic.SUM.name())) {
+                    selections[notStatistics.length + i] = criteriaBuilder.sum(root.get(statistics[i]));
+                }
+                if (statisticTypes[i].equals(JpaStatistic.Statistic.MAX.name())) {
+                    selections[notStatistics.length + i] = criteriaBuilder.max(root.get(statistics[i]));
+                }
+                if (statisticTypes[i].equals(JpaStatistic.Statistic.MIN.name())) {
+                    selections[notStatistics.length + i] = criteriaBuilder.min(root.get(statistics[i]));
+                }
+                if (statisticTypes[i].equals(JpaStatistic.Statistic.AVG.name())) {
+                    selections[notStatistics.length + i] = criteriaBuilder.avg(root.get(statistics[i]));
+                }
+            }
+        } else {
+            // 统计字段添加到select
+            for (int i = 0; i < statisticTypes.length; i++) {
+                if (statisticTypes[i].equals(JpaStatistic.Statistic.COUNT.name())) {
+                    selections[i] = criteriaBuilder.count(root.get(statistics[i]));
+                }
+                if (statisticTypes[i].equals(JpaStatistic.Statistic.SUM.name())) {
+                    selections[i] = criteriaBuilder.sum(root.get(statistics[i]));
+                }
+                if (statisticTypes[i].equals(JpaStatistic.Statistic.MAX.name())) {
+                    selections[i] = criteriaBuilder.max(root.get(statistics[i]));
+                }
+                if (statisticTypes[i].equals(JpaStatistic.Statistic.MIN.name())) {
+                    selections[i] = criteriaBuilder.min(root.get(statistics[i]));
+                }
+                if (statisticTypes[i].equals(JpaStatistic.Statistic.AVG.name())) {
+                    selections[i] = criteriaBuilder.avg(root.get(statistics[i]));
+                }
             }
         }
-        for (int i=0; i<statisticTypes.length; i++) {
-            switch(statisticTypes[i]){
-                case "count": selections.add(criteriaBuilder.count(root.get(statistics[i])));
-                    break;
-                case "sum": selections.add(criteriaBuilder.sum(root.get(statistics[i])));
-                    break;
-                case "max": selections.add(criteriaBuilder.max(root.get(statistics[i])));
-                    break;
-                case "min": selections.add(criteriaBuilder.min(root.get(statistics[i])));
-                    break;
-                case "avg": selections.add(criteriaBuilder.avg(root.get(statistics[i])));
-                    break;
-                default:
-                    break;
-            }
+        cq.select(criteriaBuilder.tuple(selections));
+
+        // where条件
+        List<Predicate> predicatesList = getPredicateWhere(jsonMap, root);
+        //添加条件
+        if (predicatesList.size() > 0) {
+            cq.where(predicatesList.toArray(new Predicate[predicatesList.size()]));
         }
-//        cq.select(criteriaBuilder.tuple(root.get(Employee_.name),criteriaBuilder.count(root)));
-        cq.select(criteriaBuilder.tuple((Selection[])selections.toArray()));
+        // having 添加
+        //cq.having(criteriaBuilder.like(root.get(Employee_.name), "N%"));
+
         TypedQuery<Tuple> q = entityManager.createQuery(cq);
         List<Tuple> result = q.getResultList();
         jsonData.setData(result);
         return jsonData;
     }
+
+    private List<Predicate> getPredicateWhere(Map<String, String> jsonMap, Root<T> root) {
+        // where条件
+        List<Predicate> predicatesList = new ArrayList<>();
+        JpaQuery jpaQuery = new JpaQuery(entityManager.getCriteriaBuilder(), root);
+
+        for (Map.Entry<String, String> entry : jsonMap.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if (key.equals(JpaStatistic.tag_groupbys) || key.equals(JpaStatistic.tag_selectNotStatistic)
+                    || key.equals(JpaStatistic.tag_selectStatistic) || key.equals(JpaStatistic.tag_statisticType)) {
+                continue;
+            }
+            if (value == null || value.trim().isEmpty()) {
+                continue;
+            }
+            if (key.contains("%")) {
+                predicatesList.add(jpaQuery.LIKE(key, value));
+            } else if (key.contains(":begin:gt") || key.contains(":end:lt")) {
+                predicatesList.add(jpaQuery.DATE(key, value));
+            } else if (key.contains(":in")) {
+                predicatesList.add(jpaQuery.IN(key, value));
+            } else {
+                predicatesList.add(jpaQuery.EQUAL(key, value));
+            }
+        }
+        return predicatesList;
+    }
 }
+
