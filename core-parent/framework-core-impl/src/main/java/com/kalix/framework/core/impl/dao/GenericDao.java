@@ -625,7 +625,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     public JsonData getAllByStatistic(QueryDTO queryDTO) {
         JsonData jsonData = new JsonData();
         Map<String, String> jsonMap = queryDTO.getJsonMap();
-        String[] groupBys = jsonMap.get(JpaStatistic.tag_groupbys).split(",");
+        String[] groupBys = jsonMap.get(JpaStatistic.tag_groupBys).split(",");
         String[] notStatistics = jsonMap.get(JpaStatistic.tag_selectNotStatistic).split(",");
         String[] statistics = jsonMap.get(JpaStatistic.tag_selectStatistic).split(",");
         String[] statisticTypes = jsonMap.get(JpaStatistic.tag_statisticType).split(",");
@@ -633,7 +633,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         // 统计字段为空，或者统计字段类型为空，或者统计字段数与类型数不符直接返回
         if (statisticTypes == null || statisticTypes.length == 0
                 || statistics == null || statistics.length == 0 || statisticTypes.length != statistics.length) {
-            return null;
+            return jsonData;
         }
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -723,7 +723,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         for (Map.Entry<String, String> entry : jsonMap.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            if (key.equals(JpaStatistic.tag_groupbys) || key.equals(JpaStatistic.tag_selectNotStatistic)
+            if (key.equals(JpaStatistic.tag_groupBys) || key.equals(JpaStatistic.tag_selectNotStatistic)
                     || key.equals(JpaStatistic.tag_selectStatistic) || key.equals(JpaStatistic.tag_statisticType)) {
                 continue;
             }
