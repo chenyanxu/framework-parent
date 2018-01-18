@@ -14,7 +14,7 @@ public class JpaStatistic {
     }
 
     // 分组字段
-    public final static String tag_groupbys = "tag_groupBys";
+    public final static String tag_groupBys = "tag_groupBys";
     // select中非统计字段
     public final static String tag_selectNotStatistic = "tag_selectNotStatistic";
     // select中统计字段
@@ -56,7 +56,7 @@ public class JpaStatistic {
         }
         Map<String, String> map = new HashMap<>();
         if (groupBys != null && groupBys.length > 0) {
-            map.put(tag_groupbys, String.join(",", groupBys));
+            map.put(tag_groupBys, String.join(",", groupBys));
         }
         if (selectNotStatistics != null && selectNotStatistics.length > 0) {
             map.put(tag_selectNotStatistic, String.join(",", selectNotStatistics));
