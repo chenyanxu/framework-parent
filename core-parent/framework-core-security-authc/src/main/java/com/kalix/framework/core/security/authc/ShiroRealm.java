@@ -21,6 +21,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
@@ -130,6 +131,11 @@ public abstract class ShiroRealm extends AuthorizingRealm implements IAuthorizin
             audit.setActor(String.valueOf(result.get("name")));
             audit.setContent("登录地址：" + session.getHost());
             postLoginEvent(audit);
+
+            // delete redis cache for authentication
+            SimplePrincipalCollection principals = new SimplePrincipalCollection(result.get("user_name"), "jndiJdbcRealm");
+            super.doClearCache(principals);
+
             return new SimpleAuthenticationInfo(userName, password, getName());
         }
 

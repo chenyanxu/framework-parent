@@ -11,6 +11,7 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
         <cm:default-properties>
             <cm:property name="hostName" value="localhost"/>
             <cm:property name="port" value="6379"/>
+            <cm:property name="expire" value="600"/>
             <!--<cm:property name="jndiName" value="leaderboard"/>-->
         </cm:default-properties>
     </cm:property-placeholder>
@@ -114,6 +115,7 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
         <argument index="0" ref="jedisPoolConfig"/>
         <argument index="1" value="${hostName}" type="java.lang.String"/>
         <argument index="2" value="${port}" type="int"/>
+        <argument index="3" value="${expire}" type="int"/>
     </bean>
 
     <bean id="jedisShiroSessionRepository" class="com.kalix.framework.core.security.JedisShiroSessionRepository">
