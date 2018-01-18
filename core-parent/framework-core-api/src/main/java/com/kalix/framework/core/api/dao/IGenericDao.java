@@ -172,5 +172,12 @@ public interface IGenericDao<T, PK extends Serializable> extends IService {
 
     //Get the entity bean table name of the dao
     String getTableName();
+
+    /**
+     * 统计查询接口
+     *
+     * @param queryDTO
+     * @return
+     */
     JsonData getAllByStatistic(QueryDTO queryDTO);
 }
