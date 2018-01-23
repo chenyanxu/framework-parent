@@ -54,6 +54,12 @@ public class ConfigUtil {
         }
         return null;
     }
+    /**
+     * 获取配置文件信息
+     *
+     * @param configId 配置文件名称
+     * @return
+     */
 
     public static Dictionary<String, Object> getAllConfig(String configId) {
         try {
@@ -75,5 +81,23 @@ public class ConfigUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 保存配置文件信息
+     * @return
+     */
+    public static  void saveAllConfig(Dictionary dictionary,String configId) {
+        try {
+            if(configurationAdmin==null){
+                configurationAdmin = JNDIHelper.getJNDIServiceForName(ConfigurationAdmin.class.getName());
+            }
+
+            Configuration config = configurationAdmin.getConfiguration(configId);
+            config.update(dictionary);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

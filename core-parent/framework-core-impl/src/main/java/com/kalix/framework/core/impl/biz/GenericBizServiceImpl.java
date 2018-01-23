@@ -494,4 +494,5 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     public String addDataAuthNativeSql(String sql, String tableAlias, Boolean hasWhere) {
         return sql;
     }
+
 }
