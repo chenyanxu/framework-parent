@@ -4,8 +4,14 @@
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0
            http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
     <bean id="pollingService" class="com.kalix.framework.core.impl.system.PollingManagerServiceImpl"/>
+    <reference id="configService" interface="com.kalix.framework.core.api.config.IConfigService"/>
+    <bean id="configDbService" class="com.kalix.framework.core.impl.biz.ConfigDbServiceIpml">
+        <property name="configService" ref="configService"/>
+    </bean>
     <service id="sys_pollingService" interface="com.kalix.framework.core.api.system.IPollingManagerService"
              ref="pollingService"/>
+    <service id="sys_configDbService" interface="com.kalix.framework.core.api.config.IConfigDbService"
+             ref="configDbService"/>
 
     <!--监听IPolling项模块的加载和卸载-->
     <reference-list interface="com.kalix.framework.core.api.system.IPollingService" member-type="service-reference"
