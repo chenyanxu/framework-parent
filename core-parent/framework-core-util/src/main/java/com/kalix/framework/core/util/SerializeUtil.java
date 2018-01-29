@@ -151,4 +151,20 @@ public class SerializeUtil {
 
         return map;
     }
+
+    /**
+     * 解析复杂的json对象
+     *
+     * @param json
+     * @return
+     */
+    public static Map<String, Object> jsonToMap(String json) {
+        Gson gson = new Gson();
+        Map<String, Object> map = gson.fromJson(json, new TypeToken<Map<String, Object>>() {
+        }.getType());
+        if (map == null) {
+            map = new HashMap<>();
+        }
+        return map;
+    }
 }

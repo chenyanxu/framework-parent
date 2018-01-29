@@ -327,6 +327,20 @@
                 <version>${commons-pool2.version}</version>
             </dependency>
             <!--jedis end-->
+            <!--Echart start-->
+
+            <dependency>
+                <groupId>com.github.abel533</groupId>
+                <artifactId>ECharts</artifactId>
+                <version>${echarts.version}</version>
+            </dependency>
+
+            <!--<dependency>-->
+            <!--<groupId>org.webjars.bower</groupId>-->
+            <!--<artifactId>echarts</artifactId>-->
+            <!--<version>${echarts.version}</version>-->
+            <!--</dependency>-->
+            <!--Echart end-->
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>

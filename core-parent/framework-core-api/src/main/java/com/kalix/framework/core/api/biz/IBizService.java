@@ -4,6 +4,7 @@ import com.kalix.framework.core.api.IService;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
+
 import java.util.List;
 import java.util.Map;
 
@@ -206,4 +207,5 @@ public interface IBizService<T extends PersistentEntity> extends IService {
     T getEntity(long entityId, Map<String, Object> objDictMap);
 
     List<Object> getFieldValuesByIds(Object[] ids,String fieldName);
+
 }
