@@ -53,7 +53,18 @@ public class ConfigServiceImpl implements IConfigService {
 
         }
         jsonStatus.setSuccess(true);
-
+        for(int i=0;i<list.size()-1;i++){
+            for(int j=0;j<list.size()-i-1;j++){
+                ConfigBean map= (ConfigBean)list.get(j);
+                ConfigBean map_j= (ConfigBean)list.get(j+1);
+                if( map.getOrder()>map_j.getOrder()){
+                    /*交换*/
+                    // Integer temp=list.get(j);
+                    list.set(j, list.get(j+1));
+                    list.set(j+1, map);
+                }
+            }
+        }
         jsondata.setData(list);
         return jsondata;
     }
@@ -126,20 +137,7 @@ public class ConfigServiceImpl implements IConfigService {
 
         }
         jsonStatus.setSuccess(true);
-        for(int i=0;i<list.size()-1;i++){
-            for(int j=0;j<list.size()-i-1;j++){
-               Map map= (Map)list.get(j);
-               ConfigBean configbean=(ConfigBean)map.values().toArray()[0];
-                Map map_j= (Map)list.get(j+1);
-                ConfigBean configbean_next=(ConfigBean)map_j.values().toArray()[0];
-                if( configbean.getOrder()>configbean_next.getOrder()){
-                    /*交换*/
-                   // Integer temp=list.get(j);
-                    list.set(j, list.get(j+1));
-                    list.set(j+1, map);
-                }
-            }
-        }
+        doOrder(list);
         jsondata.setData(list);
         return jsondata;
     }
@@ -162,6 +160,24 @@ public class ConfigServiceImpl implements IConfigService {
         if("order".equals(value))
         {
             configBean.setOrder(Integer.parseInt(config.get(keyName).toString()));
+        }
+    }
+
+    public void doOrder(List list)
+    {
+        for(int i=0;i<list.size()-1;i++){
+            for(int j=0;j<list.size()-i-1;j++){
+                Map map= (Map)list.get(j);
+                ConfigBean configbean=(ConfigBean)map.values().toArray()[0];
+                Map map_j= (Map)list.get(j+1);
+                ConfigBean configbean_next=(ConfigBean)map_j.values().toArray()[0];
+                if( configbean.getOrder()>configbean_next.getOrder()){
+                    /*交换*/
+                    // Integer temp=list.get(j);
+                    list.set(j, list.get(j+1));
+                    list.set(j+1, map);
+                }
+            }
         }
     }
 }
