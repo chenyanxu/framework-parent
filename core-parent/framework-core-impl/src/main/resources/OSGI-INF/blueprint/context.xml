@@ -6,7 +6,6 @@
     <bean id="pollingService" class="com.kalix.framework.core.impl.system.PollingManagerServiceImpl"/>
     <service id="sys_pollingService" interface="com.kalix.framework.core.api.system.IPollingManagerService"
              ref="pollingService"/>
-
     <!--监听IPolling项模块的加载和卸载-->
     <reference-list interface="com.kalix.framework.core.api.system.IPollingService" member-type="service-reference"
                     availability="optional">

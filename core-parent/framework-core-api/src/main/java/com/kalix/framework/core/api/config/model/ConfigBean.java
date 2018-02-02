@@ -9,6 +9,7 @@ public class ConfigBean {
     private String value; //数据
     private String type;  //类型
     private String desc;  //描述
+    private int    order; //排序
 
     public String getId() {
         return id;
@@ -48,5 +49,13 @@ public class ConfigBean {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }
