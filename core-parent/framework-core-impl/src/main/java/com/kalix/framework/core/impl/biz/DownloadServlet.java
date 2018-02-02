@@ -39,7 +39,7 @@ public class DownloadServlet extends HttpServlet {
             Map<String, String> map = new HashMap<String, String>();
             map.put("beanName", beanName);
             downloadService = JNDIHelper.getJNDIServiceForName(IDownloadService.class.getName(), map);
-            String fileInfo[] = downloadService.getFileInfo(entityId);
+            String fileInfo[] = downloadService.createDownloadFile(entityId);
             // 文件名称
             String fileName = fileInfo[0];
             // 文件内容
