@@ -50,10 +50,10 @@
                 <to uri="bean:configService?method=configureConfigInfo(${header.content},${header.AppName})"/>
             </post>
 
-            <get id="route-getConfigById" uri="/config/getInfo"
+            <get id="route-getConfigById" uri="/config/{key}"
                  outType="com.kalix.framework.core.api.persistence.JsonData">
                 <description>get Info by id</description>
-                <to uri="bean:configService?method=getConfigInfoById(${header.AppName},${header.id})"/>
+                <to uri="bean:configService?method=getConfigInfoById(${header.AppName},${header.key})"/>
             </get>
 
         </rest>
