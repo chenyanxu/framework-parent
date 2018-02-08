@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,7 @@ public class DownloadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         OutputStream out = null;
+        PrintWriter outHtml = null;
         try {
             // 实体名称
             String beanName = req.getParameter("beanname") == null ? "" : req.getParameter("beanname");
@@ -54,19 +56,31 @@ public class DownloadServlet extends HttpServlet {
                     // 导出word格式("application/x-msdownloadoctet-stream;charset=utf-8")
                     resp.setContentType("application/msword");
                     resp.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+
+                    byte b[] = fileContent.getBytes("GB2312");
+                    resp.setCharacterEncoding("utf-8");
+                    out = resp.getOutputStream();
+                    out.write(b);
+                    break;
+                case "html":
+                    resp.setContentType("text/html");
+                    resp.setCharacterEncoding("GB2312");
+                    outHtml = resp.getWriter();
+                    outHtml.print(fileContent);
                     break;
                 default:
                     break;
             }
-            byte b[] = fileContent.getBytes("GB2312");
-            resp.setCharacterEncoding("utf-8");
-            out = resp.getOutputStream();
-            out.write(b);
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (out != null) {
                 out.close();
+            }
+            if (outHtml != null) {
+                outHtml.flush();
+                outHtml.close();
             }
         }
     }
