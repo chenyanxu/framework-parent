@@ -12,14 +12,22 @@ public interface IConfigService extends IService {
     /**
      * 获取配置信息
      *
-     * @return
+     *
      */
-    JsonData getConfigInfo(String configid);
+    JsonData getConfigInfo(String appName);
 
     /**
      * 保存配置信息
      *
-     * @return
+     *
      */
-    JsonStatus configureConfigInfo(String content,String configid);
+    JsonStatus configureConfigInfo(String content,String appName);
+
+    /**
+     * 根据id获取配置信息
+     *
+     *
+     */
+    JsonData getConfigInfoById(String appName,String id);
+
 }

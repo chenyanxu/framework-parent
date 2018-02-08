@@ -39,44 +39,13 @@ public class ConfigServiceImpl implements IConfigService {
 
                 if(key_str.indexOf(key)>-1)
                 {
-                    if("desc".equals(value))
-                    {
-                        configBean.setDesc(config.get(keyName).toString());
-                    }
-                    if("name".equals(value))
-                    {
-                        configBean.setName(config.get(keyName).toString());
-                    }
-                    if("type".equals(value))
-                    {
-                        configBean.setType(config.get(keyName).toString());
-                    }
-                    if("value".equals(value))
-                    {
-                        configBean.setValue(config.get(keyName).toString());
-                    }
-
+                    this.setConfigBean(configBean,value,keyName,config);
                 }
                 else
                 {
                     configBean = new ConfigBean();
                     configBean.setId(key);
-                    if("desc".equals(value))
-                    {
-                        configBean.setDesc(config.get(keyName).toString());
-                    }
-                    if("name".equals(value))
-                    {
-                        configBean.setName(config.get(keyName).toString());
-                    }
-                    if("type".equals(value))
-                    {
-                        configBean.setType(config.get(keyName).toString());
-                    }
-                    if("value".equals(value))
-                    {
-                        configBean.setValue(config.get(keyName).toString());
-                    }
+                    this.setConfigBean(configBean,value,keyName,config);
                     list.add(configBean);
                 }
                 key_str+=key+",";
@@ -84,6 +53,18 @@ public class ConfigServiceImpl implements IConfigService {
 
         }
         jsonStatus.setSuccess(true);
+        for(int i=0;i<list.size()-1;i++){
+            for(int j=0;j<list.size()-i-1;j++){
+                ConfigBean map= (ConfigBean)list.get(j);
+                ConfigBean map_j= (ConfigBean)list.get(j+1);
+                if( map.getOrder()>map_j.getOrder()){
+                    /*交换*/
+                    // Integer temp=list.get(j);
+                    list.set(j, list.get(j+1));
+                    list.set(j+1, map);
+                }
+            }
+        }
         jsondata.setData(list);
         return jsondata;
     }
@@ -136,39 +117,13 @@ public class ConfigServiceImpl implements IConfigService {
                 if(key.equals(id)||"all".equals(id)){
                     if(key_str.indexOf(key)>-1)
                     {
-                        if("desc".equals(value))
-                        {
-                            configBean.setDesc(config.get(keyName).toString());
-                        }
-                        if("name".equals(value))
-                        {
-                            configBean.setName(config.get(keyName).toString());
-                        }
-                        if("type".equals(value))
-                        {
-                            configBean.setType(config.get(keyName).toString());
-                        }
-                        if("value".equals(value))
-                        {
-                            configBean.setValue(config.get(keyName).toString());
-                        }
+                        this.setConfigBean(configBean,value,keyName,config);
 
                     }
                     else {
                             configBean = new ConfigBean();
                             configBean.setId(key);
-                            if ("desc".equals(value)) {
-                                configBean.setDesc(config.get(keyName).toString());
-                            }
-                            if ("name".equals(value)) {
-                                configBean.setName(config.get(keyName).toString());
-                            }
-                            if ("type".equals(value)) {
-                                configBean.setType(config.get(keyName).toString());
-                            }
-                            if ("value".equals(value)) {
-                                configBean.setValue(config.get(keyName).toString());
-                            }
+                            this.setConfigBean(configBean,value,keyName,config);
                             Map map = new HashMap();
                             map.put(key,configBean);
                             list.add(map);
@@ -182,7 +137,47 @@ public class ConfigServiceImpl implements IConfigService {
 
         }
         jsonStatus.setSuccess(true);
+        doOrder(list);
         jsondata.setData(list);
         return jsondata;
+    }
+
+
+    public void setConfigBean(ConfigBean configBean,String value,String keyName,Dictionary<String, Object> config)
+    {
+        if ("desc".equals(value)) {
+            configBean.setDesc(config.get(keyName).toString());
+        }
+        if ("name".equals(value)) {
+            configBean.setName(config.get(keyName).toString());
+        }
+        if ("type".equals(value)) {
+            configBean.setType(config.get(keyName).toString());
+        }
+        if ("value".equals(value)) {
+            configBean.setValue(config.get(keyName).toString());
+        }
+        if("order".equals(value))
+        {
+            configBean.setOrder(Integer.parseInt(config.get(keyName).toString()));
+        }
+    }
+
+    public void doOrder(List list)
+    {
+        for(int i=0;i<list.size()-1;i++){
+            for(int j=0;j<list.size()-i-1;j++){
+                Map map= (Map)list.get(j);
+                ConfigBean configbean=(ConfigBean)map.values().toArray()[0];
+                Map map_j= (Map)list.get(j+1);
+                ConfigBean configbean_next=(ConfigBean)map_j.values().toArray()[0];
+                if( configbean.getOrder()>configbean_next.getOrder()){
+                    /*交换*/
+                    // Integer temp=list.get(j);
+                    list.set(j, list.get(j+1));
+                    list.set(j+1, map);
+                }
+            }
+        }
     }
 }
