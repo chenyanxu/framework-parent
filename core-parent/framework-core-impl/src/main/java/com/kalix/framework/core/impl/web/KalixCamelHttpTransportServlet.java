@@ -2,6 +2,7 @@ package com.kalix.framework.core.impl.web;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kalix.framework.core.api.exception.KalixRuntimeException;
+import com.kalix.framework.core.api.exception.UnAuthException;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.apache.camel.http.common.HttpConsumer;
@@ -124,6 +125,9 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
                 if (exchange.getException() == null) {
                     consumer.getBinding().writeResponse(exchange, response);
                 } else {
+                    if (exchange.getException() instanceof UnAuthException) { //session超时，拦截并返回401
+                        response.sendError(401);
+                    }
                     response.setHeader("Content-Type", " text/html;charset=utf-8");
 
                     if (exchange.getException() instanceof KalixRuntimeException) {

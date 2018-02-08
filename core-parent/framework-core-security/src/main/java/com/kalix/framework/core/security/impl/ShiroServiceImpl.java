@@ -1,6 +1,7 @@
 package com.kalix.framework.core.security.impl;
 
 import com.kalix.framework.core.api.PermissionConstant;
+import com.kalix.framework.core.api.exception.UnAuthException;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.security.IShiroService;
 import org.apache.shiro.SecurityUtils;
@@ -33,7 +34,12 @@ public class ShiroServiceImpl implements IShiroService {
     @Override
     public Long getCurrentUserId() {
         Session session = getSession();
-        Long rtn = Long.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ID).toString());
+        Object userId = session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ID);
+        if (userId == null) {
+            System.out.println("session 超时");
+            throw new UnAuthException("session overtime", "no detail msg");
+        }
+        Long rtn = Long.valueOf(userId.toString());
 
         return rtn;
     }

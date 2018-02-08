@@ -16,11 +16,11 @@
 }*/
 @font-face {
   font-family: 'iconfont';  /* project id 102603 */
-  src: url('//at.alicdn.com/t/font_102603_cap4gw8cyxjbrzfr.eot');
-  src: url('//at.alicdn.com/t/font_102603_cap4gw8cyxjbrzfr.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_102603_cap4gw8cyxjbrzfr.woff') format('woff'),
-  url('//at.alicdn.com/t/font_102603_cap4gw8cyxjbrzfr.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_102603_cap4gw8cyxjbrzfr.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_102603_xl7q9pzadjcerk9.eot');
+  src: url('//at.alicdn.com/t/font_102603_xl7q9pzadjcerk9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_102603_xl7q9pzadjcerk9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_102603_xl7q9pzadjcerk9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_102603_xl7q9pzadjcerk9.svg#iconfont') format('svg');
 }
 
 
@@ -66,6 +66,11 @@
 .icon-application-management:before { content: "\e61c"; }
 .icon-function-management:before { content: "\e606"; }
 .icon-system-statemachine:before { content: "\e6a8"; }
+.icon-system-template:before { content: "\e6ae"; }
+.icon-system-config:before { content: "\e68e"; }
+.icon-system-audit:before { content: "\e690"; }
+.icon-system-auditCondig:before { content: "\e733"; }
+
 
 
 /*oa-application*/
