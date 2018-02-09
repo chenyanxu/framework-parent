@@ -493,6 +493,12 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         return createNativeQuery(sql, cls, parms).getResultList();
     }
 
+    @Override
+    public List findByNativeSql(String sql, Object... parms) {
+        return createNativeQuery(sql, parms).getResultList();
+    }
+
+
     private Long getNativeTotalCount(String className, Query query) {
         List list = query.getResultList();
         Long count = Long.valueOf(list.size());
@@ -513,6 +519,16 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
 
     private Query createNativeQuery(String sql, Class cls, Object[] parameter) {
         Query queryObject = entityManager.createNativeQuery(sql, cls);
+        if (parameter != null) {
+            for (int i = 0; i < parameter.length; i++) {
+                queryObject.setParameter(i + 1, parameter[i]);
+            }
+        }
+
+        return queryObject;
+    }
+    private Query createNativeQuery(String sql, Object[] parameter) {
+        Query queryObject = entityManager.createNativeQuery(sql);
         if (parameter != null) {
             for (int i = 0; i < parameter.length; i++) {
                 queryObject.setParameter(i + 1, parameter[i]);

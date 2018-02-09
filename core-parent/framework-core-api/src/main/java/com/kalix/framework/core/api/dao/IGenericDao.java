@@ -180,4 +180,7 @@ public interface IGenericDao<T, PK extends Serializable> extends IService {
      * @return
      */
     JsonData getAllByStatistic(QueryDTO queryDTO);
+
+
+    List findByNativeSql(String sql, Object... parms);
 }
