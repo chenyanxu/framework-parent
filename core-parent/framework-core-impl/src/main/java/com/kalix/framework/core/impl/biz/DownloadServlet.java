@@ -41,7 +41,7 @@ public class DownloadServlet extends HttpServlet {
             Map<String, String> map = new HashMap<String, String>();
             map.put("beanName", beanName);
             downloadService = JNDIHelper.getJNDIServiceForName(IDownloadService.class.getName(), map);
-            String fileInfo[] = downloadService.createDownloadFile(entityId);
+            String fileInfo[] = downloadService.createDownloadFile(entityId, fileType);
             // 文件名称
             String fileName = fileInfo[0];
             // 文件内容
@@ -49,7 +49,7 @@ public class DownloadServlet extends HttpServlet {
             if (StringUtils.isEmpty(fileName)) {
                 fileName = "未命名";
             }
-            switch (fileType) {
+            switch (fileType.toLowerCase()) {
                 // 输出word文件
                 case "word":
                     fileName += ".doc";
