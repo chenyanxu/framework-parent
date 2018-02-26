@@ -182,5 +182,5 @@ public interface IGenericDao<T, PK extends Serializable> extends IService {
     JsonData getAllByStatistic(QueryDTO queryDTO);
 
 
-    List findByNativeSql(String sql, Object... parms);
+    List findArrayByNativeSql(String sql, Object... parms);
 }

@@ -494,7 +494,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     }
 
     @Override
-    public List findByNativeSql(String sql, Object... parms) {
+    public List findArrayByNativeSql(String sql, Object... parms) {
         return createNativeQuery(sql, parms).getResultList();
     }
 
