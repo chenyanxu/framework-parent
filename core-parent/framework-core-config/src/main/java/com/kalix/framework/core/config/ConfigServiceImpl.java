@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kalix.framework.core.api.config.IConfigService;
+import com.kalix.framework.core.api.config.model.ClassTypeBean;
 import com.kalix.framework.core.api.config.model.ConfigBean;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
@@ -26,45 +27,61 @@ public class ConfigServiceImpl implements IConfigService {
         Dictionary<String, Object> config= ConfigUtil.getAllConfig(AppName);
 
         ConfigBean configBean = null;
+        ClassTypeBean classTypeBean=null;
         Enumeration enumeration= config.keys();
         List list = new ArrayList();
+        List list_config =null;
         String key_str="";
+        String type_str="";
         for(Enumeration e=enumeration;e.hasMoreElements();){
             String keyName=e.nextElement().toString();
 
             if(!"felix.fileinstall.filename".equals(keyName)&&!"service.pid".equals(keyName))
             {
-                String key=keyName.split("\\.")[0];
-                String value=keyName.split("\\.")[1];
+                String type=keyName.split("\\.")[0];
+                String key=keyName.split("\\.")[1];
+                String value=keyName.split("\\.")[2];
 
-                if(key_str.indexOf(key)>-1)
+                if(type_str.indexOf(type)>-1){
+                    classTypeBean.setClassType(type);
+
+                }else
                 {
-                    this.setConfigBean(configBean,value,keyName,config);
+                    classTypeBean = new ClassTypeBean();
+                    list_config= new ArrayList();
+                    classTypeBean.setClassType(type);
+                    list.add(classTypeBean);
+                }
+
+                if(key_str.indexOf(key)>-1) {
+                    this.setConfigBean(configBean, value, keyName, config);
                 }
                 else
                 {
                     configBean = new ConfigBean();
                     configBean.setId(key);
                     this.setConfigBean(configBean,value,keyName,config);
-                    list.add(configBean);
+                    list_config.add(configBean);
+                    classTypeBean.setConfigBean(list_config);
                 }
                 key_str+=key+",";
+                type_str+=type+",";
             }
 
         }
         jsonStatus.setSuccess(true);
-        for(int i=0;i<list.size()-1;i++){
-            for(int j=0;j<list.size()-i-1;j++){
-                ConfigBean map= (ConfigBean)list.get(j);
-                ConfigBean map_j= (ConfigBean)list.get(j+1);
-                if( map.getOrder()>map_j.getOrder()){
-                    /*交换*/
-                    // Integer temp=list.get(j);
-                    list.set(j, list.get(j+1));
-                    list.set(j+1, map);
-                }
-            }
-        }
+//        for(int i=0;i<list.size()-1;i++){
+//            for(int j=0;j<list.size()-i-1;j++){
+//                ClassTypeBean map= (ClassTypeBean)list.get(j);
+//                ClassTypeBean map_j= (ClassTypeBean)list.get(j+1);
+////                if( map.getConfigBean().getOrder()>map_j.getConfigBean().getOrder()){
+////                    /*交换*/
+////                    // Integer temp=list.get(j);
+////                    list.set(j, list.get(j+1));
+////                    list.set(j+1, map);
+////                }
+//            }
+//        }
         jsondata.setData(list);
         return jsondata;
     }
@@ -76,6 +93,7 @@ public class ConfigServiceImpl implements IConfigService {
      */
     public  JsonStatus configureConfigInfo(String content,String AppName)
     {
+        String configValue="";
         ConfigBean configBean = new ConfigBean();
         Dictionary<String, Object> config=ConfigUtil.getAllConfig(AppName);
         JsonParser jsonParser = new JsonParser();
@@ -83,10 +101,18 @@ public class ConfigServiceImpl implements IConfigService {
         JsonObject jsonObject=el.getAsJsonObject();
         Set<Map.Entry<String, JsonElement>> entrySet=jsonObject.entrySet();
         for (Map.Entry<String, JsonElement> entry : entrySet) {
-            JsonObject jObject = jsonObject.getAsJsonObject(entry.getKey());
-            configBean.setId(jObject.getAsJsonPrimitive("id").getAsString());
-            configBean.setValue(jObject.getAsJsonPrimitive("value").getAsString());
-            config.put(configBean.getId()+".value", configBean.getValue());
+            String keyValue=entry.getKey();
+            if(keyValue.equals("classType"))
+            {
+                configValue=jsonObject.getAsJsonPrimitive("classType").getAsString();
+            }
+            else if(!keyValue.equals("rowNumber")&&!keyValue.equals("configBean")) {
+                JsonObject jObject = jsonObject.getAsJsonObject(entry.getKey());
+                configBean.setId(jObject.getAsJsonPrimitive("id").getAsString());
+                configBean.setValue(jObject.getAsJsonPrimitive("value").getAsString());
+                config.put(configValue+"."+configBean.getId()+".value", configBean.getValue());
+            }
+
         }
         ConfigUtil.saveAllConfig(config,AppName);
         jsonStatus.setMsg("设置成功！");
@@ -112,9 +138,10 @@ public class ConfigServiceImpl implements IConfigService {
 
             if(!"felix.fileinstall.filename".equals(keyName)&&!"service.pid".equals(keyName))
             {
-                String key=keyName.split("\\.")[0];
-                String value=keyName.split("\\.")[1];
-                if(key.equals(id)||"all".equals(id)){
+                String type=keyName.split("\\.")[0];
+                String key=keyName.split("\\.")[1];
+                String value=keyName.split("\\.")[2];
+                if(type.equals(id)||"all".equals(id)){
                     if(key_str.indexOf(key)>-1)
                     {
                         this.setConfigBean(configBean,value,keyName,config);
