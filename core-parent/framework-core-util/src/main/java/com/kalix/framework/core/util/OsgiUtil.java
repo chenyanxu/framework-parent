@@ -1,11 +1,12 @@
 package com.kalix.framework.core.util;
 
 import com.kalix.framework.core.util.internal.InitActivator;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.Constants;
-import org.osgi.framework.Filter;
-import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.*;
 import org.osgi.util.tracker.ServiceTracker;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @类描述：OSGI 工具类
@@ -51,5 +52,33 @@ public class OsgiUtil {
             SystemUtil.errorPrintln("Failed to find services for " + classType.getName() + e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * 获得指定接口的全部osgi服务
+     *
+     * @param classType
+     * @param filter
+     * @param <E>
+     * @return
+     * @throws InvalidSyntaxException
+     */
+
+    public static <E> List<E> getServices(Class<E> classType, String filter)
+            throws InvalidSyntaxException {
+        BundleContext bundleContext = InitActivator.getBundleContext();
+        List<E> services = null;
+        final ServiceReference[] refs = bundleContext.getServiceReferences(classType.getName(), filter);
+        if (refs != null) {
+            services = new ArrayList<>(refs.length);
+            if (refs != null && refs.length > 0) {
+                for (ServiceReference ref : refs) {
+                    E service = (E) bundleContext.getService(ref);
+                    services.add(service);
+                }
+            }
+        } else
+            services = Collections.unmodifiableList(new ArrayList<E>());
+        return services;
     }
 }
