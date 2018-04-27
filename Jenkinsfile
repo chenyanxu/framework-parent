@@ -1,5 +1,6 @@
 node('maven') {
   stage('Build App') {
+    git url: "https://github.com/chenyanxu/framework-parent.git"
     sh "mvn install -DskipTests=true -s settings.xml"
   }
   stage('Deploy App Again') {
