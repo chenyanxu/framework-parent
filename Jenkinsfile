@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage('Build App') {
       steps {
-        sh "mvn install deploy -s settings.xml"
+        sh "mvn install deploy -DskipTests=true -s settings.xml"
       }
     }
     stage('Deploy App') {
