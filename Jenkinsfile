@@ -1,18 +1,12 @@
-pipeline {
-  agent {
-    label 'maven'
+node('maven') {
+  stage('Build App') {
+    sh "mvn install -DskipTests=true -s settings.xml"
   }
-  stages {
-    stage('Build App') {
-      steps {
-        sh "mvn install -DskipTests=true -s settings.xml"
-      }
-    }
-    stage('Deploy App') {
-          steps {
-            sh "mvn deploy -DskipTests=true -s settings.xml"
-          }
-        }
+  stage('Deploy App Again') {
+    sh "mvn deploy -DskipTests=true -s settings.xml"
+  }
+}
+
 //    stage('Create Image Builder') {
 //      when {
 //        expression {
