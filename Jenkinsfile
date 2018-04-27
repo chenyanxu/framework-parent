@@ -10,7 +10,7 @@ pipeline {
     }
     stage('Deploy App') {
           steps {
-            sh "mvn deploy -s settings.xml"
+            sh "mvn deploy -DskipTests=true -s settings.xml"
           }
         }
 //    stage('Create Image Builder') {
