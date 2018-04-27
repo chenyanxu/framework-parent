@@ -1,7 +1,7 @@
 // refer to https://github.com/siamaksade/cart-service/blob/jenkinsfiles/Jenkinsfile
 node('maven') {
   stage('Build kalix-parent App') {
-        sh "oc start-build kalix-parent --follow"
+        openshiftBuild(buildConfig: 'kalix-parent', showBuildLogs: 'true')
       }
   stage('Build framework-parent App') {
     git url: "https://github.com/chenyanxu/framework-parent.git"
