@@ -45,7 +45,7 @@ public class BaseRouteBuilder extends RouteBuilder {
                 entityName = beanAliasName + "实体";
             }
             //配置rest使用的组件、数据类型、格式
-            restConfiguration().component("servlet").bindingMode(RestBindingMode.json)
+            restConfiguration().component("servlet").bindingMode(RestBindingMode.json).apiContextPath("/api-doc")
                     .dataFormatProperty("prettyPrint", "true");
 
             String url = "";//基地址
