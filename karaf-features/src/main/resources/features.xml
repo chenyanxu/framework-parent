@@ -6,7 +6,7 @@
         <feature>framework-config</feature>
         <feature>framework-core</feature>
         <feature>framework-osgi</feature>
-        <feature>framework-extjs</feature>
+        <!--<feature>framework-extjs</feature>-->
         <feature>framework-webapp</feature>
     </feature>
 
@@ -63,14 +63,14 @@
         <bundle>mvn:com.kalix.framework.osgi/framework-osgi-rest/${project.framework.version}</bundle>
     </feature>
 
-    <feature name="framework-extjs" version="${project.framework.version}">
-        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-app/${project.framework.version}</bundle>
-        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-bpmn/${project.framework.version}</bundle>
-        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-classic/${project.framework.version}</bundle>
-        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-dict/${project.framework.version}</bundle>
-        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-orgchart/${project.framework.version}</bundle>
-        <bundle>mvn:com.kalix.framework.extjs/framework-extjs-packages/${project.framework.version}</bundle>
-    </feature>
+    <!--<feature name="framework-extjs" version="${project.framework.version}">-->
+        <!--<bundle>mvn:com.kalix.framework.extjs/framework-extjs-app/${project.framework.version}</bundle>-->
+        <!--<bundle>mvn:com.kalix.framework.extjs/framework-extjs-bpmn/${project.framework.version}</bundle>-->
+        <!--<bundle>mvn:com.kalix.framework.extjs/framework-extjs-classic/${project.framework.version}</bundle>-->
+        <!--<bundle>mvn:com.kalix.framework.extjs/framework-extjs-dict/${project.framework.version}</bundle>-->
+        <!--<bundle>mvn:com.kalix.framework.extjs/framework-extjs-orgchart/${project.framework.version}</bundle>-->
+        <!--<bundle>mvn:com.kalix.framework.extjs/framework-extjs-packages/${project.framework.version}</bundle>-->
+    <!--</feature>-->
 
     <feature name="framework-webapp" version="${project.framework.version}">
         <bundle>mvn:com.kalix.framework.webapp/framework-webapp-main/${project.framework.version}</bundle>
