@@ -19,12 +19,18 @@
     </servers>
 
     <mirrors>
-        <!--<mirror>-->
-        <!--<id>nexus2-remote</id>-->
-        <!--<mirrorOf>*</mirrorOf>-->
-        <!--<name>Nexus Mirror Remote</name>-->
-        <!--<url>http://nexus.apps.bogon.com/nexus/content/groups/public/</url>-->
-        <!--</mirror>-->
+        <mirror>
+            <id>nexus2-remote-release</id>
+            <mirrorOf>remote-nexus,central</mirrorOf>
+            <name>Nexus Mirror Remote</name>
+            <url>http://nexus.apps.bogon.com/nexus/content/groups/public/</url>
+        </mirror>
+        <mirror>
+            <id>nexus2-remote-snapshot</id>
+            <mirrorOf>snapshot-nexus,central</mirrorOf>
+            <name>Nexus Mirror Remote</name>
+            <url>http://nexus.apps.bogon.com/nexus/content/repositories/snapshots/</url>
+        </mirror>
     </mirrors>
     <profiles>
         <profile>
