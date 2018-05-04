@@ -36,6 +36,7 @@
         <configfile finalname="/etc/org.ops4j.datasource-kalix.cfg" override="true">
             mvn:com.kalix.framework.core/framework-core-etc/${project.version}/cfg/org.ops4j.datasource-kalix
         </configfile>
+        <bundle>mvn:com.kalix.framework.core/framework-core-config/${project.framework.version}</bundle>
     </feature>
 
     <feature name="framework-core" version="${project.framework.version}">
