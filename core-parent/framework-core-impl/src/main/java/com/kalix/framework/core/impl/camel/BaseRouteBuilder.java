@@ -4,7 +4,6 @@ import com.kalix.framework.core.api.camel.CustomRest;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import io.swagger.annotations.ApiModel;
-import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.*;
 
@@ -289,6 +288,14 @@ public class BaseRouteBuilder extends RouteBuilder {
 
     public void setRests(List<CustomRest> rests) {
         this.rests = rests;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 
     //自动生成自定义rest地址参数列表
