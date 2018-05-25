@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.kalix</groupId>
@@ -29,7 +29,7 @@
         <module>poms-parent</module>
         <module>core-parent</module>
         <module>osgi-parent</module>
-        <module>extjs-parent</module>
+        <!--<module>extjs-parent</module>-->
         <module>plugin-parent</module>
         <module>webapp-parent</module>
         <module>karaf-features</module>
@@ -71,20 +71,20 @@
             <id>openshift-release</id>
             <properties>
                 <openshift.couchdb.svcname>couchdb.database.svc.cluster.local</openshift.couchdb.svcname>
-                <openshift.couchdb.url>http://couchdb.sokylin.com.cn/kalix/</openshift.couchdb.url>
-                <openshift.redis.svcname>redis.database.svc.cluster.local</openshift.redis.svcname>
-                <openshift.postgresql.svcname>postgresql-db.database.svc.cluster.local</openshift.postgresql.svcname>
-                <webcontext.server.url>http://info.sokylin.com.cn</webcontext.server.url>
+                <openshift.couchdb.url>http://couchdb.apps.bogon.com/kalix/</openshift.couchdb.url>
+                <openshift.redis.svcname>redis-sentinel.database.svc.cluster.local</openshift.redis.svcname>
+                <openshift.postgresql.svcname>postgresql.database.svc.cluster.local</openshift.postgresql.svcname>
+                <webcontext.server.url>http://kalix.apps.bogon.com</webcontext.server.url>
             </properties>
         </profile>
 
         <profile>
             <id>openshift-test</id>
             <properties>
-                <openshift.couchdb.svcname>couchdb-test.database.svc.cluster.local</openshift.couchdb.svcname>
+                <openshift.couchdb.svcname>couchdb-test.karaf.svc.cluster.local</openshift.couchdb.svcname>
                 <openshift.couchdb.url>http://couchdb.sokylin.com.cn/kalix/</openshift.couchdb.url>
-                <openshift.redis.svcname>redis-test.database.svc.cluster.local</openshift.redis.svcname>
-                <openshift.postgresql.svcname>postgresql-db-test.database.svc.cluster.local
+                <openshift.redis.svcname>redis-test.karaf.svc.cluster.local</openshift.redis.svcname>
+                <openshift.postgresql.svcname>postgresql-db-test.karaf.svc.cluster.local
                 </openshift.postgresql.svcname>
                 <webcontext.server.url>http://test.sokylin.com.cn</webcontext.server.url>
             </properties>
@@ -104,4 +104,5 @@
             </properties>
         </profile>
     </profiles>
+
 </project>

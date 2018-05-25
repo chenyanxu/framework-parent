@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -475,11 +475,13 @@
                 <artifactId>pax-cdi-api</artifactId>
                 <version>${pax-cdi-api.version}</version>
             </dependency>
-            <dependency>
-                <groupId>net.sf.dozer</groupId>
-                <artifactId>dozer-osgi</artifactId>
-                <version>5.5.1</version>
-            </dependency>
+
+            <!--<dependency>-->
+                <!--<groupId>net.sf.dozer</groupId>-->
+                <!--<artifactId>dozer-osgi</artifactId>-->
+                <!--<version>5.5.1</version>-->
+            <!--</dependency>-->
+
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>
                 <artifactId>geronimo-annotation_1.1_spec</artifactId>
@@ -567,6 +569,12 @@
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
                 <version>${httpclient.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.dozermapper</groupId>
+                <artifactId>dozer-core</artifactId>
+                <version>${dozer.version}</version>
             </dependency>
 
             <!--dependency management for kalix framework-->
