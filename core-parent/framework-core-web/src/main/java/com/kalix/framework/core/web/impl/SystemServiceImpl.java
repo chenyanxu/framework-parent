@@ -1,5 +1,6 @@
 package com.kalix.framework.core.web.impl;
 
+import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.security.IShiroService;
 import com.kalix.framework.core.api.web.IApplication;
@@ -131,6 +132,73 @@ public class SystemServiceImpl implements ISystemService {
     }
 
     /**
+     * 返回指定应用下模块列表(不考虑权限、菜单，仅返回模块列表)
+     * @param appId：ETC菜单配置文件APPLICATION_APP_ID值
+     * @return
+     */
+    @Override
+    public JsonData getModulesByAppId(String appId) {
+        JsonData jsonData = new JsonData();
+        List<IModule> moduleList = ModuleManager.getInstall().getModuleList(appId);
+        List<ModuleBean> moduleBeanList = new ArrayList<ModuleBean>();
+        if (moduleList != null && !moduleList.isEmpty()) {
+            Mapper mapper = new DozerBeanMapper();
+            for (IModule module : moduleList) {
+                ModuleBean moduleBean = mapper.map(module, ModuleBean.class);
+                String id = moduleBean.getId().trim();
+                String cfgKey = id.substring(0, id.length()-6);
+                moduleBean.setCfgKey(cfgKey);
+                moduleBeanList.add(moduleBean);
+            }
+        }
+        jsonData.setData(moduleBeanList);
+        return jsonData;
+    }
+
+    /**
+     * 新增指定应用下模块
+     * @param appId
+     * @param bean
+     * @return
+     */
+    @Override
+    public JsonStatus addModuleByAppId(String appId, ModuleBean bean) {
+        JsonStatus jsonStatus = new JsonStatus();
+        jsonStatus.setSuccess(true);
+        jsonStatus.setMsg("添加成功！");
+        return jsonStatus;
+    }
+
+    /**
+     * 修改指定应用、指定配置文件key下模块配置
+     * @param appId：ETC菜单配置文件APPLICATION_APP_ID值
+     * @param cfgKey：ETC菜单配置文件左侧键值中间部分，用来合成修改键值，唯一且不可修改
+     * @param bean
+     * @return
+     */
+    @Override
+    public JsonStatus setModuleByAppId(String appId, String cfgKey, ModuleBean bean) {
+        JsonStatus jsonStatus = new JsonStatus();
+        jsonStatus.setSuccess(true);
+        jsonStatus.setMsg("修改成功！");
+        return jsonStatus;
+    }
+
+    /**
+     * 删除指定应用、指定配置文件key下模块配置
+     * @param appId
+     * @param cfgKey
+     * @return
+     */
+    @Override
+    public JsonStatus deleteModuleByAppId(String appId, String cfgKey) {
+        JsonStatus jsonStatus = new JsonStatus();
+        jsonStatus.setSuccess(true);
+        jsonStatus.setMsg("删除成功！");
+        return jsonStatus;
+    }
+
+    /**
      * 返回实现IMenu接口的列表
      *
      * @param moduleId
@@ -150,6 +218,73 @@ public class SystemServiceImpl implements ISystemService {
             getMenuChildren(menuBean, menuList, mapper);
         }
         return menuBean;
+    }
+
+    /**
+     * 返回指定模块下菜单列表(不考虑权限、子菜单，仅返回一级菜单列表)
+     * @param moduleId：ETC菜单配置文件Module的_ID值
+     * @return
+     */
+    @Override
+    public JsonData getMenusByModuleId(String moduleId) {
+        JsonData jsonData = new JsonData();
+        List<IMenu> menuList = MenuManager.getInstall().getMenuList(moduleId);
+        List<MenuBean> menuBeanList = new ArrayList<MenuBean>();
+        if (menuList != null && !menuList.isEmpty()) {
+            Mapper mapper = new DozerBeanMapper();
+            for (IMenu menu : menuList) {
+                MenuBean menuBean = mapper.map(menu, MenuBean.class);
+                String id = menuBean.getId().trim();
+                String cfgKey = id.substring(0, id.length()-4);
+                menuBean.setCfgKey(cfgKey);
+                menuBeanList.add(menuBean);
+            }
+        }
+        jsonData.setData(menuBeanList);
+        return jsonData;
+    }
+
+    /**
+     * 新增指定模块下一级菜单
+     * @param moduleId
+     * @param bean
+     * @return
+     */
+    @Override
+    public JsonStatus addMenuByModuleId(String moduleId, MenuBean bean) {
+        JsonStatus jsonStatus = new JsonStatus();
+        jsonStatus.setSuccess(true);
+        jsonStatus.setMsg("添加成功！");
+        return jsonStatus;
+    }
+
+    /**
+     * 修改指定模块、指定配置文件key下一级菜单配置
+     * @param moduleId
+     * @param cfgKey
+     * @param bean
+     * @return
+     */
+    @Override
+    public JsonStatus setMenuByModuleId(String moduleId, String cfgKey, MenuBean bean) {
+        JsonStatus jsonStatus = new JsonStatus();
+        jsonStatus.setSuccess(true);
+        jsonStatus.setMsg("修改成功！");
+        return jsonStatus;
+    }
+
+    /**
+     * 删除指定模块、指定配置文件key下一级菜单配置
+     * @param appId
+     * @param cfgKey
+     * @return
+     */
+    @Override
+    public JsonStatus deleteMenuByModuleId(String appId, String cfgKey) {
+        JsonStatus jsonStatus = new JsonStatus();
+        jsonStatus.setSuccess(true);
+        jsonStatus.setMsg("删除成功！");
+        return jsonStatus;
     }
 
     /**

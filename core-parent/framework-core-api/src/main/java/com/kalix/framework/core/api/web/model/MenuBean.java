@@ -9,6 +9,9 @@ import java.util.List;
 public class MenuBean extends BaseWebPage {
     private List<MenuBean> children = new ArrayList<>();
     private boolean leaf;
+    private String applicationId;
+    private String moduleId;
+    private String buttons;
 
     public List<MenuBean> getChildren() {
         return children;
@@ -26,5 +29,27 @@ public class MenuBean extends BaseWebPage {
         this.leaf = leaf;
     }
 
+    public String getApplicationId() {
+        return applicationId;
+    }
 
+    public void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
+    }
+
+    public String getButtons() {
+        return buttons;
+    }
+
+    public void setButtons(String buttons) {
+        this.buttons = buttons;
+    }
+
+    public String getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(String moduleId) {
+        this.moduleId = moduleId;
+    }
 }

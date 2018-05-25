@@ -1,9 +1,14 @@
 package com.kalix.framework.core.api.web.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
+
 /**
  * Created by sunlf on 2015/7/13.
  */
-public class BaseWebPage {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class BaseWebPage implements Serializable {
     private String id;
     private String text;
     private String description;
@@ -11,6 +16,8 @@ public class BaseWebPage {
     private String routeId;
     private Boolean supportMobile;
     private int index;
+    private String permission;
+    private String cfgKey;
 
     public String getId() {
         return id;
@@ -66,5 +73,21 @@ public class BaseWebPage {
 
     public void setSupportMobile(Boolean supportMobile) {
         this.supportMobile = supportMobile;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+    public String getCfgKey() {
+        return cfgKey;
+    }
+
+    public void setCfgKey(String cfgKey) {
+        this.cfgKey = cfgKey;
     }
 }

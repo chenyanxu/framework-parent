@@ -101,6 +101,11 @@ public class BaseMenuImpl implements IMenu {
     }
 
     @Override
+    public String getApplicationId() {
+        return applicationId;
+    }
+
+    @Override
     public Boolean getSupportMobile() {
         return true;
     }
