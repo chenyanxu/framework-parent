@@ -4,6 +4,7 @@
 
 Bundle-Activator: ${bundle.namespace}.internal.InitActivator
 Import-Package: com.kalix.framework.core.security.authc.filter,\
+                com.kalix.framework.core.jwt.filter,\
                 com.kalix.framework.core.impl.web,\
                 com.kalix.framework.core.security.web.evn,\
                 com.kalix.framework.core.security.filter,\

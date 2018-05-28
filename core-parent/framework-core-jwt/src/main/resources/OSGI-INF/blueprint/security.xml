@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        default-activation="eager"
+        xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+        xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+    <!--<reference id="eventAdmin" interface="org.osgi.service.event.EventAdmin"/>-->
+    <!--<bean id="shiroRealmImpl" class="com.kalix.framework.core.security.authc.ShiroRealm">-->
+        <!--<property name="eventAdmin" ref="eventAdmin"/>-->
+    <!--</bean>-->
+    <!--<service id="shiroRealm" interface="com.kalix.framework.core.api.security.IAuthorizingRealm" ref="shiroRealmImpl"/>-->
+</blueprint>

@@ -26,6 +26,7 @@
         <module>framework-core-web</module>
         <module>framework-core-etc</module>
         <module>framework-core-config</module>
+        <module>framework-core-jwt</module>
     </modules>
 
     <dependencyManagement>
