@@ -55,5 +55,14 @@
                 </list>
             </property>
         </bean>
+        <!--<bean class="com.kalix.framework.core.jwt.filter.JwtFilter">-->
+            <!--<property name="exceptUrlList">-->
+                <!--<list>-->
+                    <!--<value>/system</value>-->
+                    <!--<value>/system/login</value>-->
+                    <!--<value>/system/vcode/[a-zA-Z0-9]{1,}</value>-->
+                <!--</list>-->
+            <!--</property>-->
+        <!--</bean>-->
     </service>
 </blueprint>
