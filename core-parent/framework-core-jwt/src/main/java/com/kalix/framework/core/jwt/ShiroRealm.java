@@ -145,14 +145,6 @@ public abstract class ShiroRealm extends AuthorizingRealm implements IAuthorizin
             audit.setContent("登录地址：" + session.getHost());
             postLoginEvent(audit);
 
-            if(jwtService!=null) {
-                AudienceBean audienceEntity = jwtService.getAudien();
-                String accessToken = jwtService.createJWT(result.get("name").toString(), result.get("user_name").toString(),
-                        "", audienceEntity.getClientId(), audienceEntity.getName(),
-                        audienceEntity.getExpiresSecond() * 1000, audienceEntity.getBase64Secret());
-                session.setAttribute(PermissionConstant.SYS_CURRENT_USER_JWTTOKEN,accessToken);
-            }
-
             // delete redis cache for authentication
             SimplePrincipalCollection principals = new SimplePrincipalCollection(result.get("user_name"), "jndiJdbcRealm");
             super.doClearCache(principals);
