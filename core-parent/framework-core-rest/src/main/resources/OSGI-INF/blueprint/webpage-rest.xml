@@ -64,7 +64,7 @@
                   type="com.kalix.framework.core.api.web.model.ModuleBean"
                   outType="com.kalix.framework.core.api.persistence.JsonStatus">
                 <description>Create a module by Application id</description>
-                <to uri="bean:systemService?method=addModuleByAppId(${header.id})"/>
+                <to uri="bean:systemService?method=addModuleByAppId(${header.id},${body})"/>
             </post>
 
             <!-- 菜单管理，通过应用id修改模块 -->
@@ -72,7 +72,7 @@
                  type="com.kalix.framework.core.api.web.model.ModuleBean"
                  outType="com.kalix.framework.core.api.persistence.JsonStatus">
                 <description></description>
-                <to uri="bean:systemService?method=setModuleByAppId(${header.id},${header.cfgKey})"/>
+                <to uri="bean:systemService?method=setModuleByAppId(${header.id},${header.cfgKey},${body})"/>
             </put>
 
             <!-- 菜单管理，通过应用id删除模块 -->
@@ -89,33 +89,33 @@
             </get>
 
             <!-- 菜单管理，通过模块id查找一级菜单列表 -->
-            <get id="route-getMenusByModuleId" uri="/apps/modules/{id}"
+            <get id="route-getMenusByModuleId" uri="/apps/{appId}/modules/{id}"
                  outType="com.kalix.framework.core.api.persistence.JsonData">
                 <description>Find Only First Menus by Module id</description>
-                <to uri="bean:systemService?method=getMenusByModuleId(${header.id})"/>
+                <to uri="bean:systemService?method=getMenusByModuleId(${header.appId},${header.id})"/>
             </get>
 
             <!-- 菜单管理，通过模块id新增一级菜单 -->
-            <post id="route-addMenuByModuleId" uri="/apps/modules/{id}"
+            <post id="route-addMenuByModuleId" uri="/apps/{appId}/modules/{id}"
                   type="com.kalix.framework.core.api.web.model.MenuBean"
                   outType="com.kalix.framework.core.api.persistence.JsonStatus">
                 <description>Create a menu by Module id</description>
-                <to uri="bean:systemService?method=addMenuByModuleId(${header.id})"/>
+                <to uri="bean:systemService?method=addMenuByModuleId(${header.appId},${header.id},${body})"/>
             </post>
 
             <!-- 菜单管理，通过模块id修改一级菜单 -->
-            <put id="route-setMenuByModuleId" uri="/apps/modules/{id}/{cfgKey}"
+            <put id="route-setMenuByModuleId" uri="/apps/{appId}/modules/{id}/{cfgKey}"
                  type="com.kalix.framework.core.api.web.model.MenuBean"
                  outType="com.kalix.framework.core.api.persistence.JsonStatus">
                 <description></description>
-                <to uri="bean:systemService?method=setMenuByModuleId(${header.id},${header.cfgKey})"/>
+                <to uri="bean:systemService?method=setMenuByModuleId(${header.appId},${header.id},${header.cfgKey},${body})"/>
             </put>
 
             <!-- 菜单管理，通过模块id删除一级菜单 -->
-            <delete id="route-deleteMenuByModuleId" uri="/apps/modules/{id}/{cfgkey}"
+            <delete id="route-deleteMenuByModuleId" uri="/apps/{appId}/modules/{id}/{cfgkey}"
                     outType="com.kalix.framework.core.api.persistence.JsonStatus">
                 <description>Delete a menu by Module id</description>
-                <to uri="bean:systemService?method=deleteMenuByModuleId(${header.id},${header.cfgKey})"/>
+                <to uri="bean:systemService?method=deleteMenuByModuleId(${header.appId},${header.id},${header.cfgKey})"/>
             </delete>
 
             <get id="route-getButtonsByPermission" uri="/applications/modules/children/buttons/{permissions}"

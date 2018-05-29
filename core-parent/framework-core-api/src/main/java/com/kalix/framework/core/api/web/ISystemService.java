@@ -72,7 +72,7 @@ public interface ISystemService {
      * @return
      */
     //List<MenuBean> getMenusByModuleId(String moduleId);
-    JsonData getMenusByModuleId(String moduleId);
+    JsonData getMenusByModuleId(String appId, String moduleId);
 
     /**
      * 新增指定模块下一级菜单
@@ -80,7 +80,7 @@ public interface ISystemService {
      * @param bean
      * @return
      */
-    JsonStatus addMenuByModuleId(String moduleId, MenuBean bean);
+    JsonStatus addMenuByModuleId(String appId, String moduleId, MenuBean bean);
 
     /**
      * 修改指定模块、指定配置文件key下一级菜单配置
@@ -89,7 +89,7 @@ public interface ISystemService {
      * @param bean
      * @return
      */
-    JsonStatus setMenuByModuleId(String moduleId, String cfgKey, MenuBean bean);
+    JsonStatus setMenuByModuleId(String appId, String moduleId, String cfgKey, MenuBean bean);
 
     /**
      * 删除指定模块、指定配置文件key下一级菜单配置
@@ -97,7 +97,7 @@ public interface ISystemService {
      * @param cfgKey
      * @return
      */
-    JsonStatus deleteMenuByModuleId(String appId, String cfgKey);
+    JsonStatus deleteMenuByModuleId(String appId, String moduleId, String cfgKey);
 
     /**
      * 判断按钮权限
