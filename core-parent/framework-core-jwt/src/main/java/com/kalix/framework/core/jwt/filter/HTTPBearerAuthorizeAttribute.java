@@ -2,6 +2,8 @@ package com.kalix.framework.core.jwt.filter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kalix.framework.core.api.PermissionConstant;
+import com.kalix.framework.core.api.dto.AudienceBean;
 import com.kalix.framework.core.api.jwt.IJwtService;
 import com.kalix.framework.core.util.JNDIHelper;
 
@@ -23,5 +25,43 @@ import java.util.Map;
  */
 public class HTTPBearerAuthorizeAttribute extends ShiroAuthenticationFilter {
 
+    private final static String HttpMethod_POST = "POST";
+    private IJwtService jwtService;
 
+    public void setJwtService(IJwtService jwtService) {
+        this.jwtService = jwtService;
+    }
+    @Override
+    public String getAccessToken(ServletResponse response,Map userInfo) {
+        String  accessToken = null;
+        try {
+            accessToken = getAccessToken(userInfo);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return accessToken;
+    }
+
+
+    /**
+     * 获取accessToken
+     *
+     * @return
+     */
+    private  String getAccessToken(Map userInfo) throws Exception {
+        String accessToken="";
+        if(jwtService==null) {
+            jwtService = JNDIHelper.getJNDIServiceForName(IJwtService.class.getName());
+        }
+        if(jwtService!=null) {
+            AudienceBean audienceEntity = jwtService.getAudien();
+             accessToken = jwtService.createJWT(userInfo.get("name").toString(), userInfo.get("user_name").toString(),
+                    "", audienceEntity.getClientId(), audienceEntity.getName(),
+                    audienceEntity.getExpiresSecond() * 1000, audienceEntity.getBase64Secret());
+          //  session.setAttribute(PermissionConstant.SYS_CURRENT_USER_JWTTOKEN,accessToken);
+        }
+        return accessToken;
+    }
 }

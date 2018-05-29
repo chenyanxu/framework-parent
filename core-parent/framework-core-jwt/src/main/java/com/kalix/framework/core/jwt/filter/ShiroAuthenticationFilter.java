@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * shiro首頁验证处理过滤器
@@ -91,8 +93,8 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
             String userIcon = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ICON));
 
             String jwttoken = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_JWTTOKEN));
-            Cookie cookieAccessToken = new Cookie("access_token", jwttoken);
-            httpServletResponse.setHeader("access_token", jwttoken);
+
+           // httpServletResponse.setHeader("access_token", jwttoken);
             httpServletResponse.setContentType("application/json");
             httpServletResponse.setCharacterEncoding("UTF-8");
 
@@ -107,20 +109,23 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
             httpServletResponse.addCookie(cookieLoginName);
             httpServletResponse.addCookie(cookieUserId);
             httpServletResponse.addCookie(cookieUserIcon);
-            httpServletResponse.addCookie(cookieAccessToken);
+            //httpServletResponse.addCookie(cookieAccessToken);
             PrintWriter out = httpServletResponse.getWriter();
             String rtnPage = "";
 
             rtnPage = this.getRtnPage();
-//            String oauth_token = this.getAccessToken(response);
-//            session.setAttribute("access_token", oauth_token);  // 保存 access_token 到session
-//            Cookie cookieAccessToken = new Cookie("access_token", oauth_token);
-//            httpServletResponse.addCookie(cookieAccessToken);
-            out.println("{\"success\":true," +
+            Map map = new HashMap();
+            map.put("name",realName);
+            map.put("user_name",loginName);
+            String oauth_token = this.getAccessToken(response,map);
+            session.setAttribute("access_token", oauth_token);  // 保存 access_token 到session
+            Cookie cookieAccessToken = new Cookie("access_token", oauth_token);
+            httpServletResponse.addCookie(cookieAccessToken);
+                  out.println("{\"success\":true," +
                     "\"location\":\"" + contextPath + rtnPage +
                     "\",\"message\":\"登入成功\"," +
                     "\"user\":{\"name\":\"" + realName +
-                    "\",\"token\":\"" + session.getId() + "\",\"id\":\"" + userId + "\"}}");
+                    "\",\"token\":\"" + session.getId() + "\",\"id\":\"" + userId + "\"},\"access_token\":\"" + oauth_token + "\"}");
             out.flush();
             out.close();
         }
@@ -128,7 +133,7 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
         return false;
     }
 
-    public String getAccessToken(ServletResponse response) {
+    public String getAccessToken(ServletResponse response,Map map) {
         return "";
     }
 

@@ -110,6 +110,15 @@ public class JwtFilter implements Filter {
     private String checkToken(HttpServletRequest req) {
         String accessToken = "";
 
+        if (req.getHeader("AccessToken") != null) {
+            accessToken = req.getHeader("AccessToken");
+            return accessToken;
+        }
+
+        if (req.getParameter("AccessToken") != null) {
+            accessToken = req.getParameter("AccessToken");
+            return accessToken;
+        }
         if (req.getHeader("access_token") != null) {
             accessToken = req.getHeader("access_token");
             return accessToken;
