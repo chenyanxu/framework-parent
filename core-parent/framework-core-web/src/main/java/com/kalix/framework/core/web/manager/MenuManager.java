@@ -48,4 +48,14 @@ public class MenuManager {
             Collections.sort(list, COMPARATOR);
         return list;
     }
+
+    public List<IMenu> getAllMenus() {
+        List<IMenu> menus = new ArrayList<IMenu>();
+        for (List<IMenu> list : menuMap.values()) {
+            for (IMenu menu : list) {
+                menus.add(menu);
+            }
+        }
+        return menus;
+    }
 }

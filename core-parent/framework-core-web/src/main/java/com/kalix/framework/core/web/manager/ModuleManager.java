@@ -50,4 +50,14 @@ public class ModuleManager {
             Collections.sort(list, COMPARATOR);
         return list;
     }
+
+    public List<IModule> getAllModules() {
+        List<IModule> modules = new ArrayList<IModule>();
+        for (List<IModule> list : moduleMap.values()) {
+            for (IModule module : list) {
+                modules.add(module);
+            }
+        }
+        return modules;
+    }
 }
