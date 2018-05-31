@@ -11,5 +11,6 @@ public interface IJwtService extends IService {
     public io.jsonwebtoken.Claims parseJWT(String jsonWebToken, String base64Security);
     public  String createJWT(String name, String userId, String role,
                              String audience, String issuer, long TTLMillis, String base64Security);
+    public String refreshToken(String jsonWebToken);
     public AudienceBean getAudien();
 }

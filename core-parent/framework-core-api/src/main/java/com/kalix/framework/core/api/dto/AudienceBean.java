@@ -8,6 +8,8 @@ public class AudienceBean {
     private String base64Secret;
     private String name;
     private int expiresSecond;
+    private int refresh_expiresSecond;
+
     public String getClientId() {
         return clientId;
     }
@@ -31,5 +33,13 @@ public class AudienceBean {
     }
     public void setExpiresSecond(int expiresSecond) {
         this.expiresSecond = expiresSecond;
+    }
+
+    public int getRefresh_expiresSecond() {
+        return refresh_expiresSecond;
+    }
+
+    public void setRefresh_expiresSecond(int refresh_expiresSecond) {
+        this.refresh_expiresSecond = refresh_expiresSecond;
     }
 }
