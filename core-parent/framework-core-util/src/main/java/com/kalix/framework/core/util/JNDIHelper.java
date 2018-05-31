@@ -37,6 +37,25 @@ public class JNDIHelper {
     }
 
     /**
+     * 通过serviceName获得osgi服务
+     *
+     * @param serviceName
+     * @param
+     * @return
+     * @throws IOException
+     */
+    public static boolean getJNDIServiceForNameJwt(String serviceName) throws IOException {
+        try {
+            InitialContext ic = new InitialContext();
+             ic.lookup("osgi:service/" + serviceName);
+             return true;
+        } catch (NamingException e) {
+           return false;
+        }
+    }
+
+
+    /**
      * 通过service的属性获得服务,and condition
      *
      * @param serviceName
