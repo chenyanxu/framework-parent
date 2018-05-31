@@ -44,7 +44,7 @@ public class JNDIHelper {
      * @return
      * @throws IOException
      */
-    public static boolean getJNDIServiceForNameJwt(String serviceName) throws IOException {
+    public static boolean getJNDIServiceForNameNoCatch(String serviceName) throws IOException {
         try {
             InitialContext ic = new InitialContext();
              ic.lookup("osgi:service/" + serviceName);
