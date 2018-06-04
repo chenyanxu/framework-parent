@@ -53,7 +53,9 @@ public class HTTPBearerAuthorizeAttribute extends ShiroAuthenticationFilter {
     private  String getAccessToken(Map userInfo) throws Exception {
         String accessToken="";
         if(jwtService==null) {
-            jwtService = JNDIHelper.getJNDIServiceForName(IJwtService.class.getName());
+            if(JNDIHelper.getJNDIServiceForNameNoCatch(IJwtService.class.getName())) {
+                jwtService = JNDIHelper.getJNDIServiceForName(IJwtService.class.getName());
+            }
         }
         if(jwtService!=null) {
             AudienceBean audienceEntity = jwtService.getAudien();
