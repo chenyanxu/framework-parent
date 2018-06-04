@@ -37,7 +37,9 @@ public class JwtFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
 
         if(jwtService==null) {
-            jwtService = JNDIHelper.getJNDIServiceForName(IJwtService.class.getName());
+            if(JNDIHelper.getJNDIServiceForNameNoCatch(IJwtService.class.getName())) {
+                jwtService = JNDIHelper.getJNDIServiceForName(IJwtService.class.getName());
+            }
         }
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
