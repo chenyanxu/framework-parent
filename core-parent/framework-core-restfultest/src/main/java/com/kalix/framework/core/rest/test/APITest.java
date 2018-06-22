@@ -26,6 +26,7 @@ public abstract class APITest {
     private static String envfile = "env.properties";
     private static Properties prop;
     protected String token;
+    protected String accessToken;
 
     @BeforeClass
     public static void setup() {
@@ -123,9 +124,13 @@ public abstract class APITest {
 
         APIResponse response = APIRequest.POST(uri).param("username", username).param("password", password).invoke().assertStatus(200);
         String returnString = response.getBody(String.class);
+        System.out.println("==========returnString===========");
+        System.out.println(returnString);
+        System.out.println("=====================");
         JSONObject jsonObject = new JSONObject(returnString);
         JSONObject user = jsonObject.getJSONObject("user");
         token = (String) user.get("token");
+        accessToken = (String) jsonObject.get("access_token");
         Assert.assertNotNull(token);
     }
 
