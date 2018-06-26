@@ -13,4 +13,6 @@ public interface IJwtService extends IService {
                              String audience, String issuer, long TTLMillis, String base64Security);
     public String refreshToken(String jsonWebToken);
     public AudienceBean getAudien();
+    public String getPrivateKeyString();
+    public String getPublicKeyString();
 }
