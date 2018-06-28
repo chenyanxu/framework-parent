@@ -15,5 +15,5 @@ public interface IDashboardService extends IService {
 
     JsonData getPanelGroupData();
 
-    JsonData getLineChartData();
+    JsonData getLineChartData(String chartKey);
 }

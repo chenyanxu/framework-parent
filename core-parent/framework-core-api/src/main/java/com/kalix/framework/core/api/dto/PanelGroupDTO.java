@@ -15,7 +15,6 @@ public class PanelGroupDTO implements Serializable {
 
     private String key;                 // 数据唯一标识
     private String iconName;            // 图标名称，如"peoples"
-    private String iconBackgroundColor; // 图标背景颜色，如"#40c9c6"
     private String text;                // 显示文本内容
     private Integer startVal = 0;       // 初始值
     private Integer endVal;             // 当前统计值
@@ -35,14 +34,6 @@ public class PanelGroupDTO implements Serializable {
 
     public void setIconName(String iconName) {
         this.iconName = iconName;
-    }
-
-    public String getIconBackgroundColor() {
-        return iconBackgroundColor;
-    }
-
-    public void setIconBackgroundColor(String iconBackgroundColor) {
-        this.iconBackgroundColor = iconBackgroundColor;
     }
 
     public String getText() {
