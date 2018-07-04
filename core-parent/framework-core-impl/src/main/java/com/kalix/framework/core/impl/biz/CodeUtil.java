@@ -50,6 +50,9 @@ public class CodeUtil {
         maxCode = maxCode.trim();
         if (maxCode.equals("")) {
             //  无子节点
+            if (parentId == null) {
+                parentId = -1L;
+            }
             if (parentId == -1) {
                 // 根节点,取新的code值
                 rtn = getNextCode("0", length);
