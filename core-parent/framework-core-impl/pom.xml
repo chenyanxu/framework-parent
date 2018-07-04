@@ -48,5 +48,10 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.abel533</groupId>
+            <artifactId>ECharts</artifactId>
+        </dependency>
     </dependencies>
 </project>
