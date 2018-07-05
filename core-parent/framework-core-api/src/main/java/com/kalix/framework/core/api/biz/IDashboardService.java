@@ -28,6 +28,8 @@ public interface IDashboardService extends IService {
 
     JsonData getBarChartData(String chartKey);
 
+    Integer getPanelGroupBizData(String chartKey);
+
     List<Integer> getLineChartBizData(String chartKey, String legend);
 
     List<Integer> getRaddarChartBizData(String chartKey, String legend);
