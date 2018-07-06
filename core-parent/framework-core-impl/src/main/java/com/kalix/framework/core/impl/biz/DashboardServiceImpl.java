@@ -57,6 +57,11 @@ public abstract class DashboardServiceImpl implements IDashboardService {
         }
     }
 
+    /**
+     * 基类实现前台使用PanelGroup组件的样式与数据
+     *
+     * @return
+     */
     @Override
     public JsonData getPanelGroupData() {
         JsonData jsonData = new JsonData();
@@ -67,6 +72,12 @@ public abstract class DashboardServiceImpl implements IDashboardService {
         return jsonData;
     }
 
+    /**
+     * 基类实现前台使用LineChart组件的样式与数据
+     *
+     * @param chartKey
+     * @return
+     */
     @Override
     public JsonData getLineChartData(String chartKey) {
         JsonData jsonData = new JsonData();
@@ -99,6 +110,12 @@ public abstract class DashboardServiceImpl implements IDashboardService {
         return jsonData;
     }
 
+    /**
+     * 基类实现前台使用RaddarChart组件的样式与数据
+     *
+     * @param chartKey
+     * @return
+     */
     @Override
     public JsonData getRaddarChartData(String chartKey) {
         JsonData jsonData = new JsonData();
@@ -125,6 +142,12 @@ public abstract class DashboardServiceImpl implements IDashboardService {
         return jsonData;
     }
 
+    /**
+     * 基类实现前台使用PieChart组件的样式与数据
+     *
+     * @param chartKey
+     * @return
+     */
     @Override
     public JsonData getPieChartData(String chartKey) {
         JsonData jsonData = new JsonData();
@@ -148,6 +171,12 @@ public abstract class DashboardServiceImpl implements IDashboardService {
         return jsonData;
     }
 
+    /**
+     * 基类实现前台使用BarChart组件的样式与数据
+     *
+     * @param chartKey
+     * @return
+     */
     @Override
     public JsonData getBarChartData(String chartKey) {
         JsonData jsonData = new JsonData();
@@ -175,6 +204,12 @@ public abstract class DashboardServiceImpl implements IDashboardService {
         return jsonData;
     }
 
+    /**
+     * 根据chartKey组织PanelGroup数据，基类使用测试数据，需要业务类具体实现
+     *
+     * @param chartKey
+     * @return
+     */
     @Override
     public Integer getPanelGroupBizData(String chartKey) {
         Integer data = -1;
@@ -197,6 +232,12 @@ public abstract class DashboardServiceImpl implements IDashboardService {
         return data;
     }
 
+    /**
+     * 根据chartKey和legend图例组织LineChart数据，基类使用测试数据，需要业务类具体实现
+     *
+     * @param chartKey
+     * @return
+     */
     @Override
     public List<Integer> getLineChartBizData(String chartKey, String legend) {
         List<Integer> list = new ArrayList<Integer>();
@@ -280,6 +321,12 @@ public abstract class DashboardServiceImpl implements IDashboardService {
         return list;
     }
 
+    /**
+     * 根据chartKey和legend图例组织RaddarChart数据，基类使用测试数据，需要业务类具体实现
+     *
+     * @param chartKey
+     * @return
+     */
     @Override
     public List<Integer> getRaddarChartBizData(String chartKey, String legend) {
         List<Integer> list = new ArrayList<Integer>();
@@ -315,6 +362,12 @@ public abstract class DashboardServiceImpl implements IDashboardService {
         return list;
     }
 
+    /**
+     * 根据chartKey组织PieChart数据，基类使用测试数据，需要业务类具体实现
+     *
+     * @param chartKey
+     * @return
+     */
     @Override
     public List<PieSeriesDataDTO> getPieChartBizData(String chartKey) {
         List<PieSeriesDataDTO> list = new ArrayList<PieSeriesDataDTO>();
@@ -347,6 +400,12 @@ public abstract class DashboardServiceImpl implements IDashboardService {
         return list;
     }
 
+    /**
+     * 根据chartKey和legend图例组织BarChart数据，基类使用测试数据，需要业务类具体实现
+     *
+     * @param chartKey
+     * @return
+     */
     @Override
     public List<Integer> getBarChartBizData(String chartKey, String legend) {
         List<Integer> list = new ArrayList<Integer>();
