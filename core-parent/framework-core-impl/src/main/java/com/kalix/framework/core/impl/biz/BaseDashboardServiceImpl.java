@@ -18,16 +18,19 @@ import com.github.abel533.echarts.style.ItemStyle;
 import com.github.abel533.echarts.style.LineStyle;
 import com.github.abel533.echarts.style.itemstyle.Normal;
 import com.kalix.framework.core.api.biz.IDashboardService;
+import com.kalix.framework.core.api.dao.IGenericDao;
 import com.kalix.framework.core.api.dto.ChartType;
 import com.kalix.framework.core.api.dto.DashboardConfigDTO;
 import com.kalix.framework.core.api.dto.PanelGroupDTO;
 import com.kalix.framework.core.api.dto.PieSeriesDataDTO;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.util.ConfigUtil;
+import com.kalix.framework.core.util.JNDIHelper;
 import com.kalix.framework.core.util.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
@@ -41,12 +44,18 @@ import java.util.List;
  * @修改时间：
  * @修改备注：
  */
-public abstract class DashboardServiceImpl implements IDashboardService {
+public abstract class BaseDashboardServiceImpl implements IDashboardService {
 
     protected String dashboardConfigName;
     protected DashboardConfigDTO dashboardConfigDTO;
+    protected IGenericDao genericDao;
 
-    public DashboardServiceImpl() {
+    public BaseDashboardServiceImpl() {
+        try {
+            this.genericDao = JNDIHelper.getJNDIServiceForName(IGenericDao.class.getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void init() {
@@ -213,21 +222,29 @@ public abstract class DashboardServiceImpl implements IDashboardService {
     @Override
     public Integer getPanelGroupBizData(String chartKey) {
         Integer data = -1;
-        switch (chartKey) {
-            case "test1":
-                data = 102400;
-                break;
-            case "test2":
-                data = 81212;
-                break;
-            case "test3":
-                data = 9280;
-                break;
-            case "test4":
-                data = 13600;
-                break;
-            default:
-                break;
+        if (StringUtils.isNotEmpty(dashboardConfigName)) {
+            String bizSql = (String) ConfigUtil.getConfigProp("panelBizSql_" + chartKey, dashboardConfigName);
+            if (StringUtils.isNotEmpty(bizSql)) {
+                List<Integer> results = genericDao.findByNativeSql(bizSql, Integer.class);
+                data = results.get(0);
+            }
+        } else {
+            switch (chartKey) {
+                case "test1":
+                    data = 102400;
+                    break;
+                case "test2":
+                    data = 81212;
+                    break;
+                case "test3":
+                    data = 9280;
+                    break;
+                case "test4":
+                    data = 13600;
+                    break;
+                default:
+                    break;
+            }
         }
         return data;
     }
@@ -241,82 +258,89 @@ public abstract class DashboardServiceImpl implements IDashboardService {
     @Override
     public List<Integer> getLineChartBizData(String chartKey, String legend) {
         List<Integer> list = new ArrayList<Integer>();
-        String condition = chartKey + "-" + legend;
-        switch (condition.toLowerCase()) {
-            case "test1-expected":
-                list.add(100);
-                list.add(120);
-                list.add(161);
-                list.add(134);
-                list.add(105);
-                list.add(160);
-                list.add(165);
-                break;
-            case "test1-actual":
-                list.add(120);
-                list.add(82);
-                list.add(91);
-                list.add(154);
-                list.add(162);
-                list.add(140);
-                list.add(145);
-                break;
-            case "test2-expected":
-                list.add(200);
-                list.add(192);
-                list.add(120);
-                list.add(144);
-                list.add(160);
-                list.add(130);
-                list.add(140);
-                break;
-            case "test2-actual":
-                list.add(180);
-                list.add(160);
-                list.add(151);
-                list.add(106);
-                list.add(145);
-                list.add(150);
-                list.add(130);
-                break;
-            case "test3-expected":
-                list.add(80);
-                list.add(100);
-                list.add(121);
-                list.add(104);
-                list.add(105);
-                list.add(90);
-                list.add(100);
-                break;
-            case "test3-actual":
-                list.add(120);
-                list.add(90);
-                list.add(100);
-                list.add(138);
-                list.add(142);
-                list.add(130);
-                list.add(130);
-                break;
-            case "test4-expected":
-                list.add(130);
-                list.add(140);
-                list.add(141);
-                list.add(142);
-                list.add(145);
-                list.add(150);
-                list.add(160);
-                break;
-            case "test4-actual":
-                list.add(120);
-                list.add(82);
-                list.add(91);
-                list.add(154);
-                list.add(162);
-                list.add(140);
-                list.add(130);
-                break;
-            default:
-                break;
+        if (StringUtils.isNotEmpty(dashboardConfigName)) {
+            String bizSql = (String) ConfigUtil.getConfigProp("lineBizSql_" + chartKey + "_" + legend, dashboardConfigName);
+            if (StringUtils.isNotEmpty(bizSql)) {
+                list = genericDao.findByNativeSql(bizSql, Integer.class);
+            }
+        } else {
+            String condition = chartKey + "-" + legend;
+            switch (condition.toLowerCase()) {
+                case "test1-expected":
+                    list.add(100);
+                    list.add(120);
+                    list.add(161);
+                    list.add(134);
+                    list.add(105);
+                    list.add(160);
+                    list.add(165);
+                    break;
+                case "test1-actual":
+                    list.add(120);
+                    list.add(82);
+                    list.add(91);
+                    list.add(154);
+                    list.add(162);
+                    list.add(140);
+                    list.add(145);
+                    break;
+                case "test2-expected":
+                    list.add(200);
+                    list.add(192);
+                    list.add(120);
+                    list.add(144);
+                    list.add(160);
+                    list.add(130);
+                    list.add(140);
+                    break;
+                case "test2-actual":
+                    list.add(180);
+                    list.add(160);
+                    list.add(151);
+                    list.add(106);
+                    list.add(145);
+                    list.add(150);
+                    list.add(130);
+                    break;
+                case "test3-expected":
+                    list.add(80);
+                    list.add(100);
+                    list.add(121);
+                    list.add(104);
+                    list.add(105);
+                    list.add(90);
+                    list.add(100);
+                    break;
+                case "test3-actual":
+                    list.add(120);
+                    list.add(90);
+                    list.add(100);
+                    list.add(138);
+                    list.add(142);
+                    list.add(130);
+                    list.add(130);
+                    break;
+                case "test4-expected":
+                    list.add(130);
+                    list.add(140);
+                    list.add(141);
+                    list.add(142);
+                    list.add(145);
+                    list.add(150);
+                    list.add(160);
+                    break;
+                case "test4-actual":
+                    list.add(120);
+                    list.add(82);
+                    list.add(91);
+                    list.add(154);
+                    list.add(162);
+                    list.add(140);
+                    list.add(130);
+                    break;
+                default:
+                    break;
+            }
         }
         return list;
     }
@@ -330,34 +354,41 @@ public abstract class DashboardServiceImpl implements IDashboardService {
     @Override
     public List<Integer> getRaddarChartBizData(String chartKey, String legend) {
         List<Integer> list = new ArrayList<Integer>();
-        String condition = chartKey + "-" + legend;
-        switch (condition.toLowerCase()) {
-            case "test1-allocated budget":
-                list.add(5000);
-                list.add(7000);
-                list.add(12000);
-                list.add(11000);
-                list.add(15000);
-                list.add(14000);
-                break;
-            case "test1-expected spending":
-                list.add(4000);
-                list.add(9000);
-                list.add(15000);
-                list.add(15000);
-                list.add(13000);
-                list.add(11000);
-                break;
-            case "test1-actual spending":
-                list.add(5500);
-                list.add(11000);
-                list.add(12000);
-                list.add(15000);
-                list.add(12000);
-                list.add(12000);
-                break;
-            default:
-                break;
+        if (StringUtils.isNotEmpty(dashboardConfigName)) {
+            String bizSql = (String) ConfigUtil.getConfigProp("raddarBizSql_" + chartKey + "_" + legend, dashboardConfigName);
+            if (StringUtils.isNotEmpty(bizSql)) {
+                list = genericDao.findByNativeSql(bizSql, Integer.class);
+            }
+        } else {
+            String condition = chartKey + "-" + legend;
+            switch (condition.toLowerCase()) {
+                case "test1-allocated budget":
+                    list.add(5000);
+                    list.add(7000);
+                    list.add(12000);
+                    list.add(11000);
+                    list.add(15000);
+                    list.add(14000);
+                    break;
+                case "test1-expected spending":
+                    list.add(4000);
+                    list.add(9000);
+                    list.add(15000);
+                    list.add(15000);
+                    list.add(13000);
+                    list.add(11000);
+                    break;
+                case "test1-actual spending":
+                    list.add(5500);
+                    list.add(11000);
+                    list.add(12000);
+                    list.add(15000);
+                    list.add(12000);
+                    list.add(12000);
+                    break;
+                default:
+                    break;
+            }
         }
         return list;
     }
@@ -371,31 +402,38 @@ public abstract class DashboardServiceImpl implements IDashboardService {
     @Override
     public List<PieSeriesDataDTO> getPieChartBizData(String chartKey) {
         List<PieSeriesDataDTO> list = new ArrayList<PieSeriesDataDTO>();
-        switch (chartKey.toLowerCase()) {
-            case "test1":
-                PieSeriesDataDTO pieSeriesDataDTO = new PieSeriesDataDTO();
-                pieSeriesDataDTO.setName("Industries");
-                pieSeriesDataDTO.setValue(320);
-                list.add(pieSeriesDataDTO);
-                pieSeriesDataDTO = new PieSeriesDataDTO();
-                pieSeriesDataDTO.setName("Technology");
-                pieSeriesDataDTO.setValue(240);
-                list.add(pieSeriesDataDTO);
-                pieSeriesDataDTO = new PieSeriesDataDTO();
-                pieSeriesDataDTO.setName("Forex");
-                pieSeriesDataDTO.setValue(149);
-                list.add(pieSeriesDataDTO);
-                pieSeriesDataDTO = new PieSeriesDataDTO();
-                pieSeriesDataDTO.setName("Gold");
-                pieSeriesDataDTO.setValue(100);
-                list.add(pieSeriesDataDTO);
-                pieSeriesDataDTO = new PieSeriesDataDTO();
-                pieSeriesDataDTO.setName("Forecasts");
-                pieSeriesDataDTO.setValue(59);
-                list.add(pieSeriesDataDTO);
-                break;
-            default:
-                break;
+        if (StringUtils.isNotEmpty(dashboardConfigName)) {
+            String bizSql = (String) ConfigUtil.getConfigProp("pieBizSql_" + chartKey, dashboardConfigName);
+            if (StringUtils.isNotEmpty(bizSql)) {
+                list = genericDao.findByNativeSql(bizSql, PieSeriesDataDTO.class);
+            }
+        } else {
+            switch (chartKey.toLowerCase()) {
+                case "test1":
+                    PieSeriesDataDTO pieSeriesDataDTO = new PieSeriesDataDTO();
+                    pieSeriesDataDTO.setName("Industries");
+                    pieSeriesDataDTO.setValue(320);
+                    list.add(pieSeriesDataDTO);
+                    pieSeriesDataDTO = new PieSeriesDataDTO();
+                    pieSeriesDataDTO.setName("Technology");
+                    pieSeriesDataDTO.setValue(240);
+                    list.add(pieSeriesDataDTO);
+                    pieSeriesDataDTO = new PieSeriesDataDTO();
+                    pieSeriesDataDTO.setName("Forex");
+                    pieSeriesDataDTO.setValue(149);
+                    list.add(pieSeriesDataDTO);
+                    pieSeriesDataDTO = new PieSeriesDataDTO();
+                    pieSeriesDataDTO.setName("Gold");
+                    pieSeriesDataDTO.setValue(100);
+                    list.add(pieSeriesDataDTO);
+                    pieSeriesDataDTO = new PieSeriesDataDTO();
+                    pieSeriesDataDTO.setName("Forecasts");
+                    pieSeriesDataDTO.setValue(59);
+                    list.add(pieSeriesDataDTO);
+                    break;
+                default:
+                    break;
+            }
         }
         return list;
     }
@@ -745,9 +783,9 @@ public abstract class DashboardServiceImpl implements IDashboardService {
                 pie.setName(pieSeriesName);
                 pie.setType(SeriesType.pie);
                 pie.setRoseType(RoseType.radius);
-                Integer[] radius = new Integer[]{15, 95};
+                Integer[] radius = new Integer[]{15, 90};
                 pie.setRadius(radius);
-                String[] center = new String[]{"50%", "38%"};
+                String[] center = new String[]{"50%", "40%"};
                 pie.setCenter(center);
                 List<PieSeriesDataDTO> list3 = getPieChartBizData(chartKey);
                 pie.setData(list3);
@@ -882,5 +920,9 @@ public abstract class DashboardServiceImpl implements IDashboardService {
 
     public void setDashboardConfigName(String dashboardConfigName) {
         this.dashboardConfigName = dashboardConfigName;
+    }
+
+    public void setGenericDao(IGenericDao genericDao) {
+        this.genericDao = genericDao;
     }
 }

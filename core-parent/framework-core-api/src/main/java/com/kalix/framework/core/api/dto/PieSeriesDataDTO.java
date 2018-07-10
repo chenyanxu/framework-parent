@@ -1,7 +1,7 @@
 package com.kalix.framework.core.api.dto;
 
 
-import java.io.Serializable;
+import com.kalix.framework.core.api.web.model.BaseDTO;
 
 /**
  * @类描述： 前台表格Pie-Series数据模型
@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @修改时间：
  * @修改备注：
  */
-public class PieSeriesDataDTO implements Serializable {
+public class PieSeriesDataDTO extends BaseDTO {
 
     private String name;
     private Integer value;
