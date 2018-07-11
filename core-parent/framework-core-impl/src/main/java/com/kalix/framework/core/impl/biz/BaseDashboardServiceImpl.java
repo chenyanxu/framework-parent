@@ -447,37 +447,44 @@ public abstract class BaseDashboardServiceImpl implements IDashboardService {
     @Override
     public List<Integer> getBarChartBizData(String chartKey, String legend) {
         List<Integer> list = new ArrayList<Integer>();
-        String condition = chartKey + "-" + legend;
-        switch (condition.toLowerCase()) {
-            case "test1-pagea":
-                list.add(79);
-                list.add(52);
-                list.add(200);
-                list.add(334);
-                list.add(390);
-                list.add(330);
-                list.add(220);
-                break;
-            case "test1-pageb":
-                list.add(80);
-                list.add(52);
-                list.add(200);
-                list.add(334);
-                list.add(390);
-                list.add(330);
-                list.add(220);
-                break;
-            case "test1-pagec":
-                list.add(30);
-                list.add(52);
-                list.add(200);
-                list.add(334);
-                list.add(390);
-                list.add(330);
-                list.add(220);
-                break;
-            default:
-                break;
+        if (StringUtils.isNotEmpty(dashboardConfigName)) {
+            String bizSql = (String) ConfigUtil.getConfigProp("barBizSql_" + chartKey + "_" + legend, dashboardConfigName);
+            if (StringUtils.isNotEmpty(bizSql)) {
+                list = genericDao.findByNativeSql(bizSql, Integer.class);
+            }
+        } else {
+            String condition = chartKey + "-" + legend;
+            switch (condition.toLowerCase()) {
+                case "test1-pagea":
+                    list.add(79);
+                    list.add(52);
+                    list.add(200);
+                    list.add(334);
+                    list.add(390);
+                    list.add(330);
+                    list.add(220);
+                    break;
+                case "test1-pageb":
+                    list.add(80);
+                    list.add(52);
+                    list.add(200);
+                    list.add(334);
+                    list.add(390);
+                    list.add(330);
+                    list.add(220);
+                    break;
+                case "test1-pagec":
+                    list.add(30);
+                    list.add(52);
+                    list.add(200);
+                    list.add(334);
+                    list.add(390);
+                    list.add(330);
+                    list.add(220);
+                    break;
+                default:
+                    break;
+            }
         }
         return list;
     }
@@ -804,7 +811,7 @@ public abstract class BaseDashboardServiceImpl implements IDashboardService {
                     bar.setName(barLegends[i]);
                     bar.setType(SeriesType.bar);
                     bar.setStack("vistors");
-                    bar.setBarWidth(60);
+                    //bar.setBarWidth(60);
                     bar.setAnimationDuration(6000);
                     List<Integer> list4 = getBarChartBizData(chartKey, barLegends[i]);
                     bar.setData(list4);
