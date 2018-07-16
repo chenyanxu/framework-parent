@@ -13,7 +13,7 @@ import com.kalix.framework.core.api.persistence.JsonStatus;
  * @修改备注：
  */
 
-public interface ITreeExtendBizService<T extends BaseTreeExtendEntity> extends IBizService<T> {
+public interface ITreeExtendBizService<T extends BaseTreeExtendEntity> extends ITreeBizService, IBizService<T> {
 
     JsonData getEntitiesByFK(Long fk, Integer page, Integer limit, String jsonStr, String sort);
 
