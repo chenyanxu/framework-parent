@@ -25,12 +25,10 @@ import com.kalix.framework.core.api.dto.PanelGroupDTO;
 import com.kalix.framework.core.api.dto.PieSeriesDataDTO;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.util.ConfigUtil;
-import com.kalix.framework.core.util.JNDIHelper;
 import com.kalix.framework.core.util.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
@@ -51,11 +49,6 @@ public abstract class BaseDashboardServiceImpl implements IDashboardService {
     protected IGenericDao genericDao;
 
     public BaseDashboardServiceImpl() {
-        try {
-            this.genericDao = JNDIHelper.getJNDIServiceForName(IGenericDao.class.getName());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void init() {

@@ -1,7 +1,7 @@
 package com.kalix.framework.core.impl.dao;
 
 import com.kalix.framework.core.api.dao.IGenericDao;
-import com.kalix.framework.core.api.dto.PersistentDTO;
+import com.kalix.framework.core.api.dto.PersistentBean;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @修改时间：
  * @修改备注：
  */
-public class BaseGenericDaoImpl extends GenericDao<PersistentDTO, Long> implements IGenericDao<PersistentDTO, Long> {
+public class BaseGenericDaoImpl extends GenericDao<PersistentBean, Long> implements IGenericDao<PersistentBean, Long> {
 
     @Override
     @PersistenceContext(unitName = "framework-core-unit")
