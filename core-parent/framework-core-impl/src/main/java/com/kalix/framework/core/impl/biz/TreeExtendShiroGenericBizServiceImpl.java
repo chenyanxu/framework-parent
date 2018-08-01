@@ -8,6 +8,7 @@ import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.util.SerializeUtil;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,11 +17,19 @@ import java.util.Map;
  */
 public abstract class TreeExtendShiroGenericBizServiceImpl<T extends IBaseTreeExtendEntityDao, TP extends BaseTreeExtendEntity> extends ShiroGenericBizServiceImpl<T, TP> implements ITreeExtendBizService<TP> {
 
+    protected Class<T> baseTreeExtendEntityDaoClass;
     protected String treeName = "树节点";
     protected String beanName = "实体";
     private JsonStatus jsonStatus = new JsonStatus();
 
     public TreeExtendShiroGenericBizServiceImpl() {
+        ParameterizedType genericSuperclass = (ParameterizedType) this.getClass().getGenericSuperclass();
+        java.lang.reflect.Type type = genericSuperclass.getActualTypeArguments()[0];
+        if (type instanceof Class) {
+            this.baseTreeExtendEntityDaoClass = (Class<T>) type;
+        } else if (type instanceof ParameterizedType) {
+            this.baseTreeExtendEntityDaoClass = (Class<T>) ((ParameterizedType) type).getRawType();
+        }
     }
 
     @Override
@@ -46,7 +55,7 @@ public abstract class TreeExtendShiroGenericBizServiceImpl<T extends IBaseTreeEx
         if (fk.equals(entity.getTreeId())) {
             Map<String, String> params = new HashMap<String, String>();
             params.put("id", String.valueOf(entity.getId()));
-            params.put("treeid", String.valueOf(fk));
+            params.put("treeId", String.valueOf(fk));
             String jsonStr = SerializeUtil.serializeJson(params);
             JsonData jsonData = super.getAllEntityforReport(jsonStr);
             if (jsonData.getTotalCount() > 0) {
