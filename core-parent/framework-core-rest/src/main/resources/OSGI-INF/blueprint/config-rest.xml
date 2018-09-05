@@ -41,19 +41,19 @@
             <get id="route-getConfigInfo" uri="/config"
                  outType="com.kalix.framework.core.api.persistence.JsonData">
                 <description>Get Info by Config</description>
-                <to uri="bean:configService?method=getConfigInfo(${header.jsonStr})"/>
+                <to uri="bean:configService?method=getConfigInfo(${header.configName})"/>
             </get>
 
             <post id="route-setConfigInfo" uri="/config"
                  outType="com.kalix.framework.core.api.persistence.JsonStatus">
                 <description>Set Info by Config</description>
-                <to uri="bean:configService?method=configureConfigInfo(${header.content},${header.AppName})"/>
+                <to uri="bean:configService?method=configureConfigInfo(${header.content},${header.configName})"/>
             </post>
 
             <get id="route-getConfigById" uri="/config/{key}"
                  outType="com.kalix.framework.core.api.persistence.JsonData">
                 <description>get Info by id</description>
-                <to uri="bean:configService?method=getConfigInfoById(${header.AppName},${header.key})"/>
+                <to uri="bean:configService?method=getConfigInfoById(${header.configName},${header.key})"/>
             </get>
 
         </rest>
