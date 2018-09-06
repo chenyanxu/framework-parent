@@ -67,18 +67,19 @@ public class ConfigServiceImpl implements IConfigService {
 
         }
         jsonStatus.setSuccess(true);
-//        for(int i=0;i<list.size()-1;i++){
-//            for(int j=0;j<list.size()-i-1;j++){
-//                ClassTypeBean map= (ClassTypeBean)list.get(j);
-//                ClassTypeBean map_j= (ClassTypeBean)list.get(j+1);
-////                if( map.getConfigBean().getOrder()>map_j.getConfigBean().getOrder()){
-////                    /*交换*/
-////                    // Integer temp=list.get(j);
-////                    list.set(j, list.get(j+1));
-////                    list.set(j+1, map);
-////                }
-//            }
-//        }
+        // 排序
+        for (int i = 0; i < list_config.size() - 1; i++) {
+            for (int j = 0; j < list_config.size() - i - 1; j++) {
+                ConfigBean map = (ConfigBean) list_config.get(j);
+                ConfigBean map_j = (ConfigBean) list_config.get(j + 1);
+                if (map.getOrder() > map_j.getOrder()) {
+                    /*交换*/
+                    // Integer temp=list.get(j);
+                    list_config.set(j, map_j);
+                    list_config.set(j + 1, map);
+                }
+            }
+        }
         jsondata.setData(list);
         return jsondata;
     }
