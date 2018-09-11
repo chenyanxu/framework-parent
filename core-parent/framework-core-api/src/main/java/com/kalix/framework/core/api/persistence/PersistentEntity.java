@@ -44,6 +44,8 @@ public abstract class PersistentEntity implements Serializable {
     private Long updateById; //更新者Id
     @ApiModelProperty(value = "更新时间", hidden = true)
     private Date updateDate = new Date();
+    @ApiModelProperty(value = "逻辑删除标识", hidden = true)
+    private String delFlag = "0";
 
     public PersistentEntity() {
     }
@@ -163,5 +165,13 @@ public abstract class PersistentEntity implements Serializable {
         }
 
         return null;
+    }
+
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
     }
 }

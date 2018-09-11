@@ -26,6 +26,7 @@ public abstract class BaseDTO implements Serializable {
     @ApiModelProperty("更新日期")
     protected Date updateDate; //更新日期
     protected long version;
+    protected String delFlag;  // 逻辑删除标识
 
     public BaseDTO() {
     }
@@ -76,5 +77,13 @@ public abstract class BaseDTO implements Serializable {
 
     public void setVersion(long version) {
         this.version = version;
+    }
+
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
     }
 }
