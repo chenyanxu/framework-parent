@@ -33,6 +33,7 @@
         <module>plugin-parent</module>
         <module>webapp-parent</module>
         <module>karaf-features</module>
+        <module>extend-parent</module>
     </modules>
     <build>
         <plugins>
