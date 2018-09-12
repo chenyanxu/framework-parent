@@ -9,24 +9,24 @@ import java.util.Date;
 /**
  * 数据传输模型基类
  * 用于JSON数据
+ *
  * @author majian <br/>
  *         date:2015-7-24
  * @version 1.0.0
  */
 public abstract class BaseDTO implements Serializable {
     protected Long id = -1L;
-    @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @ApiModelProperty(value="创建日期")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ApiModelProperty(value = "创建日期")
     protected Date creationDate;// 创建日期
     @ApiModelProperty("创建者")
     protected String createBy;    // 创建者
     @ApiModelProperty("更新者")
     protected String updateBy;    // 更新者
-    @JsonFormat(shape= JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty("更新日期")
     protected Date updateDate; //更新日期
     protected long version;
-    protected String delFlag;  // 逻辑删除标识
 
     public BaseDTO() {
     }
@@ -77,13 +77,5 @@ public abstract class BaseDTO implements Serializable {
 
     public void setVersion(long version) {
         this.version = version;
-    }
-
-    public String getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(String delFlag) {
-        this.delFlag = delFlag;
     }
 }

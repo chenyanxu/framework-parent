@@ -3,7 +3,6 @@ package com.kalix.framework.core.api.persistence;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kalix.framework.core.api.exception.StaleEntityException;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.dozer.DozerBeanMapper;
 
@@ -44,8 +43,6 @@ public abstract class PersistentEntity implements Serializable {
     private Long updateById; //更新者Id
     @ApiModelProperty(value = "更新时间", hidden = true)
     private Date updateDate = new Date();
-    @ApiModelProperty(value = "逻辑删除标识", hidden = true)
-    private String delFlag = "0";
 
     public PersistentEntity() {
     }
@@ -157,7 +154,7 @@ public abstract class PersistentEntity implements Serializable {
         }
     }
 
-    public static String getTableName(Class cls){
+    public static String getTableName(Class cls) {
         Table tb = (Table) cls.getAnnotation(Table.class);
 
         if (tb != null) {
@@ -165,13 +162,5 @@ public abstract class PersistentEntity implements Serializable {
         }
 
         return null;
-    }
-
-    public String getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(String delFlag) {
-        this.delFlag = delFlag;
     }
 }
