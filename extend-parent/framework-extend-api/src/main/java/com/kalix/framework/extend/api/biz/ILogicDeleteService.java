@@ -1,14 +1,8 @@
 package com.kalix.framework.extend.api.biz;
 
 import com.kalix.framework.core.api.IService;
-import com.kalix.framework.core.api.biz.IBizService;
-import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
-import com.kalix.framework.core.api.persistence.PersistentEntity;
-import com.kalix.framework.extend.api.entities.PersistentExtendEntity;
-
-import java.util.List;
-import java.util.Map;
+import com.kalix.framework.extend.api.entities.BaseLogicDeleteEntity;
 
 /**
  * @类描述： 对外业务服务的根接口
@@ -18,9 +12,10 @@ import java.util.Map;
  * @修改时间：
  * @修改备注：
  */
-public interface IBizExtendService<T extends PersistentExtendEntity> extends IBizService<T> {
+public interface ILogicDeleteService<T extends BaseLogicDeleteEntity> extends IService {
     /**
      * 逻辑删除前执行函数.
+     *
      * @param entity
      * @param status
      */
@@ -28,6 +23,7 @@ public interface IBizExtendService<T extends PersistentExtendEntity> extends IBi
 
     /**
      * 逻辑删除后执行函数
+     *
      * @param entity
      * @param status
      */
@@ -35,6 +31,7 @@ public interface IBizExtendService<T extends PersistentExtendEntity> extends IBi
 
     /**
      * 是否执行逻辑删除.
+     *
      * @param entity
      * @param status
      * @return
@@ -43,6 +40,7 @@ public interface IBizExtendService<T extends PersistentExtendEntity> extends IBi
 
     /**
      * 逻辑删除实体.
+     *
      * @param entity
      * @return
      */
@@ -50,6 +48,7 @@ public interface IBizExtendService<T extends PersistentExtendEntity> extends IBi
 
     /**
      * 批量逻辑删除实体.
+     *
      * @param entityIds
      * @param reason
      * @return
@@ -58,6 +57,7 @@ public interface IBizExtendService<T extends PersistentExtendEntity> extends IBi
 
     /**
      * 执行逻辑删除.
+     *
      * @param entity
      * @param jsonStatus
      */
@@ -65,6 +65,7 @@ public interface IBizExtendService<T extends PersistentExtendEntity> extends IBi
 
     /**
      * 执行批量逻辑删除.
+     *
      * @param entityIds
      * @param reason
      * @param jsonStatus

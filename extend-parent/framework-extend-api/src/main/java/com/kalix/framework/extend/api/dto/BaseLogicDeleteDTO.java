@@ -10,11 +10,11 @@ import com.kalix.framework.core.api.web.model.BaseDTO;
  *         date:2018-9-12
  * @version 1.0.0
  */
-public abstract class BaseExtendDTO extends BaseDTO {
+public abstract class BaseLogicDeleteDTO extends BaseDTO {
     protected String delFlag;  // 逻辑删除标识
     protected String reason;   // 逻辑删除原因
 
-    public BaseExtendDTO() {
+    public BaseLogicDeleteDTO() {
     }
 
     public String getDelFlag() {

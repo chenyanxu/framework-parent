@@ -19,7 +19,7 @@ import javax.persistence.*;
 @Access(AccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class PersistentExtendEntity extends PersistentEntity {
+public abstract class BaseLogicDeleteEntity extends PersistentEntity {
     @ApiModelProperty(value = "逻辑删除标识", hidden = true)
     private String delFlag = "0";
     @ApiModelProperty(value = "逻辑删除原因", hidden = true)

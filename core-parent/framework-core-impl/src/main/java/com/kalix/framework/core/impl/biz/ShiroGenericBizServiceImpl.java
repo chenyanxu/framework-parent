@@ -113,7 +113,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
      * @param searchSql   拼接的操作查询串
      * @return
      */
-    private Map<String, String> getCascade(Map<String, String> map, JSONObject jsonCascade, String cascadeKey, Long id, String searchSql) {
+    protected Map<String, String> getCascade(Map<String, String> map, JSONObject jsonCascade, String cascadeKey, Long id, String searchSql) {
         if (jsonCascade.has(cascadeKey)) {
             JSONObject mainJsonCascade = jsonCascade.getJSONObject(cascadeKey);
 
@@ -185,7 +185,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
         super.beforeDeleteEntity(id, status);
     }
 
-    private void postEvent(String topic, Object obj, Object oldEntity, Object newEntity) {
+    protected void postEvent(String topic, Object obj, Object oldEntity, Object newEntity) {
         if (eventAdmin != null) {
             ObjectMapper mapper = new ObjectMapper();
             mapper.getFactory().enable(JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS);
@@ -319,7 +319,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
      * @param usersOrOrgs
      * @return
      */
-    private String findIdsByUserId(Long userId, EnumDataAuth enumDataAuth, Integer usersOrOrgs) {
+    protected String findIdsByUserId(Long userId, EnumDataAuth enumDataAuth, Integer usersOrOrgs) {
         String ids = "";
         String url = "";
         if (usersOrOrgs == 1) {

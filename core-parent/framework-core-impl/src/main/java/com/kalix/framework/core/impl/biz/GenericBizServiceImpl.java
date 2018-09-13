@@ -433,7 +433,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         this.eventAdmin = eventAdmin;
     }
 
-    private void postEvent(String topic, Object obj) {
+    protected void postEvent(String topic, Object obj) {
         if (eventAdmin != null) {
             Gson gson = new Gson();
             Dictionary properties = new Hashtable();
