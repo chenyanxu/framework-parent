@@ -182,6 +182,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
         dtoBean.setOldEntity(oldEntity);
         postEvent(EVENT_TOPIC + "delete", dtoBean, oldEntity, null);
 
+        super.beforeDeleteEntity(id, status);
     }
 
     private void postEvent(String topic, Object obj, Object oldEntity, Object newEntity) {
