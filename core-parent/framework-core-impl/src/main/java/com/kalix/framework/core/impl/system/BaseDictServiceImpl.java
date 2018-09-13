@@ -80,7 +80,8 @@ public abstract class BaseDictServiceImpl<T extends IGenericDao, TP extends Pers
             return rtn;
         }
 
-        getByTypeAndValue("岗位名称", 0);
+        /*下行代码没发现什么作用 zangyanming*/
+        //getByTypeAndValue("岗位名称", 0);
 
         return dictTypes;
     }
