@@ -1,6 +1,7 @@
 package com.kalix.framework.extend.api.biz;
 
 import com.kalix.framework.core.api.IService;
+import com.kalix.framework.core.api.biz.IBizService;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.extend.api.entities.BaseLogicDeleteEntity;
 
@@ -12,7 +13,7 @@ import com.kalix.framework.extend.api.entities.BaseLogicDeleteEntity;
  * @修改时间：
  * @修改备注：
  */
-public interface ILogicDeleteService<T extends BaseLogicDeleteEntity> extends IService {
+public interface ILogicDeleteService<T extends BaseLogicDeleteEntity> extends IBizService<T> {
     /**
      * 逻辑删除前执行函数.
      *
