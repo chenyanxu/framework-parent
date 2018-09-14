@@ -11,6 +11,10 @@ import java.util.Map;
  */
 public interface IDictBeanService<TP extends PersistentEntity> extends IBizService<TP> {
     List<Map> getDictTypes(String query);
+
     //find dict bean by pass the type and value param
-    TP getByTypeAndValue(String type,Integer value);
+    TP getByTypeAndValue(String type, Integer value);
+
+    //find dict bean by pass the type and label param
+    TP getByTypeAndLabel(String type, String label);
 }

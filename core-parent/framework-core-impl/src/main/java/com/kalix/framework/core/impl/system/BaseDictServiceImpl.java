@@ -96,14 +96,34 @@ public abstract class BaseDictServiceImpl<T extends IGenericDao, TP extends Pers
 
         if (tbName != null) {
             sql = String.format(sql, tbName, type, value);
-
-            List list = dao.findByNativeSql(sql, persistentClass);
-
-            if (list.size() == 1) {
-                return (TP) list.get(0);
-            }
+            return getEntityBySql(sql);
         }
 
         return null;
+    }
+
+    @Override
+    public TP getByTypeAndLabel(String type, String label) {
+        //find the bean class annotation:
+        //if it contain the @Table,we can get the name from it
+        //Table tb=persistentClass.getAnnotation(Table.class);
+        String tbName = dao.getTableName();
+        String sql = "select * from %s where type='%s' and label='%s'";
+
+        if (tbName != null) {
+            sql = String.format(sql, tbName, type, label);
+            return getEntityBySql(sql);
+        }
+
+        return null;
+    }
+
+    private TP getEntityBySql(String sql) {
+        List list = dao.findByNativeSql(sql, persistentClass);
+        if (list.size() == 1) {
+            return (TP) list.get(0);
+        } else {
+            return null;
+        }
     }
 }
