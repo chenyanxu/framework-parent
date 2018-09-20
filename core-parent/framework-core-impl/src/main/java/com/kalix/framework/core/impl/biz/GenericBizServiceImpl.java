@@ -332,7 +332,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         if (sort != null) {
             sortList = SerializeUtil.unserializeJson(sort, List.class);
 
-            if (sortList != null && sortList.size() == 1) {
+            /*if (sortList != null && sortList.size() == 1) {
                 String sortField = (String) sortList.get(0).get("property");
                 String direction = (String) sortList.get(0).get("direction");
 
@@ -341,6 +341,22 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
                 } else {
                     sortJsonStr = "{\"" + sortField + ":sort\":\"" + direction + "\"}";
                 }
+            }*/
+            if (sortList != null && sortList.size() > 0) {
+                for (int i = 0; i < sortList.size(); i++) {
+                    String sortField = (String) sortList.get(i).get("property");
+                    String direction = (String) sortList.get(i).get("direction");
+                    if (i == 0) {
+                        if (jsonStr != null && !jsonStr.isEmpty() && !jsonStr.equals("{}")) {
+                            sortJsonStr = jsonStr.substring(0, jsonStr.length() - 1) + ",\"" + sortField + ":sort\":\"" + direction + "\"";
+                        } else {
+                            sortJsonStr = "{\"" + sortField + ":sort\":\"" + direction + "\"";
+                        }
+                    } else {
+                        sortJsonStr += ",\"" + sortField + ":sort\":\"" + direction + "\"";
+                    }
+                }
+                sortJsonStr += "}";
             }
         }
 
@@ -477,6 +493,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     /**
      * 为查询条件增加数据权限
+     *
      * @param queryDTO 组织分页查询条件
      * @return
      */
@@ -486,9 +503,10 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     /**
      * 为查询条件增加数据权限
-     * @param sql 原查询条件
+     *
+     * @param sql        原查询条件
      * @param tableAlias 查询表别名
-     * @param hasWhere 是否存在where条件
+     * @param hasWhere   是否存在where条件
      * @return
      */
     public String addDataAuthNativeSql(String sql, String tableAlias, Boolean hasWhere) {

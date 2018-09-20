@@ -161,8 +161,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         Map<String, String> jsonMap = queryDTO.getJsonMap();
         JpaQuery jpaQuery = new JpaQuery(criteriaBuilder, root);
         Map<String, JpaQuery> relationJpaQueryMap = new HashMap<>();
-        String sortKey = null;
-        String sortValue = null;
+        List<String> sortKeys = new ArrayList<String>();
+        List<String> sortValues = new ArrayList<String>();
 
         selectionList.add(root);
 
@@ -228,8 +228,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
             } else if (key.contains(":in")) {
                 predicatesList.add(jpaQuery.IN(key, value));
             } else if (key.contains(":sort")) {
-                sortKey = key;
-                sortValue = value;
+                sortKeys.add(key);
+                sortValues.add(value);
             } else {
                 predicatesList.add(jpaQuery.EQUAL(key, value));
             }
@@ -250,7 +250,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         }
 
         //排序
-        jpaQuery.SORT(select, sortKey, sortValue);
+        jpaQuery.SORT(select, sortKeys, sortValues);
 
         return select;
     }
