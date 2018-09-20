@@ -95,6 +95,7 @@ public abstract class LogicDeleteGenericBizServiceImpl<T extends IGenericDao, TP
             entity.setUpdateBy(userName);
         }
         entity.setUpdateById(shiroService.getCurrentUserId());
+        entity.setDelFlag("1");
 
         //记录业务监控数据 logicDelete
         AuditDTOBean dtoBean = new AuditDTOBean();
