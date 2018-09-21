@@ -17,4 +17,6 @@ public interface IDictBeanService<TP extends PersistentEntity> extends IBizServi
 
     //find dict bean by pass the type and label param
     TP getByTypeAndLabel(String type, String label);
+
+    String getValueByTypeAndLabel(String type, String label);
 }

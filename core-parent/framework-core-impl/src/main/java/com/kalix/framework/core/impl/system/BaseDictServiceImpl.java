@@ -118,6 +118,20 @@ public abstract class BaseDictServiceImpl<T extends IGenericDao, TP extends Pers
         return null;
     }
 
+    @Override
+    public String getValueByTypeAndLabel(String type, String label) {
+        String tbName = dao.getTableName();
+        String sql = "select value from %s where type='%s' and label='%s'";
+        if (tbName != null) {
+            sql = String.format(sql, tbName, type, label);
+            List list = dao.findByNativeSql(sql, String.class);
+            if (list.size() == 1) {
+                return (String) list.get(0);
+            }
+        }
+        return "";
+    }
+
     private TP getEntityBySql(String sql) {
         List list = dao.findByNativeSql(sql, persistentClass);
         if (list.size() == 1) {
