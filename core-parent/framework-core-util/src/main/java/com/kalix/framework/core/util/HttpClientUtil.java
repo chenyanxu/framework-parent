@@ -79,7 +79,7 @@ public class HttpClientUtil {
         try {
             StringEntity entity = new StringEntity(SerializeUtil.serializeJson(params), "utf-8");//解决中文乱码问题
 
-            entity.setContentEncoding("UTF-8");
+            //entity.setContentEncoding("UTF-8");
             entity.setContentType("application/json");
             httpPost.setEntity(entity);
 
@@ -136,4 +136,5 @@ public class HttpClientUtil {
         }
         return sb.toString();
     }
+
 }
