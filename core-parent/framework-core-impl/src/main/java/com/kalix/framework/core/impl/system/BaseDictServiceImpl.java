@@ -6,6 +6,7 @@ import com.kalix.framework.core.api.persistence.PersistentEntity;
 import com.kalix.framework.core.api.system.IDictBeanService;
 import com.kalix.framework.core.impl.biz.ShiroGenericBizServiceImpl;
 import com.kalix.framework.core.util.SerializeUtil;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,16 +121,19 @@ public abstract class BaseDictServiceImpl<T extends IGenericDao, TP extends Pers
 
     @Override
     public String getValueByTypeAndLabel(String type, String label) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("value", "");
         String tbName = dao.getTableName();
         String sql = "select value from %s where type='%s' and label='%s'";
         if (tbName != null) {
             sql = String.format(sql, tbName, type, label);
             List list = dao.findByNativeSql(sql, String.class);
             if (list.size() == 1) {
-                return (String) list.get(0);
+                jsonObject.put("value",list.get(0));
+                return jsonObject.toString();
             }
         }
-        return "";
+        return jsonObject.toString();
     }
 
     private TP getEntityBySql(String sql) {
@@ -140,4 +144,6 @@ public abstract class BaseDictServiceImpl<T extends IGenericDao, TP extends Pers
             return null;
         }
     }
+
+
 }
