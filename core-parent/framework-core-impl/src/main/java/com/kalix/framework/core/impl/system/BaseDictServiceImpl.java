@@ -9,6 +9,7 @@ import com.kalix.framework.core.util.SerializeUtil;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -120,20 +121,37 @@ public abstract class BaseDictServiceImpl<T extends IGenericDao, TP extends Pers
     }
 
     @Override
-    public String getValueByTypeAndLabel(String type, String label) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("value", "");
+    public Map getValueByTypeAndLabel(String type, String label) {
+        Map map = new HashMap<>();
+        map.put("value", "");
         String tbName = dao.getTableName();
         String sql = "select value from %s where type='%s' and label='%s'";
         if (tbName != null) {
             sql = String.format(sql, tbName, type, label);
             List list = dao.findByNativeSql(sql, String.class);
             if (list.size() == 1) {
-                jsonObject.put("value",list.get(0));
-                return jsonObject.toString();
+                map.put("value", list.get(0));
+                return map;
             }
         }
-        return jsonObject.toString();
+        return map;
+    }
+
+    @Override
+    public Map getLabelByTypeAndValue(String type, String value) {
+        Map map = new HashMap<>();
+        map.put("label", "");
+        String tbName = dao.getTableName();
+        String sql = "select label from %s where type='%s' and value='%s'";
+        if (tbName != null) {
+            sql = String.format(sql, tbName, type, value);
+            List list = dao.findByNativeSql(sql, String.class);
+            if (list.size() == 1) {
+                map.put("label", list.get(0));
+                return map;
+            }
+        }
+        return map;
     }
 
     private TP getEntityBySql(String sql) {
