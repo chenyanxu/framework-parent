@@ -282,8 +282,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
             e.printStackTrace();
         }
         TypedQuery typedQuery = entityManager.createQuery(criteriaQuery);
-        jsonData.setTotalCount(getTotalCount(className, criteriaQuery));
         jsonData.setData(typedQuery.getResultList());
+        jsonData.setTotalCount(getTotalCount(className, criteriaQuery));
         return jsonData;
     }
 
