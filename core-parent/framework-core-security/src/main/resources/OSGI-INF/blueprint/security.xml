@@ -97,7 +97,7 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
 
 
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="globalSessionTimeout" value="1200000"/>
+        <property name="globalSessionTimeout" value="1800000"/>
         <property name="sessionDAO" ref="customShiroSessionDAO"/>
         <property name="sessionFactory" ref="SessionFactory"/>
         <!--<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
