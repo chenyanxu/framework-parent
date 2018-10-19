@@ -5,14 +5,23 @@
     <jpa:enable/>
     <tx:enable-annotations/>
 
-    <bean id="reviewServlet" class="com.kalix.framework.core.impl.biz.ReviewServlet">
-    </bean>
-    <service interface="javax.servlet.Servlet" ref="reviewServlet">
-        <service-properties>
-            <entry key="alias" value="/camel/servlet/review" />
-            <entry key="matchOnUriPrefix" value="true" />
-            <entry key="servlet-name" value="ReviewServlet"/>
-        </service-properties>
-    </service>
+    <!--<bean id="reviewServlet" class="com.kalix.framework.core.impl.biz.ReviewServlet">-->
+    <!--</bean>-->
+    <!--&lt;!&ndash;<service interface="javax.servlet.Servlet" ref="reviewServlet">-->
+        <!--<service-properties>-->
+            <!--<entry key="alias" value="/camel/servlet/review" />-->
+            <!--<entry key="matchOnUriPrefix" value="true" />-->
+            <!--<entry key="servlet-name" value="ReviewServlet"/>-->
+        <!--</service-properties>-->
+    <!--</service>&ndash;&gt;-->
+
+    <!--<reference id="httpService" interface="org.osgi.service.http.HttpService"/>-->
+    <!--<bean class="org.apache.camel.component.servlet.osgi.OsgiServletRegisterer"-->
+          <!--init-method="register"-->
+          <!--destroy-method="unregister">-->
+        <!--<property name="alias" value="/camel/servlet/review"/>-->
+        <!--<property name="httpService" ref="httpService"/>-->
+        <!--<property name="servlet" ref="reviewServlet"/>-->
+    <!--</bean>-->
 </blueprint>
 
