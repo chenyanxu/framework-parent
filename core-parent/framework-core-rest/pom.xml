@@ -22,9 +22,5 @@
             <groupId>com.kalix.framework.core</groupId>
             <artifactId>framework-core-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.kalix.framework.core</groupId>
-            <artifactId>framework-core-impl</artifactId>
-        </dependency>
     </dependencies>
 </project>
