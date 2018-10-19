@@ -21,16 +21,14 @@
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
     <reference id="httpService" interface="org.osgi.service.http.HttpService"/>
 
+    <bean id="camelServlet" class="com.kalix.framework.core.impl.web.KalixCamelHttpTransportServlet">
+    </bean>
     <bean class="org.apache.camel.component.servlet.osgi.OsgiServletRegisterer"
           init-method="register"
           destroy-method="unregister">
         <property name="alias" value="/camel/rest"/>
         <property name="httpService" ref="httpService"/>
         <property name="servlet" ref="camelServlet"/>
-    </bean>
-
-    <bean id="camelServlet" class="com.kalix.framework.core.impl.web.KalixCamelHttpTransportServlet">
-
     </bean>
 
     <!--<bean id="filteredServlet" class="org.ops4j.pax.web.extender.samples.whiteboard.internal.WhiteboardServlet">-->
@@ -42,16 +40,27 @@
     <!--&lt;!&ndash;<entry key="httpContext.id" value="ffff"/>&ndash;&gt;-->
     <!--</service-properties>-->
     <!--</service>-->
+
+    <bean id="reviewServlet" class="com.kalix.framework.core.impl.biz.ReviewServlet">
+    </bean>
+    <bean class="org.apache.camel.component.servlet.osgi.OsgiServletRegisterer"
+          init-method="register"
+          destroy-method="unregister">
+        <property name="alias" value="/camel/servlet/review"/>
+        <property name="httpService" ref="httpService"/>
+        <property name="servlet" ref="reviewServlet"/>
+    </bean>
+
     <service id="camelServletFilterService" interface="javax.servlet.Filter">
         <service-properties>
-            <entry key="urlPatterns" value="/camel/rest/*"/>
+            <entry key="urlPatterns" value="/camel/*"/>
         </service-properties>
         <bean class="com.kalix.framework.core.security.authc.filter.Oauth2Filter">
             <property name="exceptUrlList">
                 <list>
-                    <value>/system</value>
-                    <value>/system/login</value>
-                    <value>/system/vcode/[a-zA-Z0-9]{1,}</value>
+                    <value>/rest/system</value>
+                    <value>/rest/system/login</value>
+                    <value>/rest/system/vcode/[a-zA-Z0-9]{1,}</value>
                 </list>
             </property>
         </bean>

@@ -74,7 +74,7 @@ public class Oauth2Filter implements Filter {
             boolean oauthUrl = true;
             //check the request url weather in the exceptURl or not
             for (String exceptUrl : exceptUrlList) {
-                if (Pattern.compile(exceptUrl).matcher(req.getPathInfo()).matches()) {
+                if (Pattern.compile(exceptUrl).matcher(req.getPathInfo() == null ? "" : req.getPathInfo()).matches()) {
                     oauthUrl = false;
                     break;
                 }
