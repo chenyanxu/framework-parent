@@ -5,7 +5,6 @@ import com.kalix.framework.core.util.JNDIHelper;
 import com.kalix.framework.core.util.StringUtils;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,12 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by hqj on 2018/02/02.
- * servlet基类服务，根据模板下载文件
- * 请求地址rest/blueprint.xml配置: "/camel/servlet/download"
- * 请求参数: "?beanname=&id=xxx&filetype=word"
+ * Created by hqj on 2018/10/22.
+ * servlet基类服务，根据实体下载文件
+ * 请求地址custom-servlet.xml配置: "/camel/rest/custom/servlet"
+ * 请求参数: "?classname=DownloadFromBeanServlet&beanname=&id=xxx&filetype=word"
  */
-public class DownloadServlet extends HttpServlet {
+public class DownloadFromBeanServlet extends CustomServlet {
     private IDownloadService downloadService;
 
     @Override

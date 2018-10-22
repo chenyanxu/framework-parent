@@ -3,19 +3,18 @@ package com.kalix.framework.core.impl.biz;
 import com.kalix.framework.core.util.ConfigUtil;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 
 /**
- * Created by hqj on 2018/06/21.
- * servlet基类服务，预览文件
- * 请求地址rest/blueprint.xml配置: "/camel/servlet/review"
- * 请求参数: "?foldername=xxx&filename=xxx&filetype=image"
+ * Created by hqj on 2018/10/22.
+ * servlet基类服务，根据资源路径下载文件
+ * 请求地址custom-servlet.xml配置: "/camel/rest/custom/servlet"
+ * 请求参数: "?classname=DownloadFromResServlet&foldername=&filename=xxx&filetype=image"
  */
-public class ReviewServlet extends HttpServlet {
+public class DownloadFromResServlet extends CustomServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -69,6 +68,7 @@ public class ReviewServlet extends HttpServlet {
                     break;
                 // 输出xls流文件
                 case "xls":
+                    fileName += ".xls";
                     String xlsPath = "";
                     if (folderName.equals("")) {
                         xlsPath = reviewBaseDir + "/excel/" + fileName;

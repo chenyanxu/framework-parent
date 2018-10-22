@@ -1,0 +1,67 @@
+<blueprint xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xsi:schemaLocation="
+       http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+    <!-- 方式1：发布servlet,但不受shiro、oauth2控制，存在访问资源安全性问题 -->
+    <!--<bean id="reviewServlet" class="com.kalix.framework.core.impl.biz.DownloadFromResServlet">-->
+    <!--</bean>-->
+    <!--<service interface="javax.servlet.Servlet" ref="reviewServlet">-->
+    <!--<service-properties>-->
+    <!--<entry key="alias" value="/camel/rest/servlet/review" />-->
+    <!--<entry key="matchOnUriPrefix" value="true" />-->
+    <!--<entry key="servlet-name" value="DownloadFromResServlet"/>-->
+    <!--</service-properties>-->
+    <!--</service>-->
+
+    <!-- 方式2：发布servlet,并受oauth2控制，解决访问资源安全性问题，
+               需要自己实现一个/camel/servlet的基地址跳转方法
+               /camel/rest的基地址实现参考 framework-core-rest/camel-servlet配置　
+               com.kalix.framework.core.impl.web.KalixCamelHttpTransportServlet -->
+    <!--<reference id="httpService" interface="org.osgi.service.http.HttpService"/>-->
+
+    <!--<bean id="reviewServlet" class="com.kalix.framework.core.impl.biz.DownloadFromResServlet">-->
+    <!--</bean>-->
+    <!--<bean class="org.apache.camel.component.servlet.osgi.OsgiServletRegisterer"-->
+    <!--init-method="register"-->
+    <!--destroy-method="unregister">-->
+    <!--<property name="alias" value="/camel/servlet"/>-->
+    <!--<property name="httpService" ref="httpService"/>-->
+    <!--<property name="servlet" ref="reviewServlet"/>-->
+    <!--<property name="servletName" value="CustomServlet"/>-->
+    <!--</bean>-->
+
+    <!--<service interface="javax.servlet.Filter">-->
+    <!--<service-properties>-->
+    <!--<entry key="urlPatterns" value="/camel/servlet/*"/>-->
+    <!--</service-properties>-->
+    <!--<bean class="com.kalix.framework.core.security.authc.filter.Oauth2Filter">-->
+    <!--<property name="exceptUrlList">-->
+    <!--<list>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--</bean>-->
+    <!--</service>-->
+
+    <!-- 方式3：地址基于/camel/rest servlet 通过CustomProcessor实现地址跳转，目的rest请求扩展为servlet请求 -->
+    <bean id="customProcessor" class="com.kalix.framework.core.impl.biz.CustomProcessor">
+    </bean>
+
+    <camelContext id="customServletCamelContext" xmlns="http://camel.apache.org/schema/blueprint">
+        <restConfiguration component="servlet" bindingMode="json">
+            <dataFormatProperty key="prettyPrint" value="${rest.pretty}"/>
+        </restConfiguration>
+
+        <rest path="/custom">
+            <get uri="/servlet">
+                <to uri="direct:customServletRoute"/>
+            </get>
+        </rest>
+
+        <route>
+            <from uri="direct:customServletRoute"/>
+            <to uri="bean:customProcessor"/>
+        </route>
+    </camelContext>
+</blueprint>

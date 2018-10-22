@@ -24,4 +24,7 @@
         <tx:transaction method="*" value="Required"/>
     </bean>
     <service id="baseGenericDao" ref="baseGenericDaoImpl" interface="com.kalix.framework.core.api.dao.IGenericDao"/>
+
+    <!--<bean id="downloadFromBeanServlet" class="com.kalix.framework.core.impl.biz.DownloadFromBeanServlet"/>-->
+    <!--<bean id="downloadFromResServlet" class="com.kalix.framework.core.impl.biz.DownloadFromResServlet"/>-->
 </blueprint>
