@@ -57,8 +57,8 @@ public abstract class ShiroGenericUUIDBizServiceImpl<T extends IGenericDao, TP e
             entity.setUpdateBy(userName);
         }
 
-        entity.setCreateById(shiroService.getCurrentUserId());
-        entity.setUpdateById(shiroService.getCurrentUserId());
+        entity.setCreateById(String.valueOf(shiroService.getCurrentUserId()));
+        entity.setUpdateById(String.valueOf(shiroService.getCurrentUserId()));
 
         //记录业务监控数据
         AuditDTOBean dtoBean = new AuditDTOBean();
@@ -87,7 +87,7 @@ public abstract class ShiroGenericUUIDBizServiceImpl<T extends IGenericDao, TP e
             entity.setUpdateBy(userName);
         }
 
-        entity.setUpdateById(shiroService.getCurrentUserId());
+        entity.setUpdateById(String.valueOf(shiroService.getCurrentUserId()));
 
         //记录业务监控数据
         AuditDTOBean dtoBean = new AuditDTOBean();
@@ -216,7 +216,7 @@ public abstract class ShiroGenericUUIDBizServiceImpl<T extends IGenericDao, TP e
             if (jsonMap == null) {
                 jsonMap = new HashMap<String, String>();
             }
-            String userId = shiroService.getCurrentUserId();
+            Long userId = shiroService.getCurrentUserId();
             if (this.dataAuthService == null) {
                 this.dataAuthService = JNDIHelper.getJNDIServiceForName(IDataAuthService.class.getName());
             }
@@ -234,14 +234,14 @@ public abstract class ShiroGenericUUIDBizServiceImpl<T extends IGenericDao, TP e
                 case SELF_ORG:
                     /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
                     jsonMap.put("createbyid:in", ids);*/
-                    ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
+                    ids = this.findIdsByUserId(String.valueOf(userId), enumDataAuth, 1); //按组织机构ids过滤
                     jsonMap.put("orgId:in", ids);
                     break;
                 // 所在组织机构及以下子机构数据
                 case SELF_AND_CHILD_ORG:
                     /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
                     jsonMap.put("createbyid:in", ids);*/
-                    ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
+                    ids = this.findIdsByUserId(String.valueOf(userId), enumDataAuth, 1); //按组织机构ids过滤
                     jsonMap.put("orgId:in", ids);
                     break;
             }
@@ -256,7 +256,7 @@ public abstract class ShiroGenericUUIDBizServiceImpl<T extends IGenericDao, TP e
     public String addDataAuthNativeSql(String sql, String tableAlias, Boolean hasWhere) {
         try {
             String dataAuthSql = "";
-            String userId = shiroService.getCurrentUserId();
+            Long userId = shiroService.getCurrentUserId();
             if (this.dataAuthService == null) {
                 this.dataAuthService = JNDIHelper.getJNDIServiceForName(IDataAuthService.class.getName());
             }
@@ -278,7 +278,7 @@ public abstract class ShiroGenericUUIDBizServiceImpl<T extends IGenericDao, TP e
                 case SELF_ORG:
                     /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
                     jsonMap.put("createbyid:in", ids);*/
-                    ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
+                    ids = this.findIdsByUserId(String.valueOf(userId), enumDataAuth, 1); //按组织机构ids过滤
                     if (tableAlias == null || tableAlias.equals("")) {
                         dataAuthSql = "orgid in(" + ids + ")";
                     } else {
@@ -289,7 +289,7 @@ public abstract class ShiroGenericUUIDBizServiceImpl<T extends IGenericDao, TP e
                 case SELF_AND_CHILD_ORG:
                     /*ids = this.findIdsByUserId(userId, enumDataAuth, 0); //按用户ids过滤
                     jsonMap.put("createbyid:in", ids);*/
-                    ids = this.findIdsByUserId(userId, enumDataAuth, 1); //按组织机构ids过滤
+                    ids = this.findIdsByUserId(String.valueOf(userId), enumDataAuth, 1); //按组织机构ids过滤
                     if (tableAlias == null || tableAlias.equals("")) {
                         dataAuthSql = "orgid in(" + ids + ")";
                     } else {
