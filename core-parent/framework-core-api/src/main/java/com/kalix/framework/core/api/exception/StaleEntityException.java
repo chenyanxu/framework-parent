@@ -23,6 +23,7 @@ package com.kalix.framework.core.api.exception;
 
 import com.kalix.framework.core.api.Translations;
 import com.kalix.framework.core.api.persistence.PersistentEntity;
+import com.kalix.framework.core.api.persistence.PersistentUUIDEntity;
 
 /**
  * Stale entity exception occurs when entity database version is not consistent with entity version in memory
@@ -31,6 +32,12 @@ import com.kalix.framework.core.api.persistence.PersistentEntity;
  */
 public class StaleEntityException extends InternalRuntimeException {
     public StaleEntityException(PersistentEntity entity) {
+        super(new InternalError(Translations.STALE_OBJECT_STATE_EXCEPTION,
+                entity.getClass(),
+                entity.getVersion_()));
+    }
+
+    public StaleEntityException(PersistentUUIDEntity entity) {
         super(new InternalError(Translations.STALE_OBJECT_STATE_EXCEPTION,
                 entity.getClass(),
                 entity.getVersion_()));
