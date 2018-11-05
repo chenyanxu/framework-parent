@@ -1,6 +1,7 @@
 package com.kalix.framework.core.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
@@ -48,7 +49,18 @@ public class SerializeUtil {
         }
 
         return null;
+    }
 
+    public static String serializeJson(Object object, String datePattern) {
+
+        Gson mapper = new GsonBuilder().setDateFormat(datePattern).create();
+        try {
+            return mapper.toJson(object);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public static <T> T unserializeJson(String json, Class cls) {
