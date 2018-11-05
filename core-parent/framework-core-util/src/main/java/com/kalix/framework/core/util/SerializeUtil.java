@@ -75,6 +75,18 @@ public class SerializeUtil {
         }
     }
 
+    public static <T> T unserializeJson(String json, Class cls, String datePattern) {
+
+        Gson mapper = new GsonBuilder().setDateFormat(datePattern).create();
+
+        try {
+            return (T) mapper.fromJson(json, cls);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            throw new RuntimeException("JSON Unserialize Error");
+        }
+    }
+
     /**
      * example:
      * Type type = new TypeToken<ArrayList<String>>() {}.getType();
