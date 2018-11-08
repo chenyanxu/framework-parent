@@ -122,7 +122,7 @@ public abstract class ShiroRealm extends AuthorizingRealm implements IAuthorizin
             session.setAttribute(PermissionConstant.SYS_CURRENT_USER_ID,result.get("user_id"));
             session.setAttribute(PermissionConstant.SYS_CURRENT_USER_ICON,result.get("user_icon"));
 
-            userLoginService.updateUserLoginInfo((Long) result.get("user_id"), session.getHost());
+            userLoginService.updateUserLoginInfo((String) result.get("user_id"), session.getHost());
 //            发送用户登录的事件
             Audit audit = new Audit();
             audit.setAppName("系统应用");

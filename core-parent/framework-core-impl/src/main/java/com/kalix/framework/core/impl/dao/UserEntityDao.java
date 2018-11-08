@@ -22,7 +22,7 @@ public abstract class UserEntityDao<T extends UserEntity,PK extends Serializable
     }
 
     @Override
-    public void updateUserLoginInfo(long id, String loginIP) {
+    public void updateUserLoginInfo(String id, String loginIP) {
         this.update("update "+this.classSimpleName+" u set u.loginIp=?1, u.loginDate=?2 where u.id = ?3", loginIP, new Date(), id);
     }
 }

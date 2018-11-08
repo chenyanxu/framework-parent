@@ -12,7 +12,7 @@ import java.util.List;
  */
 public abstract class BaseTreeEntityDao<T extends BaseTreeEntity, PK extends Serializable> extends GenericDao<T, PK> implements IBaseTreeEntityDao<T, PK> {
     @Override
-    public List<T> findByCode(Long id, String code) {
+    public List<T> findByCode(String id, String code) {
         String hql = "select ob from " + this.classSimpleName + " ob where ob.id <> ?1 and ob.code = ?2 order by ob.code";
         return (List<T>) this.find(hql, id, code);
     }
@@ -24,19 +24,19 @@ public abstract class BaseTreeEntityDao<T extends BaseTreeEntity, PK extends Ser
     }
 
     @Override
-    public List<T> findByName(Long parentId, Long id, String name) {
+    public List<T> findByName(String parentId, String id, String name) {
         String hql = "select ob from " + this.classSimpleName + " ob where ob.parentId = ?1 and ob.id <> ?2 and ob.name = ?3 order by ob.code";
         return (List<T>) this.find(hql, parentId, id, name);
     }
 
     @Override
-    public List<T> findByParentId(Long parentId) {
+    public List<T> findByParentId(String parentId) {
         String hql = "select ob from " + this.classSimpleName + " ob where ob.parentId = ?1 order by ob.code";
         return (List<T>) this.find(hql, parentId);
     }
 
     @Override
-    public List<T> findById(List<Long> id) {
+    public List<T> findById(List<String> id) {
         if (id != null && !id.isEmpty()) {
             String hql = "select ob from " + this.classSimpleName + " ob where ob.id in (?1) order by ob.code";
             return (List<T>) this.find(hql, id);

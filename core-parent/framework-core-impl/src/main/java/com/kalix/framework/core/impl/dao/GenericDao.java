@@ -386,7 +386,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     @Override
     @Transactional
     public T save(T object) {
-        if (object.getId() == 0)//do not persist
+        if (object.getId() == null || object.getId().isEmpty())//do not persist
             entityManager.persist(object);
         else {
             object.setUpdateDate(new Date());
@@ -400,7 +400,7 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
     @Override
     @Transactional
     public T save(T object, String userName) {
-        if (object.getId() == 0)//do not persist
+        if (object.getId() == null || object.getId().isEmpty())//do not persist
         {
             object.setCreateBy(userName);
             entityManager.persist(object);

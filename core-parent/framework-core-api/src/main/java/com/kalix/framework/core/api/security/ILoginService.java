@@ -50,7 +50,7 @@ public interface ILoginService {
      * @param loginIp 登录ip
      * @paramy 用户id
      */
-    void updateUserLoginInfo(long id, String loginIp);
+    void updateUserLoginInfo(String id, String loginIp);
 
     /**
      * 获得用户的权限

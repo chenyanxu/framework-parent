@@ -32,9 +32,9 @@ public class DownloadFromBeanServlet extends CustomServlet {
             String beanName = req.getParameter("beanname") == null ? "" : req.getParameter("beanname");
             // 实体id
             String id = req.getParameter("id") == null ? "" : req.getParameter("id");
-            Long entityId = 0L;
+            String entityId = null;
             if (StringUtils.isNotEmpty(id))
-                entityId = Long.parseLong(id);
+                entityId = id;
             // 下载文件类型
             String fileType = req.getParameter("filetype") == null ? "" : req.getParameter("filetype");
             Map<String, String> map = new HashMap<String, String>();

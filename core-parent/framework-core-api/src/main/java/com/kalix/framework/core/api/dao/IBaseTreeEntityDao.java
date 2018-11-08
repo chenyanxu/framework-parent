@@ -19,7 +19,7 @@ public interface IBaseTreeEntityDao<T extends BaseTreeEntity,PK extends Serializ
      * @param code
      * @return
      */
-    List<T> findByCode(Long id, String code);
+    List<T> findByCode(String id, String code);
 
     /**
      * 查询指定代码的实体
@@ -37,7 +37,7 @@ public interface IBaseTreeEntityDao<T extends BaseTreeEntity,PK extends Serializ
      * @param name
      * @return
      */
-    List<T> findByName(Long parentId, Long id, String name);
+    List<T> findByName(String parentId, String id, String name);
 
     /**
      * 查询指定父代码的实体
@@ -45,7 +45,7 @@ public interface IBaseTreeEntityDao<T extends BaseTreeEntity,PK extends Serializ
      * @param parentId
      * @return
      */
-    List<T> findByParentId(Long parentId);
+    List<T> findByParentId(String parentId);
 
     /**
      * 查询所有id集合中的实体
@@ -53,5 +53,5 @@ public interface IBaseTreeEntityDao<T extends BaseTreeEntity,PK extends Serializ
      * @param id
      * @return
      */
-    List<T> findById(List<Long> id);
+    List<T> findById(List<String> id);
 }

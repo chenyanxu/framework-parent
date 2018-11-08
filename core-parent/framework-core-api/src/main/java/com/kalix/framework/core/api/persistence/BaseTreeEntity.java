@@ -22,7 +22,7 @@ public abstract class BaseTreeEntity extends PersistentEntity {
     @Column(unique = true)
     private String code;     //代码
     private Long isLeaf;     //是否是叶子节点
-    private Long parentId;   //父id
+    private String parentId;   //父id
 
     public String getName() {
         return name;
@@ -48,11 +48,11 @@ public abstract class BaseTreeEntity extends PersistentEntity {
         this.isLeaf = isLeaf;
     }
 
-    public Long getParentId() {
+    public String getParentId() {
         return parentId;
     }
 
-    public void setParentId(Long parentId) {
+    public void setParentId(String parentId) {
         this.parentId = parentId;
     }
 }

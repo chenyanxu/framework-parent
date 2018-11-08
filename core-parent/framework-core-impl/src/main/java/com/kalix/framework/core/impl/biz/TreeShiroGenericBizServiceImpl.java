@@ -88,7 +88,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
         Assert.notNull(entity, "实体不能为空.");
 
         // 校验实体名称
-        List<TP> entities = dao.findByName(entity.getParentId(), 0L, entity.getName());
+        List<TP> entities = dao.findByName(entity.getParentId(), null, entity.getName());
         if (entities != null && entities.size() > 0) {
             status.setSuccess(false);
             status.setMsg(functionName + "名称已经存在！");
@@ -114,7 +114,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
     }
 
     @Override
-    public boolean isDelete(Long entityId, JsonStatus status) {
+    public boolean isDelete(String entityId, JsonStatus status) {
         if (dao.get(entityId) == null) {
             status.setFailure(true);
             status.setMsg(functionName + "已经被删除！");
@@ -125,7 +125,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
 
     @Override
     @Transactional
-    public void doDelete(long id, JsonStatus jsonStatus) {
+    public void doDelete(String id, JsonStatus jsonStatus) {
         try {
             TP entity = (TP) dao.get(id);
             if (entity != null) {
@@ -155,7 +155,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
      * @param parentId
      */
     @Transactional
-    public void updateParent(Long parentId) {
+    public void updateParent(String parentId) {
         if (!parentId.equals(-1L)) {
             // 获取父节点
             TP parentEntity = (TP) dao.get(parentId);
@@ -171,7 +171,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
     }
 
     @Transactional
-    public void removeChildren(Long id) {
+    public void removeChildren(String id) {
         List<TP> children = dao.findByParentId(id);
         if (children != null && !children.isEmpty()) {
             children.stream()
@@ -221,7 +221,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
                         .thenComparing((a, b) -> a.getCode().compareTo(b.getCode())))
                 .collect(Collectors.toList());
 
-        return generateRoot(entities, -1L);
+        return generateRoot(entities, null);
     }
 
     /**
@@ -230,7 +230,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
      * @return
      */
     @Override
-    public BaseTreeDTO getTreeByNodeId(Long nodeId) {
+    public BaseTreeDTO getTreeByNodeId(String nodeId) {
         TP entity = (TP) dao.get(nodeId);
         if (entity != null) {
             return generateRoot(dao.findByCode(entity.getCode()), nodeId);
@@ -246,11 +246,11 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
      * @return
      */
     @Override
-    public String getParentIdPath(Long nodeId) {
+    public String getParentIdPath(String nodeId) {
         return getParentIdPath(nodeId, "");
     }
 
-    private BaseTreeDTO generateRoot(List<TP> entities, Long id) {
+    private BaseTreeDTO generateRoot(List<TP> entities, String id) {
 
         BaseTreeDTO root = new BaseTreeDTO();
         Mapper mapper = new DozerBeanMapper();
@@ -258,7 +258,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
         String parentName = "根";
 
         for (TP entity : entities) {
-            if (entity.getId() == id.longValue()) {
+            if (entity.getId().equals(id)) {
                 root = mapper.map(entity, BaseTreeDTO.class);
                 root.setText(entity.getName());
                 parentName = entity.getName();
@@ -291,7 +291,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
      * @param elements
      * @return
      */
-    private List<TP> getRootElements(List<TP> elements, Long id) {
+    private List<TP> getRootElements(List<TP> elements, String id) {
         return elements.stream().filter(n->n.getParentId().equals(id))
                 .collect(Collectors.toList());
     }
@@ -326,15 +326,15 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
      * @param parentIdPath
      * @return
      */
-    private String getParentIdPath(Long nodeId, String parentIdPath) {
+    private String getParentIdPath(String nodeId, String parentIdPath) {
         TP entity = this.getEntity(nodeId);
-        Long parentId = entity.getParentId();
+        String parentId = entity.getParentId();
         if (parentIdPath.equals("")) {
             parentIdPath = nodeId.toString();
         } else {
             parentIdPath = nodeId.toString() + "," + parentIdPath;
         }
-        if (parentId != -1L) {
+        if (parentId != null) {
             parentIdPath = getParentIdPath(parentId, parentIdPath);
         }
         return parentIdPath;

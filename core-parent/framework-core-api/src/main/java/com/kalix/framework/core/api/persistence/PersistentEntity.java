@@ -9,6 +9,7 @@ import org.dozer.DozerBeanMapper;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @类描述：系统中全部实体类的基础实体类
@@ -24,10 +25,13 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class PersistentEntity implements Serializable {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @ApiModelProperty(value = "实体ID（新增0）", hidden = true)
+//    private long id;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @ApiModelProperty(value = "实体ID（新增0）", hidden = true)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid-hex")
+    private String id;
     @Version
     @ApiModelProperty(value = "版本号", hidden = true)
     private long version_;
@@ -38,9 +42,9 @@ public abstract class PersistentEntity implements Serializable {
     @ApiModelProperty(value = "更新者", hidden = true)
     private String updateBy;    // 更新者
     @ApiModelProperty(value = "创建者Id", hidden = true)
-    private Long createById; //创建者Id
+    private String createById; //创建者Id
     @ApiModelProperty(value = "更新者Id", hidden = true)
-    private Long updateById; //更新者Id
+    private String updateById; //更新者Id
     @ApiModelProperty(value = "更新时间", hidden = true)
     private Date updateDate = new Date();
 
@@ -51,11 +55,11 @@ public abstract class PersistentEntity implements Serializable {
         new DozerBeanMapper().map(obj, this);
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -106,52 +110,41 @@ public abstract class PersistentEntity implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public Long getCreateById() {
+    public String getCreateById() {
         return createById;
     }
 
-    public void setCreateById(Long createById) {
+    public void setCreateById(String createById) {
         this.createById = createById;
     }
 
-    public Long getUpdateById() {
+    public String getUpdateById() {
         return updateById;
     }
 
-    public void setUpdateById(Long updateById) {
+    public void setUpdateById(String updateById) {
         this.updateById = updateById;
     }
 
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        } else if (other == null) {
-            return false;
-        } else if (getClass().isAssignableFrom(other.getClass())) {
-            if (getIdentifier() == null) {
-                return false;
-            } else {
-                final PersistentEntity pe = (PersistentEntity) other;
-                return getIdentifier().equals(pe.getIdentifier());
-            }
-        }
-
-        return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersistentEntity that = (PersistentEntity) o;
+        return version_ == that.version_ &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(creationDate, that.creationDate) &&
+                Objects.equals(createBy, that.createBy) &&
+                Objects.equals(updateBy, that.updateBy) &&
+                Objects.equals(createById, that.createById) &&
+                Objects.equals(updateById, that.updateById) &&
+                Objects.equals(updateDate, that.updateDate);
     }
 
+    @Override
     public int hashCode() {
-        if (getIdentifier() != null) {
-            return getIdentifier().hashCode();
-        }
-        return super.hashCode();
-    }
 
-    private Serializable getIdentifier() {
-        if (id == -1L) {
-            return null;
-        } else {
-            return id;
-        }
+        return Objects.hash(id, version_, creationDate, createBy, updateBy, createById, updateById, updateDate);
     }
 
     public static String getTableName(Class cls) {

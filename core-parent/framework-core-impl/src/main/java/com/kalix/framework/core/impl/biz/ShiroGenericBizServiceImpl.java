@@ -65,7 +65,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
         AuditDTOBean dtoBean = new AuditDTOBean();
         dtoBean.setClsName(this.entityClassName);
         dtoBean.setActor(userName);
-        if (entity.getId() > 0) {
+        if (entity.getId() != null && !entity.getId().isEmpty()) {
             dtoBean.setAction("更新");
             final TP oldEntity = (TP) dao.get(entity.getId());
             dtoBean.setOldEntity(oldEntity);
@@ -113,7 +113,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
      * @param searchSql   拼接的操作查询串
      * @return
      */
-    protected Map<String, String> getCascade(Map<String, String> map, JSONObject jsonCascade, String cascadeKey, Long id, String searchSql) {
+    protected Map<String, String> getCascade(Map<String, String> map, JSONObject jsonCascade, String cascadeKey, String id, String searchSql) {
         if (jsonCascade.has(cascadeKey)) {
             JSONObject mainJsonCascade = jsonCascade.getJSONObject(cascadeKey);
 
@@ -155,7 +155,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
     }
 
     @Override
-    public void beforeDeleteEntity(Long id, JsonStatus status) {
+    public void beforeDeleteEntity(String id, JsonStatus status) {
         String jedisString = cacheManager.get(KalixCascade.alias);
         if (jedisString != null && !jedisString.isEmpty()) {
             Map<String, String> map = new HashMap<>();
@@ -217,7 +217,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
             if (jsonMap == null) {
                 jsonMap = new HashMap<String, String>();
             }
-            Long userId = shiroService.getCurrentUserId();
+            String userId = shiroService.getCurrentUserId();
             if (this.dataAuthService == null) {
                 this.dataAuthService = JNDIHelper.getJNDIServiceForName(IDataAuthService.class.getName());
             }
@@ -257,7 +257,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
     public String addDataAuthNativeSql(String sql, String tableAlias, Boolean hasWhere) {
         try {
             String dataAuthSql = "";
-            Long userId = shiroService.getCurrentUserId();
+            String userId = shiroService.getCurrentUserId();
             if (this.dataAuthService == null) {
                 this.dataAuthService = JNDIHelper.getJNDIServiceForName(IDataAuthService.class.getName());
             }
@@ -319,7 +319,7 @@ public abstract class ShiroGenericBizServiceImpl<T extends IGenericDao, TP exten
      * @param usersOrOrgs
      * @return
      */
-    protected String findIdsByUserId(Long userId, EnumDataAuth enumDataAuth, Integer usersOrOrgs) {
+    protected String findIdsByUserId(String userId, EnumDataAuth enumDataAuth, Integer usersOrOrgs) {
         String ids = "";
         String url = "";
         if (usersOrOrgs == 1) {

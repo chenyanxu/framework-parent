@@ -7,7 +7,7 @@ import com.kalix.framework.core.api.security.model.EnumDataAuth;
  */
 public interface IDataAuthService {
     @Deprecated
-    boolean isAuth(String entityClassName, Long userId);
+    boolean isAuth(String entityClassName, String userId);
 
     /**
      * 获得用户的数据权限
@@ -15,5 +15,5 @@ public interface IDataAuthService {
      * @param userId
      * @return
      */
-    EnumDataAuth getDataAuth(Long userId);
+    EnumDataAuth getDataAuth(String userId);
 }

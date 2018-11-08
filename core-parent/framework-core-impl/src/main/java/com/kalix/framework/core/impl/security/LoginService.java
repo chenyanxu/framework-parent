@@ -62,7 +62,7 @@ public abstract class LoginService implements ILoginService {
     }
 
     @Override
-    public void updateUserLoginInfo(long id, String loginIp) {
+    public void updateUserLoginInfo(String id, String loginIp) {
         dao.updateUserLoginInfo(id, loginIp);
     }
 

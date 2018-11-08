@@ -29,7 +29,7 @@ public interface IShiroService extends IService {
      *
      * @return 用户ID
      */
-    Long getCurrentUserId();
+    String getCurrentUserId();
 
     /**
      * 返回当前登录用户

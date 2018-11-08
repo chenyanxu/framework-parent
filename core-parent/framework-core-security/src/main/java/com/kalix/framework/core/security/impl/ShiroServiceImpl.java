@@ -32,14 +32,14 @@ public class ShiroServiceImpl implements IShiroService {
     }
 
     @Override
-    public Long getCurrentUserId() {
+    public String getCurrentUserId() {
         Session session = getSession();
         Object userId = session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ID);
         if (userId == null) {
             System.out.println("session 超时");
             throw new UnAuthException("session overtime", "no detail msg");
         }
-        Long rtn = Long.valueOf(userId.toString());
+        String rtn = userId.toString();
 
         return rtn;
     }

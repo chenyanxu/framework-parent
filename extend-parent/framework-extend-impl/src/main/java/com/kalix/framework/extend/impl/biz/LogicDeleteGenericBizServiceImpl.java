@@ -79,7 +79,7 @@ public abstract class LogicDeleteGenericBizServiceImpl<T extends IGenericDao, TP
             Map<String, String> map = new HashMap<>();
             map.put(super.persistentClass.getName(), "");
             // 递归方式搜素是否有关于自己的依赖信息，并存储在map中
-            Long id = entity.getId();
+            String id = entity.getId();
             map = getCascade(map, new JSONObject(jedisString), super.persistentClass.getName(), id, "");
 
             for (String key : map.keySet()) {

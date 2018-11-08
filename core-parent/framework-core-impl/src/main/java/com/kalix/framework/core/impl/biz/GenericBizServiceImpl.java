@@ -68,7 +68,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     @Override
     @Transactional
-    public void doDelete(long entityId, JsonStatus jsonStatus) {
+    public void doDelete(String entityId, JsonStatus jsonStatus) {
         dao.remove(entityId);
         jsonStatus.setSuccess(true);
         jsonStatus.setMsg("删除成功！");
@@ -85,7 +85,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     @Override
     @Transactional
     public void doSave(TP entity, JsonStatus jsonStatus) {
-        if (entity.getId() == 0) {
+        if (entity.getId() == null || entity.getId().isEmpty()) {
             entity.setCreationDate(new Date());
             jsonStatus.setMsg("添加成功！");
         } else {
@@ -107,23 +107,23 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
-    public void beforeDeleteEntity(Long id, JsonStatus status) {
+    public void beforeDeleteEntity(String id, JsonStatus status) {
         postEvent(this.entityClassName.replace(".", "/") + "/before/delete", id);
     }
 
     @Override
-    public void afterDeleteEntity(Long id, JsonStatus status) {
+    public void afterDeleteEntity(String id, JsonStatus status) {
         postEvent(this.entityClassName.replace(".", "/") + "/after/delete", id);
     }
 
     @Override
-    public boolean isDelete(Long entityId, JsonStatus status) {
+    public boolean isDelete(String entityId, JsonStatus status) {
         return true;
     }
 
     @Override
     @Transactional
-    public JsonStatus deleteEntity(long entityId) {
+    public JsonStatus deleteEntity(String entityId) {
         JsonStatus jsonStatus = new JsonStatus();
         try {
             if (isDelete(entityId, jsonStatus)) {
@@ -226,7 +226,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     @Override
     @Transactional
-    public JsonStatus updateEntity(long id, TP entity) {
+    public JsonStatus updateEntity(String id, TP entity) {
         entity.setId(id);
 
         return this.updateEntity(entity);
@@ -387,12 +387,12 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
-    public TP getEntity(long entityId) {
+    public TP getEntity(String entityId) {
         return (TP) dao.get(entityId);
     }
 
     @Override
-    public TP getEntity(long entityId, Map<String, Object> objDictMap) {
+    public TP getEntity(String entityId, Map<String, Object> objDictMap) {
         TP tp = (TP) dao.get(entityId);
         this.translateObjDict(tp, objDictMap);
         return tp;

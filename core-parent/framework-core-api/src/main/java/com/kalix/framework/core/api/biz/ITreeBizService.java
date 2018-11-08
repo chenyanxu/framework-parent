@@ -26,7 +26,7 @@ public interface ITreeBizService extends IService {
      * @param nodeId
      * @return
      */
-    BaseTreeDTO getTreeByNodeId(Long nodeId);
+    BaseTreeDTO getTreeByNodeId(String nodeId);
 
     /**
      * 根据当前树节点id，找到其父id路径
@@ -34,5 +34,5 @@ public interface ITreeBizService extends IService {
      * @param nodeId
      * @return
      */
-    String getParentIdPath(Long nodeId);
+    String getParentIdPath(String nodeId);
 }

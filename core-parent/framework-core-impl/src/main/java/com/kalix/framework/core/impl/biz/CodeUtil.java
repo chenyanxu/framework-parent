@@ -18,7 +18,7 @@ public class CodeUtil {
      * @params 实体Dao的类, 父节点id
      * @return 代码Code
      */
-    public static String createCode(Class beanDaoCls, Long parentId) {
+    public static String createCode(Class beanDaoCls, String parentId) {
         return createCode(beanDaoCls, parentId, DEFAULT_CODELENGTH);
     }
 
@@ -27,7 +27,7 @@ public class CodeUtil {
      * @params 实体Dao的类, 父节点id, 代码Code的长度
      * @return 代码Code
      */
-    public static String createCode(Class beanDaoCls, Long parentId, Long length) {
+    public static String createCode(Class beanDaoCls, String parentId, Long length) {
 
         String rtn = "";
         IGenericDao dao = null;
@@ -50,10 +50,10 @@ public class CodeUtil {
         maxCode = maxCode.trim();
         if (maxCode.equals("")) {
             //  无子节点
+//            if (parentId == null) {
+//                parentId = -1L;
+//            }
             if (parentId == null) {
-                parentId = -1L;
-            }
-            if (parentId == -1) {
                 // 根节点,取新的code值
                 rtn = getNextCode("0", length);
             }

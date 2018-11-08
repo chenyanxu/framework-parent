@@ -15,11 +15,11 @@ import com.kalix.framework.core.api.persistence.JsonStatus;
 
 public interface ITreeExtendBizService<T extends BaseTreeExtendEntity> extends ITreeBizService, IBizService<T> {
 
-    JsonData getEntitiesByFK(Long fk, Integer page, Integer limit, String jsonStr, String sort);
+    JsonData getEntitiesByFK(String fk, Integer page, Integer limit, String jsonStr, String sort);
 
-    JsonStatus saveEntityByFK(Long fk, T entity);
+    JsonStatus saveEntityByFK(String fk, T entity);
 
-    JsonStatus updateEntityByFK(Long fk, T entity);
+    JsonStatus updateEntityByFK(String fk, T entity);
 
-    JsonStatus deleteEntityByFK(Long fk, Long entityId);
+    JsonStatus deleteEntityByFK(String fk, String entityId);
 }

@@ -20,7 +20,7 @@ public interface IBaseTreeExtendEntityDao<T extends BaseTreeExtendEntity, PK ext
      * @param treeId
      * @return
      */
-    List<T> findByTreeId(Long treeId);
+    List<T> findByTreeId(String treeId);
 
     /**
      * 分页查询，通过树结构id查找实体信息
@@ -31,5 +31,5 @@ public interface IBaseTreeExtendEntityDao<T extends BaseTreeExtendEntity, PK ext
      * @param sort
      * @return
      */
-    JsonData findByTreeId(Long treeId, Integer page, Integer limit, String jsonStr, String sort);
+    JsonData findByTreeId(String treeId, Integer page, Integer limit, String jsonStr, String sort);
 }

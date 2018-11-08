@@ -17,13 +17,13 @@ import javax.persistence.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class BaseTreeExtendEntity extends PersistentEntity {
-    private Long treeId;
+    private String treeId;
 
-    public Long getTreeId() {
+    public String getTreeId() {
         return treeId;
     }
 
-    public void setTreeId(Long treeId) {
+    public void setTreeId(String treeId) {
         this.treeId = treeId;
     }
 }

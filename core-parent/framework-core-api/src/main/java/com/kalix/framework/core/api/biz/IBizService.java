@@ -25,14 +25,14 @@ public interface IBizService<T extends PersistentEntity> extends IService {
      * @param id
      * @param status
      */
-    void beforeDeleteEntity(Long id, JsonStatus status);
+    void beforeDeleteEntity(String id, JsonStatus status);
 
     /**
      * 删除后执行函数
      * @param id
      * @param status
      */
-    void afterDeleteEntity(Long id, JsonStatus status);
+    void afterDeleteEntity(String id, JsonStatus status);
 
     /**
      * 是否执行删除.
@@ -40,14 +40,14 @@ public interface IBizService<T extends PersistentEntity> extends IService {
      * @param status
      * @return
      */
-    boolean isDelete(Long entityId, JsonStatus status);
+    boolean isDelete(String entityId, JsonStatus status);
 
     /**
      * 删除实体.
      * @param entityId
      * @return
      */
-    JsonStatus deleteEntity(long entityId);
+    JsonStatus deleteEntity(String entityId);
 
     /**
      * 批量删除实体.
@@ -69,7 +69,7 @@ public interface IBizService<T extends PersistentEntity> extends IService {
      * @param entityId
      * @param jsonStatus
      */
-    void doDelete(long entityId, JsonStatus jsonStatus);
+    void doDelete(String entityId, JsonStatus jsonStatus);
 
     /**
      * 执行批量删除.
@@ -143,7 +143,7 @@ public interface IBizService<T extends PersistentEntity> extends IService {
      */
     JsonStatus updateEntity(T entity);
 
-    JsonStatus updateEntity(long id,T entity);
+    JsonStatus updateEntity(String id,T entity);
     /**
      * 执行更新.
      * @param entity
@@ -202,9 +202,9 @@ public interface IBizService<T extends PersistentEntity> extends IService {
      */
     JsonData getAllEntityforReport(String jsonStr);
 
-    T getEntity(long entityId);
+    T getEntity(String entityId);
 
-    T getEntity(long entityId, Map<String, Object> objDictMap);
+    T getEntity(String entityId, Map<String, Object> objDictMap);
 
     List<Object> getFieldValuesByIds(Object[] ids,String fieldName);
 

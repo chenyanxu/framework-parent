@@ -33,13 +33,13 @@ public abstract class TreeExtendShiroGenericBizServiceImpl<T extends IBaseTreeEx
     }
 
     @Override
-    public JsonData getEntitiesByFK(Long fk, Integer page, Integer limit, String jsonStr, String sort) {
+    public JsonData getEntitiesByFK(String fk, Integer page, Integer limit, String jsonStr, String sort) {
         return this.dao.findByTreeId(fk, page, limit, jsonStr, sort);
     }
 
     @Override
     @Transactional
-    public JsonStatus saveEntityByFK(Long fk, TP entity) {
+    public JsonStatus saveEntityByFK(String fk, TP entity) {
         if (fk.equals(entity.getTreeId())) {
             return super.saveEntity(entity);
         } else {
@@ -51,7 +51,7 @@ public abstract class TreeExtendShiroGenericBizServiceImpl<T extends IBaseTreeEx
 
     @Override
     @Transactional
-    public JsonStatus updateEntityByFK(Long fk, TP entity) {
+    public JsonStatus updateEntityByFK(String fk, TP entity) {
         if (fk.equals(entity.getTreeId())) {
             Map<String, String> params = new HashMap<String, String>();
             params.put("id", String.valueOf(entity.getId()));
@@ -72,12 +72,12 @@ public abstract class TreeExtendShiroGenericBizServiceImpl<T extends IBaseTreeEx
 
     @Override
     @Transactional
-    public JsonStatus deleteEntityByFK(Long fk, Long entityId) {
+    public JsonStatus deleteEntityByFK(String fk, String entityId) {
         return super.deleteEntity(entityId);
     }
 
     @Override
-    public boolean isDelete(Long entityId, JsonStatus status) {
+    public boolean isDelete(String entityId, JsonStatus status) {
         return true;
     }
 

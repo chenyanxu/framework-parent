@@ -26,13 +26,13 @@ public abstract class BaseTreeExtendEntityDao<T extends BaseTreeExtendEntity, PK
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<T> findByTreeId(Long treeId) {
+    public List<T> findByTreeId(String treeId) {
         String hql = "select t from " + this.classSimpleName + " t where t.treeId = ?1";
         return (List<T>) this.find(hql, treeId);
     }
 
     @Override
-    public JsonData findByTreeId(Long orgId, Integer page, Integer limit, String jsonStr, String sort) {
+    public JsonData findByTreeId(String orgId, Integer page, Integer limit, String jsonStr, String sort) {
         String sql = "select t.* from (select a.* from " + super.getTableName() + " a where a.treeid = ?1) t";
         sql += CommonMethod.createWhereCondition(jsonStr, sort);
         return this.findByNativeSql(sql, page, limit, this.baseTreeExtendEntityClass, orgId);
