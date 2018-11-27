@@ -227,6 +227,8 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
                 predicatesList.add(jpaQuery.DATE(key, value));
             } else if (key.contains(":in")) {
                 predicatesList.add(jpaQuery.IN(key, value));
+            } else if (key.contains(":gt")) {
+                predicatesList.add(jpaQuery.GreaterThan(key, value));
             } else if (key.contains(":sort")) {
                 sortKeys.add(key);
                 sortValues.add(value);

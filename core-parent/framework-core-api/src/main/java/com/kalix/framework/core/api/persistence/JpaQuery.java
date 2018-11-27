@@ -99,6 +99,30 @@ public class JpaQuery {
             predicate = cb.equal(root.get(fieldName), new Integer(value));
         } else if (attrJavaTypeName.equals(short.class.getName()) || attrJavaTypeName.equals(Short.class.getName())) {
             predicate = cb.equal(root.get(fieldName), new Short(value));
+        } else if (attrJavaTypeName.equals(double.class.getName()) || attrJavaTypeName.equals(Double.class.getName())) {
+            predicate = cb.equal(root.get(fieldName), new Double(value));
+        }
+
+        return predicate;
+    }
+
+    public Predicate GreaterThan(String key, String value) {
+        EntityType bean_ = root.getModel();
+        String fieldName = key.split(":")[0];
+        SingularAttribute attribute = bean_.getSingularAttribute(fieldName);
+        String attrJavaTypeName = attribute.getJavaType().getName();
+        Predicate predicate = null;
+
+        if (attrJavaTypeName.equals(String.class.getName())) {
+            predicate = cb.greaterThan(root.get(fieldName), value);
+        } else if (attrJavaTypeName.equals(long.class.getName()) || attrJavaTypeName.equals(Long.class.getName())) {
+            predicate = cb.greaterThan(root.get(fieldName), new Long(value));
+        } else if (attrJavaTypeName.equals(int.class.getName()) || attrJavaTypeName.equals(Integer.class.getName())) {
+            predicate = cb.greaterThan(root.get(fieldName), new Integer(value));
+        } else if (attrJavaTypeName.equals(short.class.getName()) || attrJavaTypeName.equals(Short.class.getName())) {
+            predicate = cb.greaterThan(root.get(fieldName), new Short(value));
+        } else if (attrJavaTypeName.equals(double.class.getName()) || attrJavaTypeName.equals(Double.class.getName())) {
+            predicate = cb.greaterThan(root.get(fieldName), new Double(value));
         }
 
         return predicate;
