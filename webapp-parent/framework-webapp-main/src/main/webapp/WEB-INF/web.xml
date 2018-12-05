@@ -41,9 +41,11 @@
         <!--<url-pattern>/camel/rest/*</url-pattern>-->
     <!--</servlet-mapping>-->
 
+    <!--shiro/shiro-http.ini配置文件加载-->
     <listener>
         <listener-class>com.kalix.framework.core.security.web.evn.KalixEnvironmentLoaderListener</listener-class>
     </listener>
+    <!--登录验证码实现-->
     <listener>
         <listener-class>com.kalix.framework.core.security.listener.VCodeListener</listener-class>
     </listener>
@@ -52,6 +54,7 @@
         <param-value>main</param-value>
     </context-param>
 
+    <!--跨域过滤器-->
     <filter>
         <filter-name>CORSFilter</filter-name>
         <filter-class>com.kalix.framework.core.security.filter.CORSFilter</filter-class>
@@ -62,6 +65,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!--Shiro 过滤器-->
     <filter>
         <filter-name>ShiroFilter</filter-name>
         <filter-class>com.kalix.framework.core.security.filter.KalixSecurityFilter</filter-class>

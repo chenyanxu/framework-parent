@@ -4,16 +4,22 @@ import com.kalix.framework.core.api.PermissionConstant;
 import com.kalix.framework.core.api.exception.UnAuthException;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.security.IShiroService;
+import com.kalix.framework.core.security.CustomWebSecurityManager;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.ExpiredSessionException;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.mgt.WebSecurityManager;
+
+import java.util.List;
 
 /**
  * Created by sunlf on 2015/7/23.
  */
 public class ShiroServiceImpl implements IShiroService {
     private WebSecurityManager securityManager;
+    private Session session;
 
     public void setSecurityManager(WebSecurityManager securityManager) {
         this.securityManager = securityManager;
@@ -34,13 +40,19 @@ public class ShiroServiceImpl implements IShiroService {
     @Override
     public String getCurrentUserId() {
         Session session = getSession();
+        if (session == null) {
+            this.getSubject().logout();
+            return null;
+        }
+        // System.out.println(session.getId());
         Object userId = session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ID);
         if (userId == null) {
             System.out.println("session 超时");
-            throw new UnAuthException("session overtime", "no detail msg");
+            this.getSubject().logout();
+            // throw new UnAuthException("session overtime", "no detail msg");
+            return null;
         }
         String rtn = userId.toString();
-
         return rtn;
     }
 
@@ -64,7 +76,13 @@ public class ShiroServiceImpl implements IShiroService {
 
     @Override
     public Session getSession() {
-        return SecurityUtils.getSubject().getSession();
+        if (session == null) {
+            Subject subject = this.getSubject();
+            if (subject != null) {
+                session = subject.getSession(false);
+            }
+        }
+        return session;
     }
 
     @Override
@@ -104,4 +122,54 @@ public class ShiroServiceImpl implements IShiroService {
         }
         return jsonStatus;
     }
+
+    public List<String> sessionExpires() {
+        return ((CustomWebSecurityManager)securityManager).sessionExpires();
+    }
+
+    public void removeSessionExpire(String sessionId) {
+        ((CustomWebSecurityManager)securityManager).removeSessionExpire(sessionId);
+    }
+
+    public void setSession(Session session){
+        this.session = session;
+    }
+
+    public boolean checkSessionTimeout() {
+        List<String> expiredSession = sessionExpires();
+        System.out.println("expiredSession:" + expiredSession.size());
+        session = getSession(); // SecurityUtils.getSubject().getSession(false);
+//        if (session == null) {
+//            return true;
+//        }
+        if (session != null) {
+            String sessionId = session.getId().toString();
+            if (expiredSession.contains(sessionId)) {
+                removeSessionExpire(sessionId);
+                session = null;
+                return true;
+            } else {
+                try{
+                    Object userId = session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ID);
+                    session.touch();
+                    if (userId == null) {
+                        SecurityUtils.getSubject().logout();
+                        session = null;
+                        return true;
+                    }
+                } catch(UnknownSessionException | ExpiredSessionException e) {
+                    System.out.println("session异常问题==========="
+                            + " session id:" + session.getId());
+                    try {
+                        SecurityUtils.getSubject().logout();
+                    } finally {
+                        session = null;
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }

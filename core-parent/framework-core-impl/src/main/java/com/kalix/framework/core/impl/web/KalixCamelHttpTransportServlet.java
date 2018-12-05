@@ -3,13 +3,14 @@ package com.kalix.framework.core.impl.web;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kalix.framework.core.api.exception.KalixRuntimeException;
 import com.kalix.framework.core.api.exception.UnAuthException;
+import com.kalix.framework.core.api.security.IShiroService;
+import com.kalix.framework.core.util.OsgiUtil;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.apache.camel.http.common.HttpConsumer;
 import org.apache.camel.http.common.HttpHelper;
 import org.apache.camel.http.common.HttpMessage;
 import org.apache.camel.impl.DefaultExchange;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ThreadContext;
@@ -24,6 +25,7 @@ import java.io.IOException;
  * @author chenyanxu
  */
 public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
+    private IShiroService shiroService;
     @Override
     protected void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.log.trace("Service: {}", request);
@@ -41,11 +43,19 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
                 }
             }
         }
-        Session session = SecurityUtils.getSubject().getSession();
-        if (isDataAuthRequest(request)) {
-            session.setAttribute("DataAuthApp", request.getPathInfo());
-        } else {
-            session.setAttribute("DataAuthApp", "");
+//        Session session = SecurityUtils.getSubject().getSession();
+        String grant = request.getParameter("grant");
+//        System.out.println("========grant==================" + grant);
+        if (!"client".equals(grant)) {
+            shiroService = OsgiUtil.waitForServices(IShiroService.class, null);
+            Session session = shiroService.getSession();
+            if (session != null) {
+                if (isDataAuthRequest(request)) {
+                    session.setAttribute("DataAuthApp", request.getPathInfo());
+                } else {
+                    session.setAttribute("DataAuthApp", "");
+                }
+            }
         }
 
         HttpConsumer consumer = this.resolve(request);

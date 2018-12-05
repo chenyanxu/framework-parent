@@ -5,6 +5,8 @@ import com.kalix.framework.core.api.persistence.JsonStatus;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
+import java.util.List;
+
 /**
  * Created by sunlf on 2015/7/23.
  * 安全服务
@@ -60,4 +62,24 @@ public interface IShiroService extends IService {
      * @return
      */
     JsonStatus validPermission(String sessionId, String permission);
+
+    /**
+     * 判断shiro session 超时
+     * @return
+     */
+    List<String> sessionExpires();
+
+    /**
+     * 删除超时的sessionId记录
+     * @param sessionId
+     */
+    void removeSessionExpire(String sessionId);
+
+    /**
+     * session设置(登录以后设置，保证session一致)
+     * @param session
+     */
+    void setSession(Session session);
+
+    boolean checkSessionTimeout();
 }

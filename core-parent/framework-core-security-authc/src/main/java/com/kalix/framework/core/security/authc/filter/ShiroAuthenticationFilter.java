@@ -5,7 +5,6 @@ import com.kalix.framework.core.api.security.DefaultUserNamePasswordToken;
 import com.kalix.framework.core.util.ConfigUtil;
 import com.kalix.framework.core.util.StringUtils;
 import com.kalix.framework.core.util.UnicodeConverter;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.session.Session;
@@ -84,10 +83,17 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
             issueSuccessRedirect(request, response);
         } else */
         {
-            Session session = SecurityUtils.getSubject().getSession();
+//            Session session = SecurityUtils.getSubject().getSession();
+            // String grant = httpServletRequest.getParameter("grant");
+            // System.out.println("grant:================" + grant);
+            Session session = subject.getSession(false);
+            // System.out.println("ShiroAuthenticationFilter onLoginSuccess session id:" + session.getId());
+//            shiroService = OsgiUtil.waitForServices(IShiroService.class, null);
+//            Session session = shiroService.getSession();
             String realName = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_REAL_NAME));
             String loginName = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_LOGIN_NAME));
             String userId = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ID));
+            // System.out.println("ShiroAuthenticationFilter userId:" + userId);
             String userIcon = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ICON));
             httpServletResponse.setContentType("application/json");
             httpServletResponse.setCharacterEncoding("UTF-8");
@@ -108,8 +114,18 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
             String rtnPage = "";
 
             rtnPage = this.getRtnPage();
-            String oauth_token = this.getAccessToken(response);
+            java.util.Map<String,String> oauth_tokenMap = this.getAccessToken(response);
+            String oauth_token = oauth_tokenMap.get("access_token");
+            String refreshToken = oauth_tokenMap.get("refresh_token");
+            String expiresIn = String.valueOf(oauth_tokenMap.get("expires_in"));
             session.setAttribute("access_token", oauth_token);  // 保存 access_token 到session
+            session.setAttribute("refresh_token", refreshToken);
+            // System.out.println("Oauth2 ---- expiresIn:=========" + expiresIn);
+            // System.out.println("Oauth2 ---- accessToken:=========" + oauth_token);
+            // System.out.println("Oauth2 ---- refreshCode:=========" + refreshToken);
+            if (expiresIn != null) {
+                session.setAttribute("expires_in", expiresIn);
+            }
             Cookie cookieAccessToken = new Cookie("access_token", oauth_token);
             httpServletResponse.addCookie(cookieAccessToken);
             out.println("{\"success\":true," +
@@ -124,8 +140,8 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
         return false;
     }
 
-    public String getAccessToken(ServletResponse response) {
-        return "";
+    public java.util.Map<String, String> getAccessToken(ServletResponse response) {
+        return null;
     }
 
     public String getRtnPage() {
@@ -199,6 +215,7 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
     protected boolean onAccessDenied(ServletRequest request,
                                      ServletResponse response) throws Exception {
 
+        // System.out.println("ShiroAuthenticationFilter onAccessDenied==============");
         //判断是否是登陆操作
         if (isLoginRequest(request, response)) {
             //验证登陆方式
@@ -206,7 +223,6 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
                 if (log.isTraceEnabled()) {
                     log.trace("Login submission detected.  Attempting to execute login.");
                 }
-
                 if (this.checkVCode) {
                     //判断是否为ajax异步请求
                     if ("XMLHttpRequest"
@@ -218,8 +234,7 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
                                 .getSession()
                                 .getAttribute(KAPTCHA_SESSION_KEY);
 
-                        if (vvcode == null || "".equals(vvcode)
-                                || !vvcode.equals(vcode)) {
+                        if (vvcode == null || "".equals(vvcode) || !vvcode.equals(vcode)) {
                             response.setCharacterEncoding("UTF-8");
                             response.setContentType("application/json;charset=UTF-8");
                             PrintWriter out = response.getWriter();
@@ -228,11 +243,8 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
                             out.close();
                             return false;
                         }
-                    } else {
-                        //不需要验证码
                     }
                 }
-
                 return executeLogin(request, response);
             } else {
                 if (log.isTraceEnabled()) {
@@ -255,7 +267,7 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
                 out.flush();
                 out.close();
             } else {
-                saveRequestAndRedirectToLogin(request, response);
+                // saveRequestAndRedirectToLogin(request, response);
             }
 
             return false;

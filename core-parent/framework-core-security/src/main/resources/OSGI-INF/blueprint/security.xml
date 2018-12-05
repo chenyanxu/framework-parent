@@ -49,7 +49,8 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
     <!--<reference id="shiroRealm" interface="com.kalix.framework.core.api.security.IAuthorizingRealm"/>-->
     <!--<reference id="shiroRealm" interface="com.kalix.framework.core.web.api.security.IAuthorizingRealm" filter="(key=urgent)" />-->
     <service interface="org.apache.shiro.web.mgt.WebSecurityManager" ref="webSecurityManager"/>
-    <bean id="webSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"
+    <!--class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"-->
+    <bean id="webSecurityManager" class="com.kalix.framework.core.security.CustomWebSecurityManager"
           destroy-method="destroy">
         <!--<property name="realm" ref="shiroRealm"/>-->
         <property name="cacheManager" ref="shiroCacheManager"/>
@@ -96,13 +97,36 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
     </bean>
 
 
-    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+    <!--<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">-->
+        <!--&lt;!&ndash;<property name="globalSessionTimeout" value="86400000"/>&ndash;&gt;-->
+        <!--<property name="globalSessionTimeout" value="300000"/>-->
+        <!--<property name="sessionDAO" ref="customShiroSessionDAO"/>-->
+        <!--<property name="sessionFactory" ref="SessionFactory"/>-->
+        <!--&lt;!&ndash;<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>-->
+        <!--<property name="sessionValidationSchedulerEnabled" value="true"/>&ndash;&gt;-->
+    <!--</bean>-->
+    <!--class="com.kalix.framework.core.security.CustomSessionManager"-->
+    <bean id="sessionManager" class="com.kalix.framework.core.security.CustomSessionManager">
         <property name="globalSessionTimeout" value="1800000"/>
         <property name="sessionDAO" ref="customShiroSessionDAO"/>
         <property name="sessionFactory" ref="SessionFactory"/>
+        <!-- 检测扫描信息时间间隔,单位为毫秒-->
+        <property name="sessionValidationInterval" value="1800000"/>
+        <!-- 是否开启扫描 -->
+        <!--<property name="sessionValidationSchedulerEnabled" value="true"/>-->
+        <!-- 去掉URL中的JSESSIONID -->
+        <!--<property name="sessionIdUrlRewritingEnabled" value="false"/>-->
+        <property name="deleteInvalidSessions" value="true"/>
+        <!--<property name="sessionListeners">-->
+            <!--<props>-->
+                <!--<prop key="customSessionListener"></prop>-->
+            <!--</props>-->
+        <!--</property>-->
         <!--<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
         <property name="sessionValidationSchedulerEnabled" value="true"/>-->
     </bean>
+
+    <!--<bean id="customSessionListener" class="com.kalix.framework.core.security.CustomSessionListener"></bean>-->
 
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <!-- <property name="maxActive" value="1024" />
