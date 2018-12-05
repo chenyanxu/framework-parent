@@ -23,11 +23,12 @@ public class OAuth2AuthenticationFilter extends ShiroAuthenticationFilter {
     private final static String HttpMethod_POST = "POST";
 
     @Override
-    public String getAccessToken(ServletResponse response) {
-        String authCode, accessToken = null;
+    public Map<String, String> getAccessToken(ServletResponse response) {
+        // String authCode, accessToken = null;
+        Map<String, String> accessTokenMap = null;
         try {
-            authCode = getAuthCode();
-            accessToken = getAccessToken(authCode);
+            String authCode = getAuthCode();
+            accessTokenMap = getAccessToken(authCode);
 
             //to simplify the web client ajax request we write the oauth2 access token in the cookie
             //Cookie cookieAccessToken = new Cookie("access_token",accessToken);
@@ -36,7 +37,7 @@ public class OAuth2AuthenticationFilter extends ShiroAuthenticationFilter {
             e.printStackTrace();
         }
 
-        return accessToken;
+        return accessTokenMap;
     }
 
     private static String getAuthCode() throws Exception {
@@ -85,9 +86,9 @@ public class OAuth2AuthenticationFilter extends ShiroAuthenticationFilter {
      *
      * @return
      */
-    private static String getAccessToken(String authCode) throws Exception {
+    private static Map<String, String> getAccessToken(String authCode) throws Exception {
 
-        Map<String, Object> params = new LinkedHashMap<String, Object>();
+        Map<String, Object> params = new LinkedHashMap<>();
         params.put("client_id", OAuth2ClientParams.CLIENT_ID);
         params.put("client_secret", OAuth2ClientParams.CLIENT_SECRET);
         params.put("grant_type", "authorization_code");
@@ -119,7 +120,8 @@ public class OAuth2AuthenticationFilter extends ShiroAuthenticationFilter {
 
         Gson gson = new GsonBuilder().create();
         Map<String, String> map = gson.fromJson(response.toString(), Map.class);
-        String accessToken = map.get("access_token");
-        return accessToken;
+        // String accessToken = map.get("access_token");
+        // return accessToken;
+        return map;
     }
 }
