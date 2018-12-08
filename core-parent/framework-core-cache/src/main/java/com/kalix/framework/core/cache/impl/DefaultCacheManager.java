@@ -3,6 +3,7 @@ package com.kalix.framework.core.cache.impl;
 
 import com.kalix.framework.core.api.cache.ICacheManager;
 import com.kalix.framework.core.util.SerializeUtil;
+import com.kalix.framework.core.util.SystemUtil;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
@@ -26,8 +27,22 @@ public class DefaultCacheManager implements ICacheManager {
         this.pool = pool;
     }
 
+    /**
+     * 测试是否可以连接Redis
+     */
     public void init() {
-//        System.out.print("test");
+        ShardedJedis jedis = pool.getResource();
+        try{
+            jedis.set("hello","world");
+            jedis.del("hello");
+            SystemUtil.succeedPrintln("Connect to Redis Server succeed!");
+        }
+        catch (Exception e){
+            SystemUtil.errorPrintln("Can not connect to Redis Server!");
+        }
+        finally {
+            pool.returnResource(jedis);
+        }
     }
     @Override
     public <T> void save(String key, T value) {

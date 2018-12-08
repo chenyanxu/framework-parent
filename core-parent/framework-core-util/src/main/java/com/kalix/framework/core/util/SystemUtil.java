@@ -25,7 +25,7 @@ public class SystemUtil {
      */
     static public void errorPrintln(String str) {
         AnsiConsole.systemInstall();
-        System.out.println(ansi().fg(RED).a(str).reset());
+        System.out.println(ansi().fg(RED).a("[Kalix]-[Warn]: " + str).reset());
         AnsiConsole.systemUninstall();
     }
 
@@ -36,7 +36,7 @@ public class SystemUtil {
      */
     static public void succeedPrintln(String str) {
         AnsiConsole.systemInstall();
-        System.out.println(ansi().fg(GREEN).a(str).reset());
+        System.out.println(ansi().fg(GREEN).a("[Kalix]-[Info]: " + str).reset());
         AnsiConsole.systemUninstall();
     }
 
@@ -52,14 +52,14 @@ public class SystemUtil {
     }
 
     static public void startBundlePrintln(BundleContext context) {
-        String str = String.format(" START_BUNDLE [%d] %s ", context.getBundle().getBundleId(), context.getBundle().getHeaders().get("Bundle-Name"));
+        String str = String.format("[Kalix]-[Info]: START_BUNDLE [%d] %s ", context.getBundle().getBundleId(), context.getBundle().getHeaders().get("Bundle-Name"));
         AnsiConsole.systemInstall();
         System.out.println(ansi().fg(BLUE).a(str).reset());
         AnsiConsole.systemUninstall();
     }
 
     static public void stopBundlePrintln(BundleContext context) {
-        String str = String.format(" STOP_BUNDLE [%d] %s ", context.getBundle().getBundleId(), context.getBundle().getHeaders().get("Bundle-Name"));
+        String str = String.format("[Kalix]-[Info]: STOP_BUNDLE [%d] %s ", context.getBundle().getBundleId(), context.getBundle().getHeaders().get("Bundle-Name"));
         AnsiConsole.systemInstall();
         System.out.println(ansi().fg(YELLOW).a(str).reset());
         AnsiConsole.systemUninstall();
