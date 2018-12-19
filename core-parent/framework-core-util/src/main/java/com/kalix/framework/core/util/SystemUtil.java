@@ -41,6 +41,17 @@ public class SystemUtil {
     }
 
     /**
+     * 输出控制台以绿色字体输出，表示普通信息输出
+     *
+     * @param str
+     */
+    static public void infoPrintln(String str) {
+        AnsiConsole.systemInstall();
+        System.out.println(ansi().fg(MAGENTA).a("[Kalix]-[Info]: " + str).reset());
+        AnsiConsole.systemUninstall();
+    }
+
+    /**
      * 输出控制台以自定义字体输出
      *
      * @param str
