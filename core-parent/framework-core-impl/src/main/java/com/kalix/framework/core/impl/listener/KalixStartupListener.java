@@ -1,5 +1,9 @@
 package com.kalix.framework.core.impl.listener;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import com.kalix.framework.core.util.SystemUtil;
@@ -26,6 +30,7 @@ public class KalixStartupListener implements FrameworkListener, SynchronousBundl
     private long startTime;
     private int currentPercentage;
 
+    final private int timeOut = (int) TimeUnit.SECONDS.toMillis(1);
     private final BundleContext context;
 
    public KalixStartupListener(Logger log, BundleContext context) {
@@ -82,8 +87,37 @@ public class KalixStartupListener implements FrameworkListener, SynchronousBundl
                 if (!isConsoleStarted()) {
                     showProgressBar(100, 100);
                     SystemUtil.succeedPrintln(message);
+                    checkServerIsRunning();
                 }
 
+            }
+        }
+    }
+
+    /**
+     * check db is running
+     * todo need to refactor to use configadmin service
+     */
+    private void checkServerIsRunning(){
+       check("couchdb","localhost",5984);
+       check("redis","localhost",6379);
+       check("postgresql","localhost",5432);
+    }
+
+    private void check(String appName,String host,int port){
+
+        Socket sock = new Socket();
+        try {
+            sock.connect(new InetSocketAddress(host, port), timeOut);
+            SystemUtil.succeedPrintln(appName+" server is running!");
+        } catch (IOException e) {
+            SystemUtil.errorPrintln(appName+" server can not connected!");
+        } finally {
+            try {
+                if (!sock.isClosed())
+                    sock.close();
+            } catch (IOException e) {
+                SystemUtil.errorPrintln("can't close socket, must already been closed");
             }
         }
     }
@@ -118,5 +152,11 @@ public class KalixStartupListener implements FrameworkListener, SynchronousBundl
     class BundleStats {
         int numActive;
         int numTotal;
+    }
+
+    class App{
+       String appName;
+       String host;
+       int port;
     }
 }
