@@ -57,6 +57,9 @@
             <get uri="/servlet">
                 <to uri="direct:customServletRoute"/>
             </get>
+            <post uri="/servlet">
+                <to uri="direct:customServletRoute"/>
+            </post>
         </rest>
 
         <route>

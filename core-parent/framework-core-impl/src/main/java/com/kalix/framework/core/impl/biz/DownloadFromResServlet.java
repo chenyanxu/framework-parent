@@ -108,6 +108,10 @@ public class DownloadFromResServlet extends CustomServlet {
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    }
+
     /**
      * 初始化预览文件夹
      * 不存在则创建文件夹
