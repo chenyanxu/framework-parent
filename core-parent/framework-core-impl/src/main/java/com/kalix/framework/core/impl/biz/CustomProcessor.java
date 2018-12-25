@@ -4,10 +4,14 @@ import com.kalix.framework.core.util.StringUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.util.ObjectHelper;
+import org.apache.openjpa.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.MessageFormat;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,10 +39,18 @@ public class CustomProcessor implements Processor {
                 className = request.getParameter("classname");
             } else if (method.equals("POST")) {
                 className = request.getParameter("classname");
+                StringBuilder sb = new StringBuilder();
+                InputStream inputStream = request.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                String rtn = sb.toString();
             } else {
                 String errMsg1 = "http.method_not_implemented";
                 rtnMap.put("success", false);
-                rtnMap.put("msg", "请求出错，原因："+ errMsg1);
+                rtnMap.put("msg", "请求出错，原因：" + errMsg1);
                 return;
             }
 
