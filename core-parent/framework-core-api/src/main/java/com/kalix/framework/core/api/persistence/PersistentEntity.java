@@ -28,8 +28,7 @@ public abstract class PersistentEntity implements Serializable {
     @SequenceGenerator(name = "kalix_id_seq", sequenceName = "kalix_id_seq", initialValue = 1000000, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "kalix_id_seq")
 //    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false,
-            columnDefinition="integer DEFAULT  nextval('kalix_id_seq')" )
+//    @Column(name = "id", unique = true, nullable = false, columnDefinition = "integer DEFAULT  nextval('kalix_id_seq')")
 //   @Column(name = "id", unique = true, nullable = false, columnDefinition = "serial") // 独立sequence----> serial
     @ApiModelProperty(value = "实体ID（新增0）", hidden = true)
     private long id;
