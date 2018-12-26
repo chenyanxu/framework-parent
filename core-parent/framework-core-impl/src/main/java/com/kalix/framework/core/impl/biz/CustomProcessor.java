@@ -4,7 +4,6 @@ import com.kalix.framework.core.util.StringUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.util.ObjectHelper;
-import org.apache.openjpa.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
