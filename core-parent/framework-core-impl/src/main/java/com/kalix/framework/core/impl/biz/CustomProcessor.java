@@ -4,14 +4,9 @@ import com.kalix.framework.core.util.StringUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.util.ObjectHelper;
-import org.apache.openjpa.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,41 +32,52 @@ public class CustomProcessor implements Processor {
             String method = request.getMethod();
             if (method.equals("GET")) {
                 className = request.getParameter("classname");
-            } else if (method.equals("POST")) {
-                className = request.getParameter("classname");
-                StringBuilder sb = new StringBuilder();
-                InputStream inputStream = request.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
+                if (StringUtils.isEmpty(className)) {
+                    rtnMap.put("success", false);
+                    rtnMap.put("msg", "请求地址无效，缺少参数className!");
+                    return;
                 }
-                String rtn = sb.toString();
-            } else {
-                String errMsg1 = "http.method_not_implemented";
-                rtnMap.put("success", false);
-                rtnMap.put("msg", "请求出错，原因：" + errMsg1);
-                return;
-            }
-
-            if (StringUtils.isEmpty(className)) {
-                response.addHeader("Content-Type", "application/json; charset=utf-8");
-                rtnMap.put("success", false);
-                rtnMap.put("msg", "请求地址无效，缺少参数className!");
-                return;
-            }
-
-            CustomServlet customServlet = (CustomServlet) Class.forName(className).newInstance();
-            if (method.equals("GET")) {
+                CustomServlet customServlet = (CustomServlet) Class.forName(className).newInstance();
                 customServlet.doGet(request, response);
             } else if (method.equals("POST")) {
-                customServlet.doPost(request, response);
+                String contentType = request.getHeader("Content-Type");
+                if (contentType.equals("application/x-www-form-urlencoded")) {
+                    className = request.getParameter("classname");
+                    if (StringUtils.isEmpty(className)) {
+                        rtnMap.put("success", false);
+                        rtnMap.put("msg", "请求地址无效，缺少参数className!");
+                        return;
+                    }
+                    CustomServlet customServlet = (CustomServlet) Class.forName(className).newInstance();
+                    customServlet.doPost(request, response);
+                } else if (contentType.equals("text/plain")) {
+                    Object body = exchange.getIn().getBody();
+                    Map map = (Map) body;
+                    className = (String) map.get("classname");
+                    if (StringUtils.isEmpty(className)) {
+                        rtnMap.put("success", false);
+                        rtnMap.put("msg", "请求地址无效，缺少参数className!");
+                        return;
+                    }
+                    CustomServlet customServlet = (CustomServlet) Class.forName(className).newInstance();
+                    customServlet.doAxiosPost(request, response, map);
+                } else {
+                    String errMsg = "http.header_Content-Type_not_implemented";
+                    rtnMap.put("success", false);
+                    rtnMap.put("msg", "请求出错，原因：" + errMsg);
+                    return;
+                }
+            } else {
+                String errMsg = "http.method_not_implemented";
+                rtnMap.put("success", false);
+                rtnMap.put("msg", "请求出错，原因：" + errMsg);
+                return;
             }
         } catch (Exception e) {
             rtnMap.put("success", false);
             rtnMap.put("msg", "请求出错，原因：" + e.getMessage());
         } finally {
-            exchange.getIn().setBody(rtnMap);
+            exchange.getOut().setBody(rtnMap);
         }
     }
 }
