@@ -84,7 +84,8 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
             issueSuccessRedirect(request, response);
         } else */
         {
-            Session session = SecurityUtils.getSubject().getSession();
+            // Session session = SecurityUtils.getSubject().getSession();
+            Session session = subject.getSession(false);
             String realName = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_REAL_NAME));
             String loginName = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_LOGIN_NAME));
             String userId = String.valueOf(session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ID));
@@ -108,8 +109,15 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
             String rtnPage = "";
 
             rtnPage = this.getRtnPage();
-            String oauth_token = this.getAccessToken(response);
+            java.util.Map<String,String> oauth_tokenMap = this.getAccessToken(response);
+            String oauth_token = oauth_tokenMap.get("access_token");
+            String refreshToken = oauth_tokenMap.get("refresh_token");
+            String expiresIn = String.valueOf(oauth_tokenMap.get("expires_in"));
             session.setAttribute("access_token", oauth_token);  // 保存 access_token 到session
+            session.setAttribute("refresh_token", refreshToken);
+            if (expiresIn != null) {
+                session.setAttribute("expires_in", expiresIn);
+            }
             Cookie cookieAccessToken = new Cookie("access_token", oauth_token);
             httpServletResponse.addCookie(cookieAccessToken);
             out.println("{\"success\":true," +
@@ -124,8 +132,8 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
         return false;
     }
 
-    public String getAccessToken(ServletResponse response) {
-        return "";
+    public java.util.Map<String, String> getAccessToken(ServletResponse response) {
+        return null;
     }
 
     public String getRtnPage() {
@@ -228,8 +236,6 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
                             out.close();
                             return false;
                         }
-                    } else {
-                        //不需要验证码
                     }
                 }
 
@@ -255,7 +261,7 @@ public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
                 out.flush();
                 out.close();
             } else {
-                saveRequestAndRedirectToLogin(request, response);
+                // saveRequestAndRedirectToLogin(request, response);
             }
 
             return false;

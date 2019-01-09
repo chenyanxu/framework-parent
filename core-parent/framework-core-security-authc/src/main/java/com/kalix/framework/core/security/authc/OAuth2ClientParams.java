@@ -18,6 +18,8 @@ public class OAuth2ClientParams {
 
     public static final String OAUTH_SERVER_TOKEN_URL = BASE_URL + "accessToken"; // ACCESS_TOKEN换取地址
 
+    public static final String OAUTH_SERVER_REFRESH_TOKEN_URL = BASE_URL + "refreshToken"; // refresh_token 获取新的accessToken
+
     public static final String OAUTH_SERVER_REDIRECT_URI = "http://aimeizi.net"; // 回调地址
 
     public static final String CODE = "code";

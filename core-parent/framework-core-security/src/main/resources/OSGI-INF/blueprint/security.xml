@@ -49,7 +49,8 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
     <!--<reference id="shiroRealm" interface="com.kalix.framework.core.api.security.IAuthorizingRealm"/>-->
     <!--<reference id="shiroRealm" interface="com.kalix.framework.core.web.api.security.IAuthorizingRealm" filter="(key=urgent)" />-->
     <service interface="org.apache.shiro.web.mgt.WebSecurityManager" ref="webSecurityManager"/>
-    <bean id="webSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"
+    <!--class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"-->
+    <bean id="webSecurityManager" class="com.kalix.framework.core.security.CustomWebSecurityManager"
           destroy-method="destroy">
         <!--<property name="realm" ref="shiroRealm"/>-->
         <property name="cacheManager" ref="shiroCacheManager"/>
@@ -95,11 +96,14 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
 
     </bean>
 
-
-    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="globalSessionTimeout" value="36000000"/>
+    <!--class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager"-->
+    <bean id="sessionManager" class="com.kalix.framework.core.security.CustomSessionManager">
+        <property name="globalSessionTimeout" value="1800000"/>
         <property name="sessionDAO" ref="customShiroSessionDAO"/>
         <property name="sessionFactory" ref="SessionFactory"/>
+        <!-- 检测扫描信息时间间隔,单位为毫秒-->
+        <property name="sessionValidationInterval" value="1800000"/>
+        <property name="deleteInvalidSessions" value="true"/>
         <!--<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
         <property name="sessionValidationSchedulerEnabled" value="true"/>-->
     </bean>

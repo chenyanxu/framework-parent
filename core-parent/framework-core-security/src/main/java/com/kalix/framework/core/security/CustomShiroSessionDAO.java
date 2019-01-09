@@ -31,7 +31,9 @@ public class CustomShiroSessionDAO extends AbstractSessionDAO {
 
     @Override
     public void update(Session session) throws UnknownSessionException {
-        getShiroSessionRepository().saveSession(session);
+        if (session != null) {
+            getShiroSessionRepository().saveSession(session);
+        }
     }
 
     @Override
@@ -53,7 +55,9 @@ public class CustomShiroSessionDAO extends AbstractSessionDAO {
     protected Serializable doCreate(Session session) {
         Serializable sessionId = this.generateSessionId(session);
         this.assignSessionId(session, sessionId);
-        getShiroSessionRepository().saveSession(session);
+        if (session != null && sessionId != null) {
+            getShiroSessionRepository().saveSession(session);
+        }
         return sessionId;
     }
 

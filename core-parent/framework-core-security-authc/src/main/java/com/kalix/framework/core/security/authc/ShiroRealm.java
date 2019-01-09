@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.kalix.framework.core.api.PermissionConstant;
 import com.kalix.framework.core.api.security.IAuthorizingRealm;
 import com.kalix.framework.core.api.security.ILoginService;
+import com.kalix.framework.core.api.security.IShiroService;
 import com.kalix.framework.core.api.security.model.Audit;
 import com.kalix.framework.core.util.JNDIHelper;
 import com.kalix.framework.core.util.OsgiUtil;
@@ -41,6 +42,7 @@ public abstract class ShiroRealm extends AuthorizingRealm implements IAuthorizin
     private ILoginService userLoginService;
     private EventAdmin eventAdmin;
     private Map<String,String> filter;
+    private IShiroService shiroService;
     // --------------------------------------------------------------------------
     // Constructors
     // --------------------------------------------------------------------------
@@ -105,8 +107,8 @@ public abstract class ShiroRealm extends AuthorizingRealm implements IAuthorizin
         String userName = (String) authToken.getPrincipal();
         char[] password = (char[]) authToken.getCredentials();
         // 判断验证码
-        Session session = SecurityUtils.getSubject().getSession();
-        String code = (String) session.getAttribute(PermissionConstant.VALIDATE_CODE);
+        // Session session = SecurityUtils.getSubject().getSession();
+        // String code = (String) session.getAttribute(PermissionConstant.VALIDATE_CODE);
 
         /*if (token.getCaptcha() == null || !token.getCaptcha().equalsIgnoreCase(code)) {
             throw new CaptchaException("验证码错误!");
@@ -114,7 +116,9 @@ public abstract class ShiroRealm extends AuthorizingRealm implements IAuthorizin
         Map map = userLoginService.login(userName, String.valueOf(password));
         if (map != null) {
             //保存用户信息到session
-            session = SecurityUtils.getSubject().getSession();
+            Session session = SecurityUtils.getSubject().getSession();
+            shiroService = OsgiUtil.waitForServices(IShiroService.class, null);
+            shiroService.setSession(session);
             Map result = (Map) map.get("response");
 
             session.setAttribute(PermissionConstant.SYS_CURRENT_USER_REAL_NAME, result.get("name"));
