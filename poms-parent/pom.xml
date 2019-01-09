@@ -17,7 +17,7 @@
         <org.osgi.compendium.version>5.0.0</org.osgi.compendium.version>
         <org.osgi.enterprise.version>5.0.0</org.osgi.enterprise.version>
 
-        <camel.version>2.21.1</camel.version>
+        <camel.version>2.23.0</camel.version>
         <jedis.version>2.9.0_1</jedis.version>
         <activiti.version>5.22.0</activiti.version>
         <lightcouch.version>0.2.0_1</lightcouch.version>
