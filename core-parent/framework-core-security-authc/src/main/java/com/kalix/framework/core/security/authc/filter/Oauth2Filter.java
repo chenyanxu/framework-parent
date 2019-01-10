@@ -2,32 +2,44 @@ package com.kalix.framework.core.security.authc.filter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kalix.framework.core.api.security.IShiroService;
 import com.kalix.framework.core.security.authc.Constants;
+import com.kalix.framework.core.security.authc.OAuth2ClientParams;
 import com.kalix.framework.core.security.authc.Status;
 import com.kalix.framework.core.util.HttpUtil;
+import com.kalix.framework.core.util.OsgiUtil;
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
+import org.apache.shiro.session.Session;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class Oauth2Filter implements Filter {
     private List<String> exceptUrlList = new ArrayList<>();
+    private IShiroService shiroService;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        shiroService = OsgiUtil.waitForServices(IShiroService.class, null);
         String exceptUrls = filterConfig.getInitParameter("exceptUrls");
 //        if (exceptUrls != null) {
 //            for (String exceptUrl : exceptUrls.split(";")) {
@@ -96,25 +108,39 @@ public class Oauth2Filter implements Filter {
 //                    }
 //                }
                 //验证Access Token
+                String grant = req.getParameter("grant");
                 accessToken = checkToken(req);
-
-                if (!checkAccessToken(accessToken)) {
-                    // 如果不存在/过期了，返回未验证错误，需重新验证
+                if ("".equals(accessToken)) {
                     oAuthFailResponse(res);
                     return;
+                }
+                if (!"client".equals(grant)) {
+                    if (shiroService.checkSessionTimeout()){
+                        oAuthFailResponse(res);
+                        return;
+                    }
+                }
+                if (!checkAccessToken(accessToken)) {
+                    if (!"client".equals(grant)) {
+                        Session session = shiroService.getSession();
+                        if (session != null) {
+                            accessToken = getRefreshAccessToken(session);
+                            res.setHeader("new_token", accessToken);
+                            res.setHeader("Access-Control-Expose-Headers", "new_token");
+                            System.out.println("刷新token:" + accessToken);
+                        } else {
+                            oAuthFailResponse(res);
+                            return;
+                        }
+                    } else {
+                        oAuthFailResponse(res);
+                        return;
+                    }
                 }
             }
 
             chain.doFilter(request, response);
-        }
-//        catch (OAuthProblemException e) {
-//            try {
-//                oAuthFailResponse(res);
-//            } catch (OAuthSystemException ex) {
-//                Logger.getLogger(getClass().getName()).log(Level.SEVERE, "error trying to access oauth server", ex);
-//            }
-//        }
-        catch (OAuthSystemException e) {
+        } catch (OAuthSystemException e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "error trying to access oauth server", e);
         }
     }
@@ -141,9 +167,6 @@ public class Oauth2Filter implements Filter {
         sos.write(gson.toJson(getStatus(401, Constants.INVALID_ACCESS_TOKEN)).getBytes());
         sos.flush();
         sos.close();
-        //writer.write(gson.toJson(getStatus(401,Constants.INVALID_ACCESS_TOKEN)));
-        //writer.flush();
-        //writer.close();
     }
 
     private String checkToken(HttpServletRequest req) {
@@ -207,5 +230,65 @@ public class Oauth2Filter implements Filter {
 
     public void setExceptUrlList(List<String> exceptUrlList) {
         this.exceptUrlList = exceptUrlList;
+    }
+
+    public String getRefreshAccessToken(Session session) {
+        String refreshAccessToken = "";
+        try {
+            Map<String, Object> params = new LinkedHashMap<>();
+            params.put("client_id", OAuth2ClientParams.CLIENT_ID);
+            params.put("client_secret", OAuth2ClientParams.CLIENT_SECRET);
+            params.put("grant_type", "refresh_token");
+            String refreshCode = "";
+            if (session != null) {
+                refreshCode = (String)session.getAttribute("refresh_token");
+            }
+            params.put("refresh_token", refreshCode);
+            params.put("redirect_uri", OAuth2ClientParams.OAUTH_SERVER_REDIRECT_URI);
+
+            StringBuilder postStr = new StringBuilder();
+
+            processUrl(params, postStr);
+
+            byte[] postStrBytes = postStr.toString().getBytes("UTF-8");
+
+            URL url = new URL(OAuth2ClientParams.OAUTH_SERVER_REFRESH_TOKEN_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestProperty("Content-Length", String.valueOf(postStrBytes.length));
+            connection.getOutputStream().write(postStrBytes);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            Gson gson = new GsonBuilder().create();
+            Map<String, String> map = gson.fromJson(response.toString(), Map.class);
+            if (map != null) {
+                refreshAccessToken = map.get("access_token");
+            }
+            return refreshAccessToken;
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return refreshAccessToken;
+    }
+
+    private static void processUrl(Map<String, Object> params, StringBuilder postStr) throws UnsupportedEncodingException {
+        for (Map.Entry<String, Object> param : params.entrySet()) {
+            if (postStr.length() != 0) {
+                postStr.append('&');
+            }
+            postStr.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+            postStr.append('=');
+            postStr.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+        }
     }
 }

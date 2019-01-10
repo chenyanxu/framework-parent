@@ -6,6 +6,7 @@ public class Constants {
     public static final String INVALID_ACCESS_TOKEN = "accessToken无效或已过期。";
     public static final String INVALID_REDIRECT_URI = "缺少授权成功后的回调地址。";
     public static final String INVALID_AUTH_CODE = "错误的授权码。";
+    public static final String INVALID_LOGIN_SESSION = "当前会话超时，请重新登录。";
     // 验证accessToken
     public static final String CHECK_ACCESS_CODE_URL = "http://localhost:8181/oauth2/checkAccessToken?accessToken=";
 

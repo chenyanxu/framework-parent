@@ -3,10 +3,16 @@ package com.kalix.framework.core.impl.camel;
 import com.kalix.framework.core.api.camel.CustomRest;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
+import com.kalix.framework.core.util.JNDIHelper;
 import io.swagger.annotations.ApiModel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.*;
+import org.apache.camel.processor.interceptor.DefaultTraceFormatter;
+import org.apache.camel.processor.interceptor.Tracer;
+import org.apache.karaf.decanter.collector.camel.DecanterTraceEventHandler;
+import org.osgi.service.event.EventAdmin;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +32,14 @@ public class BaseRouteBuilder extends RouteBuilder {
     private String appName;//应用名
     private String beanName;//实体全路径名
     private List<CustomRest> rests;//自定义rest列表
+    private boolean enableTrace=false;
 
     @Override
     public void configure() {
         try {
+            if (enableTrace){
+                setTracer();
+            }
             Class cls = Class.forName(beanName);//获得实体类
             String entityName = "业务实体";//实体body参数默认值
             String beanAliasName = "";//实体类中文别名
@@ -271,6 +281,8 @@ public class BaseRouteBuilder extends RouteBuilder {
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -296,6 +308,14 @@ public class BaseRouteBuilder extends RouteBuilder {
 
     public void setAppName(String appName) {
         this.appName = appName;
+    }
+
+    public boolean isEnableTrace() {
+        return enableTrace;
+    }
+
+    public void setEnableTrace(boolean enableTrace) {
+        this.enableTrace = enableTrace;
     }
 
     //自动生成自定义rest地址参数列表
@@ -344,5 +364,30 @@ public class BaseRouteBuilder extends RouteBuilder {
         }
 
         return params;
+    }
+
+    private void setTracer() throws IOException {
+        getContext().setTracing(true);
+        EventAdmin eventAdmin= JNDIHelper.getJNDIServiceForName(EventAdmin.class.getName());
+        DecanterTraceEventHandler handler=new DecanterTraceEventHandler();
+        handler.setEventAdmin(eventAdmin);
+        handler.setIncludeBody(true);
+        handler.setIncludeHeaders(true);
+        handler.setIncludeProperties(true);
+        Tracer tracer = new Tracer();
+        tracer.setTraceOutExchanges(true);
+        // we configure the default trace formatter where we can
+        // specify which fields we want in the output
+        DefaultTraceFormatter formatter = new DefaultTraceFormatter();
+        formatter.setShowOutBody(true);
+        formatter.setShowOutBodyType(true);
+        formatter.setShowException(true);
+        formatter.setShowExchangePattern(true);
+        formatter.setShowProperties(true);
+        formatter.setShowOutHeaders(true);
+        // set to use our formatter
+        tracer.setFormatter(formatter);
+        tracer.setTraceHandler(handler);
+        getContext().addInterceptStrategy(tracer);
     }
 }
