@@ -55,16 +55,18 @@
 
         <rest path="/custom">
             <get uri="/servlet">
-                <to uri="direct:customServletRoute"/>
+                <!--<to uri="direct:customServletRoute"/>-->
+                <to uri="bean:customProcessor"/>
             </get>
             <post uri="/servlet">
-                <to uri="direct:customServletRoute"/>
+                <!--<to uri="direct:customServletRoute"/>-->
+                <to uri="bean:customProcessor"/>
             </post>
         </rest>
 
-        <route>
-            <from uri="direct:customServletRoute"/>
-            <to uri="bean:customProcessor"/>
-        </route>
+        <!--<route>-->
+            <!--<from uri="direct:customServletRoute"/>-->
+            <!--<to uri="bean:customProcessor"/>-->
+        <!--</route>-->
     </camelContext>
 </blueprint>
