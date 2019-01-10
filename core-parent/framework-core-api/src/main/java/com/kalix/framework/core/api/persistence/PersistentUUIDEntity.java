@@ -2,9 +2,9 @@ package com.kalix.framework.core.api.persistence;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.kalix.framework.core.api.exception.StaleEntityException;
 import io.swagger.annotations.ApiModelProperty;
-import org.dozer.DozerBeanMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -48,7 +48,7 @@ public abstract class PersistentUUIDEntity implements Serializable {
     }
 
     public PersistentUUIDEntity(PersistentUUIDEntity obj) {
-        new DozerBeanMapper().map(obj, this);
+        DozerBeanMapperBuilder.buildDefault().map(obj, this);
     }
 
     public String getId() {

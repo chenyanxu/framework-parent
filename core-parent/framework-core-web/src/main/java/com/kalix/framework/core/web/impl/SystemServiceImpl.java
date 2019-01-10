@@ -1,5 +1,7 @@
 package com.kalix.framework.core.web.impl;
 
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
 import com.kalix.framework.core.api.persistence.JsonData;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.security.IShiroService;
@@ -18,8 +20,8 @@ import com.kalix.framework.core.web.manager.ApplicationManager;
 import com.kalix.framework.core.web.manager.MenuManager;
 import com.kalix.framework.core.web.manager.ModuleManager;
 import org.apache.shiro.subject.Subject;
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
+
+
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 import org.osgi.service.prefs.PreferencesService;
@@ -53,7 +55,7 @@ public class SystemServiceImpl implements ISystemService {
 
         List<IApplication> applicationList = ApplicationManager.getInstall().getApplicationList();
         if (applicationList != null && applicationList.size() > 0) {
-            Mapper mapper = new DozerBeanMapper();
+            Mapper mapper = DozerBeanMapperBuilder.buildDefault();
             for (IApplication application : applicationList) {
                 //调用isPermitted不能传入空字符,故此默认值为KALIX_NOT_PERMISSION
                 String permission = StringUtils.isEmpty(application.getPermission()) ? Const.KALIX_NO_PERMISSION : application.getPermission();
@@ -81,7 +83,7 @@ public class SystemServiceImpl implements ISystemService {
         List<ModuleBean> moduleBeanList = new ArrayList<ModuleBean>();
         if (moduleList == null)
             moduleList = new ArrayList<IModule>();
-        Mapper mapper = new DozerBeanMapper();
+        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
         //找出所有对应权限的功能模块
         if (moduleList != null && !moduleList.isEmpty()) {
             for (IModule module : moduleList) {
@@ -140,7 +142,7 @@ public class SystemServiceImpl implements ISystemService {
         List<IModule> moduleList = ModuleManager.getInstall().getModuleList(appId);
         List<ModuleBean> moduleBeanList = new ArrayList<ModuleBean>();
         if (moduleList != null && !moduleList.isEmpty()) {
-            Mapper mapper = new DozerBeanMapper();
+            Mapper mapper = DozerBeanMapperBuilder.buildDefault();
             for (IModule module : moduleList) {
                 ModuleBean moduleBean = mapper.map(module, ModuleBean.class);
                 String id = moduleBean.getId().trim();
@@ -284,7 +286,7 @@ public class SystemServiceImpl implements ISystemService {
         IMenu rootMenu = getRootMenu(menuList);
         /*List<String> mapFile=new ArrayList<>();
         mapFile.add("META-INF/MenuMapper.xml");*/
-        Mapper mapper = new DozerBeanMapper();
+        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
         MenuBean menuBean = null;
         if (rootMenu != null) {
             menuBean = mapper.map(rootMenu, MenuBean.class);
@@ -306,7 +308,7 @@ public class SystemServiceImpl implements ISystemService {
         List<IMenu> menuList = MenuManager.getInstall().getMenuList(moduleId);
         List<MenuBean> menuBeanList = new ArrayList<MenuBean>();
         if (menuList != null && !menuList.isEmpty()) {
-            Mapper mapper = new DozerBeanMapper();
+            Mapper mapper = DozerBeanMapperBuilder.buildDefault();
             for (IMenu menu : menuList) {
                 MenuBean menuBean = mapper.map(menu, MenuBean.class);
                 String id = menuBean.getId().trim();

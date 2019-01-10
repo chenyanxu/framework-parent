@@ -1,6 +1,7 @@
 package com.kalix.framework.core.util;
 
-import org.dozer.Mapper;
+
+import com.github.dozermapper.core.Mapper;
 
 import java.util.ArrayList;
 import java.util.List;

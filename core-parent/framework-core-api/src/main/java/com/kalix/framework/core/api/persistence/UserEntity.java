@@ -1,14 +1,9 @@
 package com.kalix.framework.core.api.persistence;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.kalix.framework.core.api.exception.StaleEntityException;
 import io.swagger.annotations.ApiModelProperty;
-import org.apache.openjpa.persistence.jdbc.Unique;
-import org.dozer.DozerBeanMapper;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 /**

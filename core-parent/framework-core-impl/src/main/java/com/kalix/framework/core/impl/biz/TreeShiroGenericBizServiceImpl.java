@@ -1,13 +1,13 @@
 package com.kalix.framework.core.impl.biz;
 
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
 import com.kalix.framework.core.api.biz.ITreeBizService;
 import com.kalix.framework.core.api.dao.IBaseTreeEntityDao;
 import com.kalix.framework.core.api.persistence.BaseTreeEntity;
 import com.kalix.framework.core.api.persistence.JsonStatus;
 import com.kalix.framework.core.api.web.model.BaseTreeDTO;
 import com.kalix.framework.core.util.Assert;
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
 
 import javax.transaction.Transactional;
 import java.lang.reflect.ParameterizedType;
@@ -253,7 +253,7 @@ public abstract class TreeShiroGenericBizServiceImpl<T extends IBaseTreeEntityDa
     private BaseTreeDTO generateRoot(List<TP> entities, Long id) {
 
         BaseTreeDTO root = new BaseTreeDTO();
-        Mapper mapper = new DozerBeanMapper();
+        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
         //String parentName = "根课程类型";
         String parentName = "根";
 
