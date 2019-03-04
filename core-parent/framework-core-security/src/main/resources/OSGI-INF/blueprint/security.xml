@@ -28,7 +28,7 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
     <!-- 发布cookie 服务 -->
     <service id="sessionIdCookie" interface="org.apache.shiro.web.servlet.Cookie">
         <!-- 会话Cookie模板 -->
-        <bean class="com.kalix.framework.core.security.ShiroCookie">
+        <bean class="org.apache.shiro.web.servlet.SimpleCookie">
             <argument value="sid"/>
             <property name="httpOnly" value="true"/>
             <property name="maxAge" value="-1"/>
@@ -37,7 +37,7 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
 
     <!-- 发布记住cookie manager -->
 
-    <bean id="rememberMeCookie" class="com.kalix.framework.core.security.ShiroCookie">
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <argument value="remember"/>
         <property name="httpOnly" value="true"/>
         <property name="maxAge" value="2592000"/>
