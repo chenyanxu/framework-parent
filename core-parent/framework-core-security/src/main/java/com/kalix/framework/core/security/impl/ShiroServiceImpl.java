@@ -74,13 +74,25 @@ public class ShiroServiceImpl implements IShiroService {
     }
 
     @Override
+    public Session createSession() {
+        Subject subject = this.getSubject();
+        if (subject != null) {
+            session = subject.getSession(true);
+        }
+        return session;
+    }
+
+    @Override
     public Session getSession() {
-        if (session == null) {
+//        if (session == null) {
             Subject subject = this.getSubject();
             if (subject != null) {
                 session = subject.getSession(false);
             }
-        }
+//            if (session==null){
+//                session = subject.getSession(true);
+//            }
+//        }
         return session;
     }
 
@@ -137,7 +149,8 @@ public class ShiroServiceImpl implements IShiroService {
     public boolean checkSessionTimeout() {
         List<String> expiredSession = sessionExpires();
         // System.out.println("expiredSession:" + expiredSession.size());
-        session = getSession(); // SecurityUtils.getSubject().getSession(false);
+        session = getSession();
+         SecurityUtils.getSubject().getSession(false);
 //        if (session == null) {
 //            return true;
 //        }
@@ -145,16 +158,16 @@ public class ShiroServiceImpl implements IShiroService {
             String sessionId = session.getId().toString();
             if (expiredSession.contains(sessionId)) {
                 removeSessionExpire(sessionId);
-                session = null;
                 return true;
             } else {
                 try{
                     Object userId = session.getAttribute(PermissionConstant.SYS_CURRENT_USER_ID);
-                    session.touch();
                     if (userId == null) {
                         SecurityUtils.getSubject().logout();
-                        session = null;
                         return true;
+                    }
+                    else{
+                        session.touch(); //延长session时间
                     }
                 } catch(UnknownSessionException | ExpiredSessionException e) {
                     System.out.println("session异常问题==========="

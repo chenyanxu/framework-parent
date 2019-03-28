@@ -117,8 +117,8 @@ public abstract class ShiroRealm extends AuthorizingRealm implements IAuthorizin
         if (map != null) {
             //保存用户信息到session
             Session session = SecurityUtils.getSubject().getSession();
-            shiroService = OsgiUtil.waitForServices(IShiroService.class, null);
-            shiroService.setSession(session);
+//            shiroService = OsgiUtil.waitForServices(IShiroService.class, null);
+//            Session session =shiroService.createSession();
             Map result = (Map) map.get("response");
 
             session.setAttribute(PermissionConstant.SYS_CURRENT_USER_REAL_NAME, result.get("name"));
