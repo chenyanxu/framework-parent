@@ -150,7 +150,7 @@ public class ShiroServiceImpl implements IShiroService {
         List<String> expiredSession = sessionExpires();
         // System.out.println("expiredSession:" + expiredSession.size());
         session = getSession();
-         SecurityUtils.getSubject().getSession(false);
+//         SecurityUtils.getSubject().getSession(false);
 //        if (session == null) {
 //            return true;
 //        }

@@ -6,6 +6,7 @@ import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 /**
  * 项目名称:  urgent-project
@@ -17,6 +18,7 @@ import java.util.Collection;
  * 修改备注:  [说明本次修改内容]
  */
 public class CustomShiroSessionDAO extends AbstractSessionDAO {
+    private Logger logger=Logger.getLogger(CustomShiroSessionDAO.class.getName());
 
     private ShiroSessionRepository shiroSessionRepository;
 
@@ -63,6 +65,7 @@ public class CustomShiroSessionDAO extends AbstractSessionDAO {
 
     @Override
     protected Session doReadSession(Serializable sessionId) {
+        logger.info("access doReadSession method!");
         return getShiroSessionRepository().getSession(sessionId);
     }
 }

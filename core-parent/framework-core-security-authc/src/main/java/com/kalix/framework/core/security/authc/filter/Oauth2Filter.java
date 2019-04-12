@@ -114,12 +114,12 @@ public class Oauth2Filter implements Filter {
                     oAuthFailResponse(res);
                     return;
                 }
-                if (!"client".equals(grant)) {
-                    if (shiroService.checkSessionTimeout()){
-                        oAuthFailResponse(res);
-                        return;
-                    }
-                }
+//                if (!"client".equals(grant)) {
+//                    if (shiroService.checkSessionTimeout()){
+//                        oAuthFailResponse(res);
+//                        return;
+//                    }
+//                }
                 if (!checkAccessToken(accessToken)) {
                     if (!"client".equals(grant)) {
                         Session session = shiroService.getSession();

@@ -185,7 +185,7 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
     }
 
     private void setCorsResponse(HttpServletResponse httpServletResponse) {
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://172.18.84.109:8080");
 
         httpServletResponse
                 .setHeader(
