@@ -34,3 +34,8 @@ https://github.com/swagger-api/swagger-ui
 
 ## camel doc
 https://access.redhat.com/documentation/en/red-hat-jboss-fuse/6.3/paged/deploying-into-apache-karaf/chapter-15-camel-cdi
+
+## 说明
+
+web.xml里面的servlet和filter已经废弃，直接在restConfig里面通过方法实现了。
+swagger-ui-3.22.2 的版本是从github上swagger的发布包的dist文件复制过来的，如果需要升级，下次直接升级相应的zip包即可。

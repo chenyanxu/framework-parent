@@ -14,7 +14,7 @@
 
     <modules>
         <module>framework-webapp-main</module>
-        <module>framework-webapp-shiro</module>
+        <!--<module>framework-webapp-shiro</module>-->
         <module>framework-webapp-cg</module>
         <module>framework-webapp-swagger</module>
     </modules>

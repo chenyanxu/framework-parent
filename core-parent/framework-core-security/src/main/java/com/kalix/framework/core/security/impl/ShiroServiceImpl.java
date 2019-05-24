@@ -65,17 +65,15 @@ public class ShiroServiceImpl implements IShiroService {
 
     @Override
     public Subject getSubject() {
-        try {
-            return SecurityUtils.getSubject();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        Subject subject=SecurityUtils.getSubject();
+        if (subject.getPrincipal()==null)
+            throw new UnknownSessionException();
+        return subject;
     }
 
     @Override
     public Session createSession() {
-        Subject subject = this.getSubject();
+        Subject subject = SecurityUtils.getSubject();
         if (subject != null) {
             session = subject.getSession(true);
         }
@@ -85,7 +83,7 @@ public class ShiroServiceImpl implements IShiroService {
     @Override
     public Session getSession() {
 //        if (session == null) {
-            Subject subject = this.getSubject();
+            Subject subject = SecurityUtils.getSubject();
             if (subject != null) {
                 session = subject.getSession(false);
             }
