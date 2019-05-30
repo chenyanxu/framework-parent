@@ -59,5 +59,13 @@
             <artifactId>org.apache.karaf.decanter.collector.camel</artifactId>
             <version>2.1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 </project>

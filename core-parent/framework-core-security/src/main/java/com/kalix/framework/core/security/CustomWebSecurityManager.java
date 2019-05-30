@@ -1,6 +1,7 @@
 package com.kalix.framework.core.security;
 
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class CustomWebSecurityManager extends DefaultWebSecurityManager {
 //    }
 
     public List<String> sessionExpires() {
+//        DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)getSessionManager();
         CustomSessionManager sessionManager = (CustomSessionManager)getSessionManager();
         return sessionManager.getSessionExpires();
     }

@@ -24,20 +24,21 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
             <property name="cookie" ref="rememberMeCookie"/>
         </bean>
     </service>
+    <bean id="sessionIdCookie"  class="org.apache.shiro.web.servlet.SimpleCookie">
+        <argument value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/>
+    </bean>
 
     <!-- 发布cookie 服务 -->
-    <service id="sessionIdCookie" interface="org.apache.shiro.web.servlet.Cookie">
+    <service interface="org.apache.shiro.web.servlet.Cookie" ref="sessionIdCookie">
         <!-- 会话Cookie模板 -->
-        <bean class="com.kalix.framework.core.security.ShiroCookie">
-            <argument value="sid"/>
-            <property name="httpOnly" value="true"/>
-            <property name="maxAge" value="-1"/>
-        </bean>
+
     </service>
 
     <!-- 发布记住cookie manager -->
 
-    <bean id="rememberMeCookie" class="com.kalix.framework.core.security.ShiroCookie">
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <argument value="remember"/>
         <property name="httpOnly" value="true"/>
         <property name="maxAge" value="2592000"/>
@@ -86,27 +87,51 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
         </service-properties>
     </service>-->
 
-    <!--<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
-        <property name="interval" value="1800000"/>
-    </bean>-->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
+        <property name="interval" value="30000"/>
+    </bean>
 
     <!-- 发布session工厂 -->
 
     <bean id="SessionFactory" class="com.kalix.framework.core.security.ShiroSessionFactory">
 
     </bean>
-
-    <!--class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager"-->
-    <bean id="sessionManager" class="com.kalix.framework.core.security.CustomSessionManager">
-        <property name="globalSessionTimeout" value="1800000"/>
+    <bean id="shiroSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="30000"/>
         <property name="sessionDAO" ref="customShiroSessionDAO"/>
         <property name="sessionFactory" ref="SessionFactory"/>
         <!-- 检测扫描信息时间间隔,单位为毫秒-->
-        <property name="sessionValidationInterval" value="1800000"/>
+        <property name="sessionValidationInterval" value="30000"/>
         <property name="deleteInvalidSessions" value="true"/>
-        <!--<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
-        <property name="sessionValidationSchedulerEnabled" value="true"/>-->
+        <property name="sessionListeners">
+            <list>
+                <ref component-id="shiroSessionListener"/>
+            </list>
+        </property>
+        <!--<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>-->
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
     </bean>
+
+    <!--class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager"-->
+    <bean id="sessionManager" class="com.kalix.framework.core.security.CustomSessionManager">
+        <property name="globalSessionTimeout" value="30000"/>
+        <property name="sessionDAO" ref="customShiroSessionDAO"/>
+        <property name="sessionFactory" ref="SessionFactory"/>
+        <!-- 检测扫描信息时间间隔,单位为毫秒-->
+        <property name="sessionValidationInterval" value="30000"/>
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionListeners">
+            <list>
+                <ref component-id="shiroSessionListener"/>
+            </list>
+        </property>
+        <!--<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>-->
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+    </bean>
+
+    <bean id="shiroSessionListener" class="com.kalix.framework.core.security.ShiroSessionListener"/>
 
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <!-- <property name="maxActive" value="1024" />

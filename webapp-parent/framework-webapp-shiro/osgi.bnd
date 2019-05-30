@@ -1,0 +1,13 @@
+#-----------------------------------------------------------------
+# Use this file to add customized Bnd instructions for the bundle
+#-----------------------------------------------------------------
+
+Bundle-Activator: ${bundle.namespace}.internal.InitActivator
+Import-Package: org.apache.shiro, \
+                org.apache.shiro.web.env, \
+                org.apache.shiro.web.servlet, \
+                org.apache.shiro.web.tags, \
+                javax.servlet.jsp,*
+Include-Resource: src/main/webapp,src/main/resources
+Web-ContextPath: /sample
+Bundle-Category: Kalix Framework WebApp

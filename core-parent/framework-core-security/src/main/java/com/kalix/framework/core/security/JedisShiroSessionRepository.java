@@ -43,9 +43,9 @@ public class JedisShiroSessionRepository implements
         byte[] value = SerializeUtil.serialize(session);
         Jedis jedis = this.getJedis();
         try {
-            Long timeOut = session.getTimeout() / 1000;
+//            Long timeOut = session.getTimeout() / 1000;
             jedis.set(key, value);
-            jedis.expire(key, Integer.parseInt(timeOut.toString()));
+//            jedis.expire(key, Integer.parseInt(timeOut.toString()));
         } catch (JedisException e) {
             returnBrokenResource(jedis);
         } finally {

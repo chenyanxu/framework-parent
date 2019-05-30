@@ -15,10 +15,12 @@ import com.kalix.framework.core.util.JNDIHelper;
 import com.kalix.framework.core.util.SerializeUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
 import javax.transaction.Transactional;
+import javax.ws.rs.*;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -72,6 +74,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         dao.remove(entityId);
         jsonStatus.setSuccess(true);
         jsonStatus.setMsg("删除成功！");
+        jsonStatus.setTag(String.valueOf(entityId));
     }
 
     @Override
@@ -84,6 +87,9 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     @Override
     @Transactional
+    @Path("/")
+    @Consumes("application/json")
+    @POST
     public void doSave(TP entity, JsonStatus jsonStatus) {
         if (entity.getId() == 0) {
             entity.setCreationDate(new Date());
@@ -93,7 +99,6 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         }
 
         PersistentEntity newObj = (PersistentEntity) dao.save(entity);
-
         jsonStatus.setTag(String.valueOf(newObj.getId()));
         jsonStatus.setSuccess(true);
     }
@@ -104,6 +109,7 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
         dao.save(entity);
         jsonStatus.setSuccess(true);
         jsonStatus.setMsg("修改成功！");
+        jsonStatus.setTag(String.valueOf(entity.getId()));
     }
 
     @Override
@@ -123,7 +129,10 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     @Override
     @Transactional
-    public JsonStatus deleteEntity(long entityId) {
+    @Path("/")
+    @Produces("application/json")
+    @DELETE
+    public JsonStatus deleteEntity(@QueryParam("id")  long entityId) {
         JsonStatus jsonStatus = new JsonStatus();
         try {
             if (isDelete(entityId, jsonStatus)) {
@@ -176,6 +185,10 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     @Override
     @Transactional
+    @Path("/")
+    @Consumes("application/json")
+    @Produces("application/json")
+    @POST
     public JsonStatus saveEntity(TP entity) {
         JsonStatus jsonStatus = new JsonStatus();
         try {
@@ -209,6 +222,10 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
 
     @Override
     @Transactional
+    @Path("/")
+    @Consumes("application/json")
+    @Produces("application/json")
+    @PUT
     public JsonStatus updateEntity(TP entity) {
         JsonStatus jsonStatus = new JsonStatus();
         try {
@@ -364,8 +381,11 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
-    public JsonData getAllEntity(int pageNumber,
-                                 int pageSize) {
+    @Path("/")
+    @Produces("application/json")
+    @GET
+    public JsonData getAllEntity(@QueryParam("pageNumber") int pageNumber,
+                                 @QueryParam("pageSize") int pageSize) {
         return dao.getAll(pageNumber, pageSize);
     }
 
@@ -387,7 +407,10 @@ public abstract class GenericBizServiceImpl<T extends IGenericDao, TP extends Pe
     }
 
     @Override
-    public TP getEntity(long entityId) {
+    @Path("/{id}")
+    @Produces("application/json")
+    @GET
+    public TP getEntity(@PathParam("id") long entityId) {
         return (TP) dao.get(entityId);
     }
 

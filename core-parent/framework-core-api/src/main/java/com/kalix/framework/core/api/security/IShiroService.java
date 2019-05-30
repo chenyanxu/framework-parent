@@ -35,6 +35,7 @@ public interface IShiroService extends IService {
 
     /**
      * 返回当前登录用户
+     *
      * @return
      */
     Subject getSubject();
@@ -44,6 +45,7 @@ public interface IShiroService extends IService {
      *
      * @return
      */
+    Session createSession();
 
     Session getSession();
 
@@ -65,18 +67,21 @@ public interface IShiroService extends IService {
 
     /**
      * 判断shiro session 超时
+     *
      * @return
      */
     List<String> sessionExpires();
 
     /**
      * 删除超时的sessionId记录
+     *
      * @param sessionId
      */
     void removeSessionExpire(String sessionId);
 
     /**
      * session设置(登录以后设置，保证session一致)
+     *
      * @param session
      */
     void setSession(Session session);

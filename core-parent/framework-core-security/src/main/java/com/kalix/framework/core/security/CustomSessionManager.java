@@ -64,6 +64,7 @@ public class CustomSessionManager extends DefaultWebSessionManager {
         super.onExpiration(s, ese, key);
 //        System.out.println("onExpiration=======================");
         sessionExpires.add(s.getId().toString());
+        throw new ExpiredSessionException();
     }
 
     @Override

@@ -4,5 +4,5 @@
 
 Bundle-Activator: ${bundle.namespace}.internal.InitActivator
 Import-Package:sun.misc.*;resolution:=optional,*
-DynamicImport-Package:*
+DynamicImport-Package: *
 Bundle-Category: Kalix Framework Core

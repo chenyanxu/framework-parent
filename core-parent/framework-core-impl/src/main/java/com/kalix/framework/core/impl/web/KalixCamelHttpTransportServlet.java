@@ -32,13 +32,23 @@ public class KalixCamelHttpTransportServlet extends CamelHttpTransportServlet {
         this.log.trace("Service: {}", request);
 
         if (request.getHeader("JSESSIONID") != null && !request.getHeader("JSESSIONID").isEmpty()) {
-            ThreadContext.bind(new Subject.Builder().sessionId(request.getHeader("JSESSIONID")).buildSubject());
+            Subject subject=new Subject.Builder().sessionId(request.getHeader("JSESSIONID")).buildSubject();
+            if(subject.getPrincipal()==null) { //非授权用户
+                response.sendError(401);
+                return;
+            }
+            ThreadContext.bind(subject);
         } else {
             // 解决没有cookies时报错问题
             if (request.getCookies() != null && request.getCookies().length > 0) {
                 for (Cookie cookie : request.getCookies()) {
                     if (cookie.getName().equals("JSESSIONID")) {
-                        ThreadContext.bind(new Subject.Builder().sessionId(cookie.getValue()).buildSubject());
+                        Subject subject=new Subject.Builder().sessionId(cookie.getValue()).buildSubject();
+                        if(subject.getPrincipal()==null) { //非授权用户
+                            response.sendError(401);
+                            return;
+                        }
+                        ThreadContext.bind(subject);
                         break;
                     }
                 }
