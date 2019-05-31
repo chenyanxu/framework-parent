@@ -91,6 +91,8 @@ public interface IGenericDao<T, PK extends Serializable> extends IService {
 
     void addBatch(List<T> objList);
 
+    void updateBatch(List<T> objList);
+
     /**
      * Generic method to delete multi object
      *
