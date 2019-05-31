@@ -91,8 +91,6 @@ public interface IGenericDao<T, PK extends Serializable> extends IService {
 
     void addBatch(List<T> objList);
 
-    void updateBatch(List<T> objList);
-
     /**
      * 批量更新
      * @param objList
