@@ -94,6 +94,12 @@ public interface IGenericDao<T, PK extends Serializable> extends IService {
     void updateBatch(List<T> objList);
 
     /**
+     * 批量更新
+     * @param objList
+     */
+    void updateBatch(List<T> objList);
+
+    /**
      * Generic method to delete multi object
      *
      * @param ids the identifiers (primary keys) of the objects to remove,seplated using comma,semicolon or colon

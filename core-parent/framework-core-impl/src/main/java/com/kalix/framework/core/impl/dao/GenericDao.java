@@ -460,6 +460,18 @@ public abstract class GenericDao<T extends PersistentEntity, PK extends Serializ
         logger.debug("程序运行时间： "+(end-start)+"ms,size is :" +objList.size());
     }
 
+    @Override
+    @Transactional
+    public void updateBatch(List<T> objList) {
+        long start=System.currentTimeMillis();
+        for (T object:objList){
+            entityManager.merge(object);
+        }
+        entityManager.flush();
+        long end=System.currentTimeMillis();
+        logger.debug("程序运行时间： "+(end-start)+"ms,size is :" +objList.size());
+    }
+
     // 批量删除
     @Override
     @Transactional
